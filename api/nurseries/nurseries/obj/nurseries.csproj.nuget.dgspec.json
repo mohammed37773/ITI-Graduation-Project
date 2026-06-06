@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Root\\lab\\iti\\events\\pojects\\Graduation Project\\main\\api\\nurseries\\nurseries\\nurseries.csproj": {}
+    "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj": {}
   },
   "projects": {
-    "D:\\Root\\lab\\iti\\events\\pojects\\Graduation Project\\main\\api\\nurseries\\nurseries\\nurseries.csproj": {
+    "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Root\\lab\\iti\\events\\pojects\\Graduation Project\\main\\api\\nurseries\\nurseries\\nurseries.csproj",
+        "projectUniqueName": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj",
         "projectName": "nurseries",
-        "projectPath": "D:\\Root\\lab\\iti\\events\\pojects\\Graduation Project\\main\\api\\nurseries\\nurseries\\nurseries.csproj",
-        "packagesPath": "C:\\Users\\msi\\.nuget\\packages\\",
-        "outputPath": "D:\\Root\\lab\\iti\\events\\pojects\\Graduation Project\\main\\api\\nurseries\\nurseries\\obj\\",
+        "projectPath": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj",
+        "packagesPath": "C:\\Users\\كمبيولاب\\.nuget\\packages\\",
+        "outputPath": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\msi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\كمبيولاب\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.200"
       },
       "frameworks": {
         "net10.0": {
@@ -76,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
