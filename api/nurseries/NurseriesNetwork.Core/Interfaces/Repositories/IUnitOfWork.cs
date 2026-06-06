@@ -12,6 +12,7 @@ namespace NurseriesNetwork.Core.Interfaces.Repositories
         IGenericRepository<Booking> Bookings { get; }
         IGenericRepository<Child> Children { get; }
         IGenericRepository<NurseryImage> NurseryImages { get; }
+        IGenericRepository<Payment> Payments { get; }
         Task<int> SaveChangesAsync();
     }
 }

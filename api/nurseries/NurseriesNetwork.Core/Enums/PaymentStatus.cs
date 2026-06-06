@@ -4,12 +4,11 @@ using System.Text;
 
 namespace NurseriesNetwork.Core.Enums
 {
-  
-
-    public enum BookingStatus 
+    public enum PaymentStatus 
     {
         Pending,
-        Confirmed,
-        Cancelled 
+        Completed,
+        Failed, 
+        Refunded
     }
 }

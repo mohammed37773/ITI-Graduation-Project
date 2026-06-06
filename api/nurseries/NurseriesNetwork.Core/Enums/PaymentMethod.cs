@@ -4,12 +4,10 @@ using System.Text;
 
 namespace NurseriesNetwork.Core.Enums
 {
-  
-
-    public enum BookingStatus 
+    public enum PaymentMethod
     {
-        Pending,
-        Confirmed,
-        Cancelled 
+        VodafoneCash, 
+        Meza,
+        PayPal 
     }
 }
