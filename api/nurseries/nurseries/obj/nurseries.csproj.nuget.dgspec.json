@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj": {}
+    "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj": {}
   },
   "projects": {
-    "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj": {
+    "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj",
+        "projectUniqueName": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj",
         "projectName": "nurseries",
-        "projectPath": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj",
-        "packagesPath": "C:\\Users\\كمبيولاب\\.nuget\\packages\\",
-        "outputPath": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\obj\\",
+        "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\nurseries.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\كمبيولاب\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://www.nuget.org/api/v2/": {}
         },
         "frameworks": {
           "net10.0": {
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.200"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net10.0": {
@@ -76,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

@@ -10,4 +10,14 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NurseriesNetwork.AI\NurseriesNetwork.AI.csproj" />
+    <ProjectReference Include="..\NurseriesNetwork.Core\NurseriesNetwork.Core.csproj" />
+    <ProjectReference Include="..\NurseriesNetwork.Infrastructure\NurseriesNetwork.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

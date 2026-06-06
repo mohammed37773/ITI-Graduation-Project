@@ -1,7 +1,23 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {
+      "Microsoft.AspNetCore.Identity.EntityFrameworkCore/10.0.8": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.8"
+        },
+        "compile": {
+          "lib/net10.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.OpenApi/10.0.7": {
         "type": "package",
         "dependencies": {
@@ -24,6 +40,58 @@
           "build/Microsoft.AspNetCore.OpenApi.targets": {}
         }
       },
+      "Microsoft.EntityFrameworkCore/10.0.8": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.8",
+          "Microsoft.EntityFrameworkCore.Analyzers": "10.0.8"
+        },
+        "compile": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props": {}
+        }
+      },
+      "Microsoft.EntityFrameworkCore.Abstractions/10.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.Analyzers/10.0.8": {
+        "type": "package"
+      },
+      "Microsoft.EntityFrameworkCore.Relational/10.0.8": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.8"
+        },
+        "compile": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.OpenApi/2.0.0": {
         "type": "package",
         "compile": {
@@ -36,10 +104,65 @@
             "related": ".pdb;.xml"
           }
         }
+      },
+      "NurseriesNetwork.AI/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "NurseriesNetwork.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/NurseriesNetwork.AI.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NurseriesNetwork.AI.dll": {}
+        }
+      },
+      "NurseriesNetwork.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "10.0.8"
+        },
+        "compile": {
+          "bin/placeholder/NurseriesNetwork.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NurseriesNetwork.Core.dll": {}
+        }
+      },
+      "NurseriesNetwork.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "NurseriesNetwork.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/NurseriesNetwork.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NurseriesNetwork.Infrastructure.dll": {}
+        }
       }
     }
   },
   "libraries": {
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore/10.0.8": {
+      "sha512": "GvUGVaFpAihzb0MEUVunhwFNVI/s9wCtOidbaz4JucM3W/YiMtccki9Gm+qcoxlPxQyGpAxX11bvEghL87TMGA==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.identity.entityframeworkcore/10.0.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net10.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll",
+        "lib/net10.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.xml",
+        "microsoft.aspnetcore.identity.entityframeworkcore.10.0.8.nupkg.sha512",
+        "microsoft.aspnetcore.identity.entityframeworkcore.nuspec"
+      ]
+    },
     "Microsoft.AspNetCore.OpenApi/10.0.7": {
       "sha512": "vKiAcGXG0BwNVw3bOjjWRLnp9tR18dR7MiwpvC94h0yFS+zfnzGHzS/JmmgwUdRixrGxrlIMRAWrVc+2DfAGlg==",
       "type": "package",
@@ -56,6 +179,66 @@
         "lib/net10.0/Microsoft.AspNetCore.OpenApi.xml",
         "microsoft.aspnetcore.openapi.10.0.7.nupkg.sha512",
         "microsoft.aspnetcore.openapi.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore/10.0.8": {
+      "sha512": "EJx+fIBMgBlgD+ublKCn+GTOJkw3UqV7xOjYWBRVdUYyIm8UfvAsmSOPFiIInsWTHyMEYUJ9gCJY1jwX+6UB7w==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore/10.0.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "buildTransitive/net10.0/Microsoft.EntityFrameworkCore.props",
+        "lib/net10.0/Microsoft.EntityFrameworkCore.dll",
+        "lib/net10.0/Microsoft.EntityFrameworkCore.xml",
+        "microsoft.entityframeworkcore.10.0.8.nupkg.sha512",
+        "microsoft.entityframeworkcore.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.Abstractions/10.0.8": {
+      "sha512": "jbKDXWPZQhuPHygMnwzNOqxBADVcpRVytcKYZsA++QqhPkpF93Ta8o5mbJQGrARSjlkr9WtOaADV97EDMOZ7DA==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.abstractions/10.0.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll",
+        "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.xml",
+        "microsoft.entityframeworkcore.abstractions.10.0.8.nupkg.sha512",
+        "microsoft.entityframeworkcore.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.Analyzers/10.0.8": {
+      "sha512": "M3BZ8JH8rB6BE7dO2g9iVbrHLnEz9wMXT6q+tDR6Nq3gyP3KmBj5OTiZGxyF3vesjOQNKanYoPGSNBR4kR2llg==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.analyzers/10.0.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll",
+        "docs/PACKAGE.md",
+        "microsoft.entityframeworkcore.analyzers.10.0.8.nupkg.sha512",
+        "microsoft.entityframeworkcore.analyzers.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.Relational/10.0.8": {
+      "sha512": "UU3diAD2wwZveye2rnrwaF/wvJ9tm5iL2fuY9TTap6/iGQK1OO29M1BzXZRlRPVH/dByt5w/pISBSFtyR7hTqw==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.relational/10.0.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll",
+        "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.xml",
+        "microsoft.entityframeworkcore.relational.10.0.8.nupkg.sha512",
+        "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
     "Microsoft.OpenApi/2.0.0": {
@@ -75,31 +258,49 @@
         "microsoft.openapi.2.0.0.nupkg.sha512",
         "microsoft.openapi.nuspec"
       ]
+    },
+    "NurseriesNetwork.AI/1.0.0": {
+      "type": "project",
+      "path": "../NurseriesNetwork.AI/NurseriesNetwork.AI.csproj",
+      "msbuildProject": "../NurseriesNetwork.AI/NurseriesNetwork.AI.csproj"
+    },
+    "NurseriesNetwork.Core/1.0.0": {
+      "type": "project",
+      "path": "../NurseriesNetwork.Core/NurseriesNetwork.Core.csproj",
+      "msbuildProject": "../NurseriesNetwork.Core/NurseriesNetwork.Core.csproj"
+    },
+    "NurseriesNetwork.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../NurseriesNetwork.Infrastructure/NurseriesNetwork.Infrastructure.csproj",
+      "msbuildProject": "../NurseriesNetwork.Infrastructure/NurseriesNetwork.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "Microsoft.AspNetCore.OpenApi >= 10.0.7"
+      "Microsoft.AspNetCore.OpenApi >= 10.0.7",
+      "NurseriesNetwork.AI >= 1.0.0",
+      "NurseriesNetwork.Core >= 1.0.0",
+      "NurseriesNetwork.Infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\كمبيولاب\\.nuget\\packages\\": {},
+    "C:\\Users\\PC\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj",
+      "projectUniqueName": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj",
       "projectName": "NurseriesNetwork.API",
-      "projectPath": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj",
-      "packagesPath": "C:\\Users\\كمبيولاب\\.nuget\\packages\\",
-      "outputPath": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\obj\\",
+      "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj",
+      "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+      "outputPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\كمبيولاب\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -108,13 +309,23 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://www.nuget.org/api/v2/": {}
       },
       "frameworks": {
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj": {
+              "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj"
+            },
+            "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
+              "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj"
+            },
+            "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj": {
+              "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -127,7 +338,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net10.0": {
@@ -158,7 +369,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
