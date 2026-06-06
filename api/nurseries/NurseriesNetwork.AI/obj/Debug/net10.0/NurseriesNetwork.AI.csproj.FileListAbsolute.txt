@@ -1,0 +1,12 @@
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\bin\Debug\net10.0\NurseriesNetwork.AI.deps.json
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\bin\Debug\net10.0\NurseriesNetwork.AI.dll
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\bin\Debug\net10.0\NurseriesNetwork.AI.pdb
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\obj\Debug\net10.0\NurseriesNetwork.AI.GeneratedMSBuildEditorConfig.editorconfig
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\obj\Debug\net10.0\NurseriesNetwork.AI.AssemblyInfoInputs.cache
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\obj\Debug\net10.0\NurseriesNetwork.AI.AssemblyInfo.cs
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\obj\Debug\net10.0\NurseriesNetwork.AI.csproj.CoreCompileInputs.cache
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\obj\Debug\net10.0\NurseriesNetwork.AI.sourcelink.json
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\obj\Debug\net10.0\NurseriesNetwork.AI.dll
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\obj\Debug\net10.0\refint\NurseriesNetwork.AI.dll
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\obj\Debug\net10.0\NurseriesNetwork.AI.pdb
+H:\finalproject\ITI-Graduation-Project\api\nurseries\NurseriesNetwork.AI\obj\Debug\net10.0\ref\NurseriesNetwork.AI.dll
