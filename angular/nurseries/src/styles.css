@@ -1,1 +1,69 @@
-/* You can add global styles to this file, and also import other style files */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Inter', sans-serif;
+}
+
+.auth-card {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 450px;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group input {
+  padding: 0.75rem 1rem;
+  border: 1px solid #dbe0df;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.85rem;
+  background-color: #10b981; /* اللون الأخضر الخاص بـ Nursery Finder */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-submit:disabled {
+  background-color: #a7f3d0;
+  cursor: not-allowed;
+}
+
+.divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  color: #8c9493;
+  font-size: 0.85rem;
+}
+
+.btn-social {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #dbe0df;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.error {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
