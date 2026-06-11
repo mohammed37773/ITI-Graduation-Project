@@ -15,6 +15,8 @@ namespace NurseriesNetwork.Infrastructure.Repositories
         public IGenericRepository<Child> Children { get; }
         public IGenericRepository<NurseryImage> NurseryImages { get; }
 
+        public IGenericRepository<Payment> Payments => throw new NotImplementedException();
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
