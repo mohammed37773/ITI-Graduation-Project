@@ -1,6 +1,0 @@
-@nurseries_HostAddress = http://localhost:5254
-
-GET {{nurseries_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
