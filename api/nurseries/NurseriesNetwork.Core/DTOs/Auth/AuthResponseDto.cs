@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
 namespace NurseriesNetwork.Core.DTOs.Auth
 {
-    public record AuthResponseDto(
-    string Token,
-    string FullName,
-    string Email,
-    string Role
-);
+    public class AuthResponseDto
+    {
+        public bool IsSuccess { get; set; }
+
+        public IEnumerable<string>? Errors { get; set; }
+
+        public string? Token { get; set; }
+    }
 }

@@ -12,6 +12,9 @@ namespace NurseriesNetwork.Core.Entities
         public double? LocationLng { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        public string? Otp { get; set; }
+        public DateTime? OtpExpiryTime { get; set; }
+
         public ICollection<Child> Children { get; set; } = new List<Child>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
