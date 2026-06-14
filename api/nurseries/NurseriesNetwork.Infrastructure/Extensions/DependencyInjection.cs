@@ -30,6 +30,7 @@ namespace NurseriesNetwork.Infrastructure.Extensions
                 opt.Password.RequireUppercase = false;
                 opt.Password.RequireLowercase = false;
                 opt.Password.RequireNonAlphanumeric = false;
+                opt.SignIn.RequireConfirmedEmail = true;
             })
             .AddEntityFrameworkStores<AppDbContext>();
 
@@ -63,6 +64,7 @@ namespace NurseriesNetwork.Infrastructure.Extensions
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<JwtProvider>();
+            services.AddScoped<IEmailService, EmailService>();
             
 
             return services;

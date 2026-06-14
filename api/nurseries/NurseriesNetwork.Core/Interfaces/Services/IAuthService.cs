@@ -9,5 +9,8 @@ namespace NurseriesNetwork.Core.Interfaces.Services
     {
         Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto);
         Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
+
+        Task<bool> SendOtpAsync(string email);
+        Task<AuthResponseDto> VerifyOtpAsync(string email, string otpCode);
     }
 }
