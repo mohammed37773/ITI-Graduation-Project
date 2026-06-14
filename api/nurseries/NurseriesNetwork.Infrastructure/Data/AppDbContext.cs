@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NurseriesNetwork.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NurseriesNetwork.Infrastructure.Data
 {

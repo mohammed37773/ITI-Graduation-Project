@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
+﻿using System.ComponentModel.DataAnnotations;
 namespace NurseriesNetwork.Core.DTOs.Auth
 {
-    public record LoginDto(
-     [Required][EmailAddress] string Email,
-     [Required] string Password
- );
+    public class LoginDto
+    {
+        [Required(ErrorMessage = "Email is requierd !"), EmailAddress]
+        public string Email { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "Password is requierd !")]
+        public string Password { get; set; } = string.Empty;
+    }
 }

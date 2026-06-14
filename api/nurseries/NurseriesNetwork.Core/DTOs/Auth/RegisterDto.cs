@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
+﻿using System.ComponentModel.DataAnnotations;
 namespace NurseriesNetwork.Core.DTOs.Auth
 {
-    public record RegisterDto(
-     [Required(ErrorMessage = "الاسم مطلوب")]
-    [MaxLength(100)] string FullName,
+    public class RegisterDto
+    {
+        [Required(ErrorMessage = "Full name is requierd !")]
+        [MaxLength(20)]
+        public string FullName { get; set; } = null!;
 
-     [Required(ErrorMessage = "الإيميل مطلوب")]
-    [EmailAddress(ErrorMessage = "إيميل غير صحيح")] string Email,
+        [Required(ErrorMessage = "Email is requierd !"), EmailAddress]
+        public string Email { get; set; } = null!;
 
-     [Required(ErrorMessage = "الباسورد مطلوب")]
-    [MinLength(6, ErrorMessage = "الباسورد أقل من 6 حروف")] string Password,
+        [Required(ErrorMessage = "Password is requierd !"), MinLength(6)]
+        public string Password { get; set; } = null!;
 
-     string Role = "Parent"
- );
+        [Compare(nameof(Password), ErrorMessage = "The Password and Confirmation do not match !")]
+        public string ConfirmPassword { get; set; } = null!;
+    }
 }
