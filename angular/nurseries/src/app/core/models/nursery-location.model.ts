@@ -3,7 +3,8 @@ export interface NurseryLocation {
   nurseryId: number;
   address: string;
   city: string;
-  district: string;
-  latitude: number;
-  longitude: number;
+  district?: string;
+  latitude?: number;
+  longitude?: number;
+  region?: string;
 }

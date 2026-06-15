@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Nursery } from '../../../../core/models/nursery.model';
+import { NurseryModel } from '../../../../core/models/nursery.model';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
 })
 export class Home implements OnInit {
   // مصفوفة الحضانات المميزة اللي هتربط بعدين بالـ API
-  featuredNurseries: Nursery[] = [];
+  featuredNurseries: NurseryModel[] = [];
 
   ngOnInit(): void {
     // تحديث الداتا لتطابق الـ Properties الجديدة بالملي

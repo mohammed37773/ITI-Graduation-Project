@@ -1,11 +1,11 @@
 export interface RecommendationRequest {
-     location: string;
+  //   location: string;
 
-  budget: number;
+  // budget: number;
 
-  childAge: number;
+  // childAge: number;
 
-  preferredRating?: number;
+  // preferredRating?: number;
 
-  additionalRequirements?: string;
+  // additionalRequirements?: string;
 }

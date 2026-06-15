@@ -46,7 +46,7 @@ export const routes: Routes = [
   {
     path: 'parent',
     loadComponent: () => import('./shared/components/main-layout/main-layout').then(m => m.MainLayout),
-    canActivate: [authGuard, roleGuard],
+    // canActivate: [authGuard, roleGuard],
     data: { expectedRole: 'Parent' },
     children: [
       {
@@ -54,12 +54,16 @@ export const routes: Routes = [
         loadComponent: () => import('./features/profile/pages/profile/profile').then(m => m.Profile)
       },
       {
-        path: 'ai-assistant',
+        path: 'chatbot',
         loadComponent: () => import('./features/chatbot/components/chatbot/chatbot').then(m => m.Chatbot)
       },
       {
         path: 'ai-questionnaire',
         loadComponent: () => import('./features/recommendations/pages/ai-recommendation/ai-recommendation').then(m => m.AiRecommendation)
+      },
+      {
+        path: 'nursery-list',
+        loadComponent: () => import('./features/nurseries/pages/nursery-list/nursery-list').then(m => m.NurseryList)
       },
       {
         path: 'bookings',

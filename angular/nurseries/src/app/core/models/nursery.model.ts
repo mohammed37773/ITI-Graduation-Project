@@ -1,8 +1,7 @@
-import { Review } from './review.model';
 import { NurseryImage } from './nursery-image.model';
 import { NurseryLocation } from '../models/nursery-location.model';
-export interface Nursery {
-   id: number;
+export interface NurseryModel {
+  id: number;
   name: string;
   description: string;
   dailyPrice: number;

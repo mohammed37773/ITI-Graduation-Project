@@ -1,1 +1,96 @@
-<p>nursery-list works!</p>
+<div class="catalog-container" dir="rtl">
+  
+  <aside class="filter-sidebar">
+    <h3>🔍 تخصيص البحث</h3>
+    <form [formGroup]="filterForm">
+      
+      <div class="filter-group">
+        <label>اسم الحضانة</label>
+        <input type="text" formControlName="searchQuery" placeholder="ابحث عن حضانة معينة..." />
+      </div>
+
+      <div class="filter-group">
+        <label>المنطقة / الموقع</label>
+        <select formControlName="location">
+          <option value="">كل المناطق</option>
+          @for (loc of locationsList; track loc) {
+            <option [value]="loc">{{ loc }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label>الحد الأقصى للسعر اليومي: <strong>{{ filterForm.get('maxPrice')?.value }} ج.م</strong></label>
+        <input type="range" formControlName="maxPrice" min="30" max="300" step="10" />
+        <div class="range-labels">
+          <span>30 ج.م</span>
+          <span>300 ج.م</span>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label>عمر الطفل (سنوات)</label>
+        <select formControlName="age">
+          <option value="">كل الأعمار</option>
+          <option value="1">سنة واحدة</option>
+          <option value="2">سنتين</option>
+          <option value="3">3 سنوات</option>
+          <option value="4">4 سنوات</option>
+          <option value="5">5 سنوات</option>
+          <option value="6">6 سنوات</option>
+        </select>
+      </div>
+
+      <div class="filter-group checkbox-group">
+        <input type="checkbox" id="verified" formControlName="verifiedOnly" />
+        <label for="verified">⭐ حضانات معتمدة وموثقة فقط</label>
+      </div>
+
+    </form>
+  </aside>
+
+  <main class="results-area">
+    <div class="results-header">
+      <h2>الحضانات المتاحة</h2>
+      <p>تم العثور على ({{ filteredNurseries.length }}) حضانة تطابق اختياراتك</p>
+    </div>
+
+    <div class="nurseries-grid">
+      @for (nursery of filteredNurseries; track nursery.id) {
+        <div class="nursery-card">
+          <div class="card-image">
+            <img [src]="nursery.images && nursery.images.length > 0 ? nursery.images[0].url : 'assets/images/default-nursery.jpg'" alt="{{ nursery.name }}" />
+            @if (nursery.isVerified) {
+              <span class="verified-badge">✓ معتمدة</span>
+            }
+          </div>
+          
+          <div class="card-body">
+            <h3>{{ nursery.name }}</h3>
+            
+            @if (nursery.location) {
+              <p class="location-badge">📍 {{ nursery.location.region }}، {{ nursery.location.city }}</p>
+            }
+
+            <p class="description">{{ nursery.description }}</p>
+            <p class="age-info">👶 السن: من {{ nursery.ageRangeMin }} إلى {{ nursery.ageRangeMax }} سنوات</p>
+            
+            <div class="card-meta">
+              <span class="rating">⭐ {{ nursery.avgRating }}</span>
+              <span class="price"><strong>{{ nursery.dailyPrice }}</strong> ج.م / يومي</span>
+            </div>
+          </div>
+          
+          <div class="card-actions">
+            <a [routerLink]="['/nurseries', nursery.id]" class="btn-details">عرض تفاصيل الحضانة</a>
+          </div>
+        </div>
+      } @empty {
+        <div class="no-results">
+          <p>⚠️ لا توجد حضانات تطابق معايير البحث الحالية.</p>
+        </div>
+      }
+    </div>
+  </main>
+
+</div>

@@ -1,31 +1,40 @@
-<div class="chatbot-container">
+<div class="chatbot-container" dir="rtl">
   <div class="chat-header">
     <div class="bot-info">
-      <span class="bot-avatar">🤖</span>
-      <div>
-        <h4>Nursery AI Assistant</h4>
-        <p class="status"><span class="dot"></span> Online | Powered by RAG</p>
+      <div class="bot-avatar">🤖</div>
+      <div class="bot-details">
+        <h4>المساعد الذكي لشبكة الحضانات</h4>
+        <p class="status">
+          <span class="status-dot"></span> متصل الآن ومستعد لمساعدتك
+        </p>
       </div>
     </div>
-    <button class="btn-clear" (click)="chatService.clearChat()">Clear Chat</button>
+    
+    <button type="button" class="btn-clear" (click)="onClearChat()" [disabled]="messages().length === 0 || isLoading()">
+      مسح المحادثة 🗑️
+    </button>
   </div>
 
   <div class="chat-messages">
-    @for (msg of chatService.chatHistory(); track msg.id) {
+    @for (msg of messages(); track msg.timestamp) {
       <div class="message-wrapper" [ngClass]="msg.sender === 'user' ? 'user-style' : 'ai-style'">
         <div class="message-bubble">
-          {{ msg.messageText }}
+          {{ msg.text }}
         </div>
-        <span class="message-time">{{ msg.createdAt | date:'shortTime' }}</span>
+        <div class="message-time">
+          {{ msg.timestamp | date:'shortTime' }}
+        </div>
       </div>
     }
 
-    @if (isLoading) {
+    @if (isLoading()) {
       <div class="message-wrapper ai-style">
-        <div class="message-bubble thinking">
-          <span class="dot-flash"></span>
-          <span class="dot-flash"></span>
-          <span class="dot-flash"></span>
+        <div class="message-bubble">
+          <div class="typing-indicator">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
         </div>
       </div>
     }
@@ -35,11 +44,11 @@
     <input 
       type="text" 
       formControlName="message" 
-      placeholder="Ask about nurseries, prices, locations, or standard matching..." 
-      autocomplete="off"
-    />
-    <button type="submit" [disabled]="chatForm.invalid" class="btn-send">
-      Send 🚀
+      placeholder="اسأل الذكاء الاصطناعي عن أي شيء يخص الحضانات..."
+      (keydown.enter)="$event.preventDefault(); onSendMessage()">
+    
+    <button type="submit" class="btn-send" [disabled]="chatForm.invalid || isLoading()">
+      إرسال 🚀
     </button>
   </form>
 </div>

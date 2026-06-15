@@ -1,7 +1,7 @@
-import { Nursery } from "./nursery.model";
+import { NurseryModel } from "./nursery.model";
 
 export interface RecommendationResponse {
      message: string;
 
-  recommendedNurseries: Nursery[];
+  recommendedNurseries: NurseryModel[];
 }

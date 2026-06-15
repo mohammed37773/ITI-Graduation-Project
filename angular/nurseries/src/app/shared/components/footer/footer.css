@@ -6,6 +6,7 @@
   padding: 40px 20px 20px 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-top: auto; /* عشان يفضل دايماً في أسفل الشاشة لو الصفحة فاضية */
+  direction: rtl; /* تأكيد الاتجاه العربي داخل التنسيق */
 }
 
 /* توزيع الأعمدة بنظام Flexbox */
@@ -39,11 +40,11 @@
   position: relative;
 }
 
-/* خط صغير تحت العناوين الفرعية */
+/* خط صغير تحت العناوين الفرعية - تم التعديل ليبدأ من اليمين */
 .footer-column h4::after {
   content: '';
   position: absolute;
-  left: 0;
+  right: 0; /* تم التغيير من left إلى right ليناسب العربي */
   bottom: -5px;
   width: 30px;
   height: 2px;
@@ -72,13 +73,13 @@
 .footer-column ul li a {
   color: #7f8c8d;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
-/* تأثير الـ Hover على لينكات الفوتر */
+/* تأثير الـ Hover على لينكات الفوتر - تم التعديل ليتحرك لليمين */
 .footer-column ul li a:hover {
   color: #2ecc71; /* يقلب أخضر عند الـ Hover */
-  padding-left: 5px; /* حركة أنيميشن خفيفة */
+  padding-right: 5px; /* تم التغيير من padding-left إلى padding-right للحركة مع العربي */
 }
 
 /* أيقونات السوشيال ميديا */
@@ -86,6 +87,7 @@
   display: flex;
   gap: 10px;
   margin-top: 15px;
+  padding: 0;
 }
 
 .social-link {
