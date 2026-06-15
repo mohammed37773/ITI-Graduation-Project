@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../../core/services/auth';
-import { Injectable, inject } from '@angular/core'; 
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { AuthService } from '../../../../core/services/auth'; // تأكد من اسم الملف صح (.service)
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -25,19 +24,28 @@ export class Login {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      // نداء واحد فقط للـ Service
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           console.log('Login Successful', response);
-          this.router.navigate(['/dashboard']); // التوجيه لصفحة الرئيسية
+          
+          // جلب الـ Role المقروء من الـ Token بعد حفظه في الـ Service
+          const role = this.authService.getRole();
+          
+          // التوجيه الذكي حسب الدور (Role-Based Routing)
+          if (role === 'Admin') {
+            this.router.navigate(['/admin/dashboard']);
+          } else if (role === 'NurseryOwner') {
+            this.router.navigate(['/owner/dashboard']);
+          } else {
+            this.router.navigate(['/']); // الـ Parent يروح للرئيسية يتصفح الحضانات
+          }
         },
         error: (err) => {
           console.error('Login Failed', err);
+          // هنا تقدر تعرض رسالة خطأ للمستخدم في الـ UI لو حابب
         }
       });
     }
   }
 }
-
-
-
-

@@ -1,15 +1,17 @@
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth';
 
-export const authGuard = () => {
-
-  const auth = inject(AuthService);
+export const authGuard : CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
   const router = inject(Router);
 
-  if(auth.isLoggedIn())
-      return true;
+  // لو المستخدم عامل تسجيل دخول ومعاه Token ساري
+  if (authService.isAuthenticated()) {
+    return true; 
+  }
 
-  router.navigate(['/login']);
+  // لو مش مسجل دخول، خده على صفحة الـ Login ورجعه لنفس الصفحة اللي كان رايحها بعد ما يسجل
+  router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
   return false;
 };

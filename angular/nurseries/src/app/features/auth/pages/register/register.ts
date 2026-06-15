@@ -1,17 +1,18 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth';
 import { Injectable, inject } from '@angular/core'; 
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.html',
-  styleUrl: './register.css',
+  styleUrls: ['./register.css']
 })
 export class Register {
   private fb = inject(FormBuilder);
@@ -19,28 +20,24 @@ export class Register {
   private router = inject(Router);
 
   registerForm: FormGroup = this.fb.group({
-    fullName: ['', [Validators.required]],
+    fullName: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required, Validators.pattern('^[0-9+ ]+$')]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
-    confirmPassword: ['', [Validators.required]],
-    agreeTerms: [false, [Validators.requiredTrue]]
-  }, { validators: this.passwordMatchValidator });
-
-  // Custom Validator للتأكد من تطابق كلمتي المرور
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('password')?.value === g.get('confirmPassword')?.value
-      ? null : { mismatch: true };
-  }
+    phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{11}$')]], // متوافق مع رقم الموبايل
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    role: ['Parent', Validators.required] // القيمة الافتراضية Parent ويقدر يختار NurseryOwner
+  });
 
   onSubmit() {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
-        next: (res) => {
-          console.log('Registration Successful', res);
-          this.router.navigate(['/login']);
+        next: (response) => {
+          console.log('Registration successful', response);
+          // بعد التسجيل بنوديه لصفحة الـ Login
+          this.router.navigate(['/auth/login']);
         },
-        error: (err) => console.error('Registration Failed', err)
+        error: (err) => {
+          console.error('Registration failed', err);
+        }
       });
     }
   }

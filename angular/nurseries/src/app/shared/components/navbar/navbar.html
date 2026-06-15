@@ -1,27 +1,64 @@
-<div>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Nurseries</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav
-            me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                    <a routerLink="/login"><button class="btn btn-outline-primary"
-                            type="button">Logout</button></a><!--TODO=>   Amsh el token mn el local storage -->
-                </form>
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand font-weight-bold" routerLink="/">👶 Nurseries Network</a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-            </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/nurseries" routerLinkActive="active">Browse Nurseries</a>
+            </li>
+
+            @if (authService.isAuthenticated() && authService.getRole() === 'Parent') {
+              <li class="nav-item">
+                  <a class="nav-link text-success" routerLink="/parent/ai-assistant" routerLinkActive="active">🤖 AI Assistant</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" routerLink="/parent/bookings" routerLinkActive="active">My Bookings</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" routerLink="/parent/profile" routerLinkActive="active">Profile</a>
+              </li>
+            }
+
+            @if (authService.isAuthenticated() && authService.getRole() === 'NurseryOwner') {
+              <li class="nav-item">
+                  <a class="nav-link font-weight-bold text-primary" routerLink="/owner/dashboard">Owner Dashboard ↗</a>
+              </li>
+            }
+            
+            @if (authService.isAuthenticated() && authService.getRole() === 'Admin') {
+              <li class="nav-item">
+                  <a class="nav-link font-weight-bold text-danger" routerLink="/admin/dashboard">Admin Panel ↗</a>
+              </li>
+            }
+        </ul>
+
+        <div class="d-flex align-items-center gap-2">
+            
+            @if (!authService.isAuthenticated()) {
+              <a routerLink="/auth/login" class="btn btn-outline-success btn-sm">Login</a>
+              <a routerLink="/auth/register" class="btn btn-success btn-sm">Register</a>
+            }
+
+            @if (authService.isAuthenticated()) {
+              <span class="navbar-text me-2 badge bg-light text-dark border">
+                Role: {{ authService.getRole() }}
+              </span>
+              <button class="btn btn-outline-danger btn-sm" type="button" (click)="onLogout()">
+                Logout 🚪
+              </button>
+            }
+            
+        </div>
+    </div>
+  </div>
+</nav>

@@ -1,7 +1,5 @@
 export interface NurseryImage {
-    id: number;
-
-  imageUrl: string;
-
+  id: number;
   nurseryId: number;
+  imageUrl: string;
 }

@@ -1,8 +1,9 @@
 export interface User {
-    id: string;
+    id: number;
     fullName: string;
     email: string;
-    phoneNumber?: string;
-    token?: string;
-    role?: string;
+    phoneNumber: string;
+    locationLat?: number;
+    locationLng?: number;
+    createdAt: Date;
 }

@@ -1,1 +1,45 @@
-<p>chatbot works!</p>
+<div class="chatbot-container">
+  <div class="chat-header">
+    <div class="bot-info">
+      <span class="bot-avatar">🤖</span>
+      <div>
+        <h4>Nursery AI Assistant</h4>
+        <p class="status"><span class="dot"></span> Online | Powered by RAG</p>
+      </div>
+    </div>
+    <button class="btn-clear" (click)="chatService.clearChat()">Clear Chat</button>
+  </div>
+
+  <div class="chat-messages">
+    @for (msg of chatService.chatHistory(); track msg.id) {
+      <div class="message-wrapper" [ngClass]="msg.sender === 'user' ? 'user-style' : 'ai-style'">
+        <div class="message-bubble">
+          {{ msg.messageText }}
+        </div>
+        <span class="message-time">{{ msg.createdAt | date:'shortTime' }}</span>
+      </div>
+    }
+
+    @if (isLoading) {
+      <div class="message-wrapper ai-style">
+        <div class="message-bubble thinking">
+          <span class="dot-flash"></span>
+          <span class="dot-flash"></span>
+          <span class="dot-flash"></span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <form [formGroup]="chatForm" (ngSubmit)="onSendMessage()" class="chat-input-area">
+    <input 
+      type="text" 
+      formControlName="message" 
+      placeholder="Ask about nurseries, prices, locations, or standard matching..." 
+      autocomplete="off"
+    />
+    <button type="submit" [disabled]="chatForm.invalid" class="btn-send">
+      Send 🚀
+    </button>
+  </form>
+</div>
