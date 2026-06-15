@@ -38,10 +38,9 @@ namespace NurseriesNetwork.Infrastructure.Services
                 return new AuthResponseDto { IsSuccess = false, Errors = new[] { "User registered, but failed to send OTP." } };
             }
 
-            return new AuthResponseDto { IsSuccess = true };
+            return new AuthResponseDto { IsSuccess = true, Email = appUser.Email };
 
         }
-
 
 
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
@@ -62,7 +61,14 @@ namespace NurseriesNetwork.Infrastructure.Services
             var roles = await _userManager.GetRolesAsync(appUser);
 
             var token = _jwtProvider.CreateToken(appUser, roles);
-            return new AuthResponseDto { IsSuccess = true, Token = token };
+            return new AuthResponseDto
+            {
+                IsSuccess = true,
+                NameIdentifier = appUser.Id,
+                Email = appUser.Email,
+                Role = roles.FirstOrDefault(),
+                Token = token
+            };
 
         }
 
@@ -105,7 +111,14 @@ namespace NurseriesNetwork.Infrastructure.Services
             var roles = await _userManager.GetRolesAsync(user);
             var token = _jwtProvider.CreateToken(user, roles);
 
-            return new AuthResponseDto { IsSuccess = true, Token = token };
+            return new AuthResponseDto
+            {
+                IsSuccess = true,
+                NameIdentifier = user.Id,
+                Email = user.Email,
+                Role = roles.FirstOrDefault(),
+                Token = token
+            };
         }
 
 
