@@ -1,82 +1,55 @@
 <div class="auth-container">
   <div class="auth-card">
-    <!-- Header -->
     <div class="auth-header">
-      <div class="logo">
-        <span class="logo-icon">👶</span>
-        <h2>Welcome Back</h2>
-      </div>
-      <p>Log in to access your saved nurseries and AI recommendations</p>
+      <div class="logo"><span class="logo-icon">👶</span></div>
+      <h2>تسجيل الدخول</h2>
+      <p>مرحباً بك مجدداً في شبكة الحضانات الذكية</p>
     </div>
 
-    <!-- Form -->
-    <form [formGroup].="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
-      <!-- Email Field -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+      
       <div class="form-group">
-        <label for="email">Email Address</label>
+        <label>البريد الإلكتروني</label>
         <div class="input-wrapper">
-          <span class="input-icon">✉️</span>
           <input 
             type="email" 
-            id="email" 
             formControlName="email" 
-            placeholder="name@example.com"
-            [class.error]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
-          />
+            placeholder="example@mail.com"
+            [ngClass]="{ 'error': f['email'].touched && f['email'].invalid }" />
         </div>
+        @if (f['email'].touched && f['email'].invalid) {
+          <div class="error-msg">
+            @if (f['email'].errors?.['required']) { <small>البريد الإلكتروني مطلوب.</small> }
+            @if (f['email'].errors?.['email']) { <small>صيغة البريد الإلكتروني غير صحيحة.</small> }
+          </div>
+        }
       </div>
 
-      <!-- Password Field -->
       <div class="form-group">
         <div class="label-row">
-          <label for="password">Password</label>
-          <a routerLink="/auth/forgot-password" class="forgot-link">Forgot password?</a>
+          <label>كلمة المرور</label>
+          <a href="#" class="forgot-link">نسيت كلمة المرور؟</a>
         </div>
         <div class="input-wrapper">
-          <span class="input-icon">🔒</span>
           <input 
             type="password" 
-            id="password" 
             formControlName="password" 
             placeholder="••••••••"
-            [class.error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
-          />
+            [ngClass]="{ 'error': f['password'].touched && f['password'].invalid }" />
         </div>
+        @if (f['password'].touched && f['password'].invalid) {
+          <div class="error-msg">
+            @if (f['password'].errors?.['required']) { <small>كلمة المرور مطلوبة.</small> }
+            @if (f['password'].errors?.['minlength']) { <small>كلمة المرور يجب ألا تقل عن 6 أحرف.</small> }
+          </div>
+        }
       </div>
 
-      <!-- Remember Me & Checkbox -->
-      <div class="form-options">
-        <label class="checkbox-container">
-          <input type="checkbox" formControlName="rememberMe" />
-          <span class="checkmark"></span>
-          Remember this device for 30 days
-        </label>
-      </div>
+      <button type="submit" [disabled]="loginForm.invalid" class="btn-submit">تسجيل الدخول</button>
 
-      <!-- Submit Button -->
-      <button type="submit" [disabled]="loginForm.invalid" class="btn-submit">
-        Log In →
-      </button>
-
-      <!-- Divider -->
-      <div class="divider">
-        <span>OR CONTINUE WITH</span>
-      </div>
-
-      <!-- Social Login Buttons -->
-      <div class="social-buttons">
-        <button type="button" class="btn-social google">
-          <img src="assets/icons/google.svg" alt="" /> Sign in with Google
-        </button>
-        <button type="button" class="btn-social facebook">
-          <img src="assets/icons/facebook.svg" alt="" /> Sign in with Facebook
-        </button>
+      <div class="auth-footer">
+        ليس لديك حساب؟ <a routerLink="/auth/register">إنشاء حساب جديد</a>
       </div>
     </form>
-
-    <!-- Footer Link -->
-    <div class="auth-footer">
-      <p>New to Nursery Finder? <a routerLink="/auth/register">Create an account</a></p>
-    </div>
   </div>
 </div>

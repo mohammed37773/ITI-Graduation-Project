@@ -1,5 +1,6 @@
 export interface NurseryImage {
   id: number;
   nurseryId: number;
-  imageUrl: string;
+  url: string;
+  isMain: boolean;
 }

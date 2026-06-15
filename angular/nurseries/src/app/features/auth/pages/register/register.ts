@@ -15,30 +15,28 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./register.css']
 })
 export class Register {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+ private fb = inject(FormBuilder);
   private router = inject(Router);
 
-  registerForm: FormGroup = this.fb.group({
-    fullName: ['', [Validators.required, Validators.minLength(3)]],
-    email: ['', [Validators.required, Validators.email]],
-    phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{11}$')]], // متوافق مع رقم الموبايل
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    role: ['Parent', Validators.required] // القيمة الافتراضية Parent ويقدر يختار NurseryOwner
-  });
+  registerForm!: FormGroup;
 
-  onSubmit() {
+  ngOnInit(): void {
+    this.registerForm = this.fb.group({
+      fullName: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      role: ['', [Validators.required]] // اختيار الدور (Parent أو NurseryOwner)
+    });
+  }
+
+  get f() { return this.registerForm.controls; }
+
+  onSubmit(): void {
     if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe({
-        next: (response) => {
-          console.log('Registration successful', response);
-          // بعد التسجيل بنوديه لصفحة الـ Login
-          this.router.navigate(['/auth/login']);
-        },
-        error: (err) => {
-          console.error('Registration failed', err);
-        }
-      });
+      console.log('بيانات التسجيل صالحة:', this.registerForm.value);
+      this.router.navigate(['/auth/login']);
+    } else {
+      this.registerForm.markAllAsTouched();
     }
   }
 }

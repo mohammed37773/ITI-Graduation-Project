@@ -1,0 +1,48 @@
+<div class="home-container">
+  
+  <header class="hero-section">
+    <div class="hero-content">
+      <h1>ابحث عن الحضانة المثالية لطفلك 👶</h1>
+      <p>نساعدك في الوصول إلى أفضل الحضانات التعليمية والترفيهية القريبة منك والتي تطابق المعايير القياسية بكل سهولة وأمان.</p>
+      
+      <div class="search-bar">
+        <input type="text" placeholder="أدخل اسم المنطقة، المدينة، أو الخدمة..." />
+        <button class="btn-search">بحث سريع</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="featured-section">
+    <div class="section-header">
+      <h2>✨ الحضانات المميزة ✨</h2>
+      <p>حضانات نوصي بها بناءً على تقييمات أولياء الأمور وتوفر معايير الجودة</p>
+    </div>
+
+    <div class="nurseries-grid">
+      @for (nursery of featuredNurseries; track nursery.id) {
+        <div class="nursery-card">
+          <div class="card-image">
+            <img [src]="nursery.images && nursery.images.length > 0 ? nursery.images[0].url : 'assets/images/default-nursery.jpg'" alt="{{ nursery.name }}" />
+            <span class="city-badge">📍 {{ nursery.location }}</span>
+          </div>
+          
+          <div class="card-body">
+            <h3>{{ nursery.name }}</h3>
+            <p class="description">{{ nursery.description }}</p>
+            <p class="address">🏠 {{ nursery.location }}</p>
+            
+            <div class="card-meta">
+              <span class="rating">⭐ {{ nursery.avgRating }}</span>
+              <span class="price"><strong>{{ nursery.dailyPrice }}</strong> ج.م / يوم</span>
+            </div>
+          </div>
+          
+          <div class="card-actions">
+            <a [routerLink]="['/nurseries', nursery.id]" class="btn-details">عرض التفاصيل</a>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+</div>

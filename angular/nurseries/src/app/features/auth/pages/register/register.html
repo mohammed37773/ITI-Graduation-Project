@@ -1,94 +1,88 @@
 <div class="auth-container">
   <div class="auth-card">
-    <!-- Header -->
     <div class="auth-header">
-      <div class="logo">
-        <span class="logo-icon">👶</span>
-        <h2>Join our community</h2>
-      </div>
-      <p>Find the perfect start for your little one's journey</p>
+      <div class="logo"><span class="logo-icon">👶</span></div>
+      <h2>إنشاء حساب جديد</h2>
+      <p>انضم إلينا اليوم وابدأ رحلتك</p>
     </div>
 
-    <!-- Social Registration First (As shown in wireframe) -->
-    <div class="social-buttons-top">
-      <button type="button" class="btn-social google">
-        <img src="gmail.png" alt="" /> Continue with Google
-      </button>
-    </div>
-
-    <div class="divider">
-      <span>OR REGISTER WITH EMAIL</span>
-    </div>
-
-    <!-- Form -->
-    <form [formGroup].="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
       
-      <!-- Full Name -->
       <div class="form-group">
-        <label for="fullName">Full Name</label>
+        <label>الاسم الكامل</label>
         <div class="input-wrapper">
-          <span class="input-icon">👤</span>
-          <input type="text" id="fullName" formControlName="fullName" placeholder="Jane Doe" />
+          <input 
+            type="text" 
+            formControlName="fullName" 
+            placeholder="أدخل اسمك الثلاثي"
+            [ngClass]="{ 'error': f['fullName'].touched && f['fullName'].invalid }" />
         </div>
+        @if (f['fullName'].touched && f['fullName'].invalid) {
+          <div class="error-msg">
+            @if (f['fullName'].errors?.['required']) { <small>الاسم الكامل مطلوب.</small> }
+            @if (f['fullName'].errors?.['minlength']) { <small>يجب أن يكون الاسم 3 أحرف على الأقل.</small> }
+          </div>
+        }
       </div>
 
-      <!-- Email -->
       <div class="form-group">
-        <label for="email">Email Address</label>
+        <label>البريد الإلكتروني</label>
         <div class="input-wrapper">
-          <span class="input-icon">✉️</span>
-          <input type="email" id="email" formControlName="email" placeholder="jane@example.com" />
+          <input 
+            type="email" 
+            formControlName="email" 
+            placeholder="example@mail.com"
+            [ngClass]="{ 'error': f['email'].touched && f['email'].invalid }" />
         </div>
+        @if (f['email'].touched && f['email'].invalid) {
+          <div class="error-msg">
+            @if (f['email'].errors?.['required']) { <small>البريد الإلكتروني مطلوب.</small> }
+            @if (f['email'].errors?.['email']) { <small>صيغة البريد الإلكتروني غير صحيحة.</small> }
+          </div>
+        }
       </div>
 
-      <!-- Phone Number -->
       <div class="form-group">
-        <label for="phoneNumber">Phone Number</label>
+        <label>كلمة المرور</label>
         <div class="input-wrapper">
-          <span class="input-icon">📞</span>
-          <input type="text" id="phoneNumber" formControlName="phoneNumber" placeholder="+1 (555) 000-0000" />
+          <input 
+            type="password" 
+            formControlName="password" 
+            placeholder="••••••••"
+            [ngClass]="{ 'error': f['password'].touched && f['password'].invalid }" />
         </div>
+        @if (f['password'].touched && f['password'].invalid) {
+          <div class="error-msg">
+            @if (f['password'].errors?.['required']) { <small>كلمة المرور مطلوبة.</small> }
+            @if (f['password'].errors?.['minlength']) { <small>يجب ألا تقل عن 6 أحرف.</small> }
+          </div>
+        }
       </div>
 
-      <!-- Password -->
       <div class="form-group">
-        <label for="password">Password</label>
+        <label>نوع الحساب</label>
         <div class="input-wrapper">
-          <span class="input-icon">🔒</span>
-          <input type="password" id="password" formControlName="password" placeholder="At least 8 characters with numbers" />
-        </div>
-      </div>
-
-      <!-- Role Selection (الميزة الجديدة لـ Role-Based) -->
-      <div class="form-group">
-        <label for="role">Account Type</label>
-        <div class="input-wrapper">
-          <span class="input-icon">🎭</span>
-          <select id="role" formControlName="role" class="select-role">
-            <option value="Parent">Parent (Looking for a nursery)</option>
-            <option value="NurseryOwner">Nursery Owner (Managing a nursery)</option>
+          <select 
+            formControlName="role" 
+            class="select-role"
+            [ngClass]="{ 'error': f['role'].touched && f['role'].invalid }">
+            <option value="" disabled selected>اختر نوع الحساب...</option>
+            <option value="Parent">ولي أمر (أبحث عن حضانة)</option>
+            <option value="NurseryOwner">صاحب حضانة (أريد إضافة حضانتي)</option>
           </select>
         </div>
+        @if (f['role'].touched && f['role'].invalid) {
+          <div class="error-msg">
+            <small>يرجى تحديد نوع الحساب.</small>
+          </div>
+        }
       </div>
 
-      <!-- Terms Checkbox -->
-      <div class="form-options">
-        <label class="checkbox-container">
-          <input type="checkbox" required />
-          <span class="checkmark"></span>
-          I agree to the Terms of Service and Privacy Policy.
-        </label>
-      </div>
+      <button type="submit" [disabled]="registerForm.invalid" class="btn-submit">إنشاء الحساب</button>
 
-      <!-- Submit Button -->
-      <button type="submit" [disabled]="registerForm.invalid" class="btn-submit">
-        Create Account >
-      </button>
+      <div class="auth-footer">
+        لديك حساب بالفعل؟ <a routerLink="/auth/login">تسجيل الدخول</a>
+      </div>
     </form>
-
-    <!-- Footer Link -->
-    <div class="auth-footer">
-      <p>Already have an account? <a routerLink="/auth/login">Log in</a></p>
-    </div>
   </div>
 </div>
