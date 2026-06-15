@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { ChatMessage } from '../models/chat-message.model';
 import { Observable, tap } from 'rxjs';
 
@@ -9,40 +9,61 @@ import { Observable, tap } from 'rxjs';
 })
 export class ChatbotService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/api/aichat`; // مسار الـ AI Controller في الـ Backend
-
-  // استخدام Signal لحفظ الرسائل وعرضها في الـ UI بشكل تلقائي وسريع
+  
+  // Base URL pointing to your Langflow instance
+  private apiUrl = `${environment.apiUrl}`
+  private apiKey = `${environment.apiKey}`; 
   chatHistory = signal<ChatMessage[]>([]);
   
-  // دالة لبدء محادثة جديدة أو جلب المحادثة القديمة من الـ DB بناءً على الـ RAG
   getConversationMessages(conversationId: number): Observable<ChatMessage[]> {
-    return this.http.get<ChatMessage[]>(`${this.apiUrl}/conversations/${conversationId}`).pipe(
+    // Keeping your existing history fetcher if needed for your database
+    // return this.http.get<ChatMessage[]>(`${environment.apiUrl}/conversations/${conversationId}`).pipe(
+    return this.http.get<ChatMessage[]>(`${environment.apiUrl}/`).pipe(
       tap(messages => this.chatHistory.set(messages))
     );
   }
 
-  // دالة إرسال الرسالة للـ Backend (الـ .NET بياخدها ويبعتها لـ OpenAI مع الـ Context من قاعدة البيانات)
-  sendMessage(conversationId: number, messageText: string): Observable<ChatMessage> {
+  sendMessage(conversationId: number, messageText: string): Observable<any> {
+    // 1. Build the specific payload expected by the API
     const payload = {
-      conversationId: conversationId,
-      messageText: messageText,
-      sender: 'user'
+      output_type: 'chat',
+      input_type: 'chat',
+      input_value: messageText,
+      session_id: conversationId.toString() // Using conversationId as the session tracking ID
     };
 
-    // 1. ضيف رسالة المستخدم فوراً في الـ UI قبل ما الـ API يرد عشان الشات يبقى سريع
-    const userMessage: ChatMessage = { conversationId, messageText, sender: 'user', createdAt: new Date() };
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-api-key': this.apiKey
+    });
+
+    const userMessage: ChatMessage = { 
+      conversationId, 
+      messageText, 
+      sender: 'user', 
+      createdAt: new Date() 
+    };
     this.chatHistory.update(messages => [...messages, userMessage]);
 
-    // 2. ابعت الطلب للـ Backend
-    return this.http.post<ChatMessage>(`${this.apiUrl}/send`, payload).pipe(
-      tap((aiResponse) => {
-        // 3. لما الـ الـ AI يرد (RAG Response)، ضيف رده في مصفوفة الشات
-        this.chatHistory.update(messages => [...messages, aiResponse]);
+    // 4. Send the POST request
+    return this.http.post<any>(this.apiUrl, payload, { headers }).pipe(
+      tap((apiResponse) => {
+
+        const aiText = apiResponse?.outputs?.[0]?.outputs?.[0]?.results?.message?.text || 'Sorry. I am not available now.\n please try later';
+
+        const aiMessage: ChatMessage = {
+          conversationId,
+          messageText: aiText,
+          sender: 'ai',
+          createdAt: new Date()
+        };
+
+        // Update the signal with the AI response
+        this.chatHistory.update(messages => [...messages, aiMessage]);
       })
     );
   }
 
-  // دالة لتنظيف الشات لو الأب عايز يبدأ من جديد
   clearChat() {
     this.chatHistory.set([]);
   }

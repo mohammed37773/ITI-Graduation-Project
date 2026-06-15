@@ -79,8 +79,7 @@ export class Chatbot implements OnInit {
       next: (res: any) => {
         this.isLoading.set(false); // إيقاف الـ لودر بعد الرد
         
-        const aiReply = res?.reply || res?.response || res?.content || 'عذراً، لم أستطع معالجة الرد.';
-        
+        const aiReply = res?.outputs?.[0]?.outputs?.[0]?.results?.message?.text
         this.messages.update(prev => [...prev, {
           sender: 'ai',
           text: aiReply,
