@@ -66,13 +66,15 @@ export const routes: Routes = [
         loadComponent: () => import('./features/nurseries/pages/nursery-list/nursery-list').then(m => m.NurseryList)
       },
       {
-        path: 'bookings',
-        loadComponent: () => import('./features/bookings/bookings-list/bookings-list').then(m => m.BookingsList)
-      }
+        path: 'bookings',        
+        loadComponent: () => import('./features/bookings/bookings/bookings').then(m => m.Bookings)
+      },
+      {
+        path: 'bookings/new/:nurseryId',
+        loadComponent: () => import('./features/bookings/new-booking/new-booking').then(m => m.NewBooking)
+}
     ]
   },
-
-  // 4. صفحات الـ Nursery Owner (لوحة تحكم صاحب الحضانة)
   {
     path: 'owner',
     loadComponent: () => import('./layouts/nursery-owner/nursery-owner').then(m => m.NurseryOwner),

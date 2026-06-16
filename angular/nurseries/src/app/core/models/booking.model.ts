@@ -1,15 +1,10 @@
 export interface Booking {
-    id: number;
-
-    childName: string;
-
-    childAge: number;
-
-    bookingDate: Date;
-
-    notes?: string;
-
-    userId: string;
-
-    nurseryId: number;
+id: number;
+  nurseryId: number;
+  nurseryName: string;
+  childName: string;
+  childAge: number;
+  startDate: Date;
+  status: 'pending' | 'approved' | 'rejected'; // حالة الطلب
+  dailyPrice: number;
 }

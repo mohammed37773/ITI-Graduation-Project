@@ -1,0 +1,58 @@
+/* الكروت الرئيسية */
+.detail-card, .sidebar-card {
+  border-radius: 20px;
+  background-color: #ffffff;
+}
+
+/* ضبط مقاسات الصورة الهيرو العليا */
+.nursery-hero-img {
+  height: 400px;
+  object-fit: cover;
+  border-bottom: 4px solid #22c55e;
+}
+
+/* آيكونات صندوق السن والمصاريف */
+.info-icon {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 20px;
+}
+
+/* ستايل شارات المميزات المودرن */
+.feature-badge {
+  background-color: #f0fdf4 !important;
+  color: #16a34a !important;
+  border: 1px solid rgba(34, 197, 94, 0.15);
+  padding: 10px 16px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  border-radius: 30px !important;
+}
+
+/* تأثير زر الحجز */
+.btn-success {
+  background-color: #22c55e;
+  border-color: #22c55e;
+  transition: all 0.25s ease;
+}
+
+.btn-success:hover {
+  background-color: #16a34a;
+  border-color: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(34, 197, 94, 0.25);
+}
+
+/* جعل السايدبار مرن ومتجاوب مع السكرول */
+@media (max-width: 991px) {
+  .sticky-top {
+    position: static !important;
+  }
+  .nursery-hero-img {
+    height: 250px;
+  }
+}

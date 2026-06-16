@@ -1,0 +1,104 @@
+<div class="container my-5" dir="rtl">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      
+      @if (isSubmitted()) {
+        <div class="card success-card border-0 shadow text-center p-5 rounded-4">
+          <div class="success-icon mb-3">🎉</div>
+          <h3 class="fw-bold text-success mb-2">تم تقديم طلب الحجز بنجاح!</h3>
+          <p class="text-muted">جاري مراجعة طلبك من قِبل إدارة الحضانة، وسيتم تحويلك الآن لقائمة حجوزاتك...</p>
+        </div>
+      } @else {
+        
+        <div class="card booking-card border-0 shadow-sm rounded-4 overflow-hidden">
+          <div class="card-header bg-success text-white p-4 text-center border-0">
+            <h3 class="fw-bold mb-1">طلب التحاق طفل جديد 🗓️</h3>
+            <p class="mb-0 opacity-75">أنت تقوم بالحجز الآن في: <strong>{{ nurseryName() }}</strong></p>
+          </div>
+
+          <div class="card-body p-4">
+            <form [formGroup]="bookingForm" (ngSubmit)="onSubmitBooking()">
+              
+              <div class="mb-3">
+                <label for="childName" class="form-label fw-semibold text-dark">اسم الطفل بالكامل <span class="text-danger">*</span></label>
+                <input 
+                  type="text" 
+                  id="childName" 
+                  formControlName="childName" 
+                  class="form-control py-2.5 rounded-3" 
+                  [ngClass]="{'is-invalid': bookingForm.get('childName')?.touched && bookingForm.get('childName')?.invalid}"
+                  placeholder="اكتب اسم الطفل ثلاثي أو رباعي">
+                @if (bookingForm.get('childName')?.touched && bookingForm.get('childName')?.errors?.['required']) {
+                  <div class="invalid-feedback">حقل اسم الطفل مطلوب.</div>
+                }
+                @if (bookingForm.get('childName')?.touched && bookingForm.get('childName')?.errors?.['minlength']) {
+                  <div class="invalid-feedback">يجب أن لا يقل الاسم عن 3 أحرف.</div>
+                }
+              </div>
+
+              <div class="mb-3">
+                <label for="childAge" class="form-label fw-semibold text-dark">عمر الطفل (بالسنوات) <span class="text-danger">*</span></label>
+                <input 
+                  type="number" 
+                  id="childAge" 
+                  formControlName="childAge" 
+                  class="form-control py-2.5 rounded-3" 
+                  [ngClass]="{'is-invalid': bookingForm.get('childAge')?.touched && bookingForm.get('childAge')?.invalid}"
+                  placeholder="مثال: 3">
+                @if (bookingForm.get('childAge')?.touched && bookingForm.get('childAge')?.errors?.['required']) {
+                  <div class="invalid-feedback">حقل عمر الطفل مطلوب.</div>
+                }
+                @if (bookingForm.get('childAge')?.touched && (bookingForm.get('childAge')?.errors?.['min'] || bookingForm.get('childAge')?.errors?.['max'])) {
+                  <div class="invalid-feedback">يجب أن يكون عمر الطفل بين 1 إلى 6 سنوات.</div>
+                }
+              </div>
+
+              <div class="mb-3">
+                <label for="startDate" class="form-label fw-semibold text-dark">تاريخ بدء الالتحاق المتوقع <span class="text-danger">*</span></label>
+                <input 
+                  type="date" 
+                  id="startDate" 
+                  formControlName="startDate" 
+                  class="form-control py-2.5 rounded-3" 
+                  [ngClass]="{'is-invalid': bookingForm.get('startDate')?.touched && bookingForm.get('startDate')?.invalid}">
+                @if (bookingForm.get('startDate')?.touched && bookingForm.get('startDate')?.errors?.['required']) {
+                  <div class="invalid-feedback">يرجى تحديد تاريخ بداية الحجز.</div>
+                }
+              </div>
+
+              <div class="mb-4">
+                <label for="notes" class="form-label fw-semibold text-dark">ملاحظات إضافية أو حالات خاصة (اختياري)</label>
+                <textarea 
+                  id="notes" 
+                  formControlName="notes" 
+                  class="form-control rounded-3" 
+                  rows="3" 
+                  placeholder="مثال: طفلي يعاني من حساسية تجاه أطعمة معينة أو أي تفاصيل أخرى ترغب في إعلام الحضانة بها..."></textarea>
+              </div>
+
+              <div class="d-flex gap-3">
+                <button 
+                  type="submit" 
+                  class="btn btn-success btn-lg flex-grow-1 py-2.5 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2"
+                  [disabled]="bookingForm.invalid || isLoading()">
+                  @if (isLoading()) {
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    جاري إرسال الطلب...
+                  } @else {
+                    تأكيد وإرسال طلب الحجز 🚀
+                  }
+                </button>
+                
+                <a [routerLink]="['/nurseries', nurseryId()]" class="btn btn-outline-secondary btn-lg py-2.5 rounded-3 text-decoration-none">
+                  إلغاء
+                </a>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      }
+
+    </div>
+  </div>
+</div>

@@ -1,1 +1,121 @@
-<p>nursery-details works!</p>
+<div class="container my-5" dir="rtl">
+  
+  @if (isLoading()) {
+    <div class="text-center my-5 py-5">
+      <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">جاري التحميل...</span>
+      </div>
+      <p class="mt-3 text-muted">جاري تحميل تفاصيل الحضانة...</p>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="alert alert-danger text-center shadow-sm rounded-4 p-4" role="alert">
+      <span class="fs-4 d-block mb-2">⚠️</span>
+      <strong>{{ errorMessage() }}</strong>
+      <br>
+      <a routerLink="/nurseries" class="btn btn-outline-danger btn-sm mt-3 px-4 rounded-3">العودة لتصفح الحضانات</a>
+    </div>
+  }
+
+  @if (!isLoading() && nursery()) {
+    <div class="row g-4">
+      
+      <div class="col-lg-8">
+        <div class="card detail-card border-0 shadow-sm overflow-hidden mb-4">
+          
+          <div class="position-relative">
+            <img [src]="nursery()?.images && nursery()?.images!.length > 0 ? nursery()?.images![0].url : 'assets/images/default-nursery.jpg'" 
+                 [alt]="nursery()?.name" class="img-fluid w-100 nursery-hero-img">
+            
+            <span class="badge bg-warning text-dark position-absolute top-0 end-0 m-3 fs-6 px-3 py-2 shadow-sm fw-bold">
+              ★ {{ nursery()?.avgRating }}
+            </span>
+
+            @if (nursery()?.isVerified) {
+              <span class="badge bg-success position-absolute top-0 start-0 m-3 fs-6 px-3 py-2 shadow-sm">
+                ✓ موثقة ومعتمدة
+              </span>
+            }
+          </div>
+
+          <div class="card-body p-4">
+            <h2 class="card-title fw-bold text-dark mb-3">{{ nursery()?.name }}</h2>
+            
+            <p class="text-muted mb-4 fs-5">
+              <i class="bi bi-geo-alt-fill text-success me-1"></i> 
+              {{ nursery()?.location?.city }}، {{ nursery()?.location?.region }} ({{ nursery()?.location?.address }})
+            </p>
+            
+            <hr class="text-muted opacity-25 my-4">
+
+            <h4 class="fw-bold mb-3 text-dark">عن الحضانة</h4>
+            <p class="card-text text-secondary lh-lg fs-6 mb-4">
+              {{ nursery()?.description }}
+            </p>
+
+            <hr class="text-muted opacity-25 my-4">
+
+            <div class="row g-3 bg-light p-3 rounded-4 mb-4">
+              <div class="col-sm-4">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="info-icon bg-success-subtle text-success">👶</div>
+                  <div>
+                    <small class="text-muted d-block">العمر المقبول</small>
+                    <strong class="text-dark">من {{ nursery()?.ageRangeMin }} إلى {{ nursery()?.ageRangeMax }} سنوات</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="info-icon bg-success-subtle text-success">💰</div>
+                  <div>
+                    <small class="text-muted d-block">السعر اليومي</small>
+                    <strong class="text-success fs-5">{{ nursery()?.dailyPrice }} جنيه / يوم</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="info-icon bg-success-subtle text-success">🏢</div>
+                  <div>
+                    <small class="text-muted d-block">السعة الاستيعابية</small>
+                    <strong class="text-dark">{{ nursery()?.capacity }} طفل</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="fw-bold mb-3 text-dark mt-4">حالة الاستيعاب الحالية</h4>
+            <div class="p-3 rounded-3 border d-flex justify-content-between align-items-center bg-white">
+              <span class="text-secondary">الأماكن المتاحة طبقاً للسعة القصوى:</span>
+              <span class="badge bg-primary-subtle text-primary px-3 py-2 fs-6 rounded-pill">متوفر مقاعد للتسجيل</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card sidebar-card border-0 shadow-sm p-4 sticky-top" style="top: 100px; z-index: 10;">
+          <h4 class="fw-bold text-dark mb-4">طلب تسجيل وإلحاق</h4>
+          
+          <div class="p-3 bg-light rounded-4 mb-4 text-center border border-light">
+            <span class="text-muted d-block mb-1">تقييم أولياء الأمور</span>
+            <h2 class="fw-bold text-warning mb-0">★ {{ nursery()?.avgRating }}</h2>
+          </div>
+
+          <button [routerLink]="['/parent/bookings/new', nursery()?.id]" class="btn btn-success btn-lg w-100 py-3 rounded-3 fw-bold shadow-sm mb-2">
+            احجز مكان لطفلك الآن 🗓️
+          </button>
+          
+          <a routerLink="/nurseries" class="btn btn-outline-secondary w-100 py-2 rounded-3 text-decoration-none text-center">
+            ← العودة لقائمة الحضانات
+          </a>
+        </div>
+      </div>
+
+    </div>
+  }
+
+</div>
