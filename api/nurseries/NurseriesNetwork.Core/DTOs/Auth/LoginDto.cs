@@ -5,9 +5,11 @@ using System.Text;
 
 namespace NurseriesNetwork.Core.DTOs.Auth
 {
-    public record LoginDto(
-     [Required][EmailAddress] string Email,
-     [Required] string Password
- );
+    public class LoginDto
+    {
+        public string Email { get; set; } = string.Empty;
+
+        public string Password { get; set; } = string.Empty;
+    }
 
 }

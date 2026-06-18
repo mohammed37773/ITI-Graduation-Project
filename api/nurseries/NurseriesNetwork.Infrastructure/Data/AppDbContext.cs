@@ -18,7 +18,8 @@ namespace NurseriesNetwork.Infrastructure.Data
         public DbSet<Nursery> Nurseries { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<NurseryImage> NurseryImages { get; set; }
-        public DbSet<Review> Reviews { get; set; }      
+        public DbSet<Review> Reviews { get; set; }   
+        public DbSet<Payment> Payments { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -8,7 +8,7 @@ namespace NurseriesNetwork.Core.Interfaces.Repositories
     {
         Task<IEnumerable<Nursery>> GetNearbyAsync(double lat, double lng, double radiusKm);
         Task<IEnumerable<Nursery>> FilterAsync(decimal? maxPrice, double? minRating, string? city);
-        Task<Nursery?> GetWithDetailsAsync(int id);
+        Task<Nursery?> GetWithReviewsAsync(int id);
         Task<IEnumerable<Nursery>> GetAllWithEmbeddingsAsync();
     }
 }

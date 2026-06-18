@@ -13,9 +13,9 @@ namespace NurseriesNetwork.Core.Entities
         public int AgeRangeMin { get; set; }
         public int AgeRangeMax { get; set; }
         public int Capacity { get; set; }
-        public double AvgRating { get; set; }
+        public double AvgRating { get; set; } = 0.0;
         public bool IsVerified { get; set; } = false;
-        public string? EmbeddingVector { get; set; }      // للـ RAG
+        public byte[]? EmbeddingVector { get; set; }      // للـ RAG
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         // Navigation Properties

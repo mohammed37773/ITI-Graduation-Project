@@ -3,9 +3,11 @@ using NurseriesNetwork.Core.Entities;
 using NurseriesNetwork.Core.Interfaces;
 using NurseriesNetwork.Core.Interfaces.Repositories;
 using NurseriesNetwork.Infrastructure.Data;
+using NurseriesNetwork.Infrastructure.Services;
 
 namespace NurseriesNetwork.Infrastructure.Repositories
 {
+
     public class NurseryRepository : GenericRepository<Nursery>, INurseryRepository
     {
         public NurseryRepository(AppDbContext context) : base(context) { }
@@ -23,11 +25,11 @@ namespace NurseriesNetwork.Infrastructure.Repositories
 
             return nurseries.Where(n =>
             {
-                var dLat = ToRad(n.Location!.Latitude - lat);
-                var dLng = ToRad(n.Location!.Longitude - lng);
+                var dLat = Utilities.ToRad(n.Location!.Latitude - lat);
+                var dLng = Utilities.ToRad(n.Location!.Longitude - lng);
 
                 var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                        Math.Cos(ToRad(lat)) * Math.Cos(ToRad(n.Location.Latitude)) *
+                        Math.Cos(Utilities.ToRad(lat)) * Math.Cos(Utilities.ToRad(n.Location.Latitude)) *
                         Math.Sin(dLng / 2) * Math.Sin(dLng / 2);
 
                 var distance = 2 * EarthRadiusKm * Math.Asin(Math.Sqrt(a));
@@ -54,7 +56,7 @@ namespace NurseriesNetwork.Infrastructure.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<Nursery?> GetWithDetailsAsync(int id)
+        public async Task<Nursery?> GetWithReviewsAsync(int id)
         {
             return await _dbSet
                 .Include(n => n.Location)
@@ -72,6 +74,21 @@ namespace NurseriesNetwork.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        private static double ToRad(double degrees) => degrees * Math.PI / 180;
+        public override async Task<IEnumerable<Nursery>> GetAllAsync()
+        {
+            return await _dbSet
+                .Include(n => n.Location)
+                .Include(n => n.Images)
+                .ToListAsync();
+        }
+
+        public override async Task<Nursery?> GetByIdAsync(int id)
+        {
+            return await _dbSet
+                .Include(n => n.Location)
+                .Include(n => n.Images)
+                .FirstOrDefaultAsync(n => n.Id == id);
+        }
+
     }
 }
