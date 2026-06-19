@@ -3,144 +3,64 @@
   "WorkspaceRootPath": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\entities\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\entities\\payment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{20ABAE09-3C5A-40D9-BDF9-14DD099E9D56}|NurseriesNetwork.API\\NurseriesNetwork.API.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{20ABAE09-3C5A-40D9-BDF9-14DD099E9D56}|NurseriesNetwork.API\\NurseriesNetwork.API.csproj|solutionrelative:nurseriesnetwork.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\entities\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\entities\\booking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC61205A-E411-4DAD-BB4E-743D230B9E2B}|NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.ai\\services\\recommendationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC61205A-E411-4DAD-BB4E-743D230B9E2B}|NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj|solutionrelative:nurseriesnetwork.ai\\services\\recommendationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\entities\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\entities\\applicationuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC61205A-E411-4DAD-BB4E-743D230B9E2B}|NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.ai\\services\\ragservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC61205A-E411-4DAD-BB4E-743D230B9E2B}|NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj|solutionrelative:nurseriesnetwork.ai\\services\\ragservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\enums\\bookingstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\enums\\bookingstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC61205A-E411-4DAD-BB4E-743D230B9E2B}|NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.ai\\services\\geminiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC61205A-E411-4DAD-BB4E-743D230B9E2B}|NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj|solutionrelative:nurseriesnetwork.ai\\services\\geminiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\interfaces\\repositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\interfaces\\repositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC61205A-E411-4DAD-BB4E-743D230B9E2B}|NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.ai\\agents\\nurseryagentplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC61205A-E411-4DAD-BB4E-743D230B9E2B}|NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj|solutionrelative:nurseriesnetwork.ai\\agents\\nurseryagentplugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\interfaces\\repositories\\inurseryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\interfaces\\repositories\\inurseryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.infrastructure\\services\\payment\\paypalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|solutionrelative:nurseriesnetwork.infrastructure\\services\\payment\\paypalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\interfaces\\services\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\interfaces\\services\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.infrastructure\\services\\payment\\paymobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|solutionrelative:nurseriesnetwork.infrastructure\\services\\payment\\paymobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\interfaces\\services\\iaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\interfaces\\services\\iaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.infrastructure\\services\\payment\\paymentfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|solutionrelative:nurseriesnetwork.infrastructure\\services\\payment\\paymentfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\interfaces\\repositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\interfaces\\repositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.infrastructure\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|solutionrelative:nurseriesnetwork.infrastructure\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\entities\\nurseryimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\entities\\nurseryimage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.infrastructure\\services\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|solutionrelative:nurseriesnetwork.infrastructure\\services\\imageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\entities\\review.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\entities\\review.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.infrastructure\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|solutionrelative:nurseriesnetwork.infrastructure\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\entities\\nursery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\entities\\nursery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.infrastructure\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|solutionrelative:nurseriesnetwork.infrastructure\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\entities\\location.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\entities\\location.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.infrastructure\\repositories\\nurseryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|solutionrelative:nurseriesnetwork.infrastructure\\repositories\\nurseryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\entities\\child.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\entities\\child.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.infrastructure\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|solutionrelative:nurseriesnetwork.infrastructure\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\interfaces\\services\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\interfaces\\services\\iemailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\interfaces\\services\\iimageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\interfaces\\services\\iimageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\interfaces\\services\\ipaymentfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\interfaces\\services\\ipaymentfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\interfaces\\services\\ipaymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\interfaces\\services\\ipaymentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\enums\\paymentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\enums\\paymentstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\enums\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\enums\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\payment\\paymentresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\payment\\paymentresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\payment\\createpaymentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\payment\\createpaymentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\auth\\confirmemaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\auth\\confirmemaildto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\auth\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\auth\\authresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\auth\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\auth\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\auth\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\auth\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\nursery\\createnurserydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\nursery\\createnurserydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\nursery\\nurseryresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\nursery\\nurseryresponsedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\nursery\\nurseryfilterdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\nursery\\nurseryfilterdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\booking\\createbookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\booking\\createbookingdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\dtos\\ai\\chatrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\dtos\\ai\\chatrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.core\\nurseriesnetwork.core.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{5975BE0D-72CB-4C80-B3FA-6351ADB1F4B5}|NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj|solutionrelative:nurseriesnetwork.core\\nurseriesnetwork.core.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC61205A-E411-4DAD-BB4E-743D230B9E2B}|NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.ai\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC61205A-E411-4DAD-BB4E-743D230B9E2B}|NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj|solutionrelative:nurseriesnetwork.ai\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{039695A4-91C2-406B-B3DC-A358231EFA00}|NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj|solutionrelative:nurseriesnetwork.infrastructure\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A88A97AA-85F3-9637-E9EB-976A214C2A97}|nurseries\\nurseries.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseries\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A88A97AA-85F3-9637-E9EB-976A214C2A97}|nurseries\\nurseries.csproj|solutionrelative:nurseries\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{20ABAE09-3C5A-40D9-BDF9-14DD099E9D56}|NurseriesNetwork.API\\NurseriesNetwork.API.csproj|h:\\finalproject\\iti-graduation-project\\api\\nurseries\\nurseriesnetwork.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{20ABAE09-3C5A-40D9-BDF9-14DD099E9D56}|NurseriesNetwork.API\\NurseriesNetwork.API.csproj|solutionrelative:nurseriesnetwork.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -149,8 +69,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "DockedWidth": 852,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -167,463 +87,211 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "IGenericRepository.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Repositories\\IGenericRepository.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Interfaces\\Repositories\\IGenericRepository.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Repositories\\IGenericRepository.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Interfaces\\Repositories\\IGenericRepository.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAAA4AAAAeAAAAAAAAAA==",
+              "Title": "NurseryAgentPlugin.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\Agents\\NurseryAgentPlugin.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.AI\\Agents\\NurseryAgentPlugin.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\Agents\\NurseryAgentPlugin.cs",
+              "RelativeToolTip": "NurseriesNetwork.AI\\Agents\\NurseryAgentPlugin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:18:43.995Z",
+              "WhenOpened": "2026-06-19T18:31:02.589Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "INurseryRepository.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Repositories\\INurseryRepository.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Interfaces\\Repositories\\INurseryRepository.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Repositories\\INurseryRepository.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Interfaces\\Repositories\\INurseryRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
+              "Title": "PayPalService.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\Payment\\PayPalService.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.Infrastructure\\Services\\Payment\\PayPalService.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\Payment\\PayPalService.cs",
+              "RelativeToolTip": "NurseriesNetwork.Infrastructure\\Services\\Payment\\PayPalService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:18:59.27Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "BookingStatus.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Enums\\BookingStatus.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Enums\\BookingStatus.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Enums\\BookingStatus.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Enums\\BookingStatus.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:18:17.362Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ApplicationUser.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\ApplicationUser.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Entities\\ApplicationUser.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\ApplicationUser.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Entities\\ApplicationUser.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:15:33.46Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Booking.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Booking.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Entities\\Booking.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Booking.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Entities\\Booking.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:16:53.253Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Payment.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Payment.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Entities\\Payment.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Payment.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Entities\\Payment.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAIwA8AAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T21:10:06.328Z",
+              "WhenOpened": "2026-06-19T18:28:57.342Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "ITokenService.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\ITokenService.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Interfaces\\Services\\ITokenService.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\ITokenService.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Interfaces\\Services\\ITokenService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
+              "Title": "PaymobService.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\Payment\\PaymobService.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.Infrastructure\\Services\\Payment\\PaymobService.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\Payment\\PaymobService.cs",
+              "RelativeToolTip": "NurseriesNetwork.Infrastructure\\Services\\Payment\\PaymobService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:19:32.994Z",
+              "WhenOpened": "2026-06-19T18:28:48.678Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\appsettings.json",
+              "RelativeDocumentMoniker": "NurseriesNetwork.API\\appsettings.json",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\appsettings.json",
+              "RelativeToolTip": "NurseriesNetwork.API\\appsettings.json",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAACQAAABlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-19T07:20:05.889Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RecommendationService.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\Services\\RecommendationService.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.AI\\Services\\RecommendationService.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\Services\\RecommendationService.cs",
+              "RelativeToolTip": "NurseriesNetwork.AI\\Services\\RecommendationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-19T18:31:19.147Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "IAiService.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\IAiService.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Interfaces\\Services\\IAiService.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\IAiService.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Interfaces\\Services\\IAiService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Title": "PaymentFactory.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\Payment\\PaymentFactory.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.Infrastructure\\Services\\Payment\\PaymentFactory.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\Payment\\PaymentFactory.cs",
+              "RelativeToolTip": "NurseriesNetwork.Infrastructure\\Services\\Payment\\PaymentFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:19:45.187Z",
+              "WhenOpened": "2026-06-19T18:28:43.921Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "GeminiService.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\Services\\GeminiService.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.AI\\Services\\GeminiService.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\Services\\GeminiService.cs",
+              "RelativeToolTip": "NurseriesNetwork.AI\\Services\\GeminiService.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAAADcAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-19T08:26:48.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RagService.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\Services\\RagService.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.AI\\Services\\RagService.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\Services\\RagService.cs",
+              "RelativeToolTip": "NurseriesNetwork.AI\\Services\\RagService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-19T08:51:32.499Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "IUnitOfWork.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Repositories\\IUnitOfWork.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Interfaces\\Repositories\\IUnitOfWork.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Repositories\\IUnitOfWork.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Interfaces\\Repositories\\IUnitOfWork.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAQwA8AAAAlAAAAAAAAAA==",
+              "Title": "TokenService.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\TokenService.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.Infrastructure\\Services\\TokenService.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\TokenService.cs",
+              "RelativeToolTip": "NurseriesNetwork.Infrastructure\\Services\\TokenService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:19:11.268Z",
+              "WhenOpened": "2026-06-19T18:28:36.653Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "NurseryImage.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\NurseryImage.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Entities\\NurseryImage.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\NurseryImage.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Entities\\NurseryImage.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAAAAYAAAAKAAAAAAAAAA==",
+              "Title": "ImageService.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\ImageService.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.Infrastructure\\Services\\ImageService.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\ImageService.cs",
+              "RelativeToolTip": "NurseriesNetwork.Infrastructure\\Services\\ImageService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:17:11.587Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Review.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Review.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Entities\\Review.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Review.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Entities\\Review.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAAAAYAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:16:26.82Z",
+              "WhenOpened": "2026-06-19T18:28:30.325Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "Nursery.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Nursery.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Entities\\Nursery.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Nursery.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Entities\\Nursery.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAAAAYAAAAKAAAAAAAAAA==",
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Repositories\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.Infrastructure\\Repositories\\UnitOfWork.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Repositories\\UnitOfWork.cs",
+              "RelativeToolTip": "NurseriesNetwork.Infrastructure\\Repositories\\UnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:15:02.502Z",
+              "WhenOpened": "2026-06-19T18:28:19.769Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 12,
-              "Title": "Location.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Location.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Entities\\Location.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Location.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Entities\\Location.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAAAAYAAAAKAAAAAAAAAA==",
+              "Title": "NurseryRepository.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Repositories\\NurseryRepository.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.Infrastructure\\Repositories\\NurseryRepository.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Repositories\\NurseryRepository.cs",
+              "RelativeToolTip": "NurseriesNetwork.Infrastructure\\Repositories\\NurseryRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:16:08.207Z",
+              "WhenOpened": "2026-06-19T18:28:13.924Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 13,
-              "Title": "Child.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Child.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Entities\\Child.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Entities\\Child.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Entities\\Child.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAAAYAAAAKAAAAAAAAAA==",
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Repositories\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.Infrastructure\\Repositories\\GenericRepository.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Repositories\\GenericRepository.cs",
+              "RelativeToolTip": "NurseriesNetwork.Infrastructure\\Repositories\\GenericRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:15:49.585Z",
+              "WhenOpened": "2026-06-19T18:28:09.488Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 14,
-              "Title": "IEmailService.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\IEmailService.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Interfaces\\Services\\IEmailService.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\IEmailService.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Interfaces\\Services\\IEmailService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T21:15:09.554Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "IImageService.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\IImageService.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Interfaces\\Services\\IImageService.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\IImageService.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Interfaces\\Services\\IImageService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T21:15:53.689Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "IPaymentFactory.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\IPaymentFactory.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Interfaces\\Services\\IPaymentFactory.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\IPaymentFactory.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Interfaces\\Services\\IPaymentFactory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T21:12:21.619Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "IPaymentService.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\IPaymentService.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Interfaces\\Services\\IPaymentService.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Interfaces\\Services\\IPaymentService.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Interfaces\\Services\\IPaymentService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T21:11:47.468Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "PaymentStatus.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Enums\\PaymentStatus.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Enums\\PaymentStatus.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Enums\\PaymentStatus.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Enums\\PaymentStatus.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T21:10:30.415Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "PaymentMethod.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Enums\\PaymentMethod.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\Enums\\PaymentMethod.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\Enums\\PaymentMethod.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\Enums\\PaymentMethod.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T21:10:50.587Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "PaymentResponseDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Payment\\PaymentResponseDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\Payment\\PaymentResponseDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Payment\\PaymentResponseDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\Payment\\PaymentResponseDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T21:13:17.052Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "CreatePaymentDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Payment\\CreatePaymentDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\Payment\\CreatePaymentDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Payment\\CreatePaymentDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\Payment\\CreatePaymentDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T21:13:01.011Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "ConfirmEmailDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Auth\\ConfirmEmailDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\Auth\\ConfirmEmailDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Auth\\ConfirmEmailDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\Auth\\ConfirmEmailDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T21:16:21.613Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "AuthResponseDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Auth\\AuthResponseDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\Auth\\AuthResponseDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Auth\\AuthResponseDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\Auth\\AuthResponseDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-06T00:16:46.2Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "LoginDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Auth\\LoginDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\Auth\\LoginDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Auth\\LoginDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\Auth\\LoginDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:20:31.285Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "RegisterDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Auth\\RegisterDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\Auth\\RegisterDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Auth\\RegisterDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\Auth\\RegisterDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:20:15.965Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "CreateNurseryDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Nursery\\CreateNurseryDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\Nursery\\CreateNurseryDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Nursery\\CreateNurseryDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\Nursery\\CreateNurseryDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvw0AAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:21:06.073Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "NurseryResponseDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Nursery\\NurseryResponseDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\Nursery\\NurseryResponseDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Nursery\\NurseryResponseDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\Nursery\\NurseryResponseDto.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAADwvxEAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:21:19.417Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "NurseryFilterDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Nursery\\NurseryFilterDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\Nursery\\NurseryFilterDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Nursery\\NurseryFilterDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\Nursery\\NurseryFilterDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:21:33.66Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "CreateBookingDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Booking\\CreateBookingDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\Booking\\CreateBookingDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\Booking\\CreateBookingDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\Booking\\CreateBookingDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:22:00.492Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "ChatRequestDto.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\AI\\ChatRequestDto.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\DTOs\\AI\\ChatRequestDto.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\DTOs\\AI\\ChatRequestDto.cs",
-              "RelativeToolTip": "NurseriesNetwork.Core\\DTOs\\AI\\ChatRequestDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T23:22:21.019Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\Class1.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.AI\\Class1.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\Class1.cs",
-              "RelativeToolTip": "NurseriesNetwork.AI\\Class1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T20:52:43.887Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Class1.cs",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Infrastructure\\Class1.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Class1.cs",
-              "RelativeToolTip": "NurseriesNetwork.Infrastructure\\Class1.cs",
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "NurseriesNetwork.API\\Properties\\launchSettings.json",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\Properties\\launchSettings.json",
+              "RelativeToolTip": "NurseriesNetwork.API\\Properties\\launchSettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T20:50:37.986Z"
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-06-19T07:39:18.7Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "NurseriesNetwork.Core.csproj",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj",
-              "RelativeDocumentMoniker": "NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj",
-              "RelativeToolTip": "NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-06-05T20:20:22.906Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "Program.cs",
-              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\Program.cs",
-              "RelativeDocumentMoniker": "nurseries\\Program.cs",
-              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\nurseries\\Program.cs",
-              "RelativeToolTip": "nurseries\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "EmailService.cs",
+              "DocumentMoniker": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\EmailService.cs",
+              "RelativeDocumentMoniker": "NurseriesNetwork.Infrastructure\\Services\\EmailService.cs",
+              "ToolTip": "H:\\finalproject\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\Services\\EmailService.cs",
+              "RelativeToolTip": "NurseriesNetwork.Infrastructure\\Services\\EmailService.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAAABsAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-05T19:32:29.733Z"
+              "WhenOpened": "2026-06-19T06:22:59.318Z",
+              "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedWidth": 1066,
+          "DockedWidth": 414,
           "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             }
           ]
         }

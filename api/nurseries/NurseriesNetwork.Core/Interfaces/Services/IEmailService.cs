@@ -8,5 +8,8 @@ namespace NurseriesNetwork.Core.Interfaces.Services
     {
         Task SendConfirmationEmailAsync(string email, string token);
         Task SendBookingConfirmationAsync(string email, int bookingId);
+        Task SendPaymentConfirmationAsync(string email, int paymentId);  
+
+        
     }
 }

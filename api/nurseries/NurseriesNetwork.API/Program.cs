@@ -1,32 +1,66 @@
+using Microsoft.AspNetCore.Identity;
+using NurseriesNetwork.AI.Services;
+using NurseriesNetwork.API.Extensions;
+using NurseriesNetwork.API.Middlewares;
+using NurseriesNetwork.Core.Entities;
+using NurseriesNetwork.Core.Interfaces.Services;
 
-namespace NurseriesNetwork.API
+var builder = WebApplication.CreateBuilder(args);
+
+// Services
+builder.Services.AddDatabase(builder.Configuration);
+builder.Services.AddIdentityServices();
+builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddApplicationServices();
+builder.Services.AddCorsPolicy();
+builder.Services.AddSwaggerWithJwt();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddHttpClient<GeminiService>();
+builder.Services.AddScoped<RagService>();
+builder.Services.AddScoped<IAiService, RecommendationService>();
+var app = builder.Build();
+
+// Middleware
+app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseCors("Angular");
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+
+// Seed Roles & Admin
+using (var scope = app.Services.CreateScope())
 {
-    public class Program
+    var userManager = scope.ServiceProvider
+        .GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = scope.ServiceProvider
+        .GetRequiredService<RoleManager<IdentityRole>>();
+
+    // إنشاء الـ Roles
+    string[] roles = ["Admin", "Parent", "NurseryAdmin"];
+    foreach (var role in roles)
     {
-        public static void Main(string[] args)
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+
+    // إنشاء الـ Admin
+    var adminEmail = "admin@nurseries.com";
+    if (await userManager.FindByEmailAsync(adminEmail) == null)
+    {
+        var admin = new ApplicationUser
         {
-            var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
-            }
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
-        }
+            FullName = "Super Admin",
+            Email = adminEmail,
+            UserName = adminEmail,
+            EmailConfirmed = true
+        };
+        await userManager.CreateAsync(admin, "Admin@123456");
+        await userManager.AddToRoleAsync(admin, "Admin");
     }
 }
+
+app.Run();

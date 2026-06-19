@@ -6,8 +6,9 @@ namespace NurseriesNetwork.Core.Enums
 {
     public enum PaymentMethod
     {
-        VodafoneCash, 
-        Meza,
-        PayPal 
+        VodafoneCash,   // عن طريق Paymob
+        Meeza,          // عن طريق Paymob
+        Card,           // Visa/Mastercard عن طريق Paymob
+        PayPal          // عن طريق PayPal مباشرة
     }
 }
