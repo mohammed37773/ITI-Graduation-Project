@@ -1,17 +1,13 @@
-## .NET
-bin/
-obj/
+## .NET Build outputs
+**/bin/
+**/obj/
 *.user
 .vs/
 
 ## Secrets
-appsettings.json
-appsettings.Development.json
+**/appsettings.json
+**/appsettings.Development.json
 
-## Node ( Angular)
+## Node
 node_modules/
 dist/
-
-## OS
-.DS_Store
-Thumbs.db
