@@ -1,12 +1,17 @@
-.vs/
+## .NET
 bin/
 obj/
-**/.vs/
-**/bin/
-**/obj/
 *.user
-*.suo
-node_modules/
-.env
+.vs/
+
+## Secrets
 appsettings.json
 appsettings.Development.json
+
+## Node ( Angular)
+node_modules/
+dist/
+
+## OS
+.DS_Store
+Thumbs.db
