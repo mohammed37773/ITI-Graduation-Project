@@ -1,55 +1,64 @@
-<div class="auth-container">
-  <div class="auth-card">
-    <div class="auth-header">
-      <div class="logo"><span class="logo-icon">👶</span></div>
-      <h2>تسجيل الدخول</h2>
-      <p>مرحباً بك مجدداً في شبكة الحضانات الذكية</p>
-    </div>
-
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+<div class="container my-5" dir="rtl">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
       
-      <div class="form-group">
-        <label>البريد الإلكتروني</label>
-        <div class="input-wrapper">
-          <input 
-            type="email" 
-            formControlName="email" 
-            placeholder="example@mail.com"
-            [ngClass]="{ 'error': f['email'].touched && f['email'].invalid }" />
+      <div class="card auth-card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="card-header bg-success text-white p-4 text-center border-0">
+          <h3 class="fw-bold mb-1">تسجيل الدخول 🔐</h3>
+          <p class="mb-0 opacity-75">مرحباً بك مجدداً، سجل دخولك لمتابعة شؤون أطفالك</p>
         </div>
-        @if (f['email'].touched && f['email'].invalid) {
-          <div class="error-msg">
-            @if (f['email'].errors?.['required']) { <small>البريد الإلكتروني مطلوب.</small> }
-            @if (f['email'].errors?.['email']) { <small>صيغة البريد الإلكتروني غير صحيحة.</small> }
-          </div>
-        }
+
+        <div class="card-body p-4">
+          
+          @if (errorMessage()) {
+            <div class="alert alert-danger rounded-3 fs-6 p-2.5 mb-3" role="alert">
+              ⚠️ {{ errorMessage() }}
+            </div>
+          }
+
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold text-dark">البريد الإلكتروني</label>
+              <input 
+                type="email" id="email" formControlName="email" 
+                class="form-control py-2.5 rounded-3 text-start" 
+                [ngClass]="{'is-invalid': loginForm.get('email')?.touched && loginForm.get('email')?.invalid}"
+                placeholder="name@example.com">
+              <div class="invalid-feedback">يرجى إدخال بريد إلكتروني صحيح.</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="form-label fw-semibold text-dark">كلمة المرور</label>
+              <input 
+                type="password" id="password" formControlName="password" 
+                class="form-control py-2.5 rounded-3 text-start" 
+                [ngClass]="{'is-invalid': loginForm.get('password')?.touched && loginForm.get('password')?.invalid}"
+                placeholder="••••••••">
+              <div class="invalid-feedback">يرجى إدخال كلمة المرور (6 أحرف على الأقل).</div>
+            </div>
+
+            <button 
+              type="submit" 
+              class="btn btn-success btn-lg w-100 py-2.5 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2"
+              [disabled]="loginForm.invalid || isLoading()">
+              @if (isLoading()) {
+                <span class="spinner-border spinner-border-sm" role="status"></span>
+                جاري تسجيل الدخول...
+              } @else {
+                تسجيل الدخول 🚀
+              }
+            </button>
+
+            <div class="text-center mt-4">
+              <span class="text-muted">ليس لديك حساب؟ </span>
+              <a routerLink="/auth/register" class="text-success fw-bold text-decoration-none">إنشاء حساب جديد</a>
+            </div>
+
+          </form>
+        </div>
       </div>
 
-      <div class="form-group">
-        <div class="label-row">
-          <label>كلمة المرور</label>
-          <a href="#" class="forgot-link">نسيت كلمة المرور؟</a>
-        </div>
-        <div class="input-wrapper">
-          <input 
-            type="password" 
-            formControlName="password" 
-            placeholder="••••••••"
-            [ngClass]="{ 'error': f['password'].touched && f['password'].invalid }" />
-        </div>
-        @if (f['password'].touched && f['password'].invalid) {
-          <div class="error-msg">
-            @if (f['password'].errors?.['required']) { <small>كلمة المرور مطلوبة.</small> }
-            @if (f['password'].errors?.['minlength']) { <small>كلمة المرور يجب ألا تقل عن 6 أحرف.</small> }
-          </div>
-        }
-      </div>
-
-      <button type="submit" [disabled]="loginForm.invalid" class="btn-submit">تسجيل الدخول</button>
-
-      <div class="auth-footer">
-        ليس لديك حساب؟ <a routerLink="/auth/register">إنشاء حساب جديد</a>
-      </div>
-    </form>
+    </div>
   </div>
 </div>

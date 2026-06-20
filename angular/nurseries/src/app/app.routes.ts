@@ -46,7 +46,7 @@ export const routes: Routes = [
   {
     path: 'parent',
     loadComponent: () => import('./shared/components/main-layout/main-layout').then(m => m.MainLayout),
-    // canActivate: [authGuard, roleGuard],
+    canActivate: [authGuard, roleGuard],
     data: { expectedRole: 'Parent' },
     children: [
       {

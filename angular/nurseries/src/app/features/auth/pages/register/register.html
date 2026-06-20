@@ -1,88 +1,141 @@
-<div class="auth-container">
-  <div class="auth-card">
-    <div class="auth-header">
-      <div class="logo"><span class="logo-icon">👶</span></div>
-      <h2>إنشاء حساب جديد</h2>
-      <p>انضم إلينا اليوم وابدأ رحلتك</p>
-    </div>
-
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+<div class="container my-5" dir="rtl">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
       
-      <div class="form-group">
-        <label>الاسم الكامل</label>
-        <div class="input-wrapper">
-          <input 
-            type="text" 
-            formControlName="fullName" 
-            placeholder="أدخل اسمك الثلاثي"
-            [ngClass]="{ 'error': f['fullName'].touched && f['fullName'].invalid }" />
-        </div>
-        @if (f['fullName'].touched && f['fullName'].invalid) {
-          <div class="error-msg">
-            @if (f['fullName'].errors?.['required']) { <small>الاسم الكامل مطلوب.</small> }
-            @if (f['fullName'].errors?.['minlength']) { <small>يجب أن يكون الاسم 3 أحرف على الأقل.</small> }
+      @if (!showOtpModal()) {
+        <div class="card auth-card border-0 shadow-sm rounded-4 overflow-hidden animate-fade-in">
+          <div class="card-header bg-success text-white p-4 text-center border-0">
+            <h3 class="fw-bold mb-1">إنشاء حساب جديد 👶</h3>
+            <p class="mb-0 opacity-75">انضم إلينا وابدأ في إدارة حسابك أو البحث عن أفضل حضانة</p>
           </div>
-        }
-      </div>
 
-      <div class="form-group">
-        <label>البريد الإلكتروني</label>
-        <div class="input-wrapper">
-          <input 
-            type="email" 
-            formControlName="email" 
-            placeholder="example@mail.com"
-            [ngClass]="{ 'error': f['email'].touched && f['email'].invalid }" />
-        </div>
-        @if (f['email'].touched && f['email'].invalid) {
-          <div class="error-msg">
-            @if (f['email'].errors?.['required']) { <small>البريد الإلكتروني مطلوب.</small> }
-            @if (f['email'].errors?.['email']) { <small>صيغة البريد الإلكتروني غير صحيحة.</small> }
+          <div class="card-body p-4">
+            @if (errorMessage()) {
+              <div class="alert alert-danger rounded-3 fs-6 p-2.5 mb-3" role="alert">
+                ⚠️ {{ errorMessage() }}
+              </div>
+            }
+
+            <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+              
+              <div class="mb-3">
+                <label for="fullName" class="form-label fw-semibold text-dark">الاسم بالكامل <span class="text-danger">*</span></label>
+                <input 
+                  type="text" id="fullName" formControlName="fullName" 
+                  class="form-control py-2.5 rounded-3" 
+                  [ngClass]="{'is-invalid': registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid}"
+                  placeholder="اكتب اسمك الثلاثي">
+                <div class="invalid-feedback">يرجى كتابة الاسم بالكامل (3 أحرف على الأقل).</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label fw-semibold text-dark">البريد الإلكتروني <span class="text-danger">*</span></label>
+                <input 
+                  type="email" id="email" formControlName="email" 
+                  class="form-control py-2.5 rounded-3 text-start" 
+                  [ngClass]="{'is-invalid': registerForm.get('email')?.touched && registerForm.get('email')?.invalid}"
+                  placeholder="name@example.com">
+                <div class="invalid-feedback">يرجى إدخال بريد إلكتروني صحيح.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label fw-semibold text-dark">كلمة المرور <span class="text-danger">*</span></label>
+                <input 
+                  type="password" id="password" formControlName="password" 
+                  class="form-control py-2.5 rounded-3 text-start" 
+                  [ngClass]="{'is-invalid': registerForm.get('password')?.touched && registerForm.get('password')?.invalid}"
+                  placeholder="••••••••">
+                <div class="invalid-feedback">يجب أن لا تقل كلمة المرور عن 6 أحرف.</div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label fw-semibold text-dark d-block">نوع الحساب (الصلاحية) <span class="text-danger">*</span></label>
+                <div class="d-flex gap-3">
+                  
+                  <div class="flex-grow-1">
+                    <input type="radio" class="btn-check" formControlName="role" id="roleParent" value="Parent" autocomplete="off" checked>
+                    <label class="btn btn-outline-success w-100 py-2.5 rounded-3 fw-bold" for="roleParent">
+                      👨‍👩‍👦 ولي أمر طفل
+                    </label>
+                  </div>
+
+                  <div class="flex-grow-1">
+                    <input type="radio" class="btn-check" formControlName="role" id="roleOwner" value="NurseryOwner" autocomplete="off">
+                    <label class="btn btn-outline-primary w-100 py-2.5 rounded-3 fw-bold" for="roleOwner">
+                      🏢 صاحب حضانة
+                    </label>
+                  </div>
+
+                </div>
+                @if (registerForm.get('role')?.touched && registerForm.get('role')?.invalid) {
+                  <div class="text-danger small mt-1">يرجى تحديد نوع الحساب.</div>
+                }
+              </div>
+
+              <button 
+                type="submit" 
+                class="btn btn-success btn-lg w-100 py-2.5 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2"
+                [disabled]="registerForm.invalid || isLoading()">
+                @if (isLoading()) {
+                  <span class="spinner-border spinner-border-sm" role="status"></span>
+                  جاري إنشاء الحساب...
+                } @else {
+                  تسجيل حساب جديد 🚀
+                }
+              </button>
+
+              <div class="text-center mt-4">
+                <span class="text-muted">لديك حساب بالفعل؟ </span>
+                <a routerLink="/auth/login" class="text-success fw-bold text-decoration-none">تسجيل الدخول</a>
+              </div>
+
+            </form>
           </div>
-        }
-      </div>
-
-      <div class="form-group">
-        <label>كلمة المرور</label>
-        <div class="input-wrapper">
-          <input 
-            type="password" 
-            formControlName="password" 
-            placeholder="••••••••"
-            [ngClass]="{ 'error': f['password'].touched && f['password'].invalid }" />
         </div>
-        @if (f['password'].touched && f['password'].invalid) {
-          <div class="error-msg">
-            @if (f['password'].errors?.['required']) { <small>كلمة المرور مطلوبة.</small> }
-            @if (f['password'].errors?.['minlength']) { <small>يجب ألا تقل عن 6 أحرف.</small> }
-          </div>
-        }
-      </div>
+      }
 
-      <div class="form-group">
-        <label>نوع الحساب</label>
-        <div class="input-wrapper">
-          <select 
-            formControlName="role" 
-            class="select-role"
-            [ngClass]="{ 'error': f['role'].touched && f['role'].invalid }">
-            <option value="" disabled selected>اختر نوع الحساب...</option>
-            <option value="Parent">ولي أمر (أبحث عن حضانة)</option>
-            <option value="NurseryOwner">صاحب حضانة (أريد إضافة حضانتي)</option>
-          </select>
+      @if (showOtpModal()) {
+        <div class="card auth-card border-0 shadow rounded-4 p-4 text-center border-top border-5 border-success animate-fade-in">
+          <div class="otp-icon mb-3 fs-1">✉️</div>
+          <h3 class="fw-bold text-dark mb-2">تأكيد البريد الإلكتروني</h3>
+          <p class="text-muted mb-4">
+            تم إرسال رمز التفعيل (OTP) بنجاح إلى إيميلك: <br>
+            <strong class="text-dark">{{ registeredEmail() }}</strong>
+          </p>
+
+          <form [formGroup]="otpForm" (ngSubmit)="onVerifyOtp()">
+            
+            <div class="mb-4">
+              <input 
+                type="text" 
+                formControlName="otpCode" 
+                class="form-control form-control-lg text-center fw-bold letter-spacing-lg rounded-3 border-2 py-3" 
+                [ngClass]="{'is-invalid': otpForm.get('otpCode')?.touched && otpForm.get('otpCode')?.invalid}"
+                placeholder="اكتب رمز الـ OTP هنا" 
+                maxlength="10">
+              <div class="invalid-feedback">يرجى إدخال رمز تفعيل صحيح.</div>
+            </div>
+
+            <button 
+              type="submit" 
+              class="btn btn-success btn-lg w-100 py-2.5 rounded-3 fw-bold shadow-sm"
+              [disabled]="otpForm.invalid || isLoading()">
+              @if (isLoading()) {
+                <span class="spinner-border spinner-border-sm" role="status"></span>
+                جاري التحقق من الرمز...
+              } @else {
+                تأكيد الرمز وتفعيل الحساب ✓
+              }
+            </button>
+            
+          </form>
+          
+          <small class="text-muted mt-3 d-block">
+            لم يصلك الرمز؟ تأكد من صندوق البريد العشوائي (Spam) أو أعد المحاولة.
+          </small>
         </div>
-        @if (f['role'].touched && f['role'].invalid) {
-          <div class="error-msg">
-            <small>يرجى تحديد نوع الحساب.</small>
-          </div>
-        }
-      </div>
+      }
 
-      <button type="submit" [disabled]="registerForm.invalid" class="btn-submit">إنشاء الحساب</button>
-
-      <div class="auth-footer">
-        لديك حساب بالفعل؟ <a routerLink="/auth/login">تسجيل الدخول</a>
-      </div>
-    </form>
+    </div>
   </div>
 </div>

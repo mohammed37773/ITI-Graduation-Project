@@ -76,8 +76,8 @@ export class NewBooking {
       
       // تحويل الأب لصفحة "حجوزاتي" بعد نجاح الحجز (يمكنك تعديل المسار حسب مشروعك)
       setTimeout(() => {
-        this.router.navigate(['/parent/bookings']);
-      }, 2000);
+  this.router.navigate(['/parent/bookings']); 
+}, 2000);
     }, 1200);
   }
 }

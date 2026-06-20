@@ -1,20 +1,24 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from "@angular/router";
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router'; // 1. تأكد من عمل import لـ Router هنا
 import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink , RouterLinkActive],
+  standalone: true,
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css',
+  styleUrl: './navbar.css'
 })
 export class Navbar {
-  authService = inject(AuthService);
-  private router = inject(Router);
+  // 2. عمل inject للـ Router والـ AuthService وعملهم public عشان الـ HTML يشوفهم
+  public authService = inject(AuthService);
+  public router = inject(Router); // السطر ده هو اللي هيحل المشكلة فوراً! 🚀
 
-  // دالة الـ Logout اللي بتنفذ الـ TODO بتاعك وتمسح الـ Token
   onLogout() {
-    this.authService.logout(); // هتمسح الـ token وتخلي الـ Role بـ null
-    this.router.navigate(['/auth/login']); // توجيهه لصفحة تسجيل الدخول
+    this.authService.logout();
+    
+    // 3. التوجيه لصفحة الـ login الحقيقية بناءً على الـ routes بتاعتك
+    this.router.navigate(['/auth/login']); 
   }
 }

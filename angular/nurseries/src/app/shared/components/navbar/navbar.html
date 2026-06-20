@@ -24,6 +24,11 @@
                 💬 المحادثة الذكية
               </a>
           </li>
+          <li>
+              <a class="nav-link text-info font-weight-bold" routerLink="/parent/booking-assistant" routerLinkActive="active">
+                🧑‍💼 مساعد الحجز الذكي
+              </a>  
+          </li>
 
           @if (authService.isAuthenticated() && authService.getRole() === 'Parent') {
             <li class="nav-item">
