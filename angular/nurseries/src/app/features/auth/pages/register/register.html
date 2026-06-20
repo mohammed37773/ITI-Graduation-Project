@@ -3,10 +3,10 @@
     <div class="col-md-8 col-lg-5">
       
       @if (!showOtpModal()) {
-        <div class="card auth-card border-0 shadow-sm rounded-4 overflow-hidden animate-fade-in">
+        <div class="card auth-card border-0 shadow-sm rounded-4 overflow-hidden">
           <div class="card-header bg-success text-white p-4 text-center border-0">
             <h3 class="fw-bold mb-1">إنشاء حساب جديد 👶</h3>
-            <p class="mb-0 opacity-75">انضم إلينا وابدأ في إدارة حسابك أو البحث عن أفضل حضانة</p>
+            <p class="mb-0 opacity-75">انضم إلينا وابدأ في البحث عن أفضل حضانة</p>
           </div>
 
           <div class="card-body p-4">
@@ -55,21 +55,18 @@
                   <div class="flex-grow-1">
                     <input type="radio" class="btn-check" formControlName="role" id="roleParent" value="Parent" autocomplete="off" checked>
                     <label class="btn btn-outline-success w-100 py-2.5 rounded-3 fw-bold" for="roleParent">
-                      👨‍👩‍👦 ولي أمر طفل
+                      👨‍👩‍👦 ولي أمر
                     </label>
                   </div>
 
                   <div class="flex-grow-1">
-                    <input type="radio" class="btn-check" formControlName="role" id="roleOwner" value="NurseryOwner" autocomplete="off">
+                    <input type="radio" class="btn-check" formControlName="role" id="roleOwner" value="NurseryAdmin" autocomplete="off">
                     <label class="btn btn-outline-primary w-100 py-2.5 rounded-3 fw-bold" for="roleOwner">
                       🏢 صاحب حضانة
                     </label>
                   </div>
 
                 </div>
-                @if (registerForm.get('role')?.touched && registerForm.get('role')?.invalid) {
-                  <div class="text-danger small mt-1">يرجى تحديد نوع الحساب.</div>
-                }
               </div>
 
               <button 
@@ -99,7 +96,7 @@
           <div class="otp-icon mb-3 fs-1">✉️</div>
           <h3 class="fw-bold text-dark mb-2">تأكيد البريد الإلكتروني</h3>
           <p class="text-muted mb-4">
-            تم إرسال رمز التفعيل (OTP) بنجاح إلى إيميلك: <br>
+            تم تسجيل بياناتك بنجاح! يرجى إدخال كود التفعيل المرسل إلى حسابك: <br>
             <strong class="text-dark">{{ registeredEmail() }}</strong>
           </p>
 
@@ -109,11 +106,11 @@
               <input 
                 type="text" 
                 formControlName="otpCode" 
-                class="form-control form-control-lg text-center fw-bold letter-spacing-lg rounded-3 border-2 py-3" 
+                class="form-control form-control-lg text-center fw-bold rounded-3 border-2 py-3" 
                 [ngClass]="{'is-invalid': otpForm.get('otpCode')?.touched && otpForm.get('otpCode')?.invalid}"
-                placeholder="اكتب رمز الـ OTP هنا" 
-                maxlength="10">
-              <div class="invalid-feedback">يرجى إدخال رمز تفعيل صحيح.</div>
+                placeholder="ضع كود التفعيل هنا" 
+                maxlength="500">
+              <div class="invalid-feedback">يرجى إدخال كود تفعيل صحيح.</div>
             </div>
 
             <button 
@@ -122,17 +119,13 @@
               [disabled]="otpForm.invalid || isLoading()">
               @if (isLoading()) {
                 <span class="spinner-border spinner-border-sm" role="status"></span>
-                جاري التحقق من الرمز...
+                جاري التحقق من الكود...
               } @else {
-                تأكيد الرمز وتفعيل الحساب ✓
+                تأكيد الكود وتفعيل الحساب ✓
               }
             </button>
             
           </form>
-          
-          <small class="text-muted mt-3 d-block">
-            لم يصلك الرمز؟ تأكد من صندوق البريد العشوائي (Spam) أو أعد المحاولة.
-          </small>
         </div>
       }
 

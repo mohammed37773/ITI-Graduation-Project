@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj": {}
+    "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj": {}
   },
   "projects": {
-    "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj": {
+    "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj",
         "projectName": "NurseriesNetwork.AI",
-        "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\obj\\",
+        "projectPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,15 +26,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://www.nuget.org/api/v2/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
-                "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj"
+              "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
+                "projectPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj"
               }
             }
           }
@@ -71,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -349,20 +349,20 @@
         }
       }
     },
-    "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj": {
+    "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj",
         "projectName": "NurseriesNetwork.API",
-        "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\obj\\",
+        "projectPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\NurseriesNetwork.API.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -371,21 +371,21 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://www.nuget.org/api/v2/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj": {
-                "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj"
+              "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj": {
+                "projectPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj"
               },
-              "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
-                "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj"
+              "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
+                "projectPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj"
               },
-              "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj": {
-                "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj"
+              "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj"
               }
             }
           }
@@ -431,7 +431,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -849,20 +849,20 @@
         }
       }
     },
-    "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
+    "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj",
         "projectName": "NurseriesNetwork.Core",
-        "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\obj\\",
+        "projectPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -871,7 +871,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://www.nuget.org/api/v2/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
@@ -918,7 +918,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -1196,20 +1196,20 @@
         }
       }
     },
-    "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj": {
+    "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj",
         "projectName": "NurseriesNetwork.Infrastructure",
-        "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\NurseriesNetwork.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -1218,15 +1218,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://www.nuget.org/api/v2/": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
-                "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj"
+              "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
+                "projectPath": "C:\\Users\\Lenovo\\OneDrive - Egyptian E-Learning University\\Desktop\\NurseriesAngular\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj"
               }
             }
           }
@@ -1263,7 +1263,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

@@ -1,31 +1,36 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { AuthResponseDto, LoginDto, RegisterDto } from '../models/authModel';
+import { RegisterDto, LoginDto, AuthResponseDto } from '../models/authModel';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-private http = inject(HttpClient);
+  private http = inject(HttpClient);
   private baseUrl = 'http://localhost:5104/api/Auth';
 
   currentUser = signal<AuthResponseDto | null>(null);
   isAuthenticated = signal<boolean>(false);
   
-  // حل مشكلة الـ guest-guard
+  // لخدمة الـ guest-guard والـ auth-guard لايف
   isLoggedIn = computed(() => this.isAuthenticated());
+  userRole = computed(() => this.currentUser()?.role || null);
 
   constructor() {
     this.loadSavedUser();
   }
 
-  register(registerData: RegisterDto): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/register`, registerData);
+  register(registerData: any): Observable<any> {
+    // الباك إند بيرجع نص صريح (String) عند النجاح، عشان كدة بنخليه expect 'text'
+    return this.http.post(`${this.baseUrl}/register`, registerData, { responseType: 'text' });
   }
 
   confirmEmail(email: string, token: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/confirm-email`, {
-      params: { email, token }
+    // إرسال الـ email والـ token كـ Query Parameters في الـ GET Request بالملي زي الـ API
+    return this.http.get(`${this.baseUrl}/confirm-email`, {
+      params: { email, token },
+      responseType: 'text'
     });
   }
 
@@ -59,6 +64,6 @@ private http = inject(HttpClient);
   }
 
   getRole(): string | null {
-    return this.currentUser()?.role || null;
+    return this.userRole();
   }
-};
+}
