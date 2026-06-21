@@ -16,13 +16,17 @@ public class BookingsController : ControllerBase
 {
     private readonly IUnitOfWork _uow;
     private readonly IEmailService _emailService;
+    private readonly ILogger<BookingsController> _logger;
+
 
     public BookingsController(
         IUnitOfWork uow,
-        IEmailService emailService)
+        IEmailService emailService,
+         ILogger<BookingsController> logger)
     {
         _uow = uow;
         _emailService = emailService;
+        _logger = logger;
     }
 
     // ===========================
@@ -53,6 +57,15 @@ public class BookingsController : ControllerBase
             ageInMonths > nursery.AgeRangeMax)
             return BadRequest("سن الطفل مش مناسب للحضانة دي");
 
+        // ✅ فحص جديد — منع الحجز المكرر لنفس الطفل في نفس الحضانة
+        var existingBookings = await _uow.Bookings.FindAsync(b =>
+            b.NurseryId == dto.NurseryId &&
+            b.ChildId == dto.ChildId &&
+            b.Status != BookingStatus.Cancelled);
+
+        if (existingBookings.Any())
+            return BadRequest("الطفل ده عنده حجز قائم بالفعل في الحضانة دي");
+
         // حساب السعر
         var totalPrice = nursery.DailyPrice;
 
@@ -69,14 +82,31 @@ public class BookingsController : ControllerBase
         await _uow.Bookings.AddAsync(booking);
         await _uow.SaveChangesAsync();
 
-        // بعت إيميل تأكيد الحجز
-        var parent = await _uow.Children.GetByIdAsync(dto.ChildId);
-        await _emailService.SendBookingConfirmationAsync(
-            User.FindFirstValue(ClaimTypes.Email)!,
-            booking.Id);
+        // بعت إيميل تأكيد الحجز - لو فشل، لا يمنع نجاح الحجز نفسه
+        try
+        {
+            await _emailService.SendBookingConfirmationAsync(
+                User.FindFirstValue(ClaimTypes.Email)!,
+                booking.Id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex,
+                "Failed to send booking confirmation email for BookingId: {BookingId}",
+                booking.Id);
+        }
 
         return CreatedAtAction(nameof(GetBookingById),
-            new { id = booking.Id }, booking);
+            new { id = booking.Id }, new
+            {
+                booking.Id,
+                booking.NurseryId,
+                booking.ChildId,
+                booking.StartDate,
+                booking.TotalPrice,
+                Status = booking.Status.ToString(),
+                booking.CreatedAt
+            });
     }
 
     // ===========================
@@ -91,7 +121,16 @@ public class BookingsController : ControllerBase
         var bookings = await _uow.Bookings
             .FindAsync(b => b.ParentId == parentId);
 
-        return Ok(bookings);
+        return Ok(bookings.Select(b => new
+        {
+            b.Id,
+            b.NurseryId,
+            b.ChildId,
+            b.StartDate,
+            b.TotalPrice,
+            Status = b.Status.ToString(),
+            b.CreatedAt
+        }));
     }
 
     // ===========================
@@ -111,7 +150,16 @@ public class BookingsController : ControllerBase
             !User.IsInRole("Admin"))
             return Forbid();
 
-        return Ok(booking);
+        return Ok(new
+        {
+            booking.Id,
+            booking.NurseryId,
+            booking.ChildId,
+            booking.StartDate,
+            booking.TotalPrice,
+            Status = booking.Status.ToString(),
+            booking.CreatedAt
+        });
     }
 
     // ===========================

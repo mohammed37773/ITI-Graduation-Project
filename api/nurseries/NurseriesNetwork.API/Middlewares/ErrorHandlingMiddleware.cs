@@ -25,6 +25,13 @@ public class ErrorHandlingMiddleware
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
+            // ✅ تأكد إن الـ Response لسه ماخلصتش قبل أي تعديل
+            if (context.Response.HasStarted)
+            {
+                _logger.LogWarning(
+                    "Response already started, cannot modify headers");
+                return;
+            }
             await HandleExceptionAsync(context, ex);
         }
     }

@@ -88,7 +88,7 @@ public class PaymentController : ControllerBase
             GatewayOrderId = result.GatewayOrderId,
             PaymentUrl = result.PaymentUrl
         };
-
+        booking.Payment = payment;
         await _uow.Payments.AddAsync(payment);
         await _uow.SaveChangesAsync();
 

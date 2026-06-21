@@ -1,8 +1,9 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NurseriesNetwork.AI.Agents;
+using NurseriesNetwork.AI.Services;
 using NurseriesNetwork.Core.Entities ;
 using NurseriesNetwork.Core.Interfaces.Repositories;
 using NurseriesNetwork.Core.Interfaces.Services;
@@ -10,7 +11,7 @@ using NurseriesNetwork.Infrastructure.Data;
 using NurseriesNetwork.Infrastructure.Repositories;
 using NurseriesNetwork.Infrastructure.Services;
 using NurseriesNetwork.Infrastructure.Services.Payment;
-using NurseriesNetwork.AI.Services;
+using System.Text;
 
 namespace NurseriesNetwork.API.Extensions;
 
@@ -88,6 +89,7 @@ public static class ServiceExtensions
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IAiService, RecommendationService>();
+        services.AddScoped<NurseryAgentPlugin>();   // ✅ أضف ده
 
         // Payment Strategy Pattern
         //services.AddScoped<VodafoneCashService>();

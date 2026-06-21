@@ -162,17 +162,25 @@ public class PayPalService : IPaymentService
             _httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Add(
                 "Authorization", $"Bearer {accessToken}");
-            _httpClient.DefaultRequestHeaders.Add(
-                "Content-Type", "application/json");
+            // ❌ شيل السطر ده:
+            // _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
+
+            // ✅ الـ Content-Type بقى متحدد هنا تلقائياً
+            var requestContent = new StringContent(
+                "{}", Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(
                 $"{baseUrl}/v2/checkout/orders/{paypalOrderId}/capture",
-                new StringContent("{}", Encoding.UTF8, "application/json"));
+                requestContent);
+
+            var content = await response.Content.ReadAsStringAsync();
 
             if (!response.IsSuccessStatusCode)
             {
                 _logger.LogError(
-                    "PayPal: Capture failed for OrderId: {OrderId}", paypalOrderId);
+                    "PayPal: Capture failed for OrderId: {OrderId}. " +
+                    "StatusCode: {StatusCode}. Response: {Content}",
+                    paypalOrderId, response.StatusCode, content);
                 return false;
             }
 
@@ -187,7 +195,6 @@ public class PayPalService : IPaymentService
             return false;
         }
     }
-
     // ===========================
     // Refund
     // ===========================

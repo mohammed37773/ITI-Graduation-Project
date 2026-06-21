@@ -112,7 +112,7 @@ public class PaymobService : IPaymentService, IPaymentGatewayService
                 "Authorization", $"Token {secretKey}");
 
             var response = await _httpClient.PostAsJsonAsync(
-                $"{_config["Paymob:BaseUrl"]}/intention/", requestBody);
+                $"{_config["Paymob:BaseUrl"]}/v1/intention/", requestBody);
 
             var content = await response.Content.ReadAsStringAsync();
 
@@ -177,7 +177,7 @@ public class PaymobService : IPaymentService, IPaymentGatewayService
             };
 
             var response = await _httpClient.PostAsJsonAsync(
-                $"{_config["Paymob:BaseUrl"]}/refund/", requestBody);
+                $"{_config["Paymob:BaseUrl"]}/api/acceptance/void_refund/refund", requestBody);
 
             if (!response.IsSuccessStatusCode)
             {
