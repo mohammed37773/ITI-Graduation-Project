@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Booking } from '../../../core/models/booking.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-bookings',
@@ -11,16 +12,17 @@ import { Booking } from '../../../core/models/booking.model';
 })
 export class Bookings implements OnInit {
   
-  // الـ Signals الأساسية لإدارة حالة الصفحة والتبويب الحالي
-  allBookings = signal<Booking[]>([]);
-  selectedFilter = signal<'all' | 'pending' | 'approved' | 'rejected'>('all');
-  isLoading = signal<boolean>(true);
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:5104/api/Bookings/my';
 
-  // 🔥 Computed Signal: بيعمل فیلتر للداتا تلقائياً أول ما الـ selectedFilter يتغير لايف
+  allBookings = signal<any[]>([]);
+  selectedFilter = signal<'all' | 'Pending' | 'Confirmed' | 'Cancelled'>('all');
+  isLoading = signal<boolean>(true);
+  errorMessage = signal<string | null>(null);
+
   filteredBookings = computed(() => {
     const filter = this.selectedFilter();
     const bookings = this.allBookings();
-    
     if (filter === 'all') return bookings;
     return bookings.filter(b => b.status === filter);
   });
@@ -29,49 +31,22 @@ export class Bookings implements OnInit {
     this.loadUserBookings();
   }
 
-  // محاكاة جلب الحجوزات الخاصة بولي الأمر من السيرفر
   loadUserBookings() {
     this.isLoading.set(true);
-    
-    setTimeout(() => {
-      this.allBookings.set([
-        {
-          id: 101,
-          nurseryId: 1,
-          nurseryName: "حضانة الزهور السعيدة",
-          childName: "يوسف محمد",
-          childAge: 3,
-          startDate: new Date('2026-07-01'),
-          status: 'approved',
-          dailyPrice: 50
-        },
-        {
-          id: 102,
-          nurseryId: 2,
-          nurseryName: "حضانة المستقبل الذكي",
-          childName: "سجده محمد",
-          childAge: 5,
-          startDate: new Date('2026-07-15'),
-          status: 'pending',
-          dailyPrice: 120
-        },
-        {
-          id: 103,
-          nurseryId: 3,
-          nurseryName: "حضانة عباقرة الغد",
-          childName: "يوسف محمد",
-          childAge: 3,
-          startDate: new Date('2026-06-10'),
-          status: 'rejected',
-          dailyPrice: 80
-        }
-      ]);
-      this.isLoading.set(false);
-    }, 600); // لودنج خفيف نص ثانية
+    this.errorMessage.set(null);
+    this.http.get<any[]>(this.apiUrl).subscribe({
+      next: (data) => {
+        this.allBookings.set(data || []);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        this.errorMessage.set(err.error?.message || 'حدث خطأ أثناء تحميل الحجوزات.');
+        this.isLoading.set(false);
+      }
+    });
   }
 
-  // دالة لتغيير التبويب الحالي
-  changeFilter(filterType: 'all' | 'pending' | 'approved' | 'rejected') {
+  changeFilter(filterType: 'all' | 'Pending' | 'Confirmed' | 'Cancelled') {
     this.selectedFilter.set(filterType);
   }
 }

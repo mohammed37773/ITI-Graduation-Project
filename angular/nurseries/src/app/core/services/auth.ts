@@ -21,10 +21,11 @@ export class AuthService {
     this.loadSavedUser();
   }
 
-  register(registerData: any): Observable<any> {
-    // الباك إند بيرجع نص صريح (String) عند النجاح، عشان كدة بنخليه expect 'text'
-    return this.http.post(`${this.baseUrl}/register`, registerData, { responseType: 'text' });
-  }
+  register(registerData: any): Observable<string> {
+  return this.http.post(`${this.baseUrl}/register`, registerData, { 
+    responseType: 'text' // <--- دي اللي بتمنع الـ Angular إنه يعمل Parse كـ JSON
+  });
+}
 
   confirmEmail(email: string, token: string): Observable<any> {
     // إرسال الـ email والـ token كـ Query Parameters في الـ GET Request بالملي زي الـ API

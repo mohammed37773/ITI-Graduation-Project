@@ -1,61 +1,64 @@
 <div class="container my-5" dir="rtl">
-  <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-5">
+  <div class="row justify-content-center align-items-center" style="min-height: 75vh;">
+    <div class="col-md-5">
       
-      <div class="card auth-card border-0 shadow-sm rounded-4 overflow-hidden">
-        <div class="card-header bg-success text-white p-4 text-center border-0">
-          <h3 class="fw-bold mb-1">تسجيل الدخول 🔐</h3>
-          <p class="mb-0 opacity-75">مرحباً بك مجدداً، سجل دخولك لمتابعة شؤون أطفالك</p>
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+        <div class="card-header bg-primary text-white text-center p-4">
+          <h3 class="fw-bold mb-1">تسجيل الدخول 🔑</h3>
+          <p class="mb-0 opacity-75 small">مرحباً بك مجدداً في شبكة الحضانات الذكية</p>
         </div>
 
         <div class="card-body p-4">
-          
+
           @if (errorMessage()) {
-            <div class="alert alert-danger rounded-3 fs-6 p-2.5 mb-3" role="alert">
-              ⚠️ {{ errorMessage() }}
+            <div class="alert alert-danger border-0 rounded-3 mb-4" role="alert">
+              <strong>⚠️ تنبيه:</strong> {{ errorMessage() }}
             </div>
           }
 
           <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
             
             <div class="mb-3">
-              <label for="email" class="form-label fw-semibold text-dark">البريد الإلكتروني</label>
-              <input 
-                type="email" id="email" formControlName="email" 
-                class="form-control py-2.5 rounded-3 text-start" 
-                [ngClass]="{'is-invalid': loginForm.get('email')?.touched && loginForm.get('email')?.invalid}"
-                placeholder="name@example.com">
-              <div class="invalid-feedback">يرجى إدخال بريد إلكتروني صحيح.</div>
+              <label class="form-label fw-semibold">البريد الإلكتروني</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white">📧</span>
+                <input type="email" formControlName="email" class="form-control" placeholder="example@mail.com"
+                       [ngClass]="{'is-invalid': loginForm.get('email')?.touched && loginForm.get('email')?.invalid}">
+              </div>
+              @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+                <div class="text-danger small mt-1">يرجى إدخال بريد إلكتروني صحيح ومسجل.</div>
+              }
             </div>
 
             <div class="mb-4">
-              <label for="password" class="form-label fw-semibold text-dark">كلمة المرور</label>
-              <input 
-                type="password" id="password" formControlName="password" 
-                class="form-control py-2.5 rounded-3 text-start" 
-                [ngClass]="{'is-invalid': loginForm.get('password')?.touched && loginForm.get('password')?.invalid}"
-                placeholder="••••••••">
-              <div class="invalid-feedback">يرجى إدخال كلمة المرور (6 أحرف على الأقل).</div>
+              <label class="form-label fw-semibold">كلمة المرور</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white">🔒</span>
+                <input type="password" formControlName="password" class="form-control" placeholder="••••••••"
+                       [ngClass]="{'is-invalid': loginForm.get('password')?.touched && loginForm.get('password')?.invalid}">
+              </div>
+              @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+                <div class="text-danger small mt-1">كلمة المرور مطلوبة (6 أحرف على الأقل).</div>
+              }
             </div>
 
-            <button 
-              type="submit" 
-              class="btn btn-success btn-lg w-100 py-2.5 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2"
-              [disabled]="loginForm.invalid || isLoading()">
+            <button type="submit" [disabled]="loginForm.invalid || isLoading()" 
+                    class="btn btn-primary btn-lg w-100 py-2.5 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
               @if (isLoading()) {
                 <span class="spinner-border spinner-border-sm" role="status"></span>
-                جاري تسجيل الدخول...
+                جاري التحقق من الهوية لايف...
               } @else {
-                تسجيل الدخول 🚀
+                🔓 تسجيل الدخول الآن
               }
             </button>
 
-            <div class="text-center mt-4">
+            <div class="text-center mt-4 small">
               <span class="text-muted">ليس لديك حساب؟ </span>
-              <a routerLink="/auth/register" class="text-success fw-bold text-decoration-none">إنشاء حساب جديد</a>
+              <a routerLink="/auth/register" class="text-primary fw-bold text-decoration-none">أنشئ حسابك الجديد هنا</a>
             </div>
 
           </form>
+
         </div>
       </div>
 

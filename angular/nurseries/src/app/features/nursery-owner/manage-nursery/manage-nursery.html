@@ -1,1 +1,21 @@
-<p>manage-nursery works!</p>
+<div class="container my-5" dir="rtl">
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+    <div class="card-header bg-success text-white p-4">
+      <h3 class="fw-bold mb-0">{{ isEditMode() ? '⚙️ تعديل بيانات الحضانة' : '🏢 تسجيل حضانة جديدة' }}</h3>
+    </div>
+    <div class="card-body p-4">
+      @if (successMessage()) { <div class="alert alert-success">{{ successMessage() }}</div> }
+      <form [formGroup]="nurseryForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label">اسم الحضانة</label>
+          <input type="text" formControlName="name" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">الوصف</label>
+          <textarea formControlName="description" rows="3" class="form-control"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success w-100 py-2 fw-bold">💾 حفظ البيانات</button>
+      </form>
+    </div>
+  </div>
+</div>

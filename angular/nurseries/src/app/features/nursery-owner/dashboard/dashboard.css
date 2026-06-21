@@ -1,0 +1,4 @@
+:host { display: block; background-color: #f8f9fa; min-height: 90vh; font-family: 'Segoe UI', sans-serif; }
+.card { transition: transform 0.3s ease; border-radius: 16px !important; }
+.card:hover { transform: translateY(-5px); }
+.fw-black { font-weight: 900; font-size: 2.25rem; }

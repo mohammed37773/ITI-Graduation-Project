@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
-import { guestGuard } from './core/guards/guest-guard';
 import { authGuard } from './core/guards/auth-guard';
 import { roleGuard } from './core/guards/role-guard';
 
 export const routes: Routes = [
- {
+  {
     path: '',
     loadComponent: () => import('./shared/components/main-layout/main-layout').then(m => m.MainLayout),
     children: [
@@ -23,7 +22,6 @@ export const routes: Routes = [
     ]
   },
 
-
   {
     path: 'auth',
     children: [
@@ -34,20 +32,16 @@ export const routes: Routes = [
       {
         path: 'register',
         loadComponent: () => import('./features/auth/pages/register/register').then(m => m.Register)
-      },
-      {
-        path: 'forgot-password',
-        loadComponent: () => import('./features/auth/pages/forgot-password/forgot-password').then(m => m.ForgotPassword)
       }
     ]
   },
 
-
+  // --- مسارات ولي الأمر (Parent Role) ---
   {
     path: 'parent',
     loadComponent: () => import('./shared/components/main-layout/main-layout').then(m => m.MainLayout),
     canActivate: [authGuard, roleGuard],
-    data: { expectedRole: 'Parent' },
+    data: { expectedRole: 'Parent' }, // مطابق تماماً للـ DB
     children: [
       {
         path: 'profile',
@@ -72,15 +66,22 @@ export const routes: Routes = [
       {
         path: 'bookings/new/:nurseryId',
         loadComponent: () => import('./features/bookings/new-booking/new-booking').then(m => m.NewBooking)
-}
+      }
     ]
   },
+
+  // --- مسارات صاحب الحضانة (NurseryAdmin) ---
   {
     path: 'owner',
     loadComponent: () => import('./layouts/nursery-owner/nursery-owner').then(m => m.NurseryOwner),
     canActivate: [authGuard, roleGuard],
-    data: { expectedRole: 'NurseryOwner' },
+    data: { expectedRole: 'NurseryAdmin' }, 
     children: [
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
       {
         path: 'dashboard',
         loadComponent: () => import('./features/nursery-owner/dashboard/dashboard').then(m => m.Dashboard)
@@ -96,7 +97,7 @@ export const routes: Routes = [
     ]
   },
 
-  // 5. صفحات الـ Admin (لوحة تحكم النظام بالكامل)
+  // --- صفحات الـ Admin العام ---
   {
     path: 'admin',
     loadComponent: () => import('./layouts/admin-layout/admin-layout').then(m => m.AdminLayout),
@@ -120,6 +121,6 @@ export const routes: Routes = [
 
   {
     path: '**',
-    loadComponent: () => import('./shared/components/not-found/not-found').then(m=>m.NotFound)
+    loadComponent: () => import('./shared/components/not-found/not-found').then(m => m.NotFound)
   }
 ];

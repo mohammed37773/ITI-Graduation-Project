@@ -1,1 +1,40 @@
-<p>dashboard works!</p>
+<div class="container my-5" dir="rtl">
+  <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+    <div>
+      <h2 class="fw-bold text-dark mb-1">لوحة تحكم الحضانة 📈</h2>
+      <p class="text-muted mb-0">متابعة لحظية محسوبة مباشرة من قاعدة بيانات النظام الحالية.</p>
+    </div>
+    <a routerLink="/owner/manage-nursery" class="btn btn-success fw-bold px-4 rounded-3 shadow-sm">⚙️ إعدادات حضانتي</a>
+  </div>
+
+  @if (isLoading()) {
+    <div class="text-center my-5 py-5"><div class="spinner-border text-success"></div></div>
+  } @else {
+    <div class="row g-4 mb-5">
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 border-start border-5 border-warning bg-white h-100">
+          <div class="d-flex justify-content-between align-items-center">
+            <div><h6 class="text-muted fw-bold mb-2">طلبات معلقة</h6><h2 class="fw-black text-dark mb-0">{{ pendingRequestsCount() }}</h2></div>
+            <div class="bg-warning bg-opacity-10 text-warning p-3 rounded-4 fs-3">⏳</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 border-start border-5 border-primary bg-white h-100">
+          <div class="d-flex justify-content-between align-items-center">
+            <div><h6 class="text-muted fw-bold mb-2">الأطفال المقبولين 👶</h6><h2 class="fw-black text-dark mb-0">{{ activeBookingsCount() }}</h2></div>
+            <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-4 fs-3">✨</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4 border-start border-5 border-success bg-white h-100">
+          <div class="d-flex justify-content-between align-items-center">
+            <div><h6 class="text-muted fw-bold mb-2">إجمالي الإيرادات</h6><h2 class="fw-black text-dark mb-0">{{ totalEarnings() | currency:'EGP ':'code':'1.0-0' }}</h2></div>
+            <div class="bg-success bg-opacity-10 text-success p-3 rounded-4 fs-3">💰</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

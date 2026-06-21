@@ -1,55 +1,83 @@
-/* الكروت والتصميم المودرن للـ Auth */
-.auth-card {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-}
-
-.auth-card .bg-success {
-  background-color: #22c55e !important;
-}
-
-/* تحسين شكل المدخلات */
-.form-control {
-  border: 1.5px solid #e2e8f0;
+:host {
+  display: block;
   background-color: #f8fafc;
-  color: #1e293b;
-  font-size: 14.5px;
-  transition: all 0.2s ease;
+  min-height: 90vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.card {
+  border: none;
+  border-radius: 20px !important;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%) !important;
+  border-bottom: none;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  color: #344054;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.input-group-text {
+  border-color: #d0d5dd;
+  background-color: #fff;
+  border-radius: 0 12px 12px 0 !important; /* لضبط الاتجاه العربي RTL */
+}
+
+.form-control {
+  border-color: #d0d5dd;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.95rem;
+  border-radius: 12px 0 0 12px !important; /* لضبط الاتجاه العربي RTL */
+  transition: all 0.2s ease-in-out;
+}
+
+.input-group > :not(:first-child) {
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
 }
 
 .form-control:focus {
-  background-color: #ffffff;
-  border-color: #22c55e;
-  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
 }
 
-/* أيقونة الـ OTP */
-.otp-icon {
-  font-size: 45px;
+/* تنسيق كروت اختيار الـ Role */
+.card-role {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: #fdfdfd;
 }
 
-/* تباعد الحروف في الـ OTP لإعطاء شكل الرموز */
-.letter-spacing-lg {
-  letter-spacing: 4px;
+.card-role:hover {
+  border-color: #b2ddff;
+  transform: translateY(-2px);
 }
 
-/* أنيميشن ناعم لظهور صندوق الـ OTP */
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+.cursor-pointer {
+  cursor: pointer;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  border-radius: 12px !important;
 }
 
-.btn-success {
-  background-color: #22c55e;
-  border-color: #22c55e;
-  transition: all 0.25s ease;
+.btn-primary:hover:not(:disabled) {
+  background-color: #0b5ed7;
+  transform: translateY(-1px);
 }
 
-.btn-success:hover:not(:disabled) {
-  background-color: #16a34a;
-  border-color: #16a34a;
+.alert {
+  border-radius: 14px;
+  border: none;
 }

@@ -1,133 +1,113 @@
 <div class="container my-5" dir="rtl">
   <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-5">
+    <div class="col-md-6">
       
-      @if (!showOtpModal()) {
-        <div class="card auth-card border-0 shadow-sm rounded-4 overflow-hidden">
-          <div class="card-header bg-success text-white p-4 text-center border-0">
-            <h3 class="fw-bold mb-1">إنشاء حساب جديد 👶</h3>
-            <p class="mb-0 opacity-75">انضم إلينا وابدأ في البحث عن أفضل حضانة</p>
-          </div>
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+        <div class="card-header bg-primary text-white text-center p-4">
+          <h3 class="fw-bold mb-1">إنشاء حساب جديد 🚀</h3>
+          <p class="mb-0 opacity-75 small">انضم إلى شبكة الحضانات الذكية الآن</p>
+        </div>
 
-          <div class="card-body p-4">
-            @if (errorMessage()) {
-              <div class="alert alert-danger rounded-3 fs-6 p-2.5 mb-3" role="alert">
-                ⚠️ {{ errorMessage() }}
+        <div class="card-body p-4">
+          
+          @if (isSuccess()) {
+            <div class="alert alert-success border-0 p-4 text-center rounded-3 mb-4" role="alert">
+              <span class="fs-1 d-block mb-2">✉️</span>
+              <h5 class="fw-bold text-success mb-2">تم تسجيل حسابك بنجاح!</h5>
+              <p class="small mb-3 text-muted">
+                أرسلنا رابط تفعيل لايف إلى الإيميل: <strong class="text-dark">{{ registeredEmail() }}</strong>
+              </p>
+              <div class="alert bg-white border small text-start text-dark mb-0">
+                <strong>💡 لقطة للمناقشة:</strong> اضغط على الرابط المرسل في صندوق بريدك الإلكتروني لتفعيل الحساب في قاعدة البيانات مباشرة، ثم توجه لصفحة تسجيل الدخول.
               </div>
-            }
+              <a routerLink="/auth/login" class="btn btn-primary btn-sm mt-3 fw-bold px-4 rounded-2">
+                الذهاب لصفحة تسجيل الدخول ←
+              </a>
+            </div>
+          }
 
+          @if (errorMessage()) {
+            <div class="alert alert-danger border-0 rounded-3 mb-4" role="alert">
+              <strong>⚠️ فشل التسجيل:</strong> {{ errorMessage() }}
+            </div>
+          }
+
+          @if (!isSuccess()) {
             <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
               
               <div class="mb-3">
-                <label for="fullName" class="form-label fw-semibold text-dark">الاسم بالكامل <span class="text-danger">*</span></label>
-                <input 
-                  type="text" id="fullName" formControlName="fullName" 
-                  class="form-control py-2.5 rounded-3" 
-                  [ngClass]="{'is-invalid': registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid}"
-                  placeholder="اكتب اسمك الثلاثي">
-                <div class="invalid-feedback">يرجى كتابة الاسم بالكامل (3 أحرف على الأقل).</div>
-              </div>
-
-              <div class="mb-3">
-                <label for="email" class="form-label fw-semibold text-dark">البريد الإلكتروني <span class="text-danger">*</span></label>
-                <input 
-                  type="email" id="email" formControlName="email" 
-                  class="form-control py-2.5 rounded-3 text-start" 
-                  [ngClass]="{'is-invalid': registerForm.get('email')?.touched && registerForm.get('email')?.invalid}"
-                  placeholder="name@example.com">
-                <div class="invalid-feedback">يرجى إدخال بريد إلكتروني صحيح.</div>
-              </div>
-
-              <div class="mb-3">
-                <label for="password" class="form-label fw-semibold text-dark">كلمة المرور <span class="text-danger">*</span></label>
-                <input 
-                  type="password" id="password" formControlName="password" 
-                  class="form-control py-2.5 rounded-3 text-start" 
-                  [ngClass]="{'is-invalid': registerForm.get('password')?.touched && registerForm.get('password')?.invalid}"
-                  placeholder="••••••••">
-                <div class="invalid-feedback">يجب أن لا تقل كلمة المرور عن 6 أحرف.</div>
-              </div>
-
-              <div class="mb-4">
-                <label class="form-label fw-semibold text-dark d-block">نوع الحساب (الصلاحية) <span class="text-danger">*</span></label>
-                <div class="d-flex gap-3">
-                  
-                  <div class="flex-grow-1">
-                    <input type="radio" class="btn-check" formControlName="role" id="roleParent" value="Parent" autocomplete="off" checked>
-                    <label class="btn btn-outline-success w-100 py-2.5 rounded-3 fw-bold" for="roleParent">
-                      👨‍👩‍👦 ولي أمر
-                    </label>
-                  </div>
-
-                  <div class="flex-grow-1">
-                    <input type="radio" class="btn-check" formControlName="role" id="roleOwner" value="NurseryAdmin" autocomplete="off">
-                    <label class="btn btn-outline-primary w-100 py-2.5 rounded-3 fw-bold" for="roleOwner">
-                      🏢 صاحب حضانة
-                    </label>
-                  </div>
-
+                <label class="form-label fw-semibold">الاسم بالكامل</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white">👤</span>
+                  <input type="text" formControlName="fullName" class="form-control" placeholder="أدخل اسمك الثلاثي"
+                         [ngClass]="{'is-invalid': registerForm.get('fullName')?.touched && registerForm.get('fullName')?.invalid}">
+                  <div class="invalid-feedback">الاسم مطلوب (3 أحرف على الأقل).</div>
                 </div>
               </div>
 
-              <button 
-                type="submit" 
-                class="btn btn-success btn-lg w-100 py-2.5 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2"
-                [disabled]="registerForm.invalid || isLoading()">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">البريد الإلكتروني</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white">📧</span>
+                  <input type="email" formControlName="email" class="form-control" placeholder="example@mail.com"
+                         [ngClass]="{'is-invalid': registerForm.get('email')?.touched && registerForm.get('email')?.invalid}">
+                  <div class="invalid-feedback">يرجى إدخال بريد إلكتروني صحيح.</div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">كلمة المرور</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white">🔒</span>
+                  <input type="password" formControlName="password" class="form-control" placeholder="••••••••"
+                         [ngClass]="{'is-invalid': registerForm.get('password')?.touched && registerForm.get('password')?.invalid}">
+                  <div class="invalid-feedback">كلمة المرور مطلوبة (6 أحرف على الأقل).</div>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label fw-semibold">نوع الحساب (صلاحية الدخول)</label>
+                <div class="d-flex gap-3 mt-1">
+                  <div class="form-check card-role flex-fill p-3 border rounded-3 text-center position-relative" 
+                       [ngClass]="{'border-primary bg-primary bg-opacity-10': registerForm.get('role')?.value === 'Parent'}">
+                    <input class="form-check-input d-none" type="radio" id="roleParent" value="Parent" formControlName="role">
+                    <label class="form-check-label w-100 h-100 cursor-pointer stretched-link" for="roleParent">
+                      <span class="fs-4 d-block mb-1">👶</span>
+                      <strong class="d-block text-dark small">ولي أمر طفل</strong>
+                    </label>
+                  </div>
+
+                  <div class="form-check card-role flex-fill p-3 border rounded-3 text-center position-relative"
+                       [ngClass]="{'border-success bg-success bg-opacity-10': registerForm.get('role')?.value === 'NurseryAdmin'}">
+                    <input class="form-check-input d-none" type="radio" id="roleOwner" value="NurseryAdmin" formControlName="role">
+                    <label class="form-check-label w-100 h-100 cursor-pointer stretched-link" for="roleOwner">
+                      <span class="fs-4 d-block mb-1">🏢</span>
+                      <strong class="d-block text-dark small">صاحب حضانة</strong>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" [disabled]="registerForm.invalid || isLoading()" 
+                      class="btn btn-primary btn-lg w-100 py-2.5 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
                 @if (isLoading()) {
                   <span class="spinner-border spinner-border-sm" role="status"></span>
-                  جاري إنشاء الحساب...
+                  جاري تسجيل بياناتك في الـ DB...
                 } @else {
-                  تسجيل حساب جديد 🚀
+                  🚀 إنشاء الحساب وتفعيل البريد
                 }
               </button>
 
-              <div class="text-center mt-4">
+              <div class="text-center mt-3 small">
                 <span class="text-muted">لديك حساب بالفعل؟ </span>
-                <a routerLink="/auth/login" class="text-success fw-bold text-decoration-none">تسجيل الدخول</a>
+                <a routerLink="/auth/login" class="text-primary fw-bold text-decoration-none">سجل دخولك هنا</a>
               </div>
 
             </form>
-          </div>
+          }
+
         </div>
-      }
-
-      @if (showOtpModal()) {
-        <div class="card auth-card border-0 shadow rounded-4 p-4 text-center border-top border-5 border-success animate-fade-in">
-          <div class="otp-icon mb-3 fs-1">✉️</div>
-          <h3 class="fw-bold text-dark mb-2">تأكيد البريد الإلكتروني</h3>
-          <p class="text-muted mb-4">
-            تم تسجيل بياناتك بنجاح! يرجى إدخال كود التفعيل المرسل إلى حسابك: <br>
-            <strong class="text-dark">{{ registeredEmail() }}</strong>
-          </p>
-
-          <form [formGroup]="otpForm" (ngSubmit)="onVerifyOtp()">
-            
-            <div class="mb-4">
-              <input 
-                type="text" 
-                formControlName="otpCode" 
-                class="form-control form-control-lg text-center fw-bold rounded-3 border-2 py-3" 
-                [ngClass]="{'is-invalid': otpForm.get('otpCode')?.touched && otpForm.get('otpCode')?.invalid}"
-                placeholder="ضع كود التفعيل هنا" 
-                maxlength="500">
-              <div class="invalid-feedback">يرجى إدخال كود تفعيل صحيح.</div>
-            </div>
-
-            <button 
-              type="submit" 
-              class="btn btn-success btn-lg w-100 py-2.5 rounded-3 fw-bold shadow-sm"
-              [disabled]="otpForm.invalid || isLoading()">
-              @if (isLoading()) {
-                <span class="spinner-border spinner-border-sm" role="status"></span>
-                جاري التحقق من الكود...
-              } @else {
-                تأكيد الكود وتفعيل الحساب ✓
-              }
-            </button>
-            
-          </form>
-        </div>
-      }
+      </div>
 
     </div>
   </div>
