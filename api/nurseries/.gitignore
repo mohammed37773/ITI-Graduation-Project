@@ -1,0 +1,17 @@
+## .NET Build outputs
+**/bin/
+**/obj/
+*.user
+.vs/
+
+## Secrets
+**/appsettings.json
+**/appsettings.Development.json
+
+## Node
+node_modules/
+dist/
+
+.vs/
+bin/
+obj/

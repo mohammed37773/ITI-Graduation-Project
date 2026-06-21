@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NurseriesNetwork.Core\NurseriesNetwork.Core.csproj" />
+  </ItemGroup>
+
 </Project>
