@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NurseriesNetwork.Core.Entities;
+<<<<<<< HEAD
 using System;
 using System.Collections.Generic;
 using System.Text;
+=======
+>>>>>>> main
 
 namespace NurseriesNetwork.Infrastructure.Data
 {
