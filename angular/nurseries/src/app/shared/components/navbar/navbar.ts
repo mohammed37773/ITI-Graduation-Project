@@ -11,14 +11,11 @@ import { AuthService } from '../../../core/services/auth';
   styleUrl: './navbar.css'
 })
 export class Navbar {
-  // 2. عمل inject للـ Router والـ AuthService وعملهم public عشان الـ HTML يشوفهم
   public authService = inject(AuthService);
-  public router = inject(Router); // السطر ده هو اللي هيحل المشكلة فوراً! 🚀
+  public router = inject(Router);
 
   onLogout() {
     this.authService.logout();
-    
-    // 3. التوجيه لصفحة الـ login الحقيقية بناءً على الـ routes بتاعتك
     this.router.navigate(['/auth/login']); 
   }
 }

@@ -1,54 +1,78 @@
-<div class="container my-5" dir="rtl">
+<div class="container py-5" dir="rtl">
   <div class="row justify-content-center">
-    <div class="col-md-7 col-lg-6">
-      <div class="card border-0 shadow rounded-4 overflow-hidden bg-white">
-        <div class="card-header bg-primary text-white p-4 text-center">
-          <h3 class="fw-bold mb-1">طلب التحاق بـ {{ nurseryName() }} 🏫</h3>
-          <p class="mb-0 opacity-75 small">أنت تقوم بتقديم طلب حجز مباشر لايف بالسيرفر</p>
-        </div>
-        <div class="card-body p-4">
-          @if (isSubmitted()) {
-            <div class="alert alert-success border-0 rounded-3 text-center py-3 mb-4">
-              <h5 class="fw-bold mb-1">🎉 تم إرسال طلب الحجز بنجاح!</h5>
-              <p class="small mb-0 text-muted">جاري الانتقال إلى لوحة الحجوزات...</p>
-            </div>
-          }
-          @if (errorMessage()) {
-            <div class="alert alert-danger border-0 rounded-3 mb-4">
-              <strong>⚠️ تنبيه:</strong> {{ errorMessage() }}
-            </div>
-          }
+    <div class="col-md-8 col-lg-6">
+      
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
+        
+        @if (!isWaitingForPayment() && !isSubmitted()) {
+          <div class="text-center mb-4">
+            <span class="fs-1">👶</span>
+            <h3 class="fw-bold text-dark mt-2 mb-1">طلب حجز جديد</h3>
+            <p class="text-muted small">{{ nurseryName() }}</p>
+          </div>
+
           <form [formGroup]="bookingForm" (ngSubmit)="onSubmitBooking()">
-            <div class="mb-3">
-              <label class="form-label fw-semibold">اختر الطفل المراد تسجيله</label>
-              <div class="input-group">
-                <span class="input-group-text bg-white">👶</span>
-                <select formControlName="childId" class="form-select" [ngClass]="{'is-invalid': bookingForm.get('childId')?.touched && bookingForm.get('childId')?.invalid}">
-                  <option value="" disabled selected>-- اختر طفلاً من القائمة --</option>
-                  @for (child of myChildren(); track child.id) {
-                    <option [value]="child.id">{{ child.name }}</option>
-                  }
-                </select>
-                <div class="invalid-feedback">يرجى اختيار اسم الطفل من القائمة.</div>
-              </div>
+            <div class="mb-3 text-start">
+              <label class="form-label fw-semibold text-secondary small">اختر الطفل</label>
+              <select formControlName="childId" class="form-select rounded-3 p-2-5" 
+                      [class.is-invalid]="bookingForm.get('childId')?.touched && bookingForm.get('childId')?.invalid">
+                <option value="" disabled selected>-- اختر من أطفالك المسجلين --</option>
+                @for (child of myChildren(); track child.id) {
+                  <option [value]="child.id">{{ child.fullName }}</option>
+                }
+              </select>
+              <div class="invalid-feedback">يرجى اختيار الطفل.</div>
             </div>
-            <div class="mb-4">
-              <label class="form-label fw-semibold">تاريخ بدء حضور الطفل</label>
-              <div class="input-group">
-                <span class="input-group-text bg-white">📅</span>
-                <input type="date" formControlName="startDate" class="form-control" [ngClass]="{'is-invalid': bookingForm.get('startDate')?.touched && bookingForm.get('startDate')?.invalid}">
-                <div class="invalid-feedback">تحديد تاريخ البداية مطلوب.</div>
-              </div>
+
+            <div class="mb-4 text-start">
+              <label class="form-label fw-semibold text-secondary small">تاريخ بدء الحجز</label>
+              <input type="date" formControlName="startDate" class="form-control rounded-3 p-2-5"
+                     [class.is-invalid]="bookingForm.get('startDate')?.touched && bookingForm.get('startDate')?.invalid">
+              <div class="invalid-feedback">يرجى تحديد تاريخ البدء.</div>
             </div>
-            <button type="submit" [disabled]="bookingForm.invalid || isLoading() || isSubmitted() || myChildren().length === 0" class="btn btn-primary btn-lg w-100 py-2.5 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+
+            @if (errorMessage()) {
+              <div class="alert alert-danger border-0 small rounded-3 mb-3">
+                ⚠️ {{ errorMessage() }}
+              </div>
+            }
+
+            <button type="submit" [disabled]="isLoading()" class="btn btn-success fw-bold w-100 py-2-5 rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2">
               @if (isLoading()) {
-                <span class="spinner-border spinner-border-sm"></span> جاري الإرسال للـ DB...
+                <div class="spinner-border spinner-border-sm" role="status"></div>
+                <span>جاري حفظ البيانات...</span>
               } @else {
-                ✅ تأكيد وإرسال طلب الحجز
+                <span>تأكيد وإنشاء الحجز ➔</span>
               }
             </button>
           </form>
-        </div>
+        }
+
+       @if (isWaitingForPayment()) {
+  <div class="text-center py-4">
+    <div class="mb-3 fs-1 text-success">📝</div>
+    <h4 class="fw-bold text-dark mb-2">تم تسجيل طلب الحجز بنجاح!</h4>
+    <p class="text-muted small">
+      تم تسجيل الحجز في النظام وحالته الآن ينتظر الرد. يرجى الانتقال لبوابة الدفع الآمنة لتأكيد حجز الحاضنة.
+    </p>
+
+    <a [routerLink]="['/parent/payment', createdBookingId]" class="btn btn-primary fw-bold w-100 py-3 rounded-3 mt-3 shadow-sm text-decoration-none">
+      💳 الانتقال إلى صفحة الدفع الإلكتروني (Paymob)
+    </a>
+  </div>
+}
+
+        @if (isSubmitted()) {
+          <div class="text-center py-4">
+            <div class="mb-3 fs-1 text-success">🎉</div>
+            <h4 class="fw-bold text-success mb-2">مبارك! تم تأكيد الحجز والطلب مكتمل</h4>
+            <p class="text-muted small px-3">
+              تم استلام أموال الحجز بنجاح وتم تفعيل الحاضنة الذكية لطفلك. جاري توجيهك الآن لجدول حجوزاتك...
+            </p>
+            <div class="spinner-border spinner-border-sm text-success mt-2" role="status"></div>
+          </div>
+        }
+
       </div>
     </div>
   </div>

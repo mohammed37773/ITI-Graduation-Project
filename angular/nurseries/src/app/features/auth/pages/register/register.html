@@ -3,7 +3,7 @@
     <div class="col-md-6">
       
       <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
-        <div class="card-header bg-primary text-white text-center p-4">
+        <div class="card-header text-white text-center p-4">
           <h3 class="fw-bold mb-1">إنشاء حساب جديد 🚀</h3>
           <p class="mb-0 opacity-75 small">انضم إلى شبكة الحضانات الذكية الآن</p>
         </div>
@@ -61,15 +61,25 @@
                   <span class="input-group-text bg-white">🔒</span>
                   <input type="password" formControlName="password" class="form-control" placeholder="••••••••"
                          [ngClass]="{'is-invalid': registerForm.get('password')?.touched && registerForm.get('password')?.invalid}">
-                  <div class="invalid-feedback">كلمة المرور مطلوبة (6 أحرف على الأقل).</div>
+                  
+                  <div class="invalid-feedback">
+                    @if (registerForm.get('password')?.errors?.['required']) {
+                      <span>كلمة المرور مطلوبة إجبارياً.</span>
+                    } @else if (registerForm.get('password')?.errors?.['minlength']) {
+                      <span>يجب ألا تقل كلمة المرور عن 6 خانات.</span>
+                    } @else if (registerForm.get('password')?.errors?.['pattern']) {
+                      <span>يجب أن تحتوي (حرف كبير، حرف صغير، رقم، ورمز خاص مثل @$!%*?&).</span>
+                    }
+                  </div>
                 </div>
               </div>
 
               <div class="mb-4">
                 <label class="form-label fw-semibold">نوع الحساب (صلاحية الدخول)</label>
                 <div class="d-flex gap-3 mt-1">
+                  
                   <div class="form-check card-role flex-fill p-3 border rounded-3 text-center position-relative" 
-                       [ngClass]="{'border-primary bg-primary bg-opacity-10': registerForm.get('role')?.value === 'Parent'}">
+                       [ngClass]="{'active': registerForm.get('role')?.value === 'Parent'}">
                     <input class="form-check-input d-none" type="radio" id="roleParent" value="Parent" formControlName="role">
                     <label class="form-check-label w-100 h-100 cursor-pointer stretched-link" for="roleParent">
                       <span class="fs-4 d-block mb-1">👶</span>
@@ -78,13 +88,14 @@
                   </div>
 
                   <div class="form-check card-role flex-fill p-3 border rounded-3 text-center position-relative"
-                       [ngClass]="{'border-success bg-success bg-opacity-10': registerForm.get('role')?.value === 'NurseryAdmin'}">
+                       [ngClass]="{'active': registerForm.get('role')?.value === 'NurseryAdmin'}">
                     <input class="form-check-input d-none" type="radio" id="roleOwner" value="NurseryAdmin" formControlName="role">
                     <label class="form-check-label w-100 h-100 cursor-pointer stretched-link" for="roleOwner">
                       <span class="fs-4 d-block mb-1">🏢</span>
                       <strong class="d-block text-dark small">صاحب حضانة</strong>
                     </label>
                   </div>
+                  
                 </div>
               </div>
 

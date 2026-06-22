@@ -66,7 +66,11 @@ export const routes: Routes = [
       {
         path: 'bookings/new/:nurseryId',
         loadComponent: () => import('./features/bookings/new-booking/new-booking').then(m => m.NewBooking)
-      }
+      },
+      {
+  path: 'payment/:bookingId',
+  loadComponent: () => import('./features/payment/payment').then(m => m.Payment)
+}
     ]
   },
 

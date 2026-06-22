@@ -1,0 +1,38 @@
+.btn-payment-option {
+  background-color: #ffffff;
+  border: 2px solid #f1f5f9;
+  transition: all 0.25s ease-in-out;
+  text-decoration: none;
+}
+
+.btn-payment-option:hover {
+  border-color: #2ecc71;
+  background-color: #f0fdf4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.08);
+}
+
+.payment-icon-header {
+  font-size: 3.5rem;
+}
+
+.success-checkmark {
+  font-size: 4rem;
+  color: #2ecc71;
+  animation: scaleUp 0.4s ease-in-out;
+}
+
+.failed-cross {
+  font-size: 4rem;
+  color: #e74c3c;
+}
+
+.alert-warning-light {
+  background-color: #fffbeb;
+  color: #b45309;
+}
+
+@keyframes scaleUp {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}

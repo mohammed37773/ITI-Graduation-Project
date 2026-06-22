@@ -1,54 +1,57 @@
-<div class="chatbot-container" dir="rtl">
-  <div class="chat-header">
-    <div class="bot-info">
-      <div class="bot-avatar">🤖</div>
-      <div class="bot-details">
-        <h4>المساعد الذكي لشبكة الحضانات</h4>
-        <p class="status">
-          <span class="status-dot"></span> متصل الآن ومستعد لمساعدتك
-        </p>
-      </div>
-    </div>
-    
-    <button type="button" class="btn-clear" (click)="onClearChat()" [disabled]="messages().length === 0 || isLoading()">
-      مسح المحادثة 🗑️
-    </button>
-  </div>
-
-  <div class="chat-messages">
-    @for (msg of messages(); track msg.timestamp) {
-      <div class="message-wrapper" [ngClass]="msg.sender === 'user' ? 'user-style' : 'ai-style'">
-        <div class="message-bubble">
-          {{ msg.text }}
-        </div>
-        <div class="message-time">
-          {{ msg.timestamp | date:'shortTime' }}
-        </div>
-      </div>
-    }
-
-    @if (isLoading()) {
-      <div class="message-wrapper ai-style">
-        <div class="message-bubble">
-          <div class="typing-indicator">
-            <span></span>
-            <span></span>
-            <span></span>
+<div class="container py-4" dir="rtl">
+  <div class="row justify-content-center">
+    <div class="col-xl-9 col-lg-10">
+      
+      <div class="card chat-card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
+        
+        <div class="card-header bg-success-dark text-white p-3 d-flex align-items-center gap-3">
+          <div class="bot-avatar">🤖</div>
+          <div>
+            <h5 class="fw-bold mb-0">المستشار الطبي الذكي 🩺</h5>
+            <p class="mb-0 small text-success-light">متصل لايف ومستعد للإجابة على استفساراتك الطبية</p>
           </div>
         </div>
-      </div>
-    }
-  </div>
 
-  <form [formGroup]="chatForm" (ngSubmit)="onSendMessage()" class="chat-input-area">
-    <input 
-      type="text" 
-      formControlName="message" 
-      placeholder="اسأل الذكاء الاصطناعي عن أي شيء يخص الحضانات..."
-      (keydown.enter)="$event.preventDefault(); onSendMessage()">
-    
-    <button type="submit" class="btn-send" [disabled]="chatForm.invalid || isLoading()">
-      إرسال 🚀
-    </button>
-  </form>
+        <div class="card-body p-4 chat-body" #chatContainer>
+          @for (msg of messages(); track msg.timestamp) {
+            <div class="d-flex mb-3" [ngClass]="msg.isUser ? 'justify-content-end' : 'justify-content-start'">
+              <div class="message-bubble" [ngClass]="msg.isUser ? 'user-bubble' : 'bot-bubble'">
+                <div class="message-text">{{ msg.text }}</div>
+                <div class="message-time text-end small opacity-50 mt-1">
+                  {{ msg.timestamp | date:'shortTime' }}
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (isTyping()) {
+            <div class="d-flex justify-content-start mb-3">
+              <div class="message-bubble bot-bubble text-muted d-flex align-items-center gap-2">
+                <span>جاري صياغة الرد الطبي الذكي...</span>
+                <div class="typing-dots">
+                  <span>.</span><span>.</span><span>.</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="card-footer bg-light border-top p-3">
+          <form (ngSubmit)="sendMessage()" class="d-flex gap-2">
+            <input type="text" [(ngModel)]="userMessage" name="messageInput" 
+                   class="form-control chat-input shadow-sm border-2 rounded-3 px-3" 
+                   placeholder="اكتب استفسارك الطبي هنا (مثال: ما هو الوزن المثالي للطفل في الأسبوع 34؟)..."
+                   [disabled]="isTyping()">
+            
+            <button type="submit" [disabled]="!userMessage().trim() || isTyping()" 
+                    class="btn btn-success send-btn px-4 rounded-3 fw-bold d-flex align-items-center gap-2 shadow-sm">
+              إرسال 🚀
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 </div>

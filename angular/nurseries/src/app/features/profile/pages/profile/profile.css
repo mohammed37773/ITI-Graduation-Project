@@ -1,0 +1,60 @@
+.profile-avatar-wrapper {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, #ebfbf2 0%, #c2f5d3 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #2ecc71;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.15);
+}
+
+.profile-avatar-icon {
+  font-size: 2.5rem;
+}
+
+.custom-input {
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-input:focus {
+  border-color: #2ecc71 !important;
+  box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, 0.12) !important;
+}
+
+.btn-success {
+  background-color: #27ae60;
+  border: none;
+}
+.btn-success:hover {
+  background-color: #1e3d2f;
+}
+
+.bg-success-light {
+  background-color: #f0fdf4 !important;
+  color: #166534 !important;
+}
+
+.bg-danger-light {
+  background-color: #fef2f2 !important;
+  color: #991b1b !important;
+}
+
+.table th {
+  font-weight: 600;
+  color: #4b5563;
+  font-size: 0.9rem;
+}
+
+.table td {
+  font-size: 0.925rem;
+}
+
+.fs-7 {
+  font-size: 0.825rem !important;
+}

@@ -1,56 +1,78 @@
-<div class="container my-5" dir="rtl">
-  <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+<div class="container py-4" dir="rtl">
+  
+  <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h2 class="fw-bold text-dark mb-1">طلبات حجوزات أطفالي 👶✨</h2>
-      <p class="text-muted mb-0">تابع حالة طلبات الالتحاق المرفوعة للحضانات لايف من قاعدة البيانات.</p>
+      <h2 class="fw-bold text-dark mb-1">قائمة حجوزاتي 📑</h2>
+      <p class="text-muted small mb-0">متابعة حالة طلبات حجز الحواضن لأطفالك المسجلين بالنظام.</p>
     </div>
-    <a routerLink="/parent/new-booking/1" class="btn btn-primary fw-bold px-4 rounded-3 shadow-sm">➕ حجز جديد</a>
+    
+    <a [routerLink]="['/parent/bookings/new', firstNurseryId()]" class="btn btn-success fw-bold px-4 rounded-3 shadow-sm">
+      ➕ طلب حجز جديد
+    </a>
+  </div>
+
+  <div class="d-flex gap-2 mb-4 overflow-x-auto pb-2">
+    <button (click)="changeFilter('all')" [class.active]="selectedFilter() === 'all'" class="btn btn-outline-secondary px-4 rounded-pill btn-sm">الكل</button>
+    <button (click)="changeFilter('Pending')" [class.active]="selectedFilter() === 'Pending'" class="btn btn-outline-warning px-4 rounded-pill btn-sm">المعلقة</button>
+    <button (click)="changeFilter('Confirmed')" [class.active]="selectedFilter() === 'Confirmed'" class="btn btn-outline-success px-4 rounded-pill btn-sm">المقبولة</button>
+    <button (click)="changeFilter('Cancelled')" [class.active]="selectedFilter() === 'Cancelled'" class="btn btn-outline-danger px-4 rounded-pill btn-sm">الملغية</button>
   </div>
 
   @if (errorMessage()) {
-    <div class="alert alert-danger rounded-3 mb-4">{{ errorMessage() }}</div>
+    <div class="alert alert-danger border-0 shadow-sm rounded-3 mb-4">
+      ⚠️ {{ errorMessage() }}
+    </div>
   }
 
-  <div class="d-flex gap-2 mb-4 overflow-x-auto pb-2">
-    <button (click)="changeFilter('all')" class="btn rounded-pill px-4" [ngClass]="selectedFilter() === 'all' ? 'btn-dark' : 'btn-outline-dark'">الكل ({{ allBookings().length }})</button>
-    <button (click)="changeFilter('Pending')" class="btn rounded-pill px-4" [ngClass]="selectedFilter() === 'Pending' ? 'btn-warning' : 'btn-outline-warning'">قيد الانتظار ⏳</button>
-    <button (click)="changeFilter('Confirmed')" class="btn rounded-pill px-4" [ngClass]="selectedFilter() === 'Confirmed' ? 'btn-success' : 'btn-outline-success'">المقبولة ✓</button>
-    <button (click)="changeFilter('Cancelled')" class="btn rounded-pill px-4" [ngClass]="selectedFilter() === 'Cancelled' ? 'btn-danger' : 'btn-outline-danger'">الملغية ✕</button>
-  </div>
-
   @if (isLoading()) {
-    <div class="text-center my-5 py-5"><div class="spinner-border text-primary"></div></div>
+    <div class="d-flex justify-content-center align-items-center my-5 py-5">
+      <div class="spinner-border text-success" role="status"></div>
+    </div>
   } @else {
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    
+    <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
       <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0 text-center">
-          <thead class="table-light">
-            <tr>
-              <th class="py-3">رقم الحجز</th>
-              <th class="py-3">كود الحضانة</th>
-              <th class="py-3">كود الطفل</th>
-              <th class="py-3">تاريخ بدء الحضور</th>
-              <th class="py-3">الحالة الحالية</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (booking of filteredBookings(); track booking.id) {
+        @if (filteredBookings().length === 0) {
+          <div class="text-center py-5">
+            <span class="fs-1 text-muted">📭</span>
+            <p class="text-muted mt-2 mb-0">لا توجد حجوزات تطابق الفلتر الحالي.</p>
+          </div>
+        } @else {
+          <table class="table table-hover align-middle mb-0 text-center">
+            <thead class="table-light text-secondary small fw-bold">
               <tr>
-                <td class="fw-bold text-secondary">#{{ booking.id }}</td>
-                <td class="fw-medium">🏫 حضانة رقم: {{ booking.nurseryId }}</td>
-                <td><span class="badge bg-light text-dark border px-3 py-1.5 rounded-3">👶 طفل كود: {{ booking.childId }}</span></td>
-                <td class="text-muted small">{{ booking.startDate | date:'dd/MM/yyyy' }}</td>
-                <td>
-                  <span class="badge rounded-pill px-3 py-2" [ngClass]="{'bg-warning-subtle text-warning': booking.status === 'Pending', 'bg-success-subtle text-success': booking.status === 'Confirmed', 'bg-danger-subtle text-danger': booking.status === 'Cancelled'}">
-                    {{ booking.status === 'Pending' ? 'قيد الانتظار ⏳' : booking.status === 'Confirmed' ? 'تم القبول ✓' : 'ملغي/مرفوض ✕' }}
-                  </span>
-                </td>
+                <th class="py-3">رقم الحجز</th>
+                <th class="py-3">رقم الحضانة</th>
+                <th class="py-3">تاريخ البدء</th>
+                <th class="py-3">المبلغ الإجمالي</th>
+                <th class="py-3">حالة الطلب</th>
               </tr>
-            } @empty {
-              <tr><td colspan="5" class="text-center py-5 text-muted">لا توجد أي طلبات حجز تطابق الفلتر الحالي.</td></tr>
-            }
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              @for (booking of filteredBookings(); track booking.id) {
+                <tr>
+                  <td class="fw-bold text-secondary">#{{ booking.id }}</td>
+                  <td class="fw-semibold text-dark">حضانة رقم #{{ booking.nurseryId }}</td>
+                  <td>{{ booking.startDate | date:'yyyy-MM-dd' }}</td>
+                  <td class="fw-bold text-success">{{ booking.amount || 0 }} ج.م</td>
+                  <td>
+                    <span class="badge px-3 py-2 rounded-pill fs-7" 
+                          [ngClass]="{
+                            'bg-warning-subtle text-warning': booking.status === 0 || booking.status === 'Pending',
+                            'bg-success-subtle text-success': booking.status === 1 || booking.status === 'Confirmed' || booking.status === 'Completed',
+                            'bg-danger-subtle text-danger': booking.status === 2 || booking.status === 'Cancelled'
+                          }">
+                      {{ 
+                        (booking.status === 0 || booking.status === 'Pending') ? 'ينتظر الرد' : 
+                        (booking.status === 1 || booking.status === 'Confirmed' || booking.status === 'Completed') ? 'مؤكد' : 'ملغي' 
+                      }}
+                    </span>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
       </div>
     </div>
   }

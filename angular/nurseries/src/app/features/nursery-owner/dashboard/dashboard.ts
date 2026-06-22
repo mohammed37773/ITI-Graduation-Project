@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Booking } from '../../../core/models/booking.model';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true, // تأكد إنها standalone طالما بتستخدمها في الـ routes الجديدة
-  imports: [CommonModule],
+  standalone: true, 
+  imports: [CommonModule , RouterLink],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })

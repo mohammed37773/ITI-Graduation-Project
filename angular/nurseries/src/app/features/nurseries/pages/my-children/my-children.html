@@ -1,0 +1,90 @@
+<div class="container py-5" dir="rtl">
+  
+  <!-- هيدر الشاشة -->
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+      <h2 class="fw-bold text-dark mb-1">👶 إدارة ملفات أطفالي</h2>
+      <p class="text-muted small mb-0">قم بإضافة أطفالك وتحديث بياناتهم لتتمكن من التقديم والحجز لهم في الحضانات.</p>
+    </div>
+    <button (click)="showAddForm.set(!showAddForm())" class="btn btn-primary rounded-3 px-4 py-2 fw-semibold shadow-sm">
+      {{ showAddForm() ? '❌ إلغاء الإضافة' : '➕ إضافة طفل جديد' }}
+    </button>
+  </div>
+
+  <!-- فورم إضافة طفل جديد -->
+  @if (showAddForm()) {
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-5 animate-fade-in">
+      <h5 class="fw-bold text-secondary mb-4 border-bottom pb-2">📝 تسجيل طفل جديد</h5>
+      <form [formGroup]="childForm" (ngSubmit)="onSubmit()" class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">اسم الطفل بالكامل</label>
+          <input type="text" formControlName="name" class="form-control rounded-3" placeholder="اكتب اسم طفلك">
+          @if (childForm.get('name')?.touched && childForm.get('name')?.invalid) {
+            <div class="text-danger small mt-1">الاسم مطلوب (3 أحرف على الأقل).</div>
+          }
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-semibold">العمر (بالسنوات)</label>
+          <input type="number" formControlName="age" class="form-control rounded-3" placeholder="مثال: 4">
+          @if (childForm.get('age')?.touched && childForm.get('age')?.invalid) {
+            <div class="text-danger small mt-1">يرجى إدخال عمر صحيح.</div>
+          }
+        </div>
+        <div class="col-12">
+          <label class="form-label fw-semibold">ملاحظات خاصة (حالة صحية، هوايات، وجبات مفضلة)</label>
+          <textarea formControlName="notes" class="form-control rounded-3" rows="3" placeholder="اكتب أي ملاحظات تود أن يعرفها طاقم الحضانة..."></textarea>
+        </div>
+        <div class="col-12 text-end mt-4">
+          <button type="submit" [disabled]="childForm.invalid || isSubmitting()" class="btn btn-success rounded-3 px-5 py-2 fw-bold">
+            @if (isSubmitting()) {
+              <span class="spinner-border spinner-border-sm"></span> جاري الحفظ...
+            } @else {
+              💾 حفظ البيانات
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+
+  <!-- عرض قائمة الأطفال -->
+  @if (isLoading()) {
+    <div class="d-flex justify-content-center align-items-center my-5 py-5">
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+    </div>
+  } @else {
+    
+    <div class="row g-4">
+      @if (children().length === 0) {
+        <div class="col-12 text-center py-5">
+          <span class="fs-1">🧸</span>
+          <p class="text-muted fw-medium mt-3">لم تقم بإضافة أي أطفال لحسابك حتى الآن. اضغط على زر الإضافة بالأعلى للبدء.</p>
+        </div>
+      } @else {
+        @for (child of children(); track child.id) {
+          <div class="col-md-6 col-lg-4">
+            <div class="card child-card border-0 shadow-sm rounded-4 p-4 bg-white h-100 position-relative overflow-hidden">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="avatar-box bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fs-3">
+                  👦
+                </div>
+                <div>
+                  <h5 class="fw-bold text-dark mb-1">{{ child.name }}</h5>
+                  <span class="badge bg-light text-primary border border-primary-subtle px-3 py-1.5 rounded-pill">العمر: {{ child.age }} سنوات</span>
+                </div>
+              </div>
+              
+              <div class="mt-2">
+                <p class="small text-secondary mb-1 fw-semibold">🗒️ ملاحظات وتوجيهات خاصة:</p>
+                <p class="small text-muted mb-0 lh-base bg-light p-2.5 rounded-3">
+                  {{ child.notes || 'لا توجد ملاحظات خاصة مسجلة لهذا الطفل.' }}
+                </p>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+  }
+</div>

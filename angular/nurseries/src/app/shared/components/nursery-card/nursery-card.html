@@ -1,1 +1,18 @@
-<p>nursery-card works!</p>
+<div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+  <img [src]="nursery.images && nursery.images.length > 0 ? nursery.images[0].imageUrl : 'assets/images/default-nursery.jpg'" 
+       class="card-img-top object-fit-cover" style="height: 180px;" alt="صورة الحضانة">
+  
+  <div class="card-body p-3">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h5 class="card-title fw-bold text-dark mb-0">{{ nursery.name }}</h5>
+      <span class="badge bg-warning text-dark small">⭐ {{ nursery.rating || 'جديد' }}</span>
+    </div>
+    
+    <p class="text-muted small text-truncate mb-3">{{ nursery.description }}</p>
+    
+    <div class="d-flex justify-content-between align-items-center border-top pt-2">
+      <span class="text-secondary small">📍 {{ nursery.city }}، {{ nursery.district }}</span>
+      <span class="fw-bold text-primary">{{ nursery.dailyPrice }} ج.م <small class="text-muted fw-normal">/يومي</small></span>
+    </div>
+  </div>
+</div>

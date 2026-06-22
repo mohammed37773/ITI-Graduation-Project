@@ -1,3 +1,51 @@
-:host { display: block; background-color: #f4f6f9; min-height: 100vh; font-family: 'Segoe UI', sans-serif; }
-.form-control { border-radius: 8px; border: 1px solid #ced4da; }
-.form-control:focus { border-color: #198754; box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.15); }
+.card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.form-control {
+  border-color: #cbd5e1;
+  padding: 0.65rem 0.85rem;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+}
+
+/* المنطقة المخصصة لرفع الملفات والـ Drag */
+.upload-zone {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.upload-zone:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #0d6efd !important;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* معاينات الصور المربعة المصغرة */
+.img-preview-box {
+  height: 80px !important;
+  object-fit: cover;
+  border-color: #e2e8f0;
+}
+
+.extra-small {
+  font-size: 0.75rem;
+}

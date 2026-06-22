@@ -1,4 +1,4 @@
-<div class="home-container">
+<div class="home-container" dir="rtl">
   
   <header class="hero-section">
     <div class="hero-content">
@@ -18,31 +18,56 @@
       <p>حضانات نوصي بها بناءً على تقييمات أولياء الأمور وتوفر معايير الجودة</p>
     </div>
 
-    <div class="nurseries-grid">
-      @for (nursery of featuredNurseries; track nursery.id) {
-        <div class="nursery-card">
-          <div class="card-image">
-            <img [src]="nursery.images && nursery.images.length > 0 ? nursery.images[0].url : 'assets/images/default-nursery.jpg'" alt="{{ nursery.name }}" />
-            <span class="city-badge">📍 {{ nursery.location }}</span>
-          </div>
-          
-          <div class="card-body">
-            <h3>{{ nursery.name }}</h3>
-            <p class="description">{{ nursery.description }}</p>
-            <p class="address">🏠 {{ nursery.location }}</p>
+    @if (isLoading()) {
+      <div class="text-center my-5 py-4">
+        <div class="spinner-border text-success" role="status"></div>
+        <p class="text-muted small mt-2">جاري استدعاء أفضل الحضانات لايف...</p>
+      </div>
+    } @else {
+      
+      <div class="nurseries-grid">
+        @for (nursery of featuredNurseries(); track nursery.id) {
+          <div class="nursery-card">
             
-            <div class="card-meta">
-              <span class="rating">⭐ {{ nursery.avgRating }}</span>
-              <span class="price"><strong>{{ nursery.dailyPrice }}</strong> ج.م / يوم</span>
+            <div class="card-image">
+              <img [src]="nursery.images && nursery.images.length > 0 ? nursery.images[0].imageUrl || nursery.images[0].url : 'https://images.unsplash.com/photo-1576489922094-27a5521ff34c?q=80&w=500&auto=format&fit=crop'" alt="{{ nursery.name }}" />
+              
+              @if (nursery.isVerified) {
+                <span class="verified-badge">✓ معتمدة</span>
+              } @else {
+                <span class="city-badge">📍 {{ nursery.city || 'القاهرة' }}</span>
+              }
             </div>
+            
+            <div class="card-body">
+              <h3>{{ nursery.name }}</h3>
+              <p class="description">{{ nursery.description }}</p>
+              
+              <div class="age-range">
+                👶 العمر: من {{ nursery.ageRangeMin || 1 }} إلى {{ nursery.ageRangeMax || 6 }} سنوات
+              </div>
+
+              <p class="address">🏠 {{ nursery.district }}، {{ nursery.city }}</p>
+              
+              <div class="card-meta">
+                <span class="rating">⭐ {{ nursery.avgRating || '4.5' }}</span>
+                <span class="price"><strong>{{ nursery.dailyPrice }}</strong> ج.م / يوم</span>
+              </div>
+            </div>
+            
+            <div class="card-actions">
+              <a [routerLink]="['/nurseries', nursery.id]" class="btn-details">عرض التفاصيل والحجز</a>
+            </div>
+            
           </div>
-          
-          <div class="card-actions">
-            <a [routerLink]="['/nurseries', nursery.id]" class="btn-details">عرض التفاصيل</a>
+        } @empty {
+          <div class="text-center py-5 text-muted col-12">
+            📌 لا توجد حضانات مسجلة في النظام حالياً.
           </div>
-        </div>
-      }
-    </div>
+        }
+      </div>
+
+    }
   </section>
 
 </div>

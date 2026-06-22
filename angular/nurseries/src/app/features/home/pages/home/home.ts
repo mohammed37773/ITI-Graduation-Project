@@ -1,55 +1,56 @@
-import { Component, OnInit } from '@angular/core';
-import { NurseryModel } from '../../../../core/models/nursery.model';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  standalone: true, // تأكيد الـ standalone
+  imports: [CommonModule, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
-  // مصفوفة الحضانات المميزة اللي هتربط بعدين بالـ API
-  featuredNurseries: NurseryModel[] = [];
+  private http = inject(HttpClient);
+  // 1️⃣ تعديل الـ URL ليكون بحروف صغيرة تماماً لتفادي الـ 404
+  private apiUrl = 'http://localhost:5104/api/nurseries';
+
+  featuredNurseries = signal<any[]>([]);
+  isLoading = signal<boolean>(true);
 
   ngOnInit(): void {
-    // تحديث الداتا لتطابق الـ Properties الجديدة بالملي
-    this.featuredNurseries = [
-      {
-        id: 1,
-        name: "حضانة الزهور السعيدة",
-        description: "بيئة تعليمية وترفيهية آمنة لأطفالكم مع رعاية طبية متكاملة وأنشطة يومية متميزة.",
-        dailyPrice: 50,
-        ageRangeMin: 1,
-        ageRangeMax: 4,
-        capacity: 30,
-        avgRating: 4.8,
-        isVerified: true,
-        images: [{ id: 1, nurseryId: 1, url: "https://images.unsplash.com/photo-1576489922094-27a5521ff34c?q=80&w=500&auto=format&fit=crop", isMain: true }]
+    this.loadFeaturedNurseries();
+  }
+
+  loadFeaturedNurseries() {
+    this.isLoading.set(true);
+    
+    // هنستقبلها كـ <any> لأنها أوبجكت مغلف وليس Array مباشرة
+    this.http.get<any>(this.apiUrl).subscribe({
+      next: (res) => {
+        // 2️⃣ التشييك الذكي: هل الـ res نفسه Array؟ ولا جواه خاصية اسمها data أو nurseries؟
+        let actualList: any[] = [];
+        
+        if (Array.isArray(res)) {
+          actualList = res;
+        } else if (res && Array.isArray(res.data)) {
+          actualList = res.data;
+        } else if (res && Array.isArray(res.nurseries)) {
+          actualList = res.nurseries;
+        } else if (res && typeof res === 'object') {
+          // لو الباك إند باعت أوبجكت فيه باجينيشن، بنحاول نلقط أي مصفوفة جواه
+          actualList = Object.values(res).find(val => Array.isArray(val)) as any[] || [];
+        }
+
+        // كدة ضمنّا 100% إن الـ actualList عبارة عن Array ومستحيل تضرب تيب ايرور
+        this.featuredNurseries.set(actualList.slice(0, 3));
+        this.isLoading.set(false);
       },
-      {
-        id: 2,
-        name: "حضانة المستقبل الذكي",
-        description: "نهتم بتأسيس اللغات وتنمية مهارات الطفل الإبداعية والذكاء الاصطناعي المبكر للأطفال.",
-        dailyPrice: 75,
-        ageRangeMin: 2,
-        ageRangeMax: 6,
-        capacity: 45,
-        avgRating: 4.6,
-        isVerified: true,
-        images: [{ id: 2, nurseryId: 2, url: "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?q=80&w=500&auto=format&fit=crop", isMain: true }]
-      },
-      {
-        id: 3,
-        name: "حضانة عباقرة الغد",
-        description: "برامج تعليمية متطورة تعتمد على منتسوري لتنمية مهارات الاعتماد على النفس والاستكشاف.",
-        dailyPrice: 60,
-        ageRangeMin: 1,
-        ageRangeMax: 5,
-        capacity: 25,
-        avgRating: 4.3,
-        isVerified: false,
-        images: [{ id: 3, nurseryId: 3,  url: "https://images.unsplash.com/photo-1603481588273-2f908a9a7a1b?q=80&w=500&auto=format&fit=crop", isMain: true }]
+      error: (err) => {
+        console.error('خطأ أثناء تحميل الحضانات في الرئيسية:', err);
+        this.featuredNurseries.set([]); // تأمين الشاشة بمصفوفة فاضية عند الخطأ
+        this.isLoading.set(false);
       }
-    ];
-  }}
+    });
+  }
+}

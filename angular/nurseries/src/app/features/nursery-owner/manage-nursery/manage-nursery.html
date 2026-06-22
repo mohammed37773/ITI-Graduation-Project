@@ -1,21 +1,129 @@
-<div class="container my-5" dir="rtl">
-  <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
-    <div class="card-header bg-success text-white p-4">
-      <h3 class="fw-bold mb-0">{{ isEditMode() ? '⚙️ تعديل بيانات الحضانة' : '🏢 تسجيل حضانة جديدة' }}</h3>
+<div class="container my-5">
+  <div class="card shadow-sm p-4">
+    <h2 class="text-center mb-4 text-primary">
+      {{ isEditMode() ? 'تعديل بيانات الحضانة' : 'تسجيل حضانة جديدة' }}
+    </h2>
+
+    <div *ngIf="isLoading()" class="text-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">جاري التحميل...</span>
+      </div>
+      <p class="mt-2 text-muted">جاري تحميل بيانات الحضانة...</p>
     </div>
-    <div class="card-body p-4">
-      @if (successMessage()) { <div class="alert alert-success">{{ successMessage() }}</div> }
-      <form [formGroup]="nurseryForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-          <label class="form-label">اسم الحضانة</label>
-          <input type="text" formControlName="name" class="form-control">
+
+    <form *ngIf="!isLoading()" [formGroup]="nurseryForm" (ngSubmit)="onSubmit()">
+      <div class="row text-end" dir="rtl">
+        
+        <!-- 1. name -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">اسم الحضانة <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="name" placeholder="أدخل اسم الحضانة">
+          <div *ngIf="nurseryForm.get('name')?.touched && nurseryForm.get('name')?.invalid" class="text-danger small mt-1">
+            اسم الحضانة مطلوب.
+          </div>
         </div>
-        <div class="mb-3">
-          <label class="form-label">الوصف</label>
-          <textarea formControlName="description" rows="3" class="form-control"></textarea>
+
+        <!-- 3. dailyPrice -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">السعر اليومي (جنيه) <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" formControlName="dailyPrice" min="1">
+          <div *ngIf="nurseryForm.get('dailyPrice')?.touched && nurseryForm.get('dailyPrice')?.invalid" class="text-danger small mt-1">
+            السعر اليومي مطلوب.
+          </div>
         </div>
-        <button type="submit" class="btn btn-success w-100 py-2 fw-bold">💾 حفظ البيانات</button>
-      </form>
-    </div>
+
+        <!-- 2. description -->
+        <div class="col-md-12 mb-3">
+          <label class="form-label fw-bold">وصف الحضانة والخدمات <span class="text-danger">*</span></label>
+          <textarea class="form-control" formControlName="description" rows="3" placeholder="تكلم عن الحضانة..."></textarea>
+          <div *ngIf="nurseryForm.get('description')?.touched && nurseryForm.get('description')?.invalid" class="text-danger small mt-1">
+            الوصف مطلوب.
+          </div>
+        </div>
+
+        <!-- 4. ageRangeMin -->
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">الحد الأدنى للسن <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" formControlName="ageRangeMin" min="0">
+        </div>
+
+        <!-- 5. ageRangeMax -->
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">الحد الأقصى للسن <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" formControlName="ageRangeMax" min="1">
+        </div>
+
+        <!-- 6. capacity -->
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">القدرة الاستيعابية <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" formControlName="capacity" min="1">
+          <div *ngIf="nurseryForm.get('capacity')?.touched && nurseryForm.get('capacity')?.invalid" class="text-danger small mt-1">
+            القدرة الاستيعابية مطلوبة.
+          </div>
+        </div>
+
+        <!-- 7. address -->
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">العنوان بالتفصيل <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="address" placeholder="اسم الشارع / رقم المبنى">
+          <div *ngIf="nurseryForm.get('address')?.touched && nurseryForm.get('address')?.invalid" class="text-danger small mt-1">
+            العنوان مطلوب.
+          </div>
+        </div>
+
+        <!-- 8. city -->
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">المدينة <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="city" placeholder="مثال: القاهرة">
+          <div *ngIf="nurseryForm.get('city')?.touched && nurseryForm.get('city')?.invalid" class="text-danger small mt-1">
+            المدينة مطلوبة.
+          </div>
+        </div>
+
+        <!-- 9. district -->
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">الحي / المنطقة <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="district" placeholder="مثال: المعادي">
+          <div *ngIf="nurseryForm.get('district')?.touched && nurseryForm.get('district')?.invalid" class="text-danger small mt-1">
+            الحي مطلوب.
+          </div>
+        </div>
+
+        <!-- 10. latitude -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">خط العرض (Latitude) <span class="text-danger">*</span></label>
+          <input type="number" step="any" class="form-control text-start" formControlName="latitude" placeholder="30.0444">
+        </div>
+
+        <!-- 11. longitude -->
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">خط الطول (Longitude) <span class="text-danger">*</span></label>
+          <input type="number" step="any" class="form-control text-start" formControlName="longitude" placeholder="31.2357">
+        </div>
+
+        <!-- قسم رفع الصور -->
+        <div class="col-md-12 mb-4 mt-2">
+          <label class="form-label fw-bold mb-2 d-block">صور الحضانة والفصول</label>
+          <div class="border border-dashed p-4 text-center rounded bg-light position-relative">
+            <input type="file" class="form-control position-absolute opacity-0 top-0 start-0 w-100 h-100 cursor-pointer" 
+                   multiple (change)="onFileChange($event)" accept="image/*">
+            <span class="text-muted">اضغط هنا أو اسحب الصور لرفعها</span>
+          </div>
+          
+          <div *ngIf="imagePreviews.length > 0" class="d-flex flex-wrap gap-3 mt-3 justify-content-end">
+            <div *ngFor="let preview of imagePreviews" class="position-relative border rounded overflow-hidden shadow-sm" style="width: 100px; height: 100px;">
+              <img [src]="preview" class="w-100 h-100 object-fit-cover" alt="Preview">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center gap-3 mt-4">
+        <button type="submit" class="btn btn-primary px-5 py-2 btn-lg" [disabled]="isSubmitting()">
+          <span *ngIf="isSubmitting()" class="spinner-border spinner-border-sm me-2"></span>
+          {{ isEditMode() ? 'تحديث البيانات' : 'حفظ الحضانة الآن' }}
+        </button>
+      </div>
+    </form>
   </div>
 </div>

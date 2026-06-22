@@ -1,123 +1,74 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ChatbotService } from '../../../../core/services/Ai-chatbot';
+import { AfterViewChecked, Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 interface Message {
-  sender: 'user' | 'ai';
   text: string;
+  isUser: boolean;
   timestamp: Date;
 }
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule , FormsModule],
   templateUrl: './chatbot.html',
   styleUrl: './chatbot.css',
 })
-export class Chatbot implements OnInit {
-  private fb = inject(FormBuilder);
-  readonly chatService = inject(ChatbotService);
+export class Chatbot implements AfterViewChecked {
+  private http = inject(HttpClient);
+  
 
-  // تعريف الـ Signals لإدارة الـ State بقوة أنجولار 21
-  messages = signal<Message[]>([]);
-  isLoading = signal<boolean>(false); 
-  currentConversationId = signal<number>(1); 
+  @ViewChild('chatContainer') chatContainer!: ElementRef;
 
-  chatForm: FormGroup = this.fb.group({
-    message: ['', Validators.required]
-  });
-
-  ngOnInit() {
-    this.loadChatHistory();
-  }
-
-  // 1. جلب تاريخ المحادثة من الـ API عند فتح الشاشة
-  loadChatHistory() {
-    this.isLoading.set(true);
-    this.chatService.getConversationMessages(this.currentConversationId()).subscribe({
-      next: (history: any) => {
-        if (history && history.length > 0) {
-          const mappedMessages = history.map((msg: any) => ({
-            sender: msg.role === 'user' ? 'user' : 'ai',
-            text: msg.content || msg.text,
-            timestamp: new Date(msg.createdAt || new Date())
-          }));
-          this.messages.set(mappedMessages);
-        }
-        this.isLoading.set(false);
-        this.scrollToBottom();
-      },
-      error: (err) => {
-        console.error('فشل في تحميل المحادثات السابقة:', err);
-        this.isLoading.set(false);
-      }
-    });
-  }
-
-  // 2. إرسال الرسالة وربطها بالـ AI API
-  onSendMessage() {
-    if (this.chatForm.invalid || this.isLoading()) return;
-
-    const userText = this.chatForm.value.message.trim();
-    if (!userText) return;
-
-    // عرض رسالة المستخدم فوراً (Optimistic UI)
-    this.messages.update(prev => [...prev, {
-      sender: 'user',
-      text: userText,
+  userMessage = signal<string>('');
+  messages = signal<Message[]>([
+    {
+      text: 'مرحباً بك في المساعد الطبي الذكي لشبكة IncuCare. 👶💚 يمكنك سؤالي عن أي استفسار طبي يخص الأطفال المبتسرين أو العناية المركزة لحديثي الولادة (NICU).',
+      isUser: false,
       timestamp: new Date()
-    }]);
+    }
+  ]);
+  isTyping = signal<boolean>(false);
 
-    this.chatForm.reset(); 
-    this.isLoading.set(true); // تشغيل لودر التفكير فوراً
-    this.scrollToBottom(); 
-
-    // استدعاء الـ API الحقيقي
-    this.chatService.sendMessage(this.currentConversationId(), userText).subscribe({
-      next: (res: any) => {
-        this.isLoading.set(false); // إيقاف الـ لودر بعد الرد
-        
-        const aiReply = res?.outputs?.[0]?.outputs?.[0]?.results?.message?.text
-        this.messages.update(prev => [...prev, {
-          sender: 'ai',
-          text: aiReply,
-          timestamp: new Date()
-        }]);
-
-        this.scrollToBottom();
-      },
-      error: (err) => {
-        console.error('خطأ في الـ AI API:', err);
-        this.isLoading.set(false);
-        
-        this.messages.update(prev => [...prev, {
-          sender: 'ai',
-          text: '⚠️ عذراً، حدث خطأ أثناء الاتصال بالخادم. يرجى المحاولة مرة أخرى.',
-          timestamp: new Date()
-        }]);
-        this.scrollToBottom();
-      }
-    });
+  ngAfterViewChecked() {
+    this.scrollToBottom();
   }
 
-  // 3. مسح المحادثة بالكامل وتصفير الشاشة
-  onClearChat() {
-    if (confirm('هل أنت متأكد من رغبتك في مسح هذه المحادثة بالكامل؟')) {
-      this.messages.set([]); // تصفير الـ Signal لايف
-    }
+  sendMessage() {
+    const text = this.userMessage().trim();
+    if (!text) return;
+
+    // 1. إضافة رسالة المستخدم فوراً للشاشة
+    const currentMessages = this.messages();
+    this.messages.set([...currentMessages, { text, isUser: true, timestamp: new Date() }]);
+    this.userMessage.set('');
+    this.isTyping.set(true);
+
+    // 2. إرسال السؤال لـ API الـ .NET (تأكد من تعديل الـ URL للـ Endpoint الخاص بك)
+    this.http.post<any>('https://localhost:7195/api/Parent/chatbot', { question: text }).subscribe({
+      next: (res) => {
+        this.isTyping.set(false);
+        this.messages.set([
+          ...this.messages(),
+          { text: res.reply || res.response || 'عذراً، لم أستطع فهم الإجابة حالياً.', isUser: false, timestamp: new Date() }
+        ]);
+      },
+      error: (err) => {
+        this.isTyping.set(false);
+        console.error('خطأ في الشات بوت:', err);
+        this.messages.set([
+          ...this.messages(),
+          { text: 'عذراً، واجهت مشكلة في الاتصال بالخادم الطبي الذكي. يرجى المحاولة لاحقاً.', isUser: false, timestamp: new Date() }
+        ]);
+      }
+    });
   }
 
   private scrollToBottom() {
-    setTimeout(() => {
-      const chatContainer = document.querySelector('.chat-messages');
-      if (chatContainer) {
-        chatContainer.scrollTo({
-          top: chatContainer.scrollHeight,
-          behavior: 'smooth'
-        });
-      }
-    }, 50);
+    try {
+      this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+    } catch (err) {}
   }
 }

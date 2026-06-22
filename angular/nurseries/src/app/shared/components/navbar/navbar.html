@@ -1,7 +1,15 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm" dir="rtl">
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm py-2" dir="rtl">
   <div class="container-fluid">
-    <a class="navbar-brand font-weight-bold" routerLink="/">
-      <img src="favicon.ico" alt="Logo" class="img-fluid me-2" style="max-height: 40px;"> شبكة الحضانات
+    
+    <a class="navbar-brand font-weight-bold d-flex align-items-center gap-2 text-decoration-none" routerLink="/">
+      <div class="incubator-icon">
+        <div class="shield-loop"></div>
+        <div class="baby-glow">👶</div>
+      </div>
+      <div class="logo-text d-flex flex-column text-start">
+        <span class="brand-name fw-bold">IncuCare</span>
+        <span class="brand-slogan small opacity-75">شبكة الحواضن الذكية</span>
+      </div>
     </a>
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -11,7 +19,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 padding-nav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 padding-nav gap-1">
           <li class="nav-item">
               <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">الرئيسية</a>
           </li>
@@ -19,18 +27,17 @@
               <a class="nav-link" routerLink="/nurseries" routerLinkActive="active">تصفح الحضانات</a>
           </li>
 
-          <li class="nav-item">
-              <a class="nav-link text-success font-weight-bold" routerLink="/parent/chatbot" routerLinkActive="active">
-                💬 المحادثة الذكية
-              </a>
-          </li>
-          <li>
-              <a class="nav-link text-info font-weight-bold" routerLink="/parent/booking-assistant" routerLinkActive="active">
-                🧑‍💼 مساعد الحجز الذكي
-              </a>  
-          </li>
-
           @if (authService.isAuthenticated() && authService.getRole() === 'Parent') {
+            <li class="nav-item">
+                <a class="nav-link text-success fw-bold" routerLink="/parent/chatbot" routerLinkActive="active">
+                  💬 المحادثة الذكية
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-success fw-bold opacity-75" routerLink="/parent/booking-assistant" routerLinkActive="active">
+                  🧑‍💼 مساعد الحجز الذكي
+                </a>  
+            </li>
             <li class="nav-item">
                 <a class="nav-link" routerLink="/parent/bookings" routerLinkActive="active">حجوزاتي</a>
             </li>
@@ -39,15 +46,22 @@
             </li>
           }
 
-          @if (authService.isAuthenticated() && authService.getRole() === 'NurseryOwner') {
+          @if (authService.isAuthenticated() && (authService.getRole() === 'NurseryAdmin' || authService.getRole() === 'NurseryOwner')) {
             <li class="nav-item">
-                <a class="nav-link font-weight-bold text-primary" routerLink="/owner/dashboard">لوحة تحكم إدارة الحضانة ↗</a>
+                <a class="nav-link text-success fw-bold" routerLink="/parent/chatbot" routerLinkActive="active">
+                  💬 المستشار الطبي الذكي
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link fw-bold text-success opacity-75" routerLink="/owner/dashboard" routerLinkActive="active">
+                  📊 لوحة الإدارة ↗
+                </a>
             </li>
           }
           
           @if (authService.isAuthenticated() && authService.getRole() === 'Admin') {
             <li class="nav-item">
-                <a class="nav-link font-weight-bold text-danger" routerLink="/admin/dashboard">لوحة التحكم العامة ↗</a>
+                <a class="nav-link fw-bold text-danger" routerLink="/admin/dashboard" routerLinkActive="active">لوحة التحكم العامة ↗</a>
             </li>
           }
       </ul>
@@ -55,20 +69,22 @@
       <div class="d-flex align-items-center gap-2">
           
           @if (!authService.isAuthenticated()) {
-            <a routerLink="/auth/login" class="btn btn-outline-success btn-sm">تسجيل الدخول</a>
-            <a routerLink="/auth/register" class="btn btn-success btn-sm">إنشاء حساب</a>
+            <a routerLink="/auth/login" class="btn btn-outline-success btn-sm px-3 rounded-2">تسجيل الدخول</a>
+            <a routerLink="/auth/register" class="btn btn-success btn-sm px-3 rounded-2 text-white">إنشاء حساب</a>
           }
 
           @if (authService.isAuthenticated()) {
-            <span class="navbar-text ms-2 badge bg-light text-dark border">
+            <span class="navbar-text ms-2 badge bg-success-light text-success border-success-subtle px-3 py-2 rounded-3">
               الصلاحية: 
+              <strong>
               {{ 
                 authService.getRole() === 'Parent' ? 'ولي أمر' : 
-                authService.getRole() === 'NurseryOwner' ? 'صاحب حضانة' : 
+                (authService.getRole() === 'NurseryAdmin' || authService.getRole() === 'NurseryOwner') ? 'صاحب حضانة' : 
                 authService.getRole() === 'Admin' ? 'مسؤول النظام' : authService.getRole() 
               }}
+              </strong>
             </span>
-            <button class="btn btn-outline-danger btn-sm" type="button" (click)="onLogout()">
+            <button class="btn btn-outline-danger btn-sm px-3 rounded-2" type="button" (click)="onLogout()">
               تسجيل الخروج 🚪
             </button>
           }

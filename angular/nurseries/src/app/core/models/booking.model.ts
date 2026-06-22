@@ -1,9 +1,8 @@
 export interface Booking {
-id: number;
+  id: number;
   nurseryId: number;
-  nurseryName?: string;
-  childFullName?: string;
+  childId: number;
   startDate: string;
-  status: 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
-  amount?: number;
+  status: number | 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
+  amount: number;
 }

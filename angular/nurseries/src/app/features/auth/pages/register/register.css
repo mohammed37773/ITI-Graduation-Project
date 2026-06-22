@@ -10,10 +10,12 @@
 .card {
   border: none;
   border-radius: 20px !important;
+  border: 1px solid #e2e8f0;
 }
 
+/* 🟢 هيدر الكارت بالتدرج الأخضر الموحد */
 .card-header {
-  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%) !important;
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%) !important;
   border-bottom: none;
 }
 
@@ -45,35 +47,48 @@
   border-bottom-right-radius: 0px !important;
 }
 
+/* 🟢 فوكس الحقول بالأخضر */
 .form-control:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.12);
+  border-color: #2ecc71;
+  box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.12);
 }
 
-/* تنسيق كروت اختيار الـ Role */
+/* 🟢 تنسيق كروت اختيار الـ Role بالأخضر الهادي */
 .card-role {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   background-color: #fdfdfd;
+  border: 1px solid #d0d5dd;
 }
 
 .card-role:hover {
-  border-color: #b2ddff;
+  border-color: #2ecc71; /* تحول الحواف للأخضر عند التمرير */
+  background-color: #f0fdf4; /* خلفية خضراء ناعمة جداً */
   transform: translateY(-2px);
+}
+
+/* في حال تم اختيار الكارت (لو ضايف كلاس active أو مشابه في الـ HTML) */
+.card-role.active, .card-role:active {
+  border-color: #27ae60 !important;
+  background-color: #ebfbf2 !important;
 }
 
 .cursor-pointer {
   cursor: pointer;
 }
 
+/* 🟢 زر إنشاء الحساب الأخضر الأساسي */
 .btn-primary {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
+  background-color: #2ecc71;
+  border-color: #2ecc71;
   border-radius: 12px !important;
+  font-weight: 600;
+  color: #ffffff !important;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #0b5ed7;
+  background-color: #27ae60;
+  border-color: #27ae60;
   transform: translateY(-1px);
 }
 

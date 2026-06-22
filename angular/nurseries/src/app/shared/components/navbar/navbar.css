@@ -1,93 +1,69 @@
-/* شريط التنقل الأساسي */
-.navbar {
-  background-color: #ffffff !important;
-  border-bottom: 3px solid #2ecc71; /* خط سفلي عريض باللون الأخضر الأساسي */
-  padding: 15px 20px;
-  box-shadow: 0 4px 10px rgba(46, 204, 113, 0.1); /* ضل خفيف مائل للأخضر */
+/* 🟢 تنسيق اللوجو الذكي المطور داخل الـ Navbar */
+.incubator-icon {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, #ebfbf2 0%, #c2f5d3 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #2ecc71;
+  box-shadow: 0 4px 8px rgba(46, 204, 113, 0.12);
 }
 
-/* البراند أو اللوجو */
-.navbar-brand {
-  font-size: 22px;
-  font-weight: 700;
-  color: #27ae60 !important; /* اسم المشروع بالأخضر الغامق الصريح */
+.shield-loop {
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  border: 1.5px dashed #27ae60;
+  border-radius: 50%;
+  animation: rotateShield 25s linear infinite;
 }
 
-/* تصميم الـ Links والـ Hover */
-.navbar-nav .nav-link {
-  color: #2c3e50 !important; /* كحلي غامق مريح للقراءة */
+.baby-glow {
+  font-size: 1.2rem;
+  z-index: 2;
+  animation: pulseBaby 2s ease-in-out infinite;
+}
+
+.brand-name {
+  font-size: 1.25rem;
+  color: #1e3d2f;
+  letter-spacing: 0.3px;
+  margin-bottom: -2px;
+}
+
+.brand-slogan {
+  font-size: 0.7rem;
+  color: #27ae60;
   font-weight: 600;
-  font-size: 15px;
-  padding: 8px 16px !important;
-  border-radius: 6px;
-  transition: all 0.2s ease-in-out;
 }
 
-/* تأثير الـ Hover على اللينكات العادية */
-.navbar-nav .nav-link:hover {
-  background-color: #ebfbf2; /* خلفية خضراء خفيفة جداً عند الـ Hover */
-  color: #2ecc71 !important; /* الكلمة تقلب للأخضر الأساسي */
-}
-
-/* اللينك النشط حالياً (الـ Active المتظبط بالـ RouterLinkActive) */
-.navbar-nav .nav-link.active {
-  color: #ffffff !important; /* الكتابة باللون الأبيض */
-  background-color: #2ecc71 !important; /* زر كامل باللون الأخضر الأساسي للمكان النشط */
-  font-weight: 600;
-  box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
-}
-
-/* الـ Badge الخاص بالـ Role */
-.badge {
-  font-size: 12px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-weight: 600;
-  background-color: #ebfbf2 !important;
+/* التناسق الأخضر مع روابط الـ Navbar */
+.nav-link.active {
   color: #27ae60 !important;
-  border: 1px solid #2ecc71;
+  font-weight: bold;
+  border-bottom: 2px solid #2ecc71;
 }
 
-/* زر تسجيل الدخول (أوتلاين أخضر) */
-.btn-outline-success {
-  color: #2ecc71 !important;
-  border-color: #2ecc71 !important;
-  font-weight: 700;
-  border-radius: 8px;
-  padding: 6px 16px;
-  transition: all 0.2s ease;
+.bg-success-light {
+  background-color: #f0fdf4 !important;
+  color: #166534 !important;
 }
 
-.btn-outline-success:hover {
-  background-color: #2ecc71 !important;
-  color: #ffffff !important;
+.border-success-subtle {
+  border: 1px solid #bbf7d0 !important;
 }
 
-/* زر التسجيل (الأخضر المليان الأساسي) */
-.btn-success {
-  background-color: #2ecc71 !important;
-  border-color: #2ecc71 !important;
-  color: #ffffff !important;
-  font-weight: 700;
-  border-radius: 8px;
-  padding: 6px 16px;
-  box-shadow: 0 4px 6px rgba(46, 204, 113, 0.15);
+/* حركات الإنيميشن الخاصة باللوجو */
+@keyframes rotateShield {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-.btn-success:hover {
-  background-color: #27ae60 !important; /* أخضر أغمق عند الـ Hover */
-  border-color: #27ae60 !important;
-}
-
-/* زر الـ Logout الأحمر الهادي */
-.btn-outline-danger {
-  color: #e74c3c !important;
-  border-color: #e74c3c !important;
-  font-weight: 600;
-  border-radius: 8px;
-}
-
-.btn-outline-danger:hover {
-  background-color: #e74c3c !important;
-  color: #ffffff !important;
+@keyframes pulseBaby {
+  0% { transform: scale(0.95); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.9; }
 }

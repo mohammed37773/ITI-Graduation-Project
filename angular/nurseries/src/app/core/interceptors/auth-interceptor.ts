@@ -3,14 +3,14 @@ import { inject } from '@angular/core';
 import { AuthService } from '../services/auth';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
-  const token = authService.getToken();
+  const userData = localStorage.getItem('user_session');
 
-  // لو التوكن موجود، بنعمل Clone للـ Request ونضيف الـ Header
-  if (token) {
+  if (userData) {
+    const user = JSON.parse(userData);
+
     req = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${token}` // الصياغة المطلوبة من الباك
+        Authorization: `Bearer ${user.token}`
       }
     });
   }

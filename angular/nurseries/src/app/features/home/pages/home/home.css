@@ -1,8 +1,8 @@
 /* التنسيق العام للحاوية */
 .home-container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9fbf9; /* خلفية ناعمة مائلة للأخضر الخفيف جداً */
-  direction: rtl; /* اتجاه الكتابة عربي */
+  background-color: #f9fbf9; 
+  direction: rtl; 
 }
 
 /* 1. تصميم الـ Hero Section */
@@ -223,7 +223,7 @@
   background-color: #2ecc71;
   color: #ffffff;
 }
-/* شارة الحضانة المعتمدة الموثقة بالأخضر الغامق الشيك */
+
 .verified-badge {
   position: absolute;
   top: 15px;
@@ -237,14 +237,15 @@
   box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
 }
 
-/* سطر عرض الأعمار */
 .age-range {
-  color: #7f8c8d;
+  color: #27ae60;
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 15px;
-  background-color: #f8fafc;
+  margin-bottom: 12px;
+  background-color: #f0fdf4;
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
 }
