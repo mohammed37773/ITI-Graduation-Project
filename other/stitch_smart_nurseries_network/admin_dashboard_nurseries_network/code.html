@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nurseries Network - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"outline-variant": "#c0c7d2", primary: "#00639c", "on-tertiary": "#ffffff", "on-error-container": "#93000a", "on-secondary-container": "#46627d", "secondary-fixed": "#cee5ff", "surface-bright": "#f7f9ff", "on-primary-fixed": "#001d33", "primary-fixed": "#cee5ff", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#adc9e9", "surface-container-low": "#f1f4fa", "surface-variant": "#e0e2e9", "on-tertiary-fixed-variant": "#604100", "surface-dim": "#d7dae0", "on-primary": "#ffffff", "tertiary-fixed": "#ffddae", "inverse-on-surface": "#eef1f7", surface: "#f7f9ff", "primary-container": "#479fe6", "on-tertiary-fixed": "#281800", secondary: "#45617c", "on-surface": "#181c20", "on-secondary-fixed-variant": "#2d4964", "on-secondary": "#ffffff", "error-container": "#ffdad6", tertiary: "#7f5600", "on-secondary-fixed": "#001d33", "primary-fixed-dim": "#97cbff", "inverse-primary": "#97cbff", "on-tertiary-container": "#442c00", error: "#ba1a1a", "on-background": "#181c20", "tertiary-fixed-dim": "#ffba40", background: "#f7f9ff", outline: "#707882", "on-error": "#ffffff", "surface-tint": "#00639c", "on-primary-fixed-variant": "#004a77", "on-surface-variant": "#404750", "inverse-surface": "#2d3135", "secondary-container": "#c0ddfd", "on-primary-container": "#003455", "surface-container-highest": "#e0e2e9", "surface-container-high": "#e6e8ee", "surface-container": "#ebeef4", "tertiary-container": "#cb8d0b"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {lg: "48px", "margin-mobile": "16px", base: "8px", md: "24px", xs: "4px", gutter: "24px", sm: "12px", xl: "80px", "container-max": "1280px"}, fontFamily: {"headline-sm": ["Inter"], "headline-md": ["Inter"], "display-lg": ["Inter"], "label-md": ["Inter"], "body-md": ["Inter"], "label-sm": ["Inter"], "body-lg": ["Inter"], "display-lg-mobile": ["Inter"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"headline-sm": ["24px", {lineHeight: "32px", fontWeight: "600"}], "headline-md": ["30px", {lineHeight: "38px", letterSpacing: "-0.01em", fontWeight: "600"}], "display-lg": ["48px", {lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700"}], "label-md": ["14px", {lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "label-sm": ["12px", {lineHeight: "16px", fontWeight: "600"}], "body-lg": ["18px", {lineHeight: "28px", fontWeight: "400"}], "display-lg-mobile": ["36px", {lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700"}]}}}};</script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9ff; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0px 1px 3px rgba(0,0,0,0.05), 0px 10px 15px -3px rgba(0,0,0,0.08);
+        }
+        .ai-glow {
+            border: 2px solid transparent;
+            background-image: linear-gradient(white, white), linear-gradient(to right, #3525cd, #4edea3);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .chart-line {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: dash 3s ease-in-out forwards;
+        }
+        @keyframes dash { to { stroke-dashoffset: 0; } }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar - Shared Component -->
+<aside class="h-screen w-64 hidden md:flex flex-col bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant/30 fixed left-0 top-0 z-40">
+<div class="flex flex-col gap-base p-md h-full">
+<div class="mb-lg px-xs">
+<h1 class="font-headline-sm text-primary">Admin Panel</h1>
+<p class="font-label-md text-on-surface-variant opacity-70">Manage Network</p>
+</div>
+<nav class="flex-1 space-y-2">
+<!-- Active Item: Overview -->
+<a class="flex items-center gap-sm px-md py-3 bg-primary-container text-on-primary-container rounded-lg font-semibold transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md">Overview</span>
+</a>
+<a class="flex items-center gap-sm px-md py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-lg hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-label-md">Nurseries</span>
+</a>
+<a class="flex items-center gap-sm px-md py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-lg hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md">Users</span>
+</a>
+<a class="flex items-center gap-sm px-md py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-lg hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-sm px-md py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-lg hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-md space-y-4">
+<button class="w-full bg-primary text-white py-3 px-md rounded-xl font-label-md flex items-center justify-center gap-xs hover:bg-primary-container transition-colors shadow-md active:scale-95">
+<span class="material-symbols-outlined">add_circle</span>
+                    Add Nursery
+                </button>
+<div class="flex items-center gap-sm p-sm bg-surface rounded-xl border border-outline-variant/20">
+<img alt="Admin" class="w-10 h-10 rounded-full" data-alt="A professional headshot of a smiling administrative professional in a bright, modern office setting. The person is wearing business casual attire, and the background is softly blurred with clean white and indigo accents reflecting a high-end SaaS corporate environment. High-key natural lighting illuminates the face clearly." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdbtlMFRCEals_nGjgVKCDrXMVbnTqc1SUGeIda98aX4O-ad5xm5fWhlo0g9qRz3FO2uEczYQU1hdvWWzcKcrkulfjg4QnJmTTO2MxynTM22_oP1X5LomsueOnk-eFVRAXeQTw6eoeWoIIkgJ4wn5Ez-_h3yyxczquCyNxgh-tOYdn2WQj17Fgri-bYfrnhtdctj794RagQykTH_XWCViBM5mSGoMkew2niQWnnJvyCzhUmk8Fp3cxYlxt9-EYNziAWZaLOgyqrg"/>
+<div class="flex flex-col">
+<span class="font-label-sm text-on-surface">Admin User</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-wider">Super Admin</span>
+</div>
+</div>
+<a class="flex items-center gap-sm px-md py-2 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md">Help Center</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 p-margin-mobile md:p-md lg:p-lg min-h-screen space-y-md md:space-y-lg max-w-container-max mx-auto w-full">
+<!-- Header -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-base">
+<div>
+<h2 class="font-headline-md text-on-surface">Network Overview</h2>
+<p class="font-body-md text-on-surface-variant">Welcome back. Here's what's happening today.</p>
+</div>
+<div class="flex items-center gap-base">
+<div class="bg-white px-md py-2 rounded-xl border border-outline-variant/30 flex items-center gap-sm shadow-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">calendar_today</span>
+<span class="font-label-md text-on-surface-variant">Nov 24 - Nov 30, 2024</span>
+</div>
+</div>
+</header>
+<!-- Stats Grid -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="glass-card p-md rounded-xl flex flex-col gap-base border-l-4 border-primary">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">storefront</span>
+</div>
+<span class="font-label-sm text-secondary-container bg-on-secondary-container px-2 py-0.5 rounded-full flex items-center gap-xs">
+                        +12% <span class="material-symbols-outlined text-[14px]">trending_up</span>
+</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface-variant">Total Nurseries</p>
+<p class="font-headline-sm text-on-surface">1,284</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card p-md rounded-xl flex flex-col gap-base border-l-4 border-secondary">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-secondary/10 rounded-lg text-secondary">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<span class="font-label-sm text-secondary-container bg-on-secondary-container px-2 py-0.5 rounded-full flex items-center gap-xs">
+                        +5% <span class="material-symbols-outlined text-[14px]">trending_up</span>
+</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface-variant">New Users</p>
+<p class="font-headline-sm text-on-surface">432</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-card p-md rounded-xl flex flex-col gap-base border-l-4 border-tertiary">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-tertiary/10 rounded-lg text-tertiary">
+<span class="material-symbols-outlined">event_available</span>
+</div>
+<span class="font-label-sm text-error bg-error-container px-2 py-0.5 rounded-full flex items-center gap-xs">
+                        -2% <span class="material-symbols-outlined text-[14px]">trending_down</span>
+</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface-variant">Active Bookings</p>
+<p class="font-headline-sm text-on-surface">8,901</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="glass-card p-md rounded-xl flex flex-col gap-base border-l-4 border-primary-container">
+<div class="flex justify-between items-start">
+<div class="p-2 bg-primary-container/10 rounded-lg text-primary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="font-label-sm text-on-primary-container bg-primary-container px-2 py-0.5 rounded-full flex items-center gap-xs">
+                        Stable
+                    </span>
+</div>
+<div>
+<p class="font-label-md text-on-surface-variant">Avg Rating</p>
+<p class="font-headline-sm text-on-surface">4.8</p>
+</div>
+</div>
+</section>
+<!-- Bento Layout: Analytics & AI Insights -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Analytics Chart -->
+<div class="lg:col-span-2 glass-card rounded-xl p-md flex flex-col">
+<div class="flex items-center justify-between mb-lg">
+<h3 class="font-headline-sm text-on-surface">Booking Trends</h3>
+<select class="bg-surface-container-low border-none rounded-lg font-label-md text-on-surface-variant outline-none focus:ring-2 focus:ring-primary/20">
+<option>Last 30 Days</option>
+<option>Last 6 Months</option>
+<option>Last Year</option>
+</select>
+</div>
+<div class="relative h-64 w-full">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 40">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#3525cd" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#3525cd" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,35 Q10,30 20,32 T40,25 T60,20 T80,28 T100,15 L100,40 L0,40 Z" fill="url(#chartGradient)"></path>
+<path class="chart-line" d="M0,35 Q10,30 20,32 T40,25 T60,20 T80,28 T100,15" fill="none" stroke="#3525cd" stroke-width="1"></path>
+</svg>
+<!-- Tooltip Simulation -->
+<div class="absolute top-10 left-1/2 -translate-x-1/2 bg-on-surface text-white p-2 rounded-lg text-[10px] flex flex-col items-center shadow-xl">
+<span class="font-bold">842 Bookings</span>
+<span class="opacity-70 text-[8px]">Nov 24</span>
+</div>
+</div>
+<div class="flex justify-between mt-md font-label-sm text-on-surface-variant/60">
+<span>Nov 01</span>
+<span>Nov 08</span>
+<span>Nov 15</span>
+<span>Nov 22</span>
+<span>Nov 30</span>
+</div>
+</div>
+<!-- AI Insight Component -->
+<div class="ai-glow rounded-xl p-md flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h3 class="font-headline-sm text-on-surface">AI Insights</h3>
+</div>
+<div class="space-y-md">
+<div class="bg-primary/5 p-sm rounded-lg border border-primary/10">
+<p class="font-label-md text-primary font-semibold mb-1">Demand Surge Detected</p>
+<p class="font-body-md text-on-surface-variant text-sm">North London is experiencing a 24% increase in searches for "Preschools".</p>
+</div>
+<div class="bg-secondary/5 p-sm rounded-lg border border-secondary/10">
+<p class="font-label-md text-secondary font-semibold mb-1">Nursery Optimization</p>
+<p class="font-body-md text-on-surface-variant text-sm">Update profile photos for 'Little Sprouts' to improve conversion by 12%.</p>
+</div>
+</div>
+</div>
+<button class="w-full mt-md bg-on-surface text-white py-3 rounded-xl font-label-md hover:bg-black transition-all active:scale-98">
+                    View Full AI Audit
+                </button>
+</div>
+</section>
+<!-- Manage Nurseries Table -->
+<section class="glass-card rounded-xl overflow-hidden">
+<div class="p-md border-b border-outline-variant/20 flex flex-col sm:flex-row sm:items-center justify-between gap-md">
+<h3 class="font-headline-sm text-on-surface">Manage Nurseries</h3>
+<div class="relative max-w-sm w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant opacity-50">search</span>
+<input class="w-full pl-10 pr-md py-2 bg-surface-container-low border border-outline-variant/30 rounded-xl outline-none focus:border-primary transition-colors text-body-md" placeholder="Search nurseries..." type="text"/>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-md py-4 font-label-md text-on-surface-variant">Name</th>
+<th class="px-md py-4 font-label-md text-on-surface-variant">Location</th>
+<th class="px-md py-4 font-label-md text-on-surface-variant">Status</th>
+<th class="px-md py-4 font-label-md text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-variant overflow-hidden">
+<img alt="Nursery" class="w-full h-full object-cover" data-alt="A brightly lit children's playroom with natural wood furniture, colorful educational toys, and large windows looking out onto a green garden. The room is designed with modern minimalism, using soft pastel tones and a clean white aesthetic that feels inviting and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuAazWfByzbSYBCLbb20HPjvxg5z_tqPjwWeSc7aT3WpcCx0I12BPV-4_n5FirmqwOW5o96Lb4prIqNs7hn8u3thFvfyup-Ja75lN678chgIqeM7j6v0-v6QyNyx423RQvpEdZiuCSDX26-4kLTF2B_nGM86D50CKc1JTnmhYFSKlrje2W6yB7W3NbrFWGEQEJIb6fWbDT5oUMQx8wIQ3x-H6ae3Ez6GcRA-_3MoFK67dLq5mByE-fodmteIdfuGnPIVgUrgZg1A"/>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Little Explorers Academy</p>
+<p class="text-[12px] text-on-surface-variant">ID: NUR-2094</p>
+</div>
+</div>
+</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">Kensington, London</td>
+<td class="px-md py-4">
+<span class="bg-secondary-container/20 text-secondary-container px-3 py-1 rounded-full text-xs font-semibold flex items-center w-fit gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                </span>
+</td>
+<td class="px-md py-4 text-right">
+<div class="flex items-center justify-end gap-sm">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-variant overflow-hidden">
+<img alt="Nursery" class="w-full h-full object-cover" data-alt="A high-end nursery building with a modern glass facade, surrounded by a manicured lawn and small decorative trees. The architecture is sleek and contemporary, using white stone and indigo glass panels to create a sophisticated and trustworthy visual identity for elite childcare." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkK1rXcHO39NBOoWf0dNHV0qjRlhur1RyPes0csA0cMup9U-VCV4MCIO1h-JJwArvsp-CZ3T8S6nIup82Y0eFQ8I0OndNdeyQ05LZuyNzEAYCfueQ8iMdyjCtCI75ROpUQIaZWzL7NIFCP-X2zOEpTHC2gfjukBNsDk9jDvrR5PUpZ6_IiijbAtVP1VcYYkpVGMCIevxwU4J6bzUyPgh40p7mVZ8Uvml5y3ksoqPic_nWl8uvI-DPMFDFhP_lanfhbbejGRDBw6Q"/>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Bright Stars Montessori</p>
+<p class="text-[12px] text-on-surface-variant">ID: NUR-3312</p>
+</div>
+</div>
+</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">Richmond, Surrey</td>
+<td class="px-md py-4">
+<span class="bg-tertiary-container/20 text-tertiary-container px-3 py-1 rounded-full text-xs font-semibold flex items-center w-fit gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span> Pending
+                                </span>
+</td>
+<td class="px-md py-4 text-right">
+<div class="flex items-center justify-end gap-sm">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-primary/5 transition-colors group">
+<td class="px-md py-4">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-variant overflow-hidden">
+<img alt="Nursery" class="w-full h-full object-cover" data-alt="An artistic shot of a children's arts and crafts corner, featuring miniature easels, vibrant paint palettes, and high-quality wooden art supplies. The scene is illuminated by soft, diffuse lighting that highlights the creative and nurturing environment of the childcare facility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9bjTMxH8IoLYdHu5UjxqZCTcKWLe1LTTVFbvvsaPDnjzdNdR67VSadRJU1HtMxdPAuFn4HKXFEc4DDXc0K5KNRhkRrRgpejfWT0aaAxQeREm8NclUf4qUL2YqkOw0M88f_vACckQnEOr5IpkrUXhhDCqcwB4dRSKDPcF5S8TjVxTFEnd7QbEN0sJAP8xdFEivd9kqy4I7LhjHRmLulgEQjyij9zN64oMNPb9TtwLaaTvW6QglW1IenRY3ug_qKeyitdQ4tmxeJQ"/>
+</div>
+<div>
+<p class="font-label-md text-on-surface">Tiny Tums Daycare</p>
+<p class="text-[12px] text-on-surface-variant">ID: NUR-1120</p>
+</div>
+</div>
+</td>
+<td class="px-md py-4 font-body-md text-on-surface-variant">Manchester, City Center</td>
+<td class="px-md py-4">
+<span class="bg-secondary-container/20 text-secondary-container px-3 py-1 rounded-full text-xs font-semibold flex items-center w-fit gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Active
+                                </span>
+</td>
+<td class="px-md py-4 text-right">
+<div class="flex items-center justify-end gap-sm">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-error hover:bg-error/10 rounded-lg transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-md bg-surface-container-low/50 flex items-center justify-between border-t border-outline-variant/10">
+<span class="font-label-sm text-on-surface-variant">Showing 1-3 of 1,284 nurseries</span>
+<div class="flex items-center gap-xs">
+<button class="p-2 hover:bg-primary/5 rounded-lg text-on-surface-variant"><span class="material-symbols-outlined">chevron_left</span></button>
+<button class="w-8 h-8 rounded-lg bg-primary text-white text-xs font-bold">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-primary/5 text-on-surface-variant text-xs">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-primary/5 text-on-surface-variant text-xs">3</button>
+<button class="p-2 hover:bg-primary/5 rounded-lg text-on-surface-variant"><span class="material-symbols-outlined">chevron_right</span></button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer - Shared Component (Hidden on Admin but kept as part of mandate) -->
+<footer class="hidden">
+<div class="w-full py-xl px-margin-mobile md:px-xl grid grid-cols-1 md:grid-cols-4 gap-gutter bg-surface-container-highest">
+<p>© 2024 Nurseries Network. AI-Powered Childcare Discovery.</p>
+</div>
+</footer>
+<script>
+        // Micro-interactions and effects
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.98)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple row hover effect
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.classList.add('shadow-sm');
+            });
+            row.addEventListener('mouseleave', () => {
+                row.classList.remove('shadow-sm');
+            });
+        });
+    </script>
+</body></html>

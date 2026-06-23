@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nurseries Network - Dashboard &amp; AI Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"outline-variant": "#c0c7d2", primary: "#00639c", "on-tertiary": "#ffffff", "on-error-container": "#93000a", "on-secondary-container": "#46627d", "secondary-fixed": "#cee5ff", "surface-bright": "#f7f9ff", "on-primary-fixed": "#001d33", "primary-fixed": "#cee5ff", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#adc9e9", "surface-container-low": "#f1f4fa", "surface-variant": "#e0e2e9", "on-tertiary-fixed-variant": "#604100", "surface-dim": "#d7dae0", "on-primary": "#ffffff", "tertiary-fixed": "#ffddae", "inverse-on-surface": "#eef1f7", surface: "#f7f9ff", "primary-container": "#479fe6", "on-tertiary-fixed": "#281800", secondary: "#45617c", "on-surface": "#181c20", "on-secondary-fixed-variant": "#2d4964", "on-secondary": "#ffffff", "error-container": "#ffdad6", tertiary: "#7f5600", "on-secondary-fixed": "#001d33", "primary-fixed-dim": "#97cbff", "inverse-primary": "#97cbff", "on-tertiary-container": "#442c00", error: "#ba1a1a", "on-background": "#181c20", "tertiary-fixed-dim": "#ffba40", background: "#f7f9ff", outline: "#707882", "on-error": "#ffffff", "surface-tint": "#00639c", "on-primary-fixed-variant": "#004a77", "on-surface-variant": "#404750", "inverse-surface": "#2d3135", "secondary-container": "#c0ddfd", "on-primary-container": "#003455", "surface-container-highest": "#e0e2e9", "surface-container-high": "#e6e8ee", "surface-container": "#ebeef4", "tertiary-container": "#cb8d0b"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {lg: "48px", "margin-mobile": "16px", base: "8px", md: "24px", xs: "4px", gutter: "24px", sm: "12px", xl: "80px", "container-max": "1280px"}, fontFamily: {"headline-sm": ["Inter"], "headline-md": ["Inter"], "display-lg": ["Inter"], "label-md": ["Inter"], "body-md": ["Inter"], "label-sm": ["Inter"], "body-lg": ["Inter"], "display-lg-mobile": ["Inter"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"headline-sm": ["24px", {lineHeight: "32px", fontWeight: "600"}], "headline-md": ["30px", {lineHeight: "38px", letterSpacing: "-0.01em", fontWeight: "600"}], "display-lg": ["48px", {lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700"}], "label-md": ["14px", {lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "label-sm": ["12px", {lineHeight: "16px", fontWeight: "600"}], "body-lg": ["18px", {lineHeight: "28px", fontWeight: "400"}], "display-lg-mobile": ["36px", {lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700"}]}}}};</script>
+<style>
+        .glass {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .smooth-shadow {
+            box-shadow: 0px 1px 3px rgba(0,0,0,0.05), 0px 10px 15px -3px rgba(0,0,0,0.08);
+        }
+        .ai-gradient-border {
+            position: relative;
+            background: white;
+            padding: 2px;
+            border-radius: 16px;
+        }
+        .ai-gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 2px;
+            background: linear-gradient(to right, #3525cd, #4edea3);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<div class="flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="bg-surface-container-low dark:bg-surface-container-lowest h-screen w-64 hidden md:flex flex-col border-r border-outline-variant/30 fixed left-0 top-0 z-40">
+<div class="flex flex-col gap-base p-md h-full">
+<!-- Header -->
+<div class="mb-md">
+<h1 class="font-headline-sm text-primary">Admin Panel</h1>
+<p class="font-label-md text-on-surface-variant">Manage Network</p>
+</div>
+<!-- Navigation -->
+<nav class="flex-1 flex flex-col gap-xs">
+<a class="bg-primary-container text-on-primary-container rounded-lg font-semibold flex items-center gap-sm p-sm transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Overview</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-lg flex items-center gap-sm p-sm hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-label-md">Nurseries</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-lg flex items-center gap-sm p-sm hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md">Users</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-lg flex items-center gap-sm p-sm hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md">Analytics</span>
+</a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-lg flex items-center gap-sm p-sm hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</nav>
+<!-- Footer Nav -->
+<div class="mt-auto pt-md border-t border-outline-variant/20">
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-lg flex items-center gap-sm p-sm transition-all duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">Help Center</span>
+</a>
+<div class="mt-sm flex items-center gap-sm p-sm">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+<img alt="Admin User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWb19xCBssyaYh2eSSj5A60u2IF-13SdKvh22FqKbV8PWbYWzPifjU9Fd9bBQh4RjqDsVRfvvKGOomnqPlF2z_goNqfp7KGL1rYL9pC9bHd0DLx0FGDJTjld_rUSxFaNEJgUL_b8NWVe4-i7iMvSSHHZokR-91iz-ldcO8nMMLz9T2FuntYthIhufdTj-WACp3vUirEACPKU6FZvZoT0GI4g4qr37R4rqtaCfdiCgHHAs4W6zbpjI5yRkQUSBbgkkcAUyzaxJEsg"/>
+</div>
+<div class="overflow-hidden">
+<p class="font-label-sm text-on-surface truncate">Admin User</p>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 md:ml-64 p-margin-mobile md:p-md lg:p-xl">
+<header class="mb-lg flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h2 class="font-display-lg-mobile md:font-display-lg text-on-surface mb-xs">Welcome back, Sarah</h2>
+<p class="font-body-lg text-on-surface-variant">Here are your personalized nursery insights for today.</p>
+</div>
+<button class="bg-primary text-on-primary px-md py-sm rounded-lg font-label-md smooth-shadow active:scale-95 transition-all">
+                    Add Nursery
+                </button>
+</header>
+<!-- Top Grid: Recent Recommendation Summary -->
+<section class="mb-lg">
+<div class="ai-gradient-border smooth-shadow">
+<div class="p-md md:p-lg flex flex-col md:flex-row gap-md items-center">
+<div class="flex-1">
+<div class="flex items-center gap-sm mb-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="bg-primary/10 text-primary px-sm py-xs rounded-full font-label-sm">AI Recommendation</span>
+</div>
+<h3 class="font-headline-sm text-on-surface mb-xs">Bright Beginnings Academy</h3>
+<p class="font-body-md text-on-surface-variant mb-md max-w-2xl">Based on your preference for outdoor learning and flexible pick-up times, Bright Beginnings matches 98% of your criteria. They currently have 2 spots available for the September intake.</p>
+<div class="flex flex-wrap gap-sm">
+<span class="bg-secondary/10 text-secondary px-sm py-xs rounded-full font-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Islington, London
+                                </span>
+<span class="bg-secondary/10 text-secondary px-sm py-xs rounded-full font-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">payments</span> £1,450/month
+                                </span>
+</div>
+</div>
+<div class="w-full md:w-64 aspect-video md:aspect-square rounded-xl overflow-hidden smooth-shadow shrink-0">
+<img class="w-full h-full object-cover" data-alt="A bright and modern preschool classroom interior with large windows letting in soft morning sunlight. The room features high-quality wooden furniture, colorful educational toys, and a lush indoor garden corner, reflecting a premium and nurturing environment. The aesthetic is clean, minimalist, and high-end, aligning with a professional childcare platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBI8Tavb5FywFB9izzZk03zyoq8zO8qRQ3KAjE25yDZ0NBoXg66h8c5vAzhKl2t8uU7YZgU__DY7Nt34mGtDkIk2QX0dc07jnVH_vtaEG_TwTD5oWUC9RJXfXrF5Ls9OrN8f4g6ATeAYd2vx_TZdRibZsq_YKmqlQy97vZyL87CCzpB4vieR07n2D__E98jjf4e1VDA0gdCginkaNHWFxfqhJ3YBHnuui6OTI3H0xFcSPfxEzwFBulN0um4LTmjhTe-gqTXHeCfw"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Favorites Grid -->
+<section>
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-sm text-on-surface">Your Favorites</h3>
+<a class="text-primary font-label-md hover:underline" href="#">View All</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Favorite Card 1 -->
+<div class="bg-surface rounded-xl smooth-shadow overflow-hidden group hover:translate-y-[-4px] transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A safe and engaging outdoor play area for children, featuring premium wooden structures, soft rubber flooring, and plenty of green plants. The lighting is warm and golden-hour, creating an inviting and professional atmosphere. The scene is shot with a shallow depth of field, emphasizing quality and care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8Dore8TduWkDhZ8_zHOP9vDhbnrP3jMjT7Pt-GsP-VWQ3C9GiQVg9zN36tmfegpaXNtd23RdpAT6m35ssbsFD-caegvAjAg9nsWJPEGPGe94I7B77zM5AowY38ybIzORaul_cXj27ghLp_5ugx6KcfMyf0p_LN_OpItx3_ZKuvsBU6jj7in-AbLRm--4Zu6Dw8WeOi7zDfXoUUtugR2qkwlEiIfkwd4aOt6BUF6Y4EEoINFuoQAP5xxF9Ge4Om8fihagisnU-Qw"/>
+<button class="absolute top-sm right-sm bg-white/90 p-xs rounded-full text-error smooth-shadow">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-xs">
+<h4 class="font-label-md text-on-surface">Little Explorers Hub</h4>
+<span class="font-label-sm text-secondary">4.9 ★</span>
+</div>
+<p class="font-label-sm text-on-surface-variant mb-md">Chelsea • Bilingual • Forest School</p>
+<button class="w-full border border-primary text-primary font-label-md py-sm rounded-lg hover:bg-primary/5 transition-colors">
+                                View Details
+                            </button>
+</div>
+</div>
+<!-- Favorite Card 2 -->
+<div class="bg-surface rounded-xl smooth-shadow overflow-hidden group hover:translate-y-[-4px] transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A minimalist and calm nursery room designed with neutral tones, featuring high-quality Montessori-inspired furniture and soft textile elements. The lighting is diffuse and natural, creating a serene and technologically advanced childcare setting. The focus is on clean lines and a peaceful atmosphere for child development." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ3rX8b-Z3woam3tXqHwlWKnbhai5QwC-HaJiTcnNfcI5HMiReRbIW2h-gSX7IbP2XiQYZNk0Q_jYGxXw8HHNphglC2e69xh4iN2y14QzC4l9W4VVqkwD-yNJR6EMp1F6SR5gzSdwN3k_avIr2Nzufu4W4x6AFnD9Z4dVJxoYHHVw6cD1aTiVFrmhxT_io2JJNzNI6wfLKhq5a25xR5RaOzhPTg-q8puOtwi3h10aGhckI4KMuSHtQQHjPlCxVE_utOg79sIkPLg"/>
+<button class="absolute top-sm right-sm bg-white/90 p-xs rounded-full text-error smooth-shadow">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-xs">
+<h4 class="font-label-md text-on-surface">The Montessori Studio</h4>
+<span class="font-label-sm text-secondary">4.8 ★</span>
+</div>
+<p class="font-label-sm text-on-surface-variant mb-md">Hampstead • Montessori • Creative Arts</p>
+<button class="w-full border border-primary text-primary font-label-md py-sm rounded-lg hover:bg-primary/5 transition-colors">
+                                View Details
+                            </button>
+</div>
+</div>
+<!-- Favorite Card 3 -->
+<div class="bg-surface rounded-xl smooth-shadow overflow-hidden group hover:translate-y-[-4px] transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A bright, open-plan nursery dining and kitchen area where children learn about healthy eating. Modern white cabinets, wooden tables, and large windows create a clean, professional, and high-end aesthetic. The lighting is bright and airy, emphasizing a transparent and high-quality childcare facility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcWer35tWIuMhRKcbhYluLdzmNneNZTocz1fIzlgoEkApVh9arDIO1_nrK23Y2XKZXk9I7wiCj6x10zJo-W0vj6VmNqAz1wJn9kTRaWpkiNzl0GBdiSLlnGt3MAoB2F_SDSI3dhsY_moVni48pLHQAuWVVUzKFPXnGhqJW5ai9gXSmlFZBMPmBrA7M3K2V0H2nG-u7kUXoOqAzQGRZ_o2nqATpA00VVt0V0LHrvYovxyVJzamoLeSujQS7I1oR9UvY522sQY4g8A"/>
+<button class="absolute top-sm right-sm bg-white/90 p-xs rounded-full text-error smooth-shadow">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-xs">
+<h4 class="font-label-md text-on-surface">Seedlings Day Nursery</h4>
+<span class="font-label-sm text-secondary">4.7 ★</span>
+</div>
+<p class="font-label-sm text-on-surface-variant mb-md">Greenwich • Organic Meals • Outdoor Play</p>
+<button class="w-full border border-primary text-primary font-label-md py-sm rounded-lg hover:bg-primary/5 transition-colors">
+                                View Details
+                            </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- AI Chat Assistant Widget -->
+<div class="fixed bottom-margin-mobile right-margin-mobile md:bottom-md md:right-md z-50 flex flex-col items-end gap-sm" id="ai-chat-widget">
+<!-- Chat Window (Hidden by default) -->
+<div class="hidden w-[90vw] md:w-[400px] h-[500px] bg-surface-container-lowest rounded-2xl smooth-shadow border border-outline-variant/30 flex flex-col overflow-hidden opacity-0 scale-95 translate-y-4 transition-all duration-300" id="chat-window">
+<!-- Header -->
+<div class="bg-primary p-md text-on-primary flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div>
+<p class="font-label-md">Nurseries AI</p>
+<p class="text-[10px] opacity-80 flex items-center gap-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-pulse"></span> Online
+                        </p>
+</div>
+</div>
+<button class="text-on-primary hover:bg-white/10 p-xs rounded-full transition-colors" onclick="toggleChat()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Messages Area -->
+<div class="flex-1 overflow-y-auto p-md flex flex-col gap-md" id="chat-messages">
+<div class="flex gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary/10 shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-primary">smart_toy</span>
+</div>
+<div class="bg-surface-container p-sm rounded-r-xl rounded-bl-xl max-w-[80%]">
+<p class="font-body-md text-on-surface">Hi! I'm your AI assistant. How can I help you find a nursery today?</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-xs ml-10">
+<button class="bg-primary/5 border border-primary/20 text-primary px-sm py-xs rounded-full font-label-sm hover:bg-primary/10 transition-colors">
+                        Show nurseries in London
+                    </button>
+<button class="bg-primary/5 border border-primary/20 text-primary px-sm py-xs rounded-full font-label-sm hover:bg-primary/10 transition-colors">
+                        What's the average price?
+                    </button>
+<button class="bg-primary/5 border border-primary/20 text-primary px-sm py-xs rounded-full font-label-sm hover:bg-primary/10 transition-colors">
+                        Bilingual options
+                    </button>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-md border-t border-outline-variant/20 flex items-center gap-sm">
+<input class="flex-1 bg-surface p-sm rounded-lg border-outline-variant focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md" placeholder="Type your question..." type="text"/>
+<button class="bg-primary text-on-primary p-sm rounded-lg smooth-shadow active:scale-95 transition-transform">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+<!-- Toggle Button -->
+<button class="w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary text-on-primary flex items-center justify-center smooth-shadow active:scale-90 transition-transform relative group" onclick="toggleChat()">
+<span class="material-symbols-outlined text-[28px] md:text-[32px] group-hover:rotate-12 transition-transform">smart_toy</span>
+<div class="absolute -top-1 -right-1 w-4 h-4 bg-secondary rounded-full border-2 border-white"></div>
+</button>
+</div>
+<script>
+        function toggleChat() {
+            const chatWindow = document.getElementById('chat-window');
+            if (chatWindow.classList.contains('hidden')) {
+                chatWindow.classList.remove('hidden');
+                setTimeout(() => {
+                    chatWindow.classList.remove('opacity-0', 'scale-95', 'translate-y-4');
+                }, 10);
+            } else {
+                chatWindow.classList.add('opacity-0', 'scale-95', 'translate-y-4');
+                setTimeout(() => {
+                    chatWindow.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // Handle micro-interactions for favorite buttons
+        document.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+            if (icon.textContent === 'favorite') {
+                icon.parentElement.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.classList.toggle('text-error');
+                    this.classList.toggle('text-on-surface-variant');
+                });
+            }
+        });
+    </script>
+</body></html>

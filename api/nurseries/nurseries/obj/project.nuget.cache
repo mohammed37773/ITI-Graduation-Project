@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "R6+2VNvQzfo=",
+  "success": true,
+  "projectFilePath": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/nurseries/nurseries.csproj",
+  "expectedPackageFiles": [
+    "/home/mo/.nuget/packages/microsoft.aspnetcore.openapi/10.0.8/microsoft.aspnetcore.openapi.10.0.8.nupkg.sha512",
+    "/home/mo/.nuget/packages/microsoft.openapi/2.0.0/microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
