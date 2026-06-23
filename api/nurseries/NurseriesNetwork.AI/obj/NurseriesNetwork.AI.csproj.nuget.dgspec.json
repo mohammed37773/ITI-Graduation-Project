@@ -1,40 +1,34 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj": {}
+    "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.AI/NurseriesNetwork.AI.csproj": {}
   },
   "projects": {
-    "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj": {
+    "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.AI/NurseriesNetwork.AI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj",
+        "projectUniqueName": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.AI/NurseriesNetwork.AI.csproj",
         "projectName": "NurseriesNetwork.AI",
-        "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\NurseriesNetwork.AI.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.AI\\obj\\",
+        "projectPath": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.AI/NurseriesNetwork.AI.csproj",
+        "packagesPath": "/home/mo/.nuget/packages/",
+        "outputPath": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.AI/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/mo/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://www.nuget.org/api/v2/": {}
+          "/usr/lib64/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
-                "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj"
+              "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj": {
+                "projectPath": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj"
               }
             }
           }
@@ -49,11 +43,10 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "imports": [
             "net461",
@@ -71,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/10.0.108/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -349,33 +342,27 @@
         }
       }
     },
-    "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj": {
+    "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj",
+        "projectUniqueName": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj",
         "projectName": "NurseriesNetwork.Core",
-        "projectPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\NurseriesNetwork.Core.csproj",
-        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-        "outputPath": "D:\\ITI\\Work\\Graduation Project\\ITI-Graduation-Project\\api\\nurseries\\NurseriesNetwork.Core\\obj\\",
+        "projectPath": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj",
+        "packagesPath": "/home/mo/.nuget/packages/",
+        "outputPath": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/mo/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://www.nuget.org/api/v2/": {}
+          "/usr/lib64/dotnet/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -390,11 +377,10 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
@@ -418,7 +404,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/10.0.108/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
