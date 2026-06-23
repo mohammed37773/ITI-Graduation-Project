@@ -30,12 +30,12 @@
           @if (authService.isAuthenticated() && authService.getRole() === 'Parent') {
             <li class="nav-item">
                 <a class="nav-link text-success fw-bold" routerLink="/parent/chatbot" routerLinkActive="active">
-                  💬 المحادثة الذكية
+                  💬 المحادثة الذكية (AI)
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-success fw-bold opacity-75" routerLink="/parent/booking-assistant" routerLinkActive="active">
-                  🧑‍💼 مساعد الحجز الذكي
+                <a class="nav-link text-success fw-bold opacity-75" routerLink="/parent/ai-questionnaire" routerLinkActive="active">
+                  🧠 استبيان الترشيحات الذكي
                 </a>  
             </li>
             <li class="nav-item">
@@ -48,16 +48,11 @@
 
           @if (authService.isAuthenticated() && (authService.getRole() === 'NurseryAdmin' || authService.getRole() === 'NurseryOwner')) {
             <li class="nav-item">
-                <a class="nav-link text-success fw-bold" routerLink="/parent/chatbot" routerLinkActive="active">
-                  💬 المستشار الطبي الذكي
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link fw-bold text-success opacity-75" routerLink="/owner/dashboard" routerLinkActive="active">
+                <a class="nav-link fw-bold text-success" routerLink="/owner/dashboard" routerLinkActive="active">
                   📊 لوحة الإدارة ↗
                 </a>
             </li>
-          }
+            }
           
           @if (authService.isAuthenticated() && authService.getRole() === 'Admin') {
             <li class="nav-item">

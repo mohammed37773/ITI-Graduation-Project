@@ -1,18 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  standalone: true, // تأكيد الـ standalone
+  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home implements OnInit {
   private http = inject(HttpClient);
-  // 1️⃣ تعديل الـ URL ليكون بحروف صغيرة تماماً لتفادي الـ 404
+  private router = inject(Router); // 🎯 حقن الـ Router للتوجيه عند البحث
+
   private apiUrl = 'http://localhost:5104/api/nurseries';
 
   featuredNurseries = signal<any[]>([]);
@@ -25,10 +26,8 @@ export class Home implements OnInit {
   loadFeaturedNurseries() {
     this.isLoading.set(true);
     
-    // هنستقبلها كـ <any> لأنها أوبجكت مغلف وليس Array مباشرة
     this.http.get<any>(this.apiUrl).subscribe({
       next: (res) => {
-        // 2️⃣ التشييك الذكي: هل الـ res نفسه Array؟ ولا جواه خاصية اسمها data أو nurseries؟
         let actualList: any[] = [];
         
         if (Array.isArray(res)) {
@@ -38,19 +37,31 @@ export class Home implements OnInit {
         } else if (res && Array.isArray(res.nurseries)) {
           actualList = res.nurseries;
         } else if (res && typeof res === 'object') {
-          // لو الباك إند باعت أوبجكت فيه باجينيشن، بنحاول نلقط أي مصفوفة جواه
           actualList = Object.values(res).find(val => Array.isArray(val)) as any[] || [];
         }
 
-        // كدة ضمنّا 100% إن الـ actualList عبارة عن Array ومستحيل تضرب تيب ايرور
+        // أخذ أول 3 حواضن طبية مميزة فقط للعرض في الهوم
         this.featuredNurseries.set(actualList.slice(0, 3));
         this.isLoading.set(false);
       },
       error: (err) => {
         console.error('خطأ أثناء تحميل الحضانات في الرئيسية:', err);
-        this.featuredNurseries.set([]); // تأمين الشاشة بمصفوفة فاضية عند الخطأ
+        this.featuredNurseries.set([]);
         this.isLoading.set(false);
       }
     });
+  }
+
+  // 🔍 2️⃣ دالة تشغيل البحث السريع والانتقال لصفحة التصفح الشاملة
+  onSearch(searchTerm: string) {
+    const term = searchTerm.trim();
+    if (!term) {
+      // لو ضغط بحث وهو فاضي، يوجهه لصفحة التصفح العامة لكل الحواضن
+      this.router.navigate(['/nurseries']);
+      return;
+    }
+    
+    // التوجيه لصفحة الـ nurseries مع باصي كلمة البحث في الـ Query Params ليتم تصفيتها هناك لايف
+    this.router.navigate(['/nurseries'], { queryParams: { search: term } });
   }
 }

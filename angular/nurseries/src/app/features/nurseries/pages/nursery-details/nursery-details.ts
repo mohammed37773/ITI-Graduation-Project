@@ -3,7 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Nursery } from '../../../../core/services/nursery'; 
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NurseryListItem } from '../../../../core/models/parent-nursery.model';
 import { Review } from '../../../../core/models/parent-nursery.model';
 
@@ -30,9 +30,9 @@ export class NurseryDetails implements OnInit {
 
   constructor() {
     this.reviewForm = this.fb.group({
-      rating: [5, [Validators.required, Validators.min(1), Validators.max(5)]],
-      comment: ['', [Validators.required]]
-    });
+  rating: [5, [Validators.required]],
+  comment: ['', [Validators.required]]
+});
   }
 
   ngOnInit(): void {
@@ -71,22 +71,70 @@ export class NurseryDetails implements OnInit {
 
   // 3. إضافة تقييم جديد
   submitReview() {
-    if (this.reviewForm.invalid) return;
-
-    this.isSubmittingReview.set(true);
-    const body = this.reviewForm.value;
-
-    this.http.post(`${this.apiUrl}/${this.nurseryId}/reviews`, body).subscribe({
-      next: () => {
-        this.isSubmittingReview.set(false);
-        this.reviewForm.patchValue({ rating: 5, comment: '' }); // تصفير الفورم
-        alert('تم إضافة تقييمك بنجاح! ⭐');
-        this.loadNurseryReviews(); // إعادة تحميل التقييمات لعرض التقييم الجديد فوراُ
-      },
-      error: (err) => {
-        this.isSubmittingReview.set(false);
-        alert(err.error?.message || 'حدث خطأ أثناء إرسال التقييم.');
-      }
-    });
+  if (this.reviewForm.invalid) {
+    this.reviewForm.markAllAsTouched();
+    return;
   }
+
+  this.isSubmittingReview.set(true);
+
+  // 1️⃣ جلب التوكن من الـ Session وتأمينه في الـ Headers
+  const sessionData = localStorage.getItem('user_session');
+  let savedToken = '';
+  if (sessionData) {
+    try {
+      savedToken = JSON.parse(sessionData).token || '';
+    } catch (e) {
+      console.error('خطأ في قراءة التوكن:', e);
+    }
+  }
+
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${savedToken}`,
+    'Content-Type': 'application/json'
+  });
+
+  // 2️⃣ بناء الـ Payload النظيف والمطابق للـ Prototype المتوقع في الباك إند
+  const reviewPayload = {
+    rating: Number(this.reviewForm.value.rating), // تحويل إجباري لـ Number لمنع الـ 400
+    comment: this.reviewForm.value.comment.trim()
+  };
+
+  // جلب الـ ID بتاع الحضانة الحالية
+  const nurseryId = this.nursery()?.id; 
+  const url = `http://localhost:5104/api/Nurseries/${nurseryId}/reviews`;
+
+  console.log('🚀 Sending Clean Review Payload:', reviewPayload);
+
+  this.http.post<any>(url, reviewPayload, { headers }).subscribe({
+    next: (newReview) => {
+      this.isSubmittingReview.set(false);
+      
+      // تحديث قائمة التقييمات فوراً على الشاشة
+      this.reviews.set([...this.reviews(), newReview]);
+      
+      // تصفير الفورم بنجاح
+      this.reviewForm.reset({ rating: 5, comment: '' });
+      
+      alert('🟢 تم نشر تقييمك الطبي بنجاح يا رئيس!');
+    },
+    error: (err) => {
+      this.isSubmittingReview.set(false);
+      console.error('❌ خطأ الـ Review API:', err);
+      
+      // 3️⃣ لقط الرسالة الذكية القادمة من الباك إند مباشرة وعرضها للمستخدم
+      let errorMessage = 'حدث خطأ أثناء إرسال التقييم.';
+      
+      if (err.error) {
+        if (typeof err.error === 'string') {
+          errorMessage = err.error; // هيلقط هنا: "مش هتقدر تعمل Review غير لو حجزت في الحضانة دي"
+        } else if (err.error.message) {
+          errorMessage = err.error.message;
+        }
+      }
+      
+      alert(`⚠️ ${errorMessage}`);
+    }
+  });
+}
 }

@@ -1,74 +1,81 @@
-/* التنسيق العام للحاوية */
+/* Container styling */
 .home-container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9fbf9; 
-  direction: rtl; 
+  background-color: #f8fafc;
+  color: #334155;
 }
 
-/* 1. تصميم الـ Hero Section */
+/* 🟢 قسم الـ Hero بتدريج أخضر طبي طبيعي مريح */
 .hero-section {
-  background: linear-gradient(135deg, #ebfbf2 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #0f766e 0%, #065f46 100%); /* تدريج أخضر زيتي وزمردي عميق وعصري */
+  color: white;
   padding: 80px 20px;
   text-align: center;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.hero-content {
-  max-width: 800px;
-  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
 }
 
 .hero-content h1 {
-  color: #2c3e50;
-  font-size: 36px;
+  font-size: 2.8rem;
   font-weight: 800;
   margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .hero-content p {
-  color: #7f8c8d;
-  font-size: 16px;
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto 40px auto;
+  opacity: 0.9;
   line-height: 1.8;
-  margin-bottom: 35px;
 }
 
-/* شريط البحث */
+/* 🔍 شريط البحث الذكي المطور بالأخضر */
 .search-bar {
   display: flex;
-  max-width: 600px;
-  margin: 0 auto;
-  box-shadow: 0 8px 20px rgba(46, 204, 113, 0.1);
-  border-radius: 30px;
-  overflow: hidden;
   background: #ffffff;
-  border: 2px solid #2ecc71;
+  padding: 6px;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  max-width: 650px;
+  margin: 0 auto;
+  align-items: center;
 }
 
 .search-bar input {
   flex: 1;
   border: none;
-  padding: 15px 25px;
-  font-size: 15px;
+  padding: 14px 24px;
+  font-size: 1rem;
   outline: none;
-  color: #2c3e50;
+  background: transparent;
+  color: #1e293b;
 }
 
+.search-bar input::placeholder {
+  color: #94a3b8;
+}
+
+/* 🟢 زر البحث السريع المتدرج */
 .btn-search {
-  background-color: #2ecc71;
-  color: #ffffff;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
   border: none;
-  padding: 0 30px;
-  font-size: 16px;
-  font-weight: 700;
+  padding: 14px 35px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.25s ease-in-out;
 }
 
 .btn-search:hover {
-  background-color: #27ae60;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  box-shadow: 0 5px 15px rgba(5, 150, 105, 0.4);
+  transform: translateY(-1px);
 }
 
-/* 2. تصميم قسم الحضانات المميزة */
+/* 🟢 قسم الحواضن المميزة */
 .featured-section {
   max-width: 1200px;
   margin: 0 auto;
@@ -77,52 +84,49 @@
 
 .section-header {
   text-align: center;
-  margin-bottom: 45px;
+  margin-bottom: 50px;
 }
 
 .section-header h2 {
-  color: #2c3e50;
-  font-size: 28px;
+  font-size: 2.2rem;
   font-weight: 700;
+  color: #065f46; /* أخضر داكن للعناوين */
   margin-bottom: 10px;
 }
 
 .section-header p {
-  color: #7f8c8d;
-  font-size: 15px;
+  color: #64748b;
+  font-size: 1rem;
 }
 
-/* الـ Grid وتوزيع الكروت */
+/* Grid layout */
 .nurseries-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 30px;
-  justify-content: center;
 }
 
-/* الكارت الواحد */
+/* 🟢 تصميم كروت الحواضن الطبية */
 .nursery-card {
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.03) !important; /* لمحة ظلال ناعمة من الأخضر */
   border: 1px solid #e2e8f0;
-  width: 350px;
+  transition: all 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .nursery-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 25px rgba(46, 204, 113, 0.12);
-  border-color: #2ecc71;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(16, 185, 129, 0.08) !important;
+  border-color: #a7f3d0; /* تفتيح أخضر خفيف عند التمرير */
 }
 
-/* صورة الكارت */
 .card-image {
   position: relative;
-  height: 200px;
-  width: 100%;
+  height: 220px;
 }
 
 .card-image img {
@@ -131,121 +135,131 @@
   object-fit: cover;
 }
 
-.city-badge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background-color: rgba(255, 255, 255, 0.95);
-  color: #27ae60;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  border: 1px solid #2ecc71;
-}
-
-/* محتوى الكارت السفلي */
-.card-body {
-  padding: 20px;
-  flex: 1;
-}
-
-.card-body h3 {
-  color: #2c3e50;
-  font-size: 18px;
-  font-weight: 700;
-  margin: 0 0 12px 0;
-}
-
-.description {
-  color: #7f8c8d;
-  font-size: 14px;
-  line-height: 1.6;
-  height: 65px;
-  overflow: hidden;
-  margin-bottom: 15px;
-}
-
-.address {
-  color: #95a5a6;
-  font-size: 13px;
-  margin-bottom: 15px;
-}
-
-/* بيانات السعر والتقييم */
-.card-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 15px;
-  border-top: 1px solid #f1f5f9;
-}
-
-.rating {
-  background-color: #fef9e7;
-  color: #f39c12;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.price {
-  color: #2ecc71;
-  font-size: 14px;
-}
-
-.price strong {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-/* أزرار التحكم في الكارت */
-.card-actions {
-  padding: 0 20px 20px 20px;
-}
-
-.btn-details {
-  display: block;
-  text-align: center;
-  background-color: #ffffff;
-  color: #2ecc71;
-  border: 2px solid #2ecc71;
-  padding: 10px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-.btn-details:hover {
-  background-color: #2ecc71;
-  color: #ffffff;
-}
-
+/* 🟢 شارات الاعتماد الطبية بالأخضر */
 .verified-badge {
   position: absolute;
   top: 15px;
   right: 15px;
-  background-color: #2ecc71;
-  color: #ffffff;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(46, 204, 113, 0.3);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
 }
 
-.age-range {
-  color: #27ae60;
-  font-size: 13px;
-  font-weight: 600;
+.city-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: rgba(15, 23, 42, 0.75);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
+}
+
+.card-body {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1e293b;
   margin-bottom: 12px;
-  background-color: #f0fdf4;
-  padding: 6px 12px;
-  border-radius: 8px;
+}
+
+.card-body .description {
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 🍼 شريط عمر الأطفال (حديثي الولادة) بالأخضر */
+.age-range {
+  background-color: #f0fdf4; /* خلفية ناعمة جداً من الأخضر */
+  color: #166534; /* نص أخضر غامق واضح */
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 15px;
   display: inline-block;
-  width: 100%;
-  box-sizing: border-box;
+  align-self: flex-start;
+}
+
+.address {
+  color: #475569;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 15px;
+}
+
+.rating {
+  color: #d97706; /* لون النجوم الذهبي الدافئ */
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.price {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+/* 🟢 إبراز السعر بلون أخضر زمردي داكن رزين */
+.price strong {
+  font-size: 1.4rem;
+  color: #059669;
+}
+
+.card-actions {
+  padding: 0 24px 24px 24px;
+}
+
+/* 🟢 زر عرض التفاصيل والحجز ليكون متطابقاً تماماً مع ثيم الأخضر */
+.btn-details {
+  display: block;
+  text-align: center;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: white !important;
+  text-decoration: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.1);
+}
+
+.btn-details:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  box-shadow: 0 6px 15px rgba(5, 150, 105, 0.3) !important;
+  transform: translateY(-1px);
+}
+
+/* تخصيص الـ Spinner ليكون متوافقاً مع ثيم الألوان المحدث */
+.spinner-border.text-success {
+  --bs-spinner-color: #10b981 !important;
+  width: 2.5rem;
+  height: 2.5rem;
 }

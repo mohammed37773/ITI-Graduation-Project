@@ -2,26 +2,26 @@
   
   <header class="hero-section">
     <div class="hero-content">
-      <h1>ابحث عن الحضانة المثالية لطفلك 👶</h1>
-      <p>نساعدك في الوصول إلى أفضل الحضانات التعليمية والترفيهية القريبة منك والتي تطابق المعايير القياسية بكل سهولة وأمان.</p>
+      <h1>ابحث عن الحاضنة الطبية الشاغرة لطفلك فوراً 👶</h1>
+      <p>نساعدك في الوصول إلى أفضل مراكز حواضن الأطفال المبتسرين وحديثي الولادة القريبة منك والمعتمدة طبيًا بكل سهولة وأمان.</p>
       
       <div class="search-bar">
-        <input type="text" placeholder="أدخل اسم المنطقة، المدينة، أو الخدمة..." />
-        <button class="btn-search">بحث سريع</button>
+        <input type="text" #searchInput (keyup.enter)="onSearch(searchInput.value)" placeholder="أدخل اسم المدينة، المنطقة، أو مستوى الرعاية المطلوبة..." />
+        <button class="btn-search" (click)="onSearch(searchInput.value)">بحث سريع</button>
       </div>
     </div>
   </header>
 
   <section class="featured-section">
     <div class="section-header">
-      <h2>✨ الحضانات المميزة ✨</h2>
-      <p>حضانات نوصي بها بناءً على تقييمات أولياء الأمور وتوفر معايير الجودة</p>
+      <h2>✨ المراكز الطبية والحواضن المميزة ✨</h2>
+      <p>حواضن نوصي بها بناءً على تقييمات أولياء الأمور وتوفر التجهيزات الطبية العاجلة</p>
     </div>
 
     @if (isLoading()) {
       <div class="text-center my-5 py-4">
-        <div class="spinner-border text-success" role="status"></div>
-        <p class="text-muted small mt-2">جاري استدعاء أفضل الحضانات لايف...</p>
+        <div class="spinner-border text-success" role="status" style="color: #10b981 !important;"></div>
+        <p class="text-muted small mt-2">جاري استدعاء أفضل الحواضن المتاحة حالياً...</p>
       </div>
     } @else {
       
@@ -33,7 +33,7 @@
               <img [src]="nursery.images && nursery.images.length > 0 ? nursery.images[0].imageUrl || nursery.images[0].url : 'https://images.unsplash.com/photo-1576489922094-27a5521ff34c?q=80&w=500&auto=format&fit=crop'" alt="{{ nursery.name }}" />
               
               @if (nursery.isVerified) {
-                <span class="verified-badge">✓ معتمدة</span>
+                <span class="verified-badge">✓ مركز معتمد</span>
               } @else {
                 <span class="city-badge">📍 {{ nursery.city || 'القاهرة' }}</span>
               }
@@ -44,13 +44,13 @@
               <p class="description">{{ nursery.description }}</p>
               
               <div class="age-range">
-                👶 العمر: من {{ nursery.ageRangeMin || 1 }} إلى {{ nursery.ageRangeMax || 6 }} سنوات
+                👶 استقبال حديثي الولادة من عمر يوم واحد
               </div>
 
-              <p class="address">🏠 {{ nursery.district }}، {{ nursery.city }}</p>
+              <p class="address">🏥 {{ nursery.district }}، {{ nursery.city }}</p>
               
               <div class="card-meta">
-                <span class="rating">⭐ {{ nursery.avgRating || '4.5' }}</span>
+                <span class="rating">⭐ {{ nursery.avgRating || '4.8' }}</span>
                 <span class="price"><strong>{{ nursery.dailyPrice }}</strong> ج.م / يوم</span>
               </div>
             </div>
@@ -62,7 +62,7 @@
           </div>
         } @empty {
           <div class="text-center py-5 text-muted col-12">
-            📌 لا توجد حضانات مسجلة في النظام حالياً.
+            📌 لا توجد حواضن طبية مسجلة في النظام حالياً.
           </div>
         }
       </div>

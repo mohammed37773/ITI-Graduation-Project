@@ -1,23 +1,20 @@
 <div class="container py-5" dir="rtl">
   @if (isLoading()) {
     <div class="d-flex justify-content-center align-items-center my-5 py-5">
-      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+      <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem; --bs-text-opacity: 1; color: #10b981 !important;"></div>
     </div>
   } @else if (nursery()) {
     
-    <!-- زر العودة لقائمة الحضانات -->
     <div class="mb-4">
-      <a routerLink="/nurseries" class="btn btn-light rounded-3 text-decoration-none">➡️ العودة لقائمة الحضانات</a>
+      <a routerLink="/nurseries" class="btn btn-light rounded-3 text-decoration-none border">➡️ العودة لقائمة الحواضن الطبية</a>
     </div>
 
     <div class="row g-4">
-      <!-- العمود الأيمن: صور وتفاصيل الحضانة -->
       <div class="col-lg-8">
-        <!-- ألبوم الصور الرئيسي -->
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 bg-white">
           <div class="main-image-box">
             <img [src]="nursery()?.images && nursery()!.images!.length > 0 ? nursery()!.images![0].imageUrl : 'assets/images/default-nursery.jpg'" 
-                 class="w-100 object-fit-cover" style="height: 400px;" alt="صورة الحضانة">
+                 class="w-100 object-fit-cover" style="height: 400px;" alt="صورة الحاضنة">
           </div>
           
           @if (nursery()?.images && nursery()!.images!.length > 1) {
@@ -29,25 +26,23 @@
           }
         </div>
 
-        <!-- بيانات الوصف والمواصفات -->
         <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
           <h3 class="fw-bold text-dark mb-3">{{ nursery()?.name }}</h3>
-          <p class="text-secondary small mb-4">📍 {{ nursery()?.city }}، {{ nursery()?.district }}</p>
+          <p class="text-success small mb-4 fw-medium">📍 {{ nursery()?.city }}، {{ nursery()?.district }}</p>
           
-          <h5 class="fw-bold text-dark mb-3">✨ نبذة عن الحضانة</h5>
+          <h5 class="fw-bold text-dark mb-3 border-bottom pb-2">✨ نبذة عن المركز والتجهيزات الطبية</h5>
           <p class="text-muted lh-lg" style="white-space: pre-line;">{{ nursery()?.description }}</p>
         </div>
 
-        <!-- قسم التقييمات وآراء أولياء الأمور -->
         <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
           <h5 class="fw-bold text-dark mb-4">💬 آراء وتقييمات أولياء الأمور ({{ reviews().length }})</h5>
 
           @if (reviews().length === 0) {
-            <p class="text-muted small">لا توجد تقييمات مضافة لهذه الحضانة بعد، كن أول من يقيمها!</p>
+            <p class="text-muted small">لا توجد تقييمات مضافة لهذا المركز بعد، كن أول من يشارك تجربته!</p>
           } @else {
             <div class="d-flex flex-column gap-3 mb-4">
               @for (review of reviews(); track review.id) {
-                <div class="p-3 bg-light rounded-3">
+                <div class="p-3 rounded-3" style="background: linear-gradient(to left, #f0fdf4, #f8fafc); border-right: 4px solid #10b981;">
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <h6 class="fw-bold mb-0 text-dark">{{ review.parentName || 'ولي أمر' }}</h6>
                     <span class="text-warning fw-bold">⭐ {{ review.rating }} / 5</span>
@@ -58,9 +53,8 @@
             </div>
           }
 
-          <!-- نموذج إضافة تقييم جديد -->
           <div class="border-top pt-4 mt-2">
-            <h6 class="fw-bold text-dark mb-3">📝 أضف تقييمك وتجربتك</h6>
+            <h6 class="fw-bold text-dark mb-3">📝 أضف تقييمك وتجربتك الطبية</h6>
             <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="row g-3">
               <div class="col-md-4">
                 <label class="form-label small fw-semibold text-secondary">التقييم بالنجوم</label>
@@ -74,12 +68,12 @@
               </div>
               <div class="col-12">
                 <label class="form-label small fw-semibold text-secondary">اكتب تعليقك</label>
-                <textarea formControlName="comment" class="form-control rounded-3" rows="3" placeholder="تكلم عن تجربتك مع المعاملة والمناهج والبيئة..."></textarea>
+                <textarea formControlName="comment" class="form-control rounded-3" rows="3" placeholder="تكلم عن مستوى الرعاية، النظافة، طاقم التمريض، والاهتمام بالمولود..."></textarea>
               </div>
               <div class="col-12">
-                <button type="submit" [disabled]="reviewForm.invalid || isSubmittingReview()" class="btn btn-primary rounded-3 px-4 py-2">
+                <button type="submit" [disabled]="reviewForm.invalid || isSubmittingReview()" class="btn btn-primary rounded-3 px-4 py-2 fw-bold shadow-sm">
                   @if (isSubmittingReview()) {
-                    <span class="spinner-border spinner-border-sm"></span> جاري الإرسال...
+                    <span class="spinner-border spinner-border-sm me-1"></span> جاري الإرسال...
                   } @else {
                     إرسال التقييم
                   }
@@ -91,28 +85,26 @@
         </div>
       </div>
 
-      <!-- العمود الأيسر: كارت الحجز السريع المالي -->
       <div class="col-lg-4">
         <div class="card border-0 shadow-sm rounded-4 p-4 bg-white sticky-top" style="top: 20px;">
           <div class="text-center pb-3 border-bottom mb-4">
-            <span class="text-muted small d-block mb-1">تكلفة الاستضافة اليومية</span>
-            <h2 class="fw-bold text-success mb-0">{{ nursery()?.dailyPrice }} ج.م <span class="fs-6 fw-normal text-muted">/ طفل</span></h2>
+            <span class="text-muted small d-block mb-1">تكلفة استضافة الحاضنة اليومية</span>
+            <h2 class="fw-bold mb-0" style="color: #059669;">{{ nursery()?.dailyPrice }} ج.م <span class="fs-6 fw-normal text-muted">/ يومياً</span></h2>
           </div>
 
           <div class="mb-4 text-secondary small">
             <div class="d-flex justify-content-between mb-2">
-              <span>🏡 السعة الكلية للحضانة:</span>
-              <span class="fw-bold text-dark">متاحة</span>
+              <span>🏥 حالة الأجهزة الشاغرة:</span>
+              <span class="badge bg-success-light text-success px-2 py-1 rounded small fw-bold" style="background-color: #d1fae5; color: #065f46 !important;">حواضن متاحة فوراً</span>
             </div>
             <div class="d-flex justify-content-between">
-              <span>⭐ التقييم العام:</span>
+              <span>⭐ التقييم العام للمركز:</span>
               <span class="fw-bold text-warning">⭐ {{ nursery()?.rating || 'جديد' }}</span>
             </div>
           </div>
 
-          <!-- زر الانتقال الفوري لعملية الحجز الفعلي لربط الدورة المالية -->
-          <a [routerLink]="['/bookings/create', nursery()?.id]" class="btn btn-primary btn-lg w-100 rounded-3 fw-bold py-2.5 shadow-sm">
-            🎯 احجز لطفلك الآن
+          <a [routerLink]="['/parent/bookings/new', nursery()?.id]" class="btn btn-primary btn-lg w-100 rounded-3 fw-bold py-2.5 shadow-sm">
+            🎯 احجز الحاضنة للمولود الآن
           </a>
         </div>
       </div>
@@ -120,7 +112,7 @@
 
   } @else {
     <div class="text-center py-5">
-      <p class="text-muted">عذراً، لم نتمكن من العثور على الحضانة المطلوبة.</p>
+      <p class="text-muted">عذراً، لم نتمكن من العثور على المركز الطبي أو الحاضنة المطلوبة.</p>
     </div>
   }
 </div>

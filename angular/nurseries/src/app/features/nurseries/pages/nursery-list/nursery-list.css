@@ -1,33 +1,26 @@
-.card {
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02) !important;
+/* تخصيص أزرار الـ Pagination والفلاتر بالأخضر المتناسق */
+.btn-outline-success {
+  color: #059669 !important;
+  border-color: #10b981 !important;
 }
 
-.form-control, .form-select {
-  border-color: #e2e8f0;
-  padding: 0.6rem 0.8rem;
-  font-size: 0.9rem;
+.btn-outline-success:hover:not([disabled]) {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+.btn-outline-success:disabled {
+  border-color: #cbd5e1 !important;
+  color: #94a3b8 !important;
+}
+
+/* تنعيم ظلال الكارت الخاص بالفلاتر */
+.card {
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.02) !important;
 }
 
 .form-control:focus, .form-select:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
-}
-
-.btn-white {
-  background-color: #fff;
-  color: #475569;
-  font-weight: 500;
-}
-
-.btn-white:hover:not(:disabled) {
-  background-color: #f8fafc;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.cursor-pointer:hover {
-  transform: translateY(-4px);
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12) !important;
 }

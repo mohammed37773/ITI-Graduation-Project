@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Booking } from '../../../core/models/booking.model';
 
 @Component({
@@ -20,10 +20,9 @@ export class Bookings implements OnInit {
   isLoading = signal<boolean>(true);
   errorMessage = signal<string | null>(null);
 
-  // 🟢 متغير ذكي عشان نخزن فيه ID أول حضانة للحجز الجديد بدون ما يضرب الـ HTML
   firstNurseryId = computed(() => {
     const bookings = this.allBookings();
-    return bookings.length > 0 ? bookings[0].nurseryId : 1; // لو مفيش حجوزات هيفترض 1 كـ default أو يفتح الفورم
+    return bookings.length > 0 ? bookings[0].nurseryId : 1;
   });
 
   filteredBookings = computed(() => {
@@ -48,7 +47,26 @@ export class Bookings implements OnInit {
   loadUserBookings() {
     this.isLoading.set(true);
     this.errorMessage.set(null);
-    this.http.get<Booking[]>(this.apiUrl).subscribe({
+
+    // 1️⃣ سحب التوكن من الـ user_session لتأمين الطلب
+    const sessionData = localStorage.getItem('user_session');
+    let token = '';
+    if (sessionData) {
+      try {
+        token = JSON.parse(sessionData).token || '';
+      } catch (e) {
+        console.error('خطأ في قراءة الـ session', e);
+      }
+    }
+
+    // 2️⃣ إعداد الـ Headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    // 3️⃣ تزويد الـ URL بـ /my (حل مشكلة 405) وتمرير الـ headers (حل مشكلة 401)
+    this.http.get<Booking[]>(`${this.apiUrl}/my`, { headers }).subscribe({
       next: (data) => {
         this.allBookings.set(data || []);
         this.isLoading.set(false);

@@ -19,3 +19,24 @@
 .lh-lg {
   line-height: 1.8 !important;
 }
+/* 🟢 تحويل الأزرار الأساسية بالكامل من الأزرق إلى تدريج الأخضر الزمردي */
+.btn-primary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  border: none !important;
+  color: white !important;
+  transition: all 0.25s ease-in-out !important;
+}
+
+/* تأثير حركة الماوس (Hover) على الأزرار الخضراء */
+.btn-primary:hover:not([disabled]) {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25) !important;
+}
+
+/* حالة الأزرار لما تكون معطلة (Disabled) */
+.btn-primary:disabled {
+  background: #a7f3d0 !important; /* أخضر باهت */
+  opacity: 0.7;
+  cursor: not-allowed;
+}
