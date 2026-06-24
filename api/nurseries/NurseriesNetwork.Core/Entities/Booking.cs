@@ -16,16 +16,10 @@ namespace NurseriesNetwork.Core.Entities
         public decimal TotalPrice { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-<<<<<<< HEAD
-        // Navigation Properties
-        public ApplicationUser Parent { get; set; } = null!;
-        public Nursery Nursery { get; set; } = null!;
-        public Child Child { get; set; } = null!;
-=======
         public ApplicationUser Parent { get; set; } = null!;
         public Nursery Nursery { get; set; } = null!;
         public Child Child { get; set; } = null!;
         public Payment? Payment { get; set; }
->>>>>>> main
+
     }
 }
