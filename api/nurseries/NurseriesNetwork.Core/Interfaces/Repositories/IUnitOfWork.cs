@@ -14,5 +14,6 @@ namespace NurseriesNetwork.Core.Interfaces.Repositories
         IGenericRepository<NurseryImage> NurseryImages { get; }
         IGenericRepository<Payment> Payments { get; }
         Task<int> SaveChangesAsync();
+        IGenericRepository<ApplicationUser> Users { get; }
     }
 }

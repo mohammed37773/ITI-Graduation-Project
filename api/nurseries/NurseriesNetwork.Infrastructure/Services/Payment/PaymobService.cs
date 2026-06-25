@@ -83,6 +83,7 @@ public class PaymobService : IPaymentService, IPaymentGatewayService
                 amount = amountCents,
                 currency = "EGP",
                 payment_methods = new[] { int.Parse(integrationId!) },
+               // merchant_order_id = dto.BookingId.ToString(),
                 items = new[]
                 {
                     new
@@ -95,10 +96,10 @@ public class PaymobService : IPaymentService, IPaymentGatewayService
                 },
                 billing_data = new
                 {
-                    first_name = "Customer",
-                    last_name = "Name",
-                    email = "customer@example.com",
-                    phone_number = "01000000000"
+                    first_name = "Hatem",
+                    last_name = "Mostafa",
+                    email = "hatem@example.com",
+                    phone_number = "+201000000000"
                 },
                 metadata = new
                 {
@@ -132,7 +133,7 @@ public class PaymobService : IPaymentService, IPaymentGatewayService
 
             var iframeId = _config["Paymob:IframeId"];
             var paymentUrl = string.IsNullOrEmpty(iframeId)
-                ? $"https://accept.paymob.com/unifiedcheckout/?publicKey={_config["Paymob:ApiKey"]}&clientSecret={clientSecret}"
+                ? $"https://accept.paymob.com/unifiedcheckout/?publicKey={_config["Paymob:publickey"]}&clientSecret={clientSecret}"
                 : $"https://accept.paymob.com/api/acceptance/iframes/{iframeId}?payment_token={clientSecret}";
 
             _logger.LogInformation(

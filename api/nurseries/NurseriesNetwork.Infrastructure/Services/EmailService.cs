@@ -20,7 +20,7 @@ public class EmailService : IEmailService
     {
         var encodedToken = Uri.EscapeDataString(token);
         var confirmLink =
-            $"http://localhost:5104/api/auth/confirm-email" +
+            $"https://number-commence-marshland.ngrok-free.dev/api/auth/confirm-email" +
             $"?email={email}&token={encodedToken}";
 
         var body = $"""

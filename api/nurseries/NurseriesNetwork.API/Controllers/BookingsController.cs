@@ -38,6 +38,9 @@ public class BookingsController : ControllerBase
     {
         var parentId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
+        // ✅ فحص جديد — تاريخ البداية لازم يكون في المستقبل
+        if (dto.StartDate < DateOnly.FromDateTime(DateTime.UtcNow))
+            return BadRequest("تاريخ البداية لازم يكون في المستقبل");
         // التحقق من الحضانة
         var nursery = await _uow.Nurseries.GetByIdAsync(dto.NurseryId);
         if (nursery == null)
@@ -109,9 +112,11 @@ public class BookingsController : ControllerBase
             });
     }
 
+
     // ===========================
     // GET: api/bookings/my
     // ===========================
+
     [HttpGet("my")]
     [Authorize(Roles = "Parent")]
     public async Task<IActionResult> GetMyBookings()
@@ -136,6 +141,7 @@ public class BookingsController : ControllerBase
     // ===========================
     // GET: api/bookings/{id}
     // ===========================
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetBookingById(int id)
     {
@@ -195,24 +201,46 @@ public class BookingsController : ControllerBase
     // PUT: api/bookings/{id}/confirm
     // NurseryAdmin بيأكد الحجز
     // ===========================
-    [HttpPut("{id}/confirm")]
+    //[HttpPut("{id}/confirm")]
+    //[Authorize(Roles = "NurseryAdmin")]
+    //public async Task<IActionResult> ConfirmBooking(int id)
+    //{
+    //    var booking = await _uow.Bookings.GetByIdAsync(id);
+    //    if (booking == null)
+    //        return NotFound("الحجز مش موجود");
+
+    //    if (booking.Status != BookingStatus.Pending)
+    //        return BadRequest("الحجز مش في انتظار التأكيد");
+
+    //    booking.Status = BookingStatus.Confirmed;
+    //    _uow.Bookings.Update(booking);
+    //    await _uow.SaveChangesAsync();
+
+    //    return Ok("تم تأكيد الحجز");
+    //}
+
+
+    // ===========================
+    // GET: api/bookings/nursery
+    // NurseryAdmin يشوف الحجوزات المؤكدة (المدفوعة) بتاعت حضانته
+    // ===========================
+    [HttpGet("nursery/{nurseryId}")]
     [Authorize(Roles = "NurseryAdmin")]
-    public async Task<IActionResult> ConfirmBooking(int id)
+    public async Task<IActionResult> GetNurseryBookings(int nurseryId)
     {
-        var booking = await _uow.Bookings.GetByIdAsync(id);
-        if (booking == null)
-            return NotFound("الحجز مش موجود");
+        var bookings = await _uow.Bookings
+            .FindAsync(b => b.NurseryId == nurseryId);
 
-        if (booking.Status != BookingStatus.Pending)
-            return BadRequest("الحجز مش في انتظار التأكيد");
-
-        booking.Status = BookingStatus.Confirmed;
-        _uow.Bookings.Update(booking);
-        await _uow.SaveChangesAsync();
-
-        return Ok("تم تأكيد الحجز");
+        return Ok(bookings.Select(b => new
+        {
+            b.Id,
+            b.ChildId,
+            b.StartDate,
+            b.TotalPrice,
+            Status = b.Status.ToString(),
+            b.CreatedAt
+        }));
     }
-
     // ===========================
     // Helper
     // ===========================

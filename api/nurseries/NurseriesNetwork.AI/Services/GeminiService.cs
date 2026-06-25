@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
+using System.Net;
 namespace NurseriesNetwork.AI.Services;
 
 public class GeminiService
@@ -49,8 +49,19 @@ public class GeminiService
             }
         };
 
-        var response = await _httpClient.PostAsJsonAsync(url, requestBody);
-        response.EnsureSuccessStatusCode();
+        var response = await SendWithRetryAsync(url, requestBody);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+
+            _logger.LogError(
+                "Gemini Chat failed. StatusCode: {StatusCode}. Response: {Error}",
+                response.StatusCode,
+                error);
+
+            return "معذرة، خدمة الذكاء الاصطناعي غير متاحة حالياً، حاول مرة أخرى بعد قليل.";
+        }
 
         var json = await response.Content.ReadAsStringAsync();
         using var doc = JsonDocument.Parse(json);
@@ -84,8 +95,19 @@ public class GeminiService
             }
         };
 
-        var response = await _httpClient.PostAsJsonAsync(url, requestBody);
-        response.EnsureSuccessStatusCode();
+        var response = await SendWithRetryAsync(url, requestBody);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+
+            _logger.LogError(
+                "Gemini Embedding failed. StatusCode: {StatusCode}. Response: {Error}",
+                response.StatusCode,
+                error);
+
+            return Array.Empty<float>();
+        }
 
         var json = await response.Content.ReadAsStringAsync();
         using var doc = JsonDocument.Parse(json);
@@ -201,7 +223,8 @@ public class GeminiService
             tools
         };
 
-        var response = await _httpClient.PostAsJsonAsync(url, requestBody);
+
+        var response = await SendWithRetryAsync(url, requestBody);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -281,8 +304,18 @@ public class GeminiService
             }
         };
 
-        var response = await _httpClient.PostAsJsonAsync(url, requestBody);
-        response.EnsureSuccessStatusCode();
+        var response = await SendWithRetryAsync(url, requestBody);
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+
+            _logger.LogError(
+                "Gemini Final Response failed. StatusCode: {StatusCode}. Response: {Error}",
+                response.StatusCode,
+                error);
+
+            return functionResult;
+        }
 
         var json = await response.Content.ReadAsStringAsync();
         using var doc = JsonDocument.Parse(json);
@@ -293,6 +326,35 @@ public class GeminiService
             .GetProperty("parts")[0]
             .GetProperty("text")
             .GetString() ?? functionResult;
+    }
+
+    private async Task<HttpResponseMessage> SendWithRetryAsync(
+    string url,
+    object body,
+    int maxRetries = 3)
+    {
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        {
+            var response = await _httpClient.PostAsJsonAsync(url, body);
+
+            if (response.IsSuccessStatusCode)
+                return response;
+
+            if (response.StatusCode == HttpStatusCode.ServiceUnavailable &&
+                attempt < maxRetries)
+            {
+                _logger.LogWarning(
+                    "Gemini unavailable. Retry {Attempt}/{MaxRetries}",
+                    attempt, maxRetries);
+
+                await Task.Delay(TimeSpan.FromSeconds(attempt * 3));
+                continue;
+            }
+
+            return response;
+        }
+
+        throw new Exception("Failed after retries.");
     }
 }
 
@@ -305,3 +367,4 @@ public record GeminiFunctionCallResult(
     string? ArgumentsJson,
     string? DirectTextResponse
 );
+

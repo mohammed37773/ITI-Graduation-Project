@@ -23,7 +23,25 @@ public class AdminNurseriesController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var nurseries = await _uow.Nurseries.GetAllAsync();
-        return Ok(nurseries);
+
+        return Ok(nurseries.Select(n => new
+        {
+            n.Id,
+            n.Name,
+            n.Description,
+            n.DailyPrice,
+            n.AgeRangeMin,
+            n.AgeRangeMax,
+            n.Capacity,
+            n.AvgRating,
+            n.IsVerified,
+            n.CreatedAt,
+            City = n.Location?.City,
+            Address = n.Location?.Address,
+            ImagesCount = n.Images.Count,
+            ReviewsCount = n.Reviews.Count
+            // ✅ EmbeddingVector محذوف بالكامل من الـ Response
+        }));
     }
 
     // ===========================

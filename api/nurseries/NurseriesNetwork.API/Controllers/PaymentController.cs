@@ -46,7 +46,6 @@ public class PaymentController : ControllerBase
             "Payment initiation request for BookingId: {BookingId}, Method: {Method}",
             dto.BookingId, dto.Method);
 
-        // التحقق من الحجز
         var booking = await _uow.Bookings.GetByIdAsync(dto.BookingId);
         if (booking == null)
             return NotFound("الحجز مش موجود");
@@ -57,17 +56,18 @@ public class PaymentController : ControllerBase
         if (booking.Status == BookingStatus.Cancelled)
             return BadRequest("مش ممكن تدفع على حجز ملغي");
 
-        // التحقق إن مفيش دفعة ناجحة قبل كده
+        if (booking.Status == BookingStatus.Confirmed)
+            return BadRequest("الحجز ده مؤكد ومدفوع بالفعل");
+
         var existingPayments = await _uow.Payments
             .FindAsync(p => p.BookingId == dto.BookingId);
 
-        if (existingPayments.Any(p => p.Status == PaymentStatus.Completed))
+        var existingPayment = existingPayments.FirstOrDefault();
+
+        if (existingPayment != null && existingPayment.Status == PaymentStatus.Completed)
             return BadRequest("الحجز ده اتدفع بالفعل");
 
-        // اختيار الـ Payment Service
         var paymentService = _paymentFactory.GetPaymentService(dto.Method);
-
-        // إنشاء الدفع
         var result = await paymentService.InitiatePaymentAsync(dto);
 
         if (!result.IsSuccess)
@@ -77,7 +77,34 @@ public class PaymentController : ControllerBase
             return BadRequest(result.Message);
         }
 
-        // حفظ الـ Payment في DB بحالة Pending
+        // ✅ الحل — لو فيه Payment قديم على نفس الحجز (Pending أو Failed)، حدّثه بدل إنشاء جديد
+        if (existingPayment != null)
+        {
+            existingPayment.Amount = dto.Amount;
+            existingPayment.Method = dto.Method;
+            existingPayment.Status = PaymentStatus.Pending;
+            existingPayment.GatewayOrderId = result.GatewayOrderId;
+            existingPayment.PaymentUrl = result.PaymentUrl;
+            existingPayment.TransactionId = null;
+            existingPayment.PaidAt = null;
+
+            _uow.Payments.Update(existingPayment);
+            await _uow.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "Payment updated with Id: {PaymentId} for BookingId: {BookingId}",
+                existingPayment.Id, dto.BookingId);
+
+            return Ok(new PaymentInitResponseDto(
+                true,
+                existingPayment.Id,
+                result.PaymentUrl,
+                result.GatewayOrderId,
+                "تم إنشاء طلب الدفع، اكمل على الصفحة التالية"
+            ));
+        }
+
+        // ✅ لو مفيش Payment قديم خالص، نعمل جديد (الحالة العادية)
         var payment = new Payment
         {
             BookingId = dto.BookingId,
@@ -88,6 +115,7 @@ public class PaymentController : ControllerBase
             GatewayOrderId = result.GatewayOrderId,
             PaymentUrl = result.PaymentUrl
         };
+
         booking.Payment = payment;
         await _uow.Payments.AddAsync(payment);
         await _uow.SaveChangesAsync();
@@ -96,7 +124,6 @@ public class PaymentController : ControllerBase
             "Payment created with Id: {PaymentId} for BookingId: {BookingId}",
             payment.Id, dto.BookingId);
 
-        // رجّع الرابط للـ Frontend
         return Ok(new PaymentInitResponseDto(
             true,
             payment.Id,

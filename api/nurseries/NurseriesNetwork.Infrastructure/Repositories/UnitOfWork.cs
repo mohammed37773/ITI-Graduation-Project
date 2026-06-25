@@ -14,6 +14,7 @@ public class UnitOfWork : IUnitOfWork
     public IGenericRepository<Child> Children { get; }
     public IGenericRepository<NurseryImage> NurseryImages { get; }
     public IGenericRepository<Payment> Payments { get; }
+    public IGenericRepository<ApplicationUser> Users { get; }
 
     public UnitOfWork(AppDbContext context)
     {
@@ -24,6 +25,7 @@ public class UnitOfWork : IUnitOfWork
         Children = new GenericRepository<Child>(context);
         NurseryImages = new GenericRepository<NurseryImage>(context);
         Payments = new GenericRepository<Payment>(context);
+        Users = new GenericRepository<ApplicationUser>(context);
     }
 
     public async Task<int> SaveChangesAsync()
@@ -31,8 +33,11 @@ public class UnitOfWork : IUnitOfWork
         return await _context.SaveChangesAsync();
     }
 
+    
+
     public void Dispose()
     {
         _context.Dispose();
     }
+
 }
