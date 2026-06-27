@@ -1,123 +1,226 @@
 :host {
   display: block;
-  background-color: #f8fafc;
+  background: radial-gradient(circle at 10% 20%, #f4fbf7 0%, #f9fafb 90%);
   min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  font-family: 'Cairo', sans-serif;
 }
 
-/* كارت تسجيل الدخول */
-.card {
-  border: none;
-  border-radius: 20px !important;
+/* حاوية التوسيط المطلق */
+.modern-auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+/* كارت التصميم الزجاجي الفخم */
+.auth-glass-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 440px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #e2e8f0;
 }
 
-.card:hover {
+.auth-glass-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(46, 204, 113, 0.08) !important; /* ظل خفيف متناسق مع الأخضر */
+  box-shadow: 0 25px 50px rgba(62, 180, 137, 0.06);
 }
 
-/* 🟢 هيدر الكارت بالتدرج الأخضر المريح الأصلي */
-.card-header {
-  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%) !important;
-  border-bottom: none;
+/* قسم الترحيب واللوجو الدائري */
+.auth-brand-section {
+  text-align: center;
+  margin-bottom: 32px;
 }
 
-/* العناوين والجروب */
-.form-label {
-  font-size: 0.95rem;
-  color: #344054;
-  margin-bottom: 0.5rem;
+.brand-logo-icon {
+  width: 56px;
+  height: 56px;
+  background-color: #eef8f3;
+  color: #3eb489;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 16px auto;
+}
+
+.auth-brand-section h2 {
+  margin: 0 0 6px 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.auth-brand-section p {
+  margin: 0;
+  font-size: 13.5px;
+  color: #6b7280;
+}
+
+/* تنسيق حقول الإدخال الاحترافية */
+.auth-form-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modern-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: right;
+}
+
+.modern-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.modern-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* تأثير الإضاءة النعناعي الفخم عند الفوكس */
+.modern-input-wrapper:focus-within {
+  border-color: #3eb489;
+  box-shadow: 0 0 0 4px rgba(62, 180, 137, 0.1);
+}
+
+.modern-icon-slot {
+  padding: 12px 14px;
+  background: #f9fafb;
+  border-left: 1.5px solid #e5e7eb;
+  font-size: 16px;
+  user-select: none;
+}
+
+.clean-native-input {
+  width: 100%;
+  border: none;
+  padding: 12px 14px;
+  font-size: 14.5px;
+  outline: none;
+  background: transparent;
+  color: #111827;
+  text-align: right;
+}
+
+/* حواشي الأخطاء المتقدمة */
+.modern-input-wrapper.wrapper-error {
+  border-color: #ef4444 !important;
+}
+
+.modern-input-wrapper.wrapper-error:focus-within {
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.08);
+}
+
+.modern-error-hint {
+  color: #ef4444;
+  font-size: 12px;
   font-weight: 600;
+  margin-top: 2px;
 }
 
-/* ضبط إيقونات الـ input-group لتناسب الـ RTL */
-.input-group-text {
-  border-color: #d0d5dd;
-  background-color: #fff;
-  font-size: 1.1rem;
-  border-radius: 0 12px 12px 0 !important; /* دوران جهة اليمين للإيقونة */
-  border-left: none;
+/* بنر الخطأ المركزي العلوي */
+.modern-error-banner {
+  background-color: #fdf2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-/* حقول الإدخال */
-.form-control {
-  border-color: #d0d5dd;
-  padding: 0.75rem 0.85rem;
-  font-size: 0.95rem;
-  border-radius: 12px 0 0 12px !important; /* دوران جهة اليسار للـ input */
-  transition: all 0.2s ease-in-out;
+.error-pulse-icon {
+  font-size: 16px;
 }
 
-/* 🟢 فوكس المدخلات بالأخضر */
-.form-control:focus {
-  border-color: #2ecc71;
-  box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.12);
+.error-message-text {
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: right;
 }
 
-/* 🟢 زر تسجيل الدخول الأخضر */
-.btn-primary {
-  background-color: #2ecc71;
-  border-color: #2ecc71;
-  border-radius: 12px !important;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #ffffff !important;
+/* زر الدفع/الإرسال النعناعي الذكي */
+.modern-submit-btn {
+  width: 100%;
+  background-color: #3eb489;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   transition: all 0.2s ease;
+  margin-top: 10px;
 }
 
-.btn-primary:hover:not(:disabled) {
-  background-color: #27ae60;
-  border-color: #27ae60;
-  transform: translateY(-1px);
+.modern-submit-btn:hover:not(:disabled) {
+  background-color: #2a8a67;
 }
 
-.btn-primary:disabled {
-  background-color: #94a3b8;
-  border-color: #94a3b8;
+.modern-submit-btn:disabled {
+  background-color: #9ca3af;
+  color: #e5e7eb;
   cursor: not-allowed;
 }
 
-/* تنبيهات الخطأ (Alerts) */
-.alert {
-  border-radius: 14px;
-  border: none;
-  font-size: 0.9rem;
+/* تذييل روابط التنقل */
+.modern-auth-footer {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13.5px;
+  color: #6b7280;
 }
 
-.alert-danger {
-  background-color: #fdf2f2;
-  color: #e74c3c;
+.modern-link-action {
+  color: #3eb489;
+  text-decoration: none;
+  font-weight: 700;
+  margin-right: 6px;
+  transition: color 0.2s;
 }
 
-/* تنسيق رسائل الـ Validation أسفل الحقول */
-.text-danger {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #e74c3c !important;
+.modern-link-action:hover {
+  color: #2a8a67;
+  text-decoration: underline;
 }
 
-/* تأثير عند وجود خطأ في الحقل لتمييز الـ Border */
-.form-control.is-invalid {
-  border-color: #e74c3c !important;
-  background-image: none; /* إلغاء إيقونة البوتستراب التلقائية لعدم تداخلها مع الـ RTL */
+/* مؤشر التحميل الدائري النظيف */
+.modern-loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
 }
 
-.form-control.is-invalid + .input-group-text {
-  border-color: #e74c3c !important;
-}
-
-/* 🟢 الروابط السفلية بالأخضر الغامق */
-a.text-primary {
-  color: #27ae60 !important;
-  transition: color 0.2s ease;
-  font-weight: 600;
-}
-
-a.text-primary:hover {
-  color: #218c4e !important;
-  text-decoration: underline !important;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
