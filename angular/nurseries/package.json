@@ -15,6 +15,7 @@
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
+    "@angular/google-maps": "^22.0.2",
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
     "bootstrap": "^5.3.8",

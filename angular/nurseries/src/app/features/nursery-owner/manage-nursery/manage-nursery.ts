@@ -1,21 +1,19 @@
-import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { GoogleMapsModule } from '@angular/google-maps';
 @Component({
   selector: 'app-manage-nursery',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule], 
   templateUrl: './manage-nursery.html',
   styleUrl: './manage-nursery.css',
 })
 export class ManageNursery implements OnInit {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
-  
   private apiUrl = 'http://localhost:5104/api/nurseries';
-
   nurseryForm!: FormGroup;
   isLoading = signal<boolean>(true);
   isSubmitting = signal<boolean>(false);
@@ -24,6 +22,11 @@ export class ManageNursery implements OnInit {
   currentNurseryId: number | null = null;
   selectedFiles: File[] = [];
   imagePreviews: string[] = [];
+
+  // 🗺️ متغيرات إعدادات الخريطة والمؤشر
+  mapCenter: google.maps.LatLngLiteral = { lat: 30.0444, lng: 31.2357 }; // القاهرة افتراضياً
+  mapZoom = 13;
+  markerPosition: google.maps.LatLngLiteral = { lat: 30.0444, lng: 31.2357 };
 
   constructor() {
     this.nurseryForm = this.fb.group({
@@ -53,6 +56,15 @@ export class ManageNursery implements OnInit {
           this.isEditMode.set(true);
           this.currentNurseryId = nursery.id;
           this.nurseryForm.patchValue(nursery);
+
+          // 🗺️ تحديث موقع الخريطة والمؤشر بناءً على الإحداثيات الراجعة من الباك إند
+          if (nursery.latitude && nursery.longitude) {
+            const latLng = { lat: Number(nursery.latitude), lng: Number(nursery.longitude) };
+            this.mapCenter = latLng;
+            this.markerPosition = latLng;
+            this.mapZoom = 16; // عمل زووم أقرب على مكان الحضانة المسجلة
+          }
+
           if (nursery.images) {
             this.imagePreviews = nursery.images.map((img: any) => img.imageUrl);
           }
@@ -66,6 +78,23 @@ export class ManageNursery implements OnInit {
         this.isLoading.set(false);
       }
     });
+  }
+
+  // 🗺️ 🎯 الدالة السحرية: لقط المكان المختار من الخريطة وتحديث الفورم فوراً
+  onMapClick(event: google.maps.MapMouseEvent) {
+    if (event.latLng) {
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+
+      // تحديث قيمة المؤشر بصرياً على الخريطة
+      this.markerPosition = { lat, lng };
+
+      // تحديث قيم الـ Inputs داخل الـ FormGroup أوتوماتيكياً
+      this.nurseryForm.patchValue({
+        latitude: lat,
+        longitude: lng
+      });
+    }
   }
 
   onFileChange(event: any) {
@@ -91,7 +120,6 @@ export class ManageNursery implements OnInit {
 
     this.isSubmitting.set(true);
 
-    // 1️⃣ بناء الأوبجكت يدوياً بصيغة JSON صريحة وأنواع بيانات صحيحة للأرقام
     const formValues = this.nurseryForm.value;
     const requestBody = {
       name: formValues.name,
@@ -107,22 +135,12 @@ export class ManageNursery implements OnInit {
       longitude: Number(formValues.longitude)
     };
 
-    console.log('📦 الـ Request Body المرسل للباك إند كـ JSON:', requestBody);
-
-
     const request$ = this.isEditMode() && this.currentNurseryId
-  ? this.http.put(
-      `${this.apiUrl}/${this.currentNurseryId}`,
-      requestBody
-    )
-  : this.http.post<any>(
-      `${this.apiUrl}`,
-      requestBody
-    );
+      ? this.http.put(`${this.apiUrl}/${this.currentNurseryId}`, requestBody)
+      : this.http.post<any>(`${this.apiUrl}`, requestBody);
 
     request$.subscribe({
       next: (response) => {
-        // لو في وضع الإضافة وهناك صور، قم برفع الصور بعد نجاح إنشاء الحضانة
         if (!this.isEditMode() && response && response.id && this.selectedFiles.length > 0) {
           this.uploadNurseryImages(response.id);
         } else {
@@ -151,32 +169,26 @@ export class ManageNursery implements OnInit {
     });
   }
 
-  // 🟢 الدالة المساعدة لرفع الصور تم إضافتها هنا بشكل صحيح داخل الـ Class
   private uploadNurseryImages(nurseryId: number) {
-  let uploadCount = 0;
+    let uploadCount = 0;
+    this.selectedFiles.forEach(file => {
+      const imgFormData = new FormData();
+      imgFormData.append('image', file, file.name);
 
-  this.selectedFiles.forEach(file => {
-    const imgFormData = new FormData();
-    imgFormData.append('image', file, file.name);
-
-    this.http.post(
-      `${this.apiUrl}/${nurseryId}/images`,
-      imgFormData
-    ).subscribe({
-      next: () => {
-        uploadCount++;
-
-        if (uploadCount === this.selectedFiles.length) {
-          this.isSubmitting.set(false);
-          alert('تم تسجيل بيانات الحضانة ورفع كافة الصور بنجاح! 🎉');
-          this.selectedFiles = [];
-          this.loadNurseryData();
+      this.http.post(`${this.apiUrl}/${nurseryId}/images`, imgFormData).subscribe({
+        next: () => {
+          uploadCount++;
+          if (uploadCount === this.selectedFiles.length) {
+            this.isSubmitting.set(false);
+            alert('تم تسجيل بيانات الحضانة ورفع كافة الصور بنجاح! 🎉');
+            this.selectedFiles = [];
+            this.loadNurseryData();
+          }
+        },
+        error: (err) => {
+          console.error('خطأ أثناء رفع الصورة:', err);
         }
-      },
-      error: (err) => {
-        console.error('خطأ أثناء رفع الصورة:', err);
-      }
+      });
     });
-  });
-}
+  }
 }

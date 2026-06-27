@@ -1,45 +1,36 @@
 <div class="container my-5">
   <div class="card shadow-sm p-4">
-    <h2 class="text-center mb-4 text-success-custom">
-      {{ isEditMode() ? 'تعديل بيانات الحضانة' : 'تسجيل حضانة جديدة' }}
+    <h2 class="text-center mb-4 text-success-custom fw-bold">
+      {{ isEditMode() ? 'تعديل بيانات الحاضنة الطبية' : 'تسجيل حاضنة جديدة' }}
     </h2>
 
     <div *ngIf="isLoading()" class="text-center my-5">
       <div class="spinner-border text-success-custom" role="status">
         <span class="visually-hidden">جاري التحميل...</span>
       </div>
-      <p class="mt-2 text-muted">جاري تحميل بيانات الحضانة...</p>
+      <p class="mt-2 text-muted">جاري تحميل البيانات...</p>
     </div>
 
     <form *ngIf="!isLoading()" [formGroup]="nurseryForm" (ngSubmit)="onSubmit()">
       <div class="row text-end" dir="rtl">
         
         <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">اسم الحضانة <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" formControlName="name" placeholder="أدخل اسم الحضانة">
-          <div *ngIf="nurseryForm.get('name')?.touched && nurseryForm.get('name')?.invalid" class="text-danger extra-small mt-1">
-            اسم الحضانة مطلوب.
-          </div>
+          <label class="form-label fw-bold">اسم الحضانة / المركز <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="name" placeholder="أدخل الاسم">
         </div>
 
         <div class="col-md-6 mb-3">
           <label class="form-label fw-bold">السعر اليومي (جنيه) <span class="text-danger">*</span></label>
           <input type="number" class="form-control" formControlName="dailyPrice" min="1">
-          <div *ngIf="nurseryForm.get('dailyPrice')?.touched && nurseryForm.get('dailyPrice')?.invalid" class="text-danger extra-small mt-1">
-            السعر اليومي مطلوب.
-          </div>
         </div>
 
         <div class="col-md-12 mb-3">
-          <label class="form-label fw-bold">وصف الحضانة والخدمات <span class="text-danger">*</span></label>
-          <textarea class="form-control" formControlName="description" rows="3" placeholder="تكلم عن الحضانة والأنشطة..."></textarea>
-          <div *ngIf="nurseryForm.get('description')?.touched && nurseryForm.get('description')?.invalid" class="text-danger extra-small mt-1">
-            الوصف مطلوب.
-          </div>
+          <label class="form-label fw-bold">وصف المركز والخدمات الطبية والتجهيزات <span class="text-danger">*</span></label>
+          <textarea class="form-control" formControlName="description" rows="3" placeholder="تكلم عن الرعاية والتجهيزات..."></textarea>
         </div>
 
         <div class="col-md-4 mb-3">
-          <label class="form-label fw-bold">الحد الأدنى للسن <span class="text-danger">*</span></label>
+          <label class="form-label fw-bold">الحد الأدنى للسن (بالأيام/الشهور) <span class="text-danger">*</span></label>
           <input type="number" class="form-control" formControlName="ageRangeMin" min="0">
         </div>
 
@@ -49,52 +40,48 @@
         </div>
 
         <div class="col-md-4 mb-3">
-          <label class="form-label fw-bold">القدرة الاستيعابية <span class="text-danger">*</span></label>
+          <label class="form-label fw-bold">القدرة الاستيعابية للحواضن <span class="text-danger">*</span></label>
           <input type="number" class="form-control" formControlName="capacity" min="1">
-          <div *ngIf="nurseryForm.get('capacity')?.touched && nurseryForm.get('capacity')?.invalid" class="text-danger extra-small mt-1">
-            القدرة الاستيعابية مطلوبة.
-          </div>
         </div>
 
         <div class="col-md-4 mb-3">
           <label class="form-label fw-bold">العنوان بالتفصيل <span class="text-danger">*</span></label>
           <input type="text" class="form-control" formControlName="address" placeholder="اسم الشارع / رقم المبنى">
-          <div *ngIf="nurseryForm.get('address')?.touched && nurseryForm.get('address')?.invalid" class="text-danger extra-small mt-1">
-            العنوان مطلوب.
-          </div>
         </div>
 
         <div class="col-md-4 mb-3">
           <label class="form-label fw-bold">المدينة <span class="text-danger">*</span></label>
           <input type="text" class="form-control" formControlName="city" placeholder="مثال: القاهرة">
-          <div *ngIf="nurseryForm.get('city')?.touched && nurseryForm.get('city')?.invalid" class="text-danger extra-small mt-1">
-            المدينة مطلوبة.
-          </div>
         </div>
 
         <div class="col-md-4 mb-3">
           <label class="form-label fw-bold">الحي / المنطقة <span class="text-danger">*</span></label>
           <input type="text" class="form-control" formControlName="district" placeholder="مثال: المعادي">
-          <div *ngIf="nurseryForm.get('district')?.touched && nurseryForm.get('district')?.invalid" class="text-danger extra-small mt-1">
-            الحي مطلوب.
+        </div>
+
+        <div class="col-12 mb-4 mt-3">
+          <label class="form-label fw-bold d-block text-success-custom">📍 حدد موقع الحاضنة بدقة على الخريطة</label>
+          <p class="text-muted small">اضغط على موقع مركزك على الخريطة وسيتم ملء خطوط الطول والعرض تلقائياً.</p>
+          
+          <div class="rounded-4 overflow-hidden shadow-sm border">
+            <div id="map" class="w-100"></div>
           </div>
         </div>
 
         <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">خط العرض (Latitude) <span class="text-danger">*</span></label>
-          <input type="number" step="any" class="form-control text-start" formControlName="latitude" placeholder="30.0444">
+          <label class="form-label fw-bold">خط العرض (Latitude)</label>
+          <input type="number" step="any" class="form-control text-start bg-light" formControlName="latitude" readonly>
         </div>
 
         <div class="col-md-6 mb-3">
-          <label class="form-label fw-bold">خط الطول (Longitude) <span class="text-danger">*</span></label>
-          <input type="number" step="any" class="form-control text-start" formControlName="longitude" placeholder="31.2357">
+          <label class="form-label fw-bold">خط الطول (Longitude)</label>
+          <input type="number" step="any" class="form-control text-start bg-light" formControlName="longitude" readonly>
         </div>
 
         <div class="col-md-12 mb-4 mt-2">
-          <label class="form-label fw-bold mb-2 d-block">صور الحضانة والفصول</label>
+          <label class="form-label fw-bold mb-2 d-block">صور الحضانة والتجهيزات الطبية</label>
           <div class="upload-zone p-4 text-center">
             <input type="file" class="file-input" multiple (change)="onFileChange($event)" accept="image/*">
-            <i class="bi bi-cloud-upload text-success-custom fs-1 d-block mb-2"></i>
             <span class="text-muted fw-semibold">اضغط هنا أو اسحب الصور لرفعها</span>
           </div>
           
@@ -115,3 +102,26 @@
     </form>
   </div>
 </div>
+<script>
+    const map = L.map('map').setView([30.0444, 31.2357], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    let marker;
+
+    map.on('click', function(e) {
+        const lat = e.latlng.lat.toFixed(6);
+        const lng = e.latlng.lng.toFixed(6);
+
+        document.getElementById('lat').value = lat;
+        document.getElementById('lng').value = lng;
+
+        if (marker) {
+            marker.setLatLng(e.latlng);
+        } else {
+            marker = L.marker(e.latlng).addTo(map);
+        }
+    });
+</script>
