@@ -1,265 +1,554 @@
-/* Container styling */
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* الحاوية الرئيسية */
 .home-container {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8fafc;
-  color: #334155;
-}
-
-/* 🟢 قسم الـ Hero بتدريج أخضر طبي طبيعي مريح */
-.hero-section {
-  background: linear-gradient(135deg, #0f766e 0%, #065f46 100%); /* تدريج أخضر زيتي وزمردي عميق وعصري */
-  color: white;
-  padding: 80px 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-content h1 {
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-.hero-content p {
-  font-size: 1.2rem;
-  max-width: 700px;
-  margin: 0 auto 40px auto;
-  opacity: 0.9;
-  line-height: 1.8;
-}
-
-/* 🔍 شريط البحث الذكي المطور بالأخضر */
-.search-bar {
-  display: flex;
-  background: #ffffff;
-  padding: 6px;
-  border-radius: 50px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  max-width: 650px;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
-  align-items: center;
+  box-sizing: border-box;
 }
 
-.search-bar input {
-  flex: 1;
-  border: none;
-  padding: 14px 24px;
-  font-size: 1rem;
-  outline: none;
-  background: transparent;
-  color: #1e293b;
-}
-
-.search-bar input::placeholder {
-  color: #94a3b8;
-}
-
-/* 🟢 زر البحث السريع المتدرج */
-.btn-search {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
-  border: none;
-  padding: 14px 35px;
-  border-radius: 50px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.25s ease-in-out;
-}
-
-.btn-search:hover {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
-  box-shadow: 0 5px 15px rgba(5, 150, 105, 0.4);
-  transform: translateY(-1px);
-}
-
-/* 🟢 قسم الحواضن المميزة */
-.featured-section {
+/* ضبط السكاشن وتوحيد الأبعاد */
+.home-layout-section {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 60px 20px;
+  padding: 80px 24px;
+  box-sizing: border-box;
 }
 
-.section-header {
+.section-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+}
+
+.centered-heading-wrapper {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 48px;
+  width: 100%;
 }
 
-.section-header h2 {
-  font-size: 2.2rem;
+.section-main-heading {
+  font-size: clamp(22px, 4vw, 28px);
   font-weight: 700;
-  color: #065f46; /* أخضر داكن للعناوين */
-  margin-bottom: 10px;
+  color: var(--secondary);
+  margin: 0;
 }
 
-.section-header p {
-  color: #64748b;
-  font-size: 1rem;
+.section-sub-heading {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  margin-bottom: 0;
 }
 
-/* Grid layout */
-.nurseries-grid {
+.view-all-link {
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.view-all-link:hover {
+  color: var(--primary-hover);
+  transform: translateX(-4px); /* حركة خفيفة جهة اليمين/اليسار حسب الاتجاه */
+}
+
+/* ============================
+   ⚡ سيكشن الـ Hero
+============================ */
+.hero-section {
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.05) 0%, rgba(5, 150, 105, 0.02) 60%, rgba(5, 150, 105, 0.08) 100%), var(--bg-global);
+  
+
+  padding: 20px 24px 60px !important; 
+  margin-top: 0 !important; 
+  
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface-card);
+  border: 1px solid rgba(5, 150, 105, 0.2);
+  color: var(--primary-hover);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 50px;
+  
+  /* تقليل الهوامش */
+  margin-top: 0 !important;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(5, 150, 105, 0.02);
+}
+.hero-title {
+  font-size: clamp(26px, 4.5vw, 40px);
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--secondary);
+  
+  /* تصفير الهامش العلوي تماماً */
+  margin-top: 0 !important;
+  margin-bottom: 16px;
+}
+
+.hero-title span {
+  color: var(--primary);
+}
+
+.hero-desc {
+  font-size: 16px;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 40px;
+  line-height: 1.65;
+}
+
+/* 🔍 شريط البحث الذكي المطور */
+.search-bar-wrapper {
+  background: var(--surface-card);
+  border-radius: 50px;
+  
+  /* بادينج داخلي صغير جداً وموحد لحماية الحجم */
+  padding: 4px 6px 4px 6px; 
+  padding-right: 18px; /* مسافة أيقونة اليمين */
+  
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-premium);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  width: 100%;
+  max-width: 540px; /* تقليص الحجم الإجمالي للشريط */
+  margin: 0 auto;
+  box-sizing: border-box;
+  transition: var(--transition-smooth);
+}
+
+.search-bar-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 13.5px;
+  background: none;
+  color: var(--secondary);
+  padding: 6px 0;
+}
+
+.search-submit-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  
+  /* تصغير حجم الزر عبر التحكم بالـ padding */
+  padding: 8px 20px; 
+  height: 38px; 
+  
+  border-radius: 50px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-submit-btn:hover {
+  background: var(--primary-hover);
+}   
+
+.hero-features-list {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.hero-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--secondary);
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.feature-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+/* ============================
+   🎴 شبكة الكروت (Featured Nurseries)
+============================ */
+.nurseries-responsive-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+  gap: 28px;
+  width: 100%;
 }
 
-/* 🟢 تصميم كروت الحواضن الطبية */
-.nursery-card {
-  background: #ffffff;
-  border-radius: 20px;
+.nursery-data-card {
+  background: var(--surface-card);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.03) !important; /* لمحة ظلال ناعمة من الأخضر */
-  border: 1px solid #e2e8f0;
-  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-smooth);
+  cursor: pointer;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
-.nursery-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(16, 185, 129, 0.08) !important;
-  border-color: #a7f3d0; /* تفتيح أخضر خفيف عند التمرير */
+.nursery-data-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-premium);
+  border-color: rgba(5, 150, 105, 0.15);
 }
 
-.card-image {
+.card-image-wrapper {
+  height: 195px;
   position: relative;
-  height: 220px;
+  overflow: hidden;
+  width: 100%;
 }
 
-.card-image img {
+.card-image-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: var(--transition-smooth);
 }
 
-/* 🟢 شارات الاعتماد الطبية بالأخضر */
-.verified-badge {
+.nursery-data-card:hover .card-image-wrapper img {
+  transform: scale(1.04);
+}
+
+.badge-status-tag {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  top: 12px;
+  right: 12px;
+  background: var(--primary);
   color: white;
-  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
   border-radius: 50px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+  z-index: 2;
 }
 
-.city-badge {
+.badge-status-tag.location-fallback {
+  background: var(--secondary);
+}
+
+.favorite-heart-icon {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  background-color: rgba(15, 23, 42, 0.75);
-  color: white;
-  padding: 6px 14px;
-  border-radius: 50px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  backdrop-filter: blur(4px);
+  top: 12px;
+  left: 12px;
+  width: 34px;
+  height: 34px;
+  background: var(--surface-card);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  z-index: 2;
+  transition: var(--transition-smooth);
 }
 
-.card-body {
-  padding: 24px;
+.favorite-heart-icon:hover {
+  transform: scale(1.1);
+  background: #fff1f2;
+  color: var(--error);
+}
+
+.card-content-body {
+  padding: 20px;
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
-.card-body h3 {
-  font-size: 1.35rem;
+.card-nursery-title {
+  font-size: 16.5px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--secondary);
+  margin: 0 0 6px 0;
+}
+
+.card-nursery-geo {
+  font-size: 13px;
+  color: var(--text-muted);
   margin-bottom: 12px;
 }
 
-.card-body .description {
-  color: #64748b;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  margin-bottom: 20px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* 🍼 شريط عمر الأطفال (حديثي الولادة) بالأخضر */
-.age-range {
-  background-color: #f0fdf4; /* خلفية ناعمة جداً من الأخضر */
-  color: #166534; /* نص أخضر غامق واضح */
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-bottom: 15px;
-  display: inline-block;
-  align-self: flex-start;
-}
-
-.address {
-  color: #475569;
-  font-size: 0.9rem;
-  margin-bottom: 20px;
-}
-
-.card-meta {
+.card-nursery-rating-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: auto;
-  border-top: 1px dashed #e2e8f0;
-  padding-top: 15px;
+  gap: 6px;
+  font-size: 13px;
+  margin-bottom: 14px;
 }
 
-.rating {
-  color: #d97706; /* لون النجوم الذهبي الدافئ */
-  font-weight: 700;
-  font-size: 0.95rem;
+.rating-stars-gold {
+  color: #f59e0b;
+  letter-spacing: 2px;
 }
 
-.price {
-  font-size: 0.9rem;
-  color: #64748b;
+.rating-score-number {
+  font-weight: 600;
+  color: var(--secondary);
 }
 
-/* 🟢 إبراز السعر بلون أخضر زمردي داكن رزين */
-.price strong {
-  font-size: 1.4rem;
-  color: #059669;
+.price-info-span {
+  color: var(--primary-hover);
+  font-weight: 600;
+  margin-right: auto; /* دفع السعر لليسار بالكامل للتنسيق */
 }
 
-.card-actions {
-  padding: 0 24px 24px 24px;
+.card-tags-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-/* 🟢 زر عرض التفاصيل والحجز ليكون متطابقاً تماماً مع ثيم الأخضر */
-.btn-details {
-  display: block;
+.nursery-pill-tag {
+  background: rgba(5, 150, 105, 0.06);
+  color: var(--primary-hover);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 50px;
+}
+
+/* ============================
+   🩺 سيكشن المميزات (Benefits)
+============================ */
+.alternative-bg-color {
+  background: #f8fafc;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.features-triple-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+  width: 100%;
+}
+
+.benefit-item-card {
+  background: var(--surface-card);
+  border-radius: var(--radius-lg);
+  padding: 36px 24px;
+  border: 1px solid rgba(226, 232, 240, 0.6);
   text-align: center;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-  color: white !important;
-  text-decoration: none;
-  padding: 14px;
-  border-radius: 12px;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: all 0.25s ease-in-out;
-  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.1);
+  transition: var(--transition-smooth);
 }
 
-.btn-details:hover {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
-  box-shadow: 0 6px 15px rgba(5, 150, 105, 0.3) !important;
-  transform: translateY(-1px);
+.benefit-item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-premium);
+  border-color: rgba(5, 150, 105, 0.1);
 }
 
-/* تخصيص الـ Spinner ليكون متوافقاً مع ثيم الألوان المحدث */
-.spinner-border.text-success {
-  --bs-spinner-color: #10b981 !important;
-  width: 2.5rem;
-  height: 2.5rem;
+.benefit-badge-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(5, 150, 105, 0.06);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin: 0 auto 20px;
+}
+
+.benefit-card-title {
+  font-size: 17.5px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  color: var(--secondary);
+}
+
+.benefit-card-desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* ============================
+   🤖 بنر الذكاء الاصطناعي (AI Banner)
+============================ */
+.ai-cta-banner-box {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: white;
+  padding: 56px 40px;
+  border-radius: var(--radius-lg);
+  margin: 40px auto;
+  max-width: 1152px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(5, 150, 105, 0.15);
+  box-sizing: border-box;
+}
+
+.ai-banner-title {
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.ai-banner-desc {
+  font-size: 14.5px;
+  opacity: .92;
+  margin: 0 auto 32px;
+  max-width: 580px;
+  line-height: 1.7;
+}
+
+.ai-interactive-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.action-btn-solid-white {
+  background: white;
+  color: var(--primary-hover);
+  font-weight: 700;
+  padding: 14px 32px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  white-space: nowrap; 
+}
+
+.action-btn-solid-white:hover {
+  background: #f8fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.action-btn-bordered-clear {
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  font-weight: 700;
+  padding: 12px 32px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.action-btn-bordered-clear:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  transform: translateY(-2px);
+}
+
+/* ============================
+   💬 سيكشن آراء المراجعات (Reviews)
+============================ */
+.reviews-layout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(285px, 1fr));
+  gap: 28px;
+  width: 100%;
+}
+
+.parent-review-card {
+  background: var(--surface-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.reviewer-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.avatar-circle-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(5, 150, 105, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.reviewer-fullname {
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--secondary);
+  margin: 0;
+}
+
+.reviewer-baby-age {
+  font-size: 12px;
+  color: var(--primary);
+  display: inline-block;
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+.reviewer-comment-text {
+  font-size: 13.5px;
+  color: var(--secondary);
+  opacity: 0.85;
+  line-height: 1.8;
+  font-style: italic;
+  margin: 0;
+}
+
+/* حالات التحميل والحقول الفارغة */
+.loading-state-box, .grid-empty-state-msg {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--primary);
+  font-weight: 600;
+  width: 100%;
+}
+
+.grid-empty-state-msg {
+  color: var(--text-muted);
+  font-size: 14px;
 }

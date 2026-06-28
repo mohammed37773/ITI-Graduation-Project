@@ -1,218 +1,114 @@
 <div class="container my-5">
-    <div class="card shadow-sm p-4">
-        <h2 class="text-center mb-4 text-success-custom fw-bold">
-            {{ isEditMode() ? 'تعديل بيانات الحاضنة الطبية' : 'تسجيل حاضنة جديدة' }}
-        </h2>
+  <div class="card shadow-sm p-4">
+    <h2 class="text-center mb-4 text-success-custom fw-bold">
+      {{ isEditMode() ? 'تعديل بيانات الحاضنة الطبية' : 'تسجيل حاضنة جديدة' }}
+    </h2>
 
-        <div *ngIf="isLoading()" class="text-center my-5">
-            <div class="spinner-border text-success-custom" role="status">
-                <span class="visually-hidden">جاري التحميل...</span>
-            </div>
-            <p class="mt-2 text-muted">جاري تحميل البيانات...</p>
-        </div>
-
-        <form *ngIf="!isLoading()" [formGroup]="nurseryForm" (ngSubmit)="onSubmit()">
-
-            
-            <!-- map -->
-             <div class="row">
-          <div>
-            <label for="lat">Latitude (lat)</label>
-            <input id="lat" name="lat" type="number" step="any" min="-90" max="90" value="30.0444" />
-          </div>
-          <div>
-            <label for="lng">Longitude (lng)</label>
-            <input id="lng" name="lng" type="number" step="any" min="-180" max="180" value="31.2357" />
-          </div>
-        </div>
-
-        <button type="button" id="recenterBtn">Center map on inputs</button>
-        <button type="button" class="secondary" id="useMyLocationBtn">Use my location</button>
-
-        <div class="hint">
-          Click anywhere on the map to set the marker and fill <b>lat</b> and <b>lng</b>.
-          You can also edit the inputs and press “Center map on inputs”.
-        </div>
-
-        <div class="status" id="status">Marker: —
-            
-        </div>
-        <div id = "map" aria-label="interactive map">
-
-        </div>
-        
-        <!-- map -->
-
-
-
-            <div class="row text-end" dir="rtl">
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">اسم الحضانة / المركز <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" formControlName="name" placeholder="أدخل الاسم">
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">السعر اليومي (جنيه) <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" formControlName="dailyPrice" min="1">
-                </div>
-
-                <div class="col-md-12 mb-3">
-                    <label class="form-label fw-bold">وصف المركز والخدمات الطبية والتجهيزات <span
-                            class="text-danger">*</span></label>
-                    <textarea class="form-control" formControlName="description" rows="3"
-                        placeholder="تكلم عن الرعاية والتجهيزات..."></textarea>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <label class="form-label fw-bold">الحد الأدنى للسن (بالأيام/الشهور) <span
-                            class="text-danger">*</span></label>
-                    <input type="number" class="form-control" formControlName="ageRangeMin" min="0">
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <label class="form-label fw-bold">الحد الأقصى للسن <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" formControlName="ageRangeMax" min="1">
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <label class="form-label fw-bold">القدرة الاستيعابية للحواضن <span
-                            class="text-danger">*</span></label>
-                    <input type="number" class="form-control" formControlName="capacity" min="1">
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <label class="form-label fw-bold">العنوان بالتفصيل <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" formControlName="address"
-                        placeholder="اسم الشارع / رقم المبنى">
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <label class="form-label fw-bold">المدينة <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" formControlName="city" placeholder="مثال: القاهرة">
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <label class="form-label fw-bold">الحي / المنطقة <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" formControlName="district" placeholder="مثال: المعادي">
-                </div>
-
-                <div class="col-12 mb-4 mt-3">
-                    <label class="form-label fw-bold d-block text-success-custom">📍 حدد موقع الحاضنة بدقة على
-                        الخريطة</label>
-                    <p class="text-muted small">اضغط على موقع مركزك على الخريطة وسيتم ملء خطوط الطول والعرض تلقائياً.
-                    </p>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">خط العرض (Latitude)</label>
-                    <input type="number" step="any" class="form-control text-start bg-light" formControlName="latitude"
-                        readonly>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">خط الطول (Longitude)</label>
-                    <input type="number" step="any" class="form-control text-start bg-light" formControlName="longitude"
-                        readonly>
-                </div>
-
-                <div class="col-md-12 mb-4 mt-2">
-                    <label class="form-label fw-bold mb-2 d-block">صور الحضانة والتجهيزات الطبية</label>
-                    <div class="upload-zone p-4 text-center">
-                        <input type="file" class="file-input" multiple (change)="onFileChange($event)" accept="image/*">
-                        <span class="text-muted fw-semibold">اضغط هنا أو اسحب الصور لرفعها</span>
-                    </div>
-
-                    <div *ngIf="imagePreviews.length > 0" class="d-flex flex-wrap gap-3 mt-3 justify-content-end">
-                        <div *ngFor="let preview of imagePreviews" class="position-relative">
-                            <img [src]="preview" class="img-preview-box shadow-sm" alt="Preview">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-center gap-3 mt-4">
-                <button type="submit" class="btn btn-success-custom px-5 py-2 btn-lg" [disabled]="isSubmitting()">
-                    <span *ngIf="isSubmitting()" class="spinner-border spinner-border-sm me-2"></span>
-                    {{ isEditMode() ? 'تحديث البيانات' : 'حفظ الحضانة الآن' }}
-                </button>
-            </div>
-        </form>
+    <div *ngIf="isLoading()" class="text-center my-5">
+      <div class="spinner-border text-success-custom" role="status">
+        <span class="visually-hidden">جاري التحميل...</span>
+      </div>
+      <p class="mt-2 text-muted">جاري تحميل البيانات...</p>
     </div>
+
+    <form *ngIf="!isLoading()" [formGroup]="nurseryForm" (ngSubmit)="onSubmit()" class="text-end" dir="rtl">
+      
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">اسم الحضانة / المركز <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="name" placeholder="أدخل اسم المركز">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold">السعر اليومي (ج.م) <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" formControlName="dailyPrice" min="1" placeholder="0">
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label class="form-label fw-bold">وصف المركز والخدمات الطبية والتجهيزات <span class="text-danger">*</span></label>
+          <textarea class="form-control" formControlName="description" rows="3" placeholder="تكلم عن مستوى الرعاية الطبية، التمريض، والتجهيزات المتوفرة داخل غرف الحواضن..."></textarea>
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">الحد الأدنى للسن (بالأيام) <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" formControlName="ageRangeMin" min="0" placeholder="0">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">الحد الأقصى للسن <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" formControlName="ageRangeMax" min="1" placeholder="1">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">القدرة الاستيعابية للحواضن <span class="text-danger">*</span></label>
+          <input type="number" class="form-control" formControlName="capacity" min="1" placeholder="1">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">العنوان بالتفصيل <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="address" placeholder="اسم الشارع / رقم المبنى">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">المدينة <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="city" placeholder="مثال: القاهرة">
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label fw-bold">الحي / المنطقة <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" formControlName="district" placeholder="مثال: المعادي">
+        </div>
+
+        <hr class="my-4 text-muted opacity-25">
+
+        <div class="col-12 mb-3">
+          <label class="form-label fw-bold text-success-custom fs-5">📍 الموقع الجغرافي للحاضنة على الخريطة</label>
+          <p class="text-muted small mb-3">قم بالضغط على موقع مركزك بدقة على الخريطة أو اسحب المؤشر وسيتم ملء حقول الإحداثيات تلقائياً.</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold text-secondary">خط العرض (Latitude)</label>
+          <input type="number" step="any" class="form-control text-start bg-light fw-semibold" formControlName="latitude" readonly>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold text-secondary">خط الطول (Longitude)</label>
+          <input type="number" step="any" class="form-control text-start bg-light fw-semibold" formControlName="longitude" readonly>
+        </div>
+
+        <div class="col-12 mb-3">
+          <div #mapContainer id="map" style="height: 380px; border-radius: 12px; border: 1px solid #e2e8f0;" class="shadow-sm"></div>
+        </div>
+
+        <div *ngIf="status" class="col-12 mb-3 text-start small text-info fw-semibold">
+          {{ status }}
+        </div>
+
+        <hr class="my-4 text-muted opacity-25">
+
+        <div class="col-md-12 mb-4">
+          <label class="form-label fw-bold mb-2">صور الحضانة والتجهيزات الطبية والشهادات</label>
+          <div class="upload-zone p-4 text-center border border-dashed rounded-3 bg-light position-relative">
+            <input type="file" class="file-input position-absolute top-0 start-0 w-100 h-100 opacity-0" style="cursor: pointer;" multiple (change)="onFileChange($event)" accept="image/*">
+            <span class="text-muted fw-semibold d-block">اضغط هنا أو اسحب الصور لرفعها مباشرة</span>
+            <span class="text-muted small">(يمكنك اختيار أكثر من صورة معاً)</span>
+          </div>
+
+          <div *ngIf="imagePreviews.length > 0" class="d-flex flex-wrap gap-3 mt-3 justify-content-start">
+            <div *ngFor="let preview of imagePreviews" class="position-relative">
+              <img [src]="preview" class="img-preview-box shadow-sm rounded border" style="width: 100px; height: 100px; object-fit: cover;" alt="Preview">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center gap-3 mt-4">
+        <button type="submit" class="btn btn-success-custom px-5 py-2 btn-lg fw-bold shadow-sm" [disabled]="isSubmitting()">
+          <span *ngIf="isSubmitting()" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          {{ isEditMode() ? 'تحديث البيانات الحالية' : 'حفظ وتسجيل الحضانة الآن' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
 </div>
-<script>
-const DEFAULT_LAT = parseFloat(document.getElementById('lat').value) || 0;
-const DEFAULT_LNG = parseFloat(document.getElementById('lng').value) || 0;
-
-const map = L.map('map').setView([DEFAULT_LAT, DEFAULT_LNG], 13);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
-
-const marker = L.marker([DEFAULT_LAT, DEFAULT_LNG], { draggable: true }).addTo(map);
-
-const latEl = document.getElementById('lat');
-const lngEl = document.getElementById('lng');
-const statusEl = document.getElementById('status');
-
-function setStatus(lat, lng) {
-    statusEl.textContent = `Marker: lat=${lat}, lng=${lng}`;
-}
-
-function updateInputs(lat, lng) {
-    latEl.value = lat;
-    lngEl.value = lng;
-    setStatus(lat, lng);
-}
-
-function moveTo(lat, lng, zoom = 16) {
-    marker.setLatLng([lat, lng]);
-    map.setView([lat, lng], zoom);
-    updateInputs(lat, lng);
-}
-
-// Click on map sets marker + inputs
-map.on('click', (e) => {
-    const { lat, lng } = e.latlng;
-    updateInputs(lat, lng);
-    marker.setLatLng([lat, lng]);
-});
-
-// Drag marker updates inputs
-marker.on('dragend', () => {
-    const pos = marker.getLatLng();
-    updateInputs(pos.lat, pos.lng);
-});
-
-// Re-centers using current input values
-document.getElementById('recenterBtn').addEventListener('click', () => {
-    const lat = parseFloat(latEl.value);
-    const lng = parseFloat(lngEl.value);
-    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
-    moveTo(lat, lng, 16);
-});
-
-// Uses browser geolocation to pick current position
-document.getElementById('useMyLocationBtn').addEventListener('click', () => {
-    if (!navigator.geolocation) {
-        alert('Geolocation is not supported by this browser.');
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-        (pos) => {
-            const lat = pos.coords.latitude;
-            const lng = pos.coords.longitude;
-            moveTo(lat, lng, 16);
-        },
-        (err) => {
-            alert('Could not get location: ' + err.message);
-        },
-        { enableHighAccuracy: true, timeout: 10000 }
-    );
-});
-
-setStatus(marker.getLatLng().lat, marker.getLatLng().lng);
-</script>

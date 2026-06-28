@@ -1,73 +1,108 @@
 <div class="home-container" dir="rtl">
-  
-  <header class="hero-section">
-    <div class="hero-content">
-      <h1>ابحث عن الحاضنة الطبية الشاغرة لطفلك فوراً 👶</h1>
-      <p>نساعدك في الوصول إلى أفضل مراكز حواضن الأطفال المبتسرين وحديثي الولادة القريبة منك والمعتمدة طبيًا بكل سهولة وأمان.</p>
-      
-      <div class="search-bar">
-        <input type="text" #searchInput (keyup.enter)="onSearch(searchInput.value)" placeholder="أدخل اسم المدينة، المنطقة، أو مستوى الرعاية المطلوبة..." />
-        <button class="btn-search" (click)="onSearch(searchInput.value)">بحث سريع</button>
-      </div>
-    </div>
-  </header>
 
-  <section class="featured-section">
-    <div class="section-header">
-      <h2>✨ المراكز الطبية والحواضن المميزة ✨</h2>
-      <p>حواضن نوصي بها بناءً على تقييمات أولياء الأمور وتوفر التجهيزات الطبية العاجلة</p>
+  <section class="hero-section">
+    <div class="hero-badge">👶 رعاية متخصصة لحديثي الولادة من عمر يوم واحد</div>
+    <h1 class="hero-title">أعلى درجات الأمان والاهتمام<br>لـ<span>مستكشفك الصغير</span></h1>
+    <p class="hero-desc">ابحثي عن أفضل الحضانات المتخصصة في رعاية الرضع وحديثي الولادة في منطقتك، بتوصيات ذكية تضمن بيئة صحية وآمنة لطفلكِ.</p>
+    
+    <div class="search-bar-wrapper">
+      <span class="search-geo-icon">📍</span>
+      <input type="text" #searchInput (keyup.enter)="onSearch(searchInput.value)" placeholder="أدخل موقعك، المدينة أو اسم الحضانة...">
+      <button class="search-submit-btn" (click)="onSearch(searchInput.value)">ابحث الآن</button>
+    </div>
+    
+    <div class="hero-features-list">
+      <div class="hero-feature-item"><span class="feature-dot"></span>رعاية طبية وتغذية متكاملة</div>
+      <div class="hero-feature-item"><span class="feature-dot"></span>بيئة معقمة 100%</div>
+      <div class="hero-feature-item"><span class="feature-dot"></span>مراقبة بالكاميرات 24 ساعة</div>
+    </div>
+  </section>
+
+  <section class="home-layout-section">
+    <div class="section-top-bar">
+      <div>
+        <h2 class="section-main-heading">فروعنا وأقسام الرعاية المتاحة</h2>
+        <p class="section-sub-heading">موصى بها من قِبل أطباء الأطفال وأولياء الأمور</p>
+      </div>
+      <span class="view-all-link" [routerLink]="['/nurseries']">عرض الكل ←</span>
     </div>
 
     @if (isLoading()) {
-      <div class="text-center my-5 py-4">
-        <div class="spinner-border text-success" role="status" style="color: #10b981 !important;"></div>
-        <p class="text-muted small mt-2">جاري استدعاء أفضل الحواضن المتاحة حالياً...</p>
+      <div class="loading-state-box">
+        <p>جاري استدعاء أقسام الحضانات المتاحة حالياً...</p>
       </div>
     } @else {
-      
-      <div class="nurseries-grid">
+      <div class="nurseries-responsive-grid">
         @for (nursery of featuredNurseries(); track nursery.id) {
-          <div class="nursery-card">
-            
-            <div class="card-image">
-              <img [src]="nursery.images && nursery.images.length > 0 ? nursery.images[0].imageUrl || nursery.images[0].url : 'https://images.unsplash.com/photo-1576489922094-27a5521ff34c?q=80&w=500&auto=format&fit=crop'" alt="{{ nursery.name }}" />
-              
+          <div class="nursery-data-card" [routerLink]="['/nurseries', nursery.id]">
+            <div class="card-image-wrapper">
+              <img [src]="nursery.images && nursery.images.length > 0 ? nursery.images[0].imageUrl || nursery.images[0].url : 'https://images.unsplash.com/photo-1576489922094-27a5521ff34c?q=80&w=500&auto=format&fit=crop'" 
+                   alt="{{ nursery.name }}" />
               @if (nursery.isVerified) {
-                <span class="verified-badge">✓ مركز معتمد</span>
+                <div class="badge-status-tag">⭐ معتمدة</div>
               } @else {
-                <span class="city-badge">📍 {{ nursery.city || 'القاهرة' }}</span>
+                <div class="badge-status-tag location-fallback">📍 {{ nursery.city || 'القاهرة' }}</div>
               }
+              <div class="favorite-heart-icon">🤍</div>
             </div>
-            
-            <div class="card-body">
-              <h3>{{ nursery.name }}</h3>
-              <p class="description">{{ nursery.description }}</p>
-              
-              <div class="age-range">
-                👶 استقبال حديثي الولادة من عمر يوم واحد
-              </div>
 
-              <p class="address">🏥 {{ nursery.district }}، {{ nursery.city }}</p>
+            <div class="card-content-body">
+              <h3 class="card-nursery-title">{{ nursery.name }}</h3>
+              <div class="card-nursery-geo">📍 {{ nursery.district }}، {{ nursery.city }}</div>
               
-              <div class="card-meta">
-                <span class="rating">⭐ {{ nursery.avgRating || '4.8' }}</span>
-                <span class="price"><strong>{{ nursery.dailyPrice }}</strong> ج.م / يوم</span>
+              <div class="card-nursery-rating-row">
+                <span class="rating-stars-gold">★★★★★</span>
+                <span class="rating-score-number">{{ nursery.avgRating || '4.9' }}</span>
+                <span class="price-info-span">({{ nursery.dailyPrice || '0' }} ج.م / يوم)</span>
+              </div>
+              
+              <div class="card-tags-flex">
+                <span class="nursery-pill-tag">حديثي ولادة</span>
+                <span class="nursery-pill-tag">تمريض متخصص</span>
               </div>
             </div>
-            
-            <div class="card-actions">
-              <a [routerLink]="['/nurseries', nursery.id]" class="btn-details">عرض التفاصيل والحجز</a>
-            </div>
-            
           </div>
         } @empty {
-          <div class="text-center py-5 text-muted col-12">
-            📌 لا توجد حواضن طبية مسجلة في النظام حالياً.
+          <div class="grid-empty-state-msg">
+            📌 لا توجد فروع أو حضانات مسجلة حالياً في النظام.
           </div>
         }
       </div>
-
     }
   </section>
+
+  <section class="home-layout-section alternative-bg-color">
+    <div class="centered-heading-wrapper">
+      <h2 class="section-main-heading">لماذا تختار منصتنا لحديثي الولادة؟</h2>
+      <p class="section-sub-heading">نوفر بيئة تحاكي حضن الأم بأعلى معايير الأمان الطبي والتربوي</p>
+    </div>
+    
+    <div class="features-triple-grid">
+      <div class="benefit-item-card">
+        <div class="benefit-badge-icon">🩺</div>
+        <h3 class="benefit-card-title">إشراف طبي متخصص</h3>
+        <p class="benefit-card-desc">فريق من الممرضات ومقدمات الرعاية المدربات على التعامل مع الأطفال من عمر يوم واحد ومتابعة المؤشرات الحيوية بانتظام.</p>
+      </div>
+      <div class="benefit-item-card">
+        <div class="benefit-badge-icon">🍼</div>
+        <h3 class="benefit-card-title">تنظيم التغذية والنوم</h3>
+        <p class="benefit-card-desc">جداول دقيقة لكل طفل تشمل مواعيد الرضاعة الطبيعية أو الصناعية، ساعات النوم، وتغيير الحفاضات وفقاً لإرشادات الأم.</p>
+      </div>
+      <div class="benefit-item-card">
+        <div class="benefit-badge-icon">🔒</div>
+        <h3 class="benefit-card-title">أمان وتعقيم دائم</h3>
+        <p class="benefit-card-desc">أنظمة تنقية هواء متطورة داخل غرف الرضع، تعقيم مستمر للأدوات، وتحكم كامل في بوابات الدخول لسلامة الرضع.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ai-cta-banner-box">
+    <h2 class="ai-banner-title">هل تبحثين عن الرعاية الأنسب لرضيعك؟<br>دعي الذكاء الاصطناعي يساعدك</h2>
+    <p class="ai-banner-desc">أجيبي على بضعة أسئلة بسيطة حول مواعيد عملك، ميزانيتك، والموقع؛ وسيقوم النظام بترشيح الغرفة أو الفرع الطبي الأنسب لكِ فوراً.</p>
+    <div class="ai-interactive-actions">
+      <button class="action-btn-solid-white">🚀 ابدأ المطابقة الذكية</button>
+      <button class="action-btn-bordered-clear">💬 تحدثي مع المساعد الذكي ←</button>
+    </div>
+  </div>
 
 </div>
