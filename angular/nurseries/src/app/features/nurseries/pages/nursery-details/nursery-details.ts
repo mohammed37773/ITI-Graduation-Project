@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NurseryListItem } from '../../../../core/models/parent-nursery.model';
 import { Review } from '../../../../core/models/parent-nursery.model';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-nursery-details',
@@ -18,7 +19,7 @@ export class NurseryDetails implements OnInit {
   private http = inject(HttpClient);
   private fb = inject(FormBuilder);
 
-  private apiUrl = 'http://localhost:5104/api/Nurseries';
+  private apiUrl = environment.backUrl + '/api/Nurseries';
 
   nurseryId!: number;
   nursery = signal<NurseryListItem | null>(null);

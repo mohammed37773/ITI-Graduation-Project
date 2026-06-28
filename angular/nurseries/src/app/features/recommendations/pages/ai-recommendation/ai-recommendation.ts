@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-
+import { environment } from '../../../../../environments/environment'; 
 interface NurseryRecommendation {
   id: number;
   name: string;
@@ -25,7 +25,7 @@ export class AiRecommendation {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
 
-  private apiUrl = 'http://localhost:5104/api/Ai/recommend';
+  private apiUrl = environment.backUrl + '/api/Ai/recommend';
 
   recommendationForm!: FormGroup;
   isLoading = signal<boolean>(false);

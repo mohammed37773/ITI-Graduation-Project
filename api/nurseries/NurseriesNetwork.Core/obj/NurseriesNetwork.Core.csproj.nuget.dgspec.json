@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj": {}
+    "/run/media/mo/Data/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj": {}
   },
   "projects": {
-    "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj": {
+    "/run/media/mo/Data/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj",
+        "projectUniqueName": "/run/media/mo/Data/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj",
         "projectName": "NurseriesNetwork.Core",
-        "projectPath": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj",
+        "projectPath": "/run/media/mo/Data/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/NurseriesNetwork.Core.csproj",
         "packagesPath": "/home/mo/.nuget/packages/",
-        "outputPath": "/mnt/D/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/obj/",
+        "outputPath": "/run/media/mo/Data/Root/lab/iti/events/pojects/Graduation Project/main/api/nurseries/NurseriesNetwork.Core/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/mo/.nuget/NuGet/NuGet.Config"
@@ -47,7 +47,7 @@
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[10.0.8, )"
+              "version": "[10.0.9, )"
             }
           },
           "imports": [

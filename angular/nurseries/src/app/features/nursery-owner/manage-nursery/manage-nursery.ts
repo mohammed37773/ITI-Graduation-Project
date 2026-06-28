@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-manage-nursery',
   standalone: true,
@@ -13,7 +14,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 export class ManageNursery implements OnInit {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5104/api/nurseries';
+  private apiUrl = environment.backUrl + '/api/nurseries';
   nurseryForm!: FormGroup;
   isLoading = signal<boolean>(true);
   isSubmitting = signal<boolean>(false);

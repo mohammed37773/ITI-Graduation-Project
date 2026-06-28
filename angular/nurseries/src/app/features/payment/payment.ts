@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
 import { switchMap, takeWhile } from 'rxjs/operators';
 import { InitiatePaymentDto, PaymentResponse, PaymentStatusResponse } from '../../core/models/payment.model';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-payment',
@@ -17,7 +18,7 @@ export class Payment implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private baseUrl = 'http://localhost:5104/api/payment';
+  private baseUrl = environment.backUrl + '/api/payment';
 
   bookingId = signal<number>(0);
   paymentId = signal<number | null>(null);

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../../core/services/auth';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class Register {
   private http = inject(HttpClient); 
   private router = inject(Router);
   private authService = inject(AuthService);
-  private apiUrl = 'http://localhost:5104/api/Auth/register'; 
+  private apiUrl = environment.backUrl + '/api/Auth/register'; 
 
   // Signals لإدارة حالة الشاشة لايف بالبرانش الجديد
   isLoading = signal<boolean>(false);

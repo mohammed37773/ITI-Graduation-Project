@@ -2,7 +2,7 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-
+import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-profile',
   imports: [CommonModule, FormsModule],
@@ -14,7 +14,7 @@ export class Profile implements OnInit {
   private http = inject(HttpClient);
   
   // الـ Base URL الفعلي من التوثيق الخاص بك
-  private baseUrl = 'http://localhost:5104/api'; 
+  private baseUrl = environment.backUrl + '/api'; 
 
   // بيانات ولي الأمر (يتم جلبها ديناميكياً مما تم حفظه أثناء الـ Login)
   parentName = signal<string>(localStorage.getItem('fullName') || 'ولي أمر IncuCare');

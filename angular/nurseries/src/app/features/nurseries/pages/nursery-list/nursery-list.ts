@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { NurseryListItem } from '../../../../core/models/parent-nursery.model';
 import { NurseryCard } from '../../../../shared/components/nursery-card/nursery-card';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../../../../environments/environment';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class NurseryList implements OnInit {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute); // 🎯 حقن الـ Route لربط الهوم بالقائمة
 
-  private apiUrl = 'http://localhost:5104/api/nurseries';
+  private apiUrl = environment.backUrl + '/api/nurseries';
 
   nurseries = signal<NurseryListItem[]>([]);
   isLoading = signal<boolean>(true);
