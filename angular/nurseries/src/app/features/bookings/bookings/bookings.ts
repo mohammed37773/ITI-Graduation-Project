@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Booking } from '../../../core/models/booking.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-bookings',
@@ -13,7 +14,7 @@ import { Booking } from '../../../core/models/booking.model';
 })
 export class Bookings implements OnInit {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5104/api/Bookings';
+  private apiUrl = environment.backUrl + '/api/Bookings';
 
   allBookings = signal<Booking[]>([]);
   selectedFilter = signal<'all' | 'Pending' | 'Confirmed' | 'Cancelled'>('all');

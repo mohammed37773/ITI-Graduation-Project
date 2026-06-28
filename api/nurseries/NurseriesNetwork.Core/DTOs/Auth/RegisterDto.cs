@@ -1,17 +1,6 @@
-<<<<<<< HEAD
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
-
-namespace NurseriesNetwork.Core.DTOs.Auth
-{
-    public record RegisterDto(
-    string FullName,
-    string Email,
-    string Password,
-    string Role = "Parent"
-);
-=======
 ﻿using System.ComponentModel.DataAnnotations;
 namespace NurseriesNetwork.Core.DTOs.Auth
 {
@@ -30,5 +19,4 @@ namespace NurseriesNetwork.Core.DTOs.Auth
         [Compare(nameof(Password), ErrorMessage = "The Password and Confirmation do not match !")]
         public string ConfirmPassword { get; set; } = null!;
     }
->>>>>>> main
 }

@@ -2,6 +2,7 @@ import { AfterViewChecked, Component, ElementRef, inject, signal, ViewChild } fr
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http'; // 👈 استيراد HttpHeaders
+import { environment } from '../../../../../environments/environment';
 
 interface Message {
   text: string;
@@ -19,7 +20,7 @@ interface Message {
 export class Chatbot implements AfterViewChecked {
   private http = inject(HttpClient);
   
-  private apiUrl = 'http://localhost:5104/api/Ai/chat';
+  private apiUrl = environment.backUrl + '/api/Ai/chat';
 
   @ViewChild('chatContainer') chatContainer!: ElementRef;
 

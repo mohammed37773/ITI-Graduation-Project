@@ -1,71 +1,57 @@
-<div class="container my-5" dir="rtl">
-  <div class="row justify-content-center align-items-center" style="min-height: 75vh;">
-    <div class="col-md-5">
+<div class="modern-auth-wrapper" dir="rtl">
+  <div class="auth-glass-card">
+    
+    <div class="auth-brand-section">
+      <div class="brand-logo-icon">🌿</div>
+      <h2>مرحباً بك مجدداً</h2>
+      <p>سجل الدخول للمتابعة في ملتقى الحضانات الذكي</p>
+    </div>
+
+    @if (errorMessage()) {
+      <div class="modern-error-banner">
+        <span class="error-pulse-icon">⚠️</span>
+        <div class="error-message-text">{{ errorMessage() }}</div>
+      </div>
+    }
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="auth-form-flow">
       
-      <div class="card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
-        <div class="card-header text-white text-center p-4">
-          <h3 class="fw-bold mb-1">تسجيل الدخول 🔑</h3>
-          <p class="mb-0 opacity-75 small">مرحباً بك مجدداً في شبكة الحضانات الذكية</p>
+      <div class="modern-form-group">
+        <label class="modern-label">البريد الإلكتروني</label>
+        <div class="modern-input-wrapper" [class.wrapper-error]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+          <span class="modern-icon-slot">📧</span>
+          <input type="email" formControlName="email" class="clean-native-input" placeholder="name@example.com">
         </div>
-
-        <div class="card-body p-4">
-
-          @if (errorMessage()) {
-            <div class="alert alert-danger border-0 rounded-3 mb-4" role="alert">
-              <strong>⚠️ تنبيه:</strong> {{ errorMessage() }}
-            </div>
-          }
-
-          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-            
-            <div class="mb-3">
-              <label class="form-label fw-semibold">البريد الإلكتروني</label>
-              <div class="input-group">
-                <span class="input-group-text bg-white">📧</span>
-                <input type="email" formControlName="email" class="form-control" placeholder="example@mail.com"
-                       [ngClass]="{'is-invalid': loginForm.get('email')?.touched && loginForm.get('email')?.invalid}">
-              </div>
-              @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
-                <div class="text-danger small mt-1">يرجى إدخال بريد إلكتروني صحيح ومسجل.</div>
-              }
-            </div>
-
-            <div class="mb-4">
-              <label class="form-label fw-semibold">كلمة المرور</label>
-              <div class="input-group">
-                <span class="input-group-text bg-white">🔒</span>
-                <input type="password" formControlName="password" class="form-control" placeholder="••••••••"
-                       [ngClass]="{'is-invalid': loginForm.get('password')?.touched && loginForm.get('password')?.invalid}">
-              </div>
-              @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
-                <div class="text-danger small mt-1">كلمة المرور مطلوبة (6 أحرف على الأقل).</div>
-              }
-            </div>
-
-            <button type="submit" [disabled]="loginForm.invalid || isLoading()" 
-                    class="btn btn-primary btn-lg w-100 py-2.5 rounded-3 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
-              @if (isLoading()) {
-                <span class="spinner-border spinner-border-sm" role="status"></span>
-                جاري التحقق من الهوية لايف...
-              } @else {
-                🔓 تسجيل الدخول الآن
-              }
-            </button>
-
-            <div class="text-center mt-4 small">
-              <span class="text-muted">ليس لديك حساب؟ </span>
-              <a routerLink="/auth/register" 
-                 class="text-primary fw-bold text-decoration-none" 
-                 style="position: relative; z-index: 10; cursor: pointer; display: inline-block;" >
-                 أنشئ حسابك الجديد هنا
-              </a>
-            </div>
-
-          </form>
-
-        </div>
+        @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+          <span class="modern-error-hint">يرجى كتابة بريد إلكتروني صحيح ومسجل.</span>
+        }
       </div>
 
-    </div>
+      <div class="modern-form-group">
+        <label class="modern-label">كلمة المرور</label>
+        <div class="modern-input-wrapper" [class.wrapper-error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+          <span class="modern-icon-slot">🔒</span>
+          <input type="password" formControlName="password" class="clean-native-input" placeholder="••••••••">
+        </div>
+        @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+          <span class="modern-error-hint">كلمة المرور مطلوبة ولا تقل عن 6 أحرف.</span>
+        }
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid || isLoading()" class="modern-submit-btn">
+        @if (isLoading()) {
+          <span class="modern-loading-spinner"></span>
+          <span>جاري تأمين الاتصال...</span>
+        } @else {
+          <span>دخول آمن للمنصة</span>
+        }
+      </button>
+
+      <div class="modern-auth-footer">
+        <span>ليس لديك حساب حتى الآن؟</span>
+        <a routerLink="/auth/register" class="modern-link-action">أنشئ حسابك الجديد</a>
+      </div>
+
+    </form>
   </div>
 </div>

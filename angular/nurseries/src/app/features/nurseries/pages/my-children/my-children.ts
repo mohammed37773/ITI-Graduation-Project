@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Child } from '../../../../core/models/child.model';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-my-children',
@@ -14,7 +15,7 @@ export class MyChildren implements OnInit {
   private http = inject(HttpClient);
   private fb = inject(FormBuilder);
 
-  private apiUrl = 'http://localhost:5104/api/Children';
+  private apiUrl = environment.backUrl + '/api/Children';
 
   children = signal<Child[]>([]);
   isLoading = signal<boolean>(true);

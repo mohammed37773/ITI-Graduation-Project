@@ -2,13 +2,14 @@ import { inject, Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { RegisterDto, LoginDto, AuthResponseDto } from '../models/authModel';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5104/api/Auth';
+  private baseUrl = environment.backUrl + '/api/Auth';
 
   currentUser = signal<AuthResponseDto | null>(null);
   isAuthenticated = signal<boolean>(false);

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Nurseries Network | AI-Powered Childcare Discovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"outline-variant": "#c0c7d2", primary: "#00639c", "on-tertiary": "#ffffff", "on-error-container": "#93000a", "on-secondary-container": "#46627d", "secondary-fixed": "#cee5ff", "surface-bright": "#f7f9ff", "on-primary-fixed": "#001d33", "primary-fixed": "#cee5ff", "surface-container-lowest": "#ffffff", "secondary-fixed-dim": "#adc9e9", "surface-container-low": "#f1f4fa", "surface-variant": "#e0e2e9", "on-tertiary-fixed-variant": "#604100", "surface-dim": "#d7dae0", "on-primary": "#ffffff", "tertiary-fixed": "#ffddae", "inverse-on-surface": "#eef1f7", surface: "#f7f9ff", "primary-container": "#479fe6", "on-tertiary-fixed": "#281800", secondary: "#45617c", "on-surface": "#181c20", "on-secondary-fixed-variant": "#2d4964", "on-secondary": "#ffffff", "error-container": "#ffdad6", tertiary: "#7f5600", "on-secondary-fixed": "#001d33", "primary-fixed-dim": "#97cbff", "inverse-primary": "#97cbff", "on-tertiary-container": "#442c00", error: "#ba1a1a", "on-background": "#181c20", "tertiary-fixed-dim": "#ffba40", background: "#f7f9ff", outline: "#707882", "on-error": "#ffffff", "surface-tint": "#00639c", "on-primary-fixed-variant": "#004a77", "on-surface-variant": "#404750", "inverse-surface": "#2d3135", "secondary-container": "#c0ddfd", "on-primary-container": "#003455", "surface-container-highest": "#e0e2e9", "surface-container-high": "#e6e8ee", "surface-container": "#ebeef4", "tertiary-container": "#cb8d0b"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {lg: "48px", "margin-mobile": "16px", base: "8px", md: "24px", xs: "4px", gutter: "24px", sm: "12px", xl: "80px", "container-max": "1280px"}, fontFamily: {"headline-sm": ["Inter"], "headline-md": ["Inter"], "display-lg": ["Inter"], "label-md": ["Inter"], "body-md": ["Inter"], "label-sm": ["Inter"], "body-lg": ["Inter"], "display-lg-mobile": ["Inter"], headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {"headline-sm": ["24px", {lineHeight: "32px", fontWeight: "600"}], "headline-md": ["30px", {lineHeight: "38px", letterSpacing: "-0.01em", fontWeight: "600"}], "display-lg": ["48px", {lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700"}], "label-md": ["14px", {lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "500"}], "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}], "label-sm": ["12px", {lineHeight: "16px", fontWeight: "600"}], "body-lg": ["18px", {lineHeight: "28px", fontWeight: "400"}], "display-lg-mobile": ["36px", {lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700"}]}}}};</script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .smooth-shadow {
+            box-shadow: 0px 1px 3px rgba(0,0,0,0.05), 0px 10px 15px -3px rgba(0,0,0,0.08);
+        }
+        .ai-gradient-border {
+            position: relative;
+            background: #fff;
+            background-clip: padding-box;
+            border: 2px solid transparent;
+        }
+        .ai-gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -1;
+            margin: -2px;
+            border-radius: inherit;
+            background: linear-gradient(to right, #3525cd, #4edea3);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-xl h-16 md:h-20 max-w-container-max mx-auto bg-surface/80 dark:bg-surface-container/80 backdrop-blur-md shadow-sm border-b border-outline-variant/20">
+<div class="flex items-center gap-base">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Nurseries Network</span>
+</div>
+<div class="hidden md:flex items-center gap-lg">
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1" href="#">Find a Nursery</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/5 px-3 py-1 rounded-lg" href="#">AI Recommendations</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/5 px-3 py-1 rounded-lg" href="#">Dashboard</a>
+</div>
+<div class="flex items-center gap-base">
+<button class="hidden md:block px-4 py-2 font-label-md text-on-surface-variant hover:text-primary transition-colors scale-98 active:scale-95">Login</button>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md font-semibold hover:bg-primary/90 transition-all scale-98 active:scale-95 shadow-sm">Sign Up</button>
+</div>
+</nav>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative overflow-hidden pt-xl pb-24 md:pb-32 px-margin-mobile">
+<div class="max-w-container-max mx-auto text-center relative z-10">
+<div class="inline-flex items-center gap-base px-4 py-1.5 rounded-full bg-primary/5 border border-primary/10 mb-md">
+<span class="material-symbols-outlined text-primary text-[18px]">auto_awesome</span>
+<span class="text-label-sm text-primary uppercase tracking-wider">AI-Powered matching</span>
+</div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-base md:mb-md max-w-4xl mx-auto">
+                    Find the Perfect Nursery for Your Child
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-lg">
+                    Discover hand-picked childcare with the power of artificial intelligence. Tailored recommendations based on your family's unique needs.
+                </p>
+<!-- Search Bar -->
+<div class="max-w-4xl mx-auto bg-surface-container-lowest smooth-shadow rounded-xl md:rounded-[24px] p-2 md:p-3 flex flex-col md:flex-row items-center gap-base border border-outline-variant/30">
+<div class="w-full flex items-center gap-base px-4 border-b md:border-b-0 md:border-r border-outline-variant/20 h-14">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-body-md text-on-surface placeholder:text-outline/60" placeholder="Nursery name or keyword..." type="text"/>
+</div>
+<div class="w-full flex items-center gap-base px-4 h-14">
+<span class="material-symbols-outlined text-outline">location_on</span>
+<input class="w-full bg-transparent border-none focus:ring-0 text-body-md text-on-surface placeholder:text-outline/60" placeholder="Location or Postcode" type="text"/>
+</div>
+<button class="w-full md:w-auto bg-primary text-on-primary px-8 h-14 md:h-14 rounded-lg md:rounded-xl font-label-md font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-base">
+                        Search Now
+                    </button>
+</div>
+<div class="mt-md flex flex-wrap justify-center gap-md">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label-md text-on-surface-variant">OFSTED Rated</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label-md text-on-surface-variant">Verified Reviews</span>
+</div>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-label-md text-on-surface-variant">Instant Booking</span>
+</div>
+</div>
+</div>
+<!-- Background Decorative Elements -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-30 pointer-events-none">
+<div class="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-10 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-[100px]"></div>
+</div>
+</section>
+<!-- Benefits Section -->
+<section class="py-xl px-margin-mobile bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<div class="flex flex-col items-start p-md bg-surface-container-low rounded-xl transition-transform hover:translate-y-[-4px]">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center mb-md text-primary">
+<span class="material-symbols-outlined text-[32px]">auto_awesome</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-base text-on-surface">AI Matching</h3>
+<p class="text-body-md text-on-surface-variant">Our intelligent algorithm pairs your family's preferences with nurseries that offer the best developmental fit.</p>
+</div>
+<div class="flex flex-col items-start p-md bg-surface-container-low rounded-xl transition-transform hover:translate-y-[-4px]">
+<div class="w-12 h-12 rounded-lg bg-secondary-container/20 flex items-center justify-center mb-md text-secondary">
+<span class="material-symbols-outlined text-[32px]">verified_user</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-base text-on-surface">Verified Reviews</h3>
+<p class="text-body-md text-on-surface-variant">Read honest feedback from real parents. Every review is vetted for authenticity and safety standards.</p>
+</div>
+<div class="flex flex-col items-start p-md bg-surface-container-low rounded-xl transition-transform hover:translate-y-[-4px]">
+<div class="w-12 h-12 rounded-lg bg-tertiary-container/10 flex items-center justify-center mb-md text-tertiary">
+<span class="material-symbols-outlined text-[32px]">event_available</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-base text-on-surface">Easy Booking</h3>
+<p class="text-body-md text-on-surface-variant">Schedule tours and secure placements directly through our platform with just a few simple clicks.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Nurseries -->
+<section class="py-xl px-margin-mobile">
+<div class="max-w-container-max mx-auto">
+<div class="flex justify-between items-end mb-lg">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-xs">Top Rated Nurseries</h2>
+<p class="text-body-md text-on-surface-variant">Highly-rated childcare centers near you.</p>
+</div>
+<a class="hidden md:flex items-center gap-xs text-primary font-label-md font-bold hover:underline" href="#">
+                        View All
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="group bg-surface-container-lowest rounded-xl smooth-shadow border border-outline-variant/20 overflow-hidden transition-all duration-300 hover:border-primary/20">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A modern, brightly lit nursery playroom with light wood furniture, colorful educational toys, and large windows. The atmosphere is warm, safe, and professional, following a minimalist clean design aesthetic with indigo and emerald accents in the toys." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQxfD90es3AqYLm3sStbnRwV2Tg4R17TGc0QafYkXq9Bwrq1QHUOc6vBjYXPmNXhyS57lSpMhYh-pZQSCd8Z2xKizQUqauSD_AJG_niPCJUf_w7vCIGxuv5HSB7RBVMjO6qcAWQQqxLkvDep8kPoIfI7wVrSm8Is1q0GUxrgYJ5Zxh1zlx2y3c4vjaV7MZC8OwWLNcA7C5r7Mj_j4dx4rbrboKRHgKxRBbw0Llg0Aqa_IxJX9VYlktp43SHhh8dQSXc4W3TKZ2mg"/>
+<div class="absolute top-3 right-3 bg-surface/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-xs shadow-sm">
+<span class="material-symbols-outlined text-tertiary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-bold text-on-surface">4.9</span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-xs">
+<h4 class="font-headline-sm text-[18px] text-on-surface group-hover:text-primary transition-colors">Bright Horizons</h4>
+<span class="text-primary font-bold text-label-md">£75/day</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant mb-md">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="text-label-sm">Kensington, London</span>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-[10px] font-bold uppercase">Ofsted Outstanding</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container/10 text-primary text-[10px] font-bold uppercase">Ages 0-5</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-surface-container-lowest rounded-xl smooth-shadow border border-outline-variant/20 overflow-hidden transition-all duration-300 hover:border-primary/20">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A beautiful outdoor play area for a childcare center featuring wooden structures, a sandpit, and manicured green grass. The lighting is soft morning sun, creating a calm and natural environment for children. The style is premium and high-end with a focus on natural materials." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx0rKISYTEUMLq5HLUmX7NDVt31CEwGyqLg1O6eEv0tOOfmAlm6G05GOC4Y5WF4Fy_eewzpOrwD-r2LQJ7jJEEWWWABi38tAiSRhaWEYuuclCDZt_zEI0p1BhwhYaRlaeSCqIpv3Ss-heR3xmD3Oy7xheGZEt1MWXbcOxJIeLO47OVV8MGIo5wmvvy7VUfJHXZwICBsyHa2dFKXYIIDWRqWIaS-pTU670lMEwmBq6p1pIDccbXIjN2l3rHTkqPt57KM7j5WGW3bg"/>
+<div class="absolute top-3 right-3 bg-surface/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-xs shadow-sm">
+<span class="material-symbols-outlined text-tertiary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-bold text-on-surface">4.8</span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-xs">
+<h4 class="font-headline-sm text-[18px] text-on-surface group-hover:text-primary transition-colors">Little Elms Day</h4>
+<span class="text-primary font-bold text-label-md">£68/day</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant mb-md">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="text-label-sm">Greenwich, London</span>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-[10px] font-bold uppercase">Outdoor Focus</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container/10 text-primary text-[10px] font-bold uppercase">Forest School</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-surface-container-lowest rounded-xl smooth-shadow border border-outline-variant/20 overflow-hidden transition-all duration-300 hover:border-primary/20">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="An indoor reading nook in a high-end nursery with soft cushions, low bookshelves filled with picture books, and gentle lighting. The interior design is minimal and modern, using a color palette of indigo and soft greys. The mood is peaceful and intellectual." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDww3wpA8Xe5A9i6g0XR3H-0z0TMbsjnJP3X3kQfVb3hz4lHOIwQON-TbXef9uNxSV_W3ZmtVx92vpuaQqCTFOT9Lc5rJWrmeoJ1OJnRqpClwN5s4p7HMqOqzlY6sBLm-nz0_LbomJn3F4jO9NQAyT-VIVCdDet2fz86CmOhC55IXyZMkhvbMBoD8bKQin4QR0eInhXe7iMYjwduS5kmwbNOSKFb5TeGzNDwZa2n0qU3jVM9t8XRQ4ybjhrL5IDo4fMHFdWHoBBwg"/>
+<div class="absolute top-3 right-3 bg-surface/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-xs shadow-sm">
+<span class="material-symbols-outlined text-tertiary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-bold text-on-surface">5.0</span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-xs">
+<h4 class="font-headline-sm text-[18px] text-on-surface group-hover:text-primary transition-colors">Montessori Bloom</h4>
+<span class="text-primary font-bold text-label-md">£82/day</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant mb-md">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="text-label-sm">Chelsea, London</span>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-[10px] font-bold uppercase">Montessori Method</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container/10 text-primary text-[10px] font-bold uppercase">Premium Care</span>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group bg-surface-container-lowest rounded-xl smooth-shadow border border-outline-variant/20 overflow-hidden transition-all duration-300 hover:border-primary/20">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A clean and organized nursery kitchen area where healthy snacks are prepared. The setting is sterile but friendly, with stainless steel appliances and bowls of fresh fruit. The visual style reflects trustworthiness and health standards, with bright, airy lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnaRqF4copcS6U_tBQtnZCbdg8uK2wuX5IQcjn8-0kuluIPsB-6lnLOTLKATtEUMJ857CTvUG9JPQtTe5bMYx9NNwcOvrn6Md3voih1NRO2qzgbks1UYriEZ0RmnwVXBMuzuyu7480wDKjDdagI6dJKSU-Du_tNfbnfhM9ZmadErSiPOpdRDVcaGtOMtsFI6b6PodU8-qKhuoswgDPTTpa3HIYypuARzt_fc5VV1LmIGMVeX9edY3Kyu3bAA4be6h_fgJdM6Vcpw"/>
+<div class="absolute top-3 right-3 bg-surface/90 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-xs shadow-sm">
+<span class="material-symbols-outlined text-tertiary text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm font-bold text-on-surface">4.7</span>
+</div>
+</div>
+<div class="p-md">
+<div class="flex justify-between items-start mb-xs">
+<h4 class="font-headline-sm text-[18px] text-on-surface group-hover:text-primary transition-colors">Kidz First Center</h4>
+<span class="text-primary font-bold text-label-md">£62/day</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant mb-md">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span class="text-label-sm">Richmond, London</span>
+</div>
+<div class="flex flex-wrap gap-xs">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary text-[10px] font-bold uppercase">Healthy Eating</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-container/10 text-primary text-[10px] font-bold uppercase">Large Garden</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Recommendation CTA (Bento Inspired) -->
+<section class="py-xl px-margin-mobile">
+<div class="max-w-container-max mx-auto">
+<div class="ai-gradient-border rounded-[32px] p-md md:p-xl overflow-hidden relative">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg items-center relative z-10">
+<div>
+<div class="flex items-center gap-xs mb-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-label-sm font-bold text-primary uppercase">Personalized Insight</span>
+</div>
+<h2 class="font-display-lg-mobile md:font-headline-md text-on-surface mb-md">Get Smart Recommendations Tailored to Your Child</h2>
+<p class="text-body-lg text-on-surface-variant mb-lg">
+                                Stop scrolling through endless listings. Our AI analyzes your commute, budget, and child's learning style to find the absolute best match in seconds.
+                            </p>
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-label-md font-bold hover:bg-primary/90 transition-all shadow-lg scale-98 active:scale-95 inline-flex items-center gap-base">
+                                Get Your AI Matches
+                                <span class="material-symbols-outlined">magic_button</span>
+</button>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="bg-surface-container-low p-md rounded-2xl smooth-shadow flex flex-col gap-base">
+<span class="text-display-lg text-primary">98%</span>
+<span class="text-label-md text-on-surface-variant">Parent Satisfaction Rate</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-2xl smooth-shadow flex flex-col gap-base">
+<span class="text-display-lg text-secondary">2.5k</span>
+<span class="text-label-md text-on-surface-variant">Verified Nurseries</span>
+</div>
+<div class="bg-surface-container-low p-md rounded-2xl smooth-shadow flex flex-col gap-base col-span-2">
+<div class="flex items-center gap-sm">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-surface overflow-hidden bg-outline-variant"></div>
+<div class="w-10 h-10 rounded-full border-2 border-surface overflow-hidden bg-primary-fixed"></div>
+<div class="w-10 h-10 rounded-full border-2 border-surface overflow-hidden bg-secondary-fixed"></div>
+</div>
+<span class="text-body-md text-on-surface font-medium">Joined by 10,000+ happy parents this month</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-xl px-margin-mobile bg-surface-container-low">
+<div class="max-w-container-max mx-auto">
+<h2 class="font-headline-md text-headline-md text-on-surface text-center mb-xl">Trusted by Parents Worldwide</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+<!-- Testimonial 1 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl smooth-shadow flex flex-col gap-md">
+<div class="flex gap-xs text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-body-md italic text-on-surface-variant">"The AI recommendation was spot on. It found a Montessori nursery right on my commute that I hadn't even noticed before. My daughter is thriving there!"</p>
+<div class="flex items-center gap-base mt-auto">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close-up portrait of a professional woman with a warm, smiling expression. She is in a bright, modern office setting. The lighting is soft and flattering, emphasizing a clean and trustworthy corporate modern aesthetic. High-quality digital photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYao4s3TbLj37EQNf-ycNvXQhFEdrMhuFePOBfELyg-sMMG3CAYNgrfG0T3Op28yotz1vICVR7keIIQhU1eoTUJZpjlWfnRAXuhDvjNYLIG5jZiOaaA0bFQS6KQt0YYDtTl60BFrXODCxTkSQI31fSdoKVReLC1sQ6hozNjoiEBypbrRLXD4Mjm927vKNMT9n0zV6tFraLrfPX_BOI2YvIV1nAsAmPTJMzxFe97r9gZzusadNCQCuCA23lUlqYn-RcWulajkk6yA"/>
+</div>
+<div>
+<h5 class="font-label-md font-bold text-on-surface">Sarah Jenkins</h5>
+<p class="text-label-sm text-outline">Product Designer</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl smooth-shadow flex flex-col gap-md">
+<div class="flex gap-xs text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-body-md italic text-on-surface-variant">"As a first-time parent, I was overwhelmed. Nurseries Network made it so easy to verify Ofsted ratings and read honest reviews in one place."</p>
+<div class="flex items-center gap-base mt-auto">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a friendly-looking man with a professional yet approachable demeanor. He is outdoors in a blurred urban park setting with soft, natural daylight. The style is clean and minimal, reflecting the brand's 'trusted guide' personality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDXPrceO0lm5BwhydfSFVFMBg8roeZRPVt4-zeFC__hU26GjVHrl4Rz1hz17c9KMa5K18reHQP1hqa9HppoxH5NZeyAp0R9uCKNO-VDlwJqBshZ9Z6UZeXEiDDFiVNoMzhRga9XzuqIJr2qmbiHCRfVY_oWtJOTMwFwEtvDjLYzTKOWGIuL5J-j4Y6KlTJOAmG-8RNNNSahdM93Y1UJWFYlhF-0hXFi765xtVRbdqwpfujl9BRzvZ5i8LxCyuvTxKyh4FnBiMJpA"/>
+</div>
+<div>
+<h5 class="font-label-md font-bold text-on-surface">Mark Thompson</h5>
+<p class="text-label-sm text-outline">Marketing Manager</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="bg-surface-container-lowest p-lg rounded-xl smooth-shadow flex flex-col gap-md">
+<div class="flex gap-xs text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="text-body-md italic text-on-surface-variant">"The instant booking feature saved me hours of phone calls. I secured a place for my son during my lunch break. Brilliant service!"</p>
+<div class="flex items-center gap-base mt-auto">
+<div class="w-12 h-12 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a confident woman with a friendly smile, set against a simple light grey studio background. High-key lighting creates a clean, premium look that aligns with the SaaS platform's aesthetic of clarity and reassurance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB0rB4ZMdw0bWuVe7U_yUcPhkgFfmjZ-qahBiGDrzuIbBJUzkE3dYTzEF-WWL7txNk39vnLnwLr1R6cg_x5mexN4BqfpDtu0LAElHfhY1ydcCVmyimidDSWpjA6_a2V_6mbDB0h_Kmur0lEPkTRaQI77ucw7Ofz7C_NxsqPFvesSucDmgjiWQTqSLqQ8-ZSKIXyLB__WxLOWfzJv1FKDSGpKORG7n24u0UvcE_RoiqGjsifNaoyLkUOH9Q3SsyhwLby4-eha4ymA"/>
+</div>
+<div>
+<h5 class="font-label-md font-bold text-on-surface">Elena Rodriguez</h5>
+<p class="text-label-sm text-outline">Software Engineer</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xl px-margin-mobile md:px-xl grid grid-cols-1 md:grid-cols-4 gap-gutter bg-surface-container-highest dark:bg-inverse-surface border-t border-outline-variant/50">
+<div class="flex flex-col gap-md col-span-1 md:col-span-1">
+<span class="font-headline-md text-on-surface">Nurseries Network</span>
+<p class="font-body-md text-on-surface-variant max-w-xs">
+                © 2024 Nurseries Network. AI-Powered Childcare Discovery. Empowering parents with intelligent data.
+            </p>
+</div>
+<div class="flex flex-col gap-md">
+<h6 class="font-label-md font-bold text-on-surface uppercase tracking-wider">Discovery</h6>
+<ul class="flex flex-col gap-sm">
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Find a Nursery</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">AI Recommendations</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Featured Cities</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Top Rated</a></li>
+</ul>
+</div>
+<div class="flex flex-col gap-md">
+<h6 class="font-label-md font-bold text-on-surface uppercase tracking-wider">Company</h6>
+<ul class="flex flex-col gap-sm">
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">About Us</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Careers</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Contact</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Press Kit</a></li>
+</ul>
+</div>
+<div class="flex flex-col gap-md">
+<h6 class="font-label-md font-bold text-on-surface uppercase tracking-wider">Legal</h6>
+<ul class="flex flex-col gap-sm">
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Privacy Policy</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Terms of Service</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100" href="#">Cookie Policy</a></li>
+</ul>
+</div>
+</footer>
+<script>
+        // Subtle micro-interactions
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.transform = 'scale(0.96)';
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = '';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = '';
+            });
+        });
+
+        // Search bar focus effect
+        const searchInputs = document.querySelectorAll('input');
+        searchInputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('border-primary/40');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('border-primary/40');
+            });
+        });
+    </script>
+</body></html>

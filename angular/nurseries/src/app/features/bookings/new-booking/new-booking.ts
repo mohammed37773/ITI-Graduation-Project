@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-new-booking',
@@ -18,7 +19,7 @@ export class NewBooking implements OnInit, OnDestroy {
   private http = inject(HttpClient);
 
   // الـ Base URL المعتمد للباك إند
-  private baseUrl = 'http://localhost:5104/api';
+  private baseUrl = environment.backUrl + '/api';
 
   nurseryId = signal<number | null>(null);
   nurseryName = signal<string>('جاري تحميل اسم الحضانة...');

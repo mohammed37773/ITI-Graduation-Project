@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Booking } from '../../../core/models/booking.model';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class Dashboard implements OnInit {
   private http = inject(HttpClient);
   
   // الـ Base URL الموحد عندك في السيرفر
-  private apiUrl = 'http://localhost:5104/api/Bookings/my';
+  private apiUrl = environment.backUrl + '/api/Bookings/my';
 
   // Signal رئيسي لتخزين قائمة الحجوزات الخام القادمة من السيرفر
   bookings = signal<Booking[]>([]);

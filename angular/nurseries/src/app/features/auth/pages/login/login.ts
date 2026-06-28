@@ -28,7 +28,6 @@ export class Login {
   });
 
   onLogin() {
-    // لو الفورم غير صالحة، بنعلم على الحقول عشان الـ invalid-feedback تظهر
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -45,7 +44,7 @@ export class Login {
         
         const userRole = res.role; // الـ Role الراجع من السيرفر (Parent / NurseryAdmin / Admin)
 
-        // 🔥 التوجيه الذكي المبني على الـ Routes والـ Roles المتعدلة عندك بالملي
+        
         if (userRole === 'NurseryAdmin') {
           this.router.navigate(['/owner/dashboard']); // التوجيه للمسار الجديد اللي لسه باعته
         } else if (userRole === 'Parent') {
@@ -60,7 +59,7 @@ export class Login {
         this.isLoading.set(false);
         console.error('خطأ في تسجيل الدخول:', err);
         
-        // التقاط رسالة الخطأ الموحدة بالعربي الراجعة من السيرفر وعرضها في الـ Alert
+        
         if (err.error && err.error.message) {
           this.errorMessage.set(err.error.message);
         } else {
