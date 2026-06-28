@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,7 @@ export class Home implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
 
-  private apiUrl = 'http://localhost:5104/api/nurseries';
+  private apiUrl = environment.backUrl + '/api/nurseries';
 
   featuredNurseries = signal<any[]>([]);
   reviewsList = signal<any[]>([]); // السيجنال الخاص بالتقييمات الديناميكية

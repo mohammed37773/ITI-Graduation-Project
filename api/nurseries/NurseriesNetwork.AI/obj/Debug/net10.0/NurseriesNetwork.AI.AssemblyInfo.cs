@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NurseriesNetwork.AI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0e2965f69f9e4a62d32e4337eed45ddd94a19873")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc28ca6a45b034bccc130e97901d670998dc7658")]
 [assembly: System.Reflection.AssemblyProductAttribute("NurseriesNetwork.AI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NurseriesNetwork.AI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

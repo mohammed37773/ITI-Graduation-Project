@@ -1,0 +1,25 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "[!a]*/**": true,
+        "a[!n]*/**": true,
+        "an[!g]*/**": true,
+        "ang[!u]*/**": true,
+        "angu[!l]*/**": true,
+        "angul[!a]*/**": true,
+        "angula[!r]*/**": true,
+        "angular/[!n]*/**": true,
+        "angular/n[!u]*/**": true,
+        "angular/nu[!r]*/**": true,
+        "angular/nur[!s]*/**": true,
+        "angular/nurs[!e]*/**": true,
+        "angular/nurse[!r]*/**": true,
+        "angular/nurser[!i]*/**": true,
+        "angular/nurseri[!e]*/**": true,
+        "angular/nurserie[!s]*/**": true
+    }
+}

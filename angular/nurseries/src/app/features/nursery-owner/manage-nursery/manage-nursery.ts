@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } 
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-manage-nursery',
@@ -18,6 +19,7 @@ import * as L from 'leaflet';
 export class ManageNursery implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
+
   private apiUrl = 'http://localhost:5104/api/nurseries';
 
   nurseryForm!: FormGroup;
