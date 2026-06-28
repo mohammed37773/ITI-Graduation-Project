@@ -1,0 +1,153 @@
+<div class="reviews-page">
+  <!-- Header -->
+  <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
+    <div class="page-header">
+      <h1>الإشراف على المراجعات</h1>
+      <p>إدارة ملاحظات أولياء الأمور والإشراف عليها للحفاظ على معايير المجتمع.</p>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="البحث عن حضانة أو ولي أمر..." />
+      </div>
+      <button class="filter-icon-btn"><i class="bi bi-funnel"></i></button>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Reviews List -->
+    <div class="col-12" [class.col-lg-7]="selectedReview()">
+      <!-- Tabs -->
+      <div class="review-tabs-bar mb-3">
+        <div class="review-tabs">
+          <button class="rev-tab" [class.active]="activeTab() === 'معلقة'" (click)="setTab('معلقة')">
+            معلقة <span class="tab-badge" *ngIf="pendingCount > 0">{{ pendingCount }}</span>
+          </button>
+          <button class="rev-tab" [class.active]="activeTab() === 'موافق عليها'" (click)="setTab('موافق عليها')">
+            موافق عليها
+          </button>
+          <button class="rev-tab" [class.active]="activeTab() === 'مرفوضة'" (click)="setTab('مرفوضة')">
+            مرفوضة
+          </button>
+        </div>
+        <div class="bulk-actions" *ngIf="activeTab() === 'معلقة'">
+          <button class="bulk-btn">تحديد الكل</button>
+          <button class="bulk-btn primary">الموافقة على المحدد</button>
+        </div>
+      </div>
+
+      <!-- Review Cards -->
+      <div class="review-list">
+        <div
+          class="review-card card"
+          *ngFor="let review of filteredReviews"
+          [class.selected]="selectedReview()?.id === review.id"
+          [class.has-issues]="review.issues > 0"
+          (click)="selectReview(review)"
+        >
+          <div class="review-card-header">
+            <div class="reviewer-info">
+              <input type="checkbox" (click)="$event.stopPropagation()" />
+              <img [src]="review.avatar" [alt]="review.reviewer" class="avatar avatar-md" />
+              <div>
+                <p class="reviewer-name">{{ review.reviewer }}</p>
+                <p class="reviewer-meta">راجع <a href="#" class="text-primary-custom" (click)="$event.preventDefault()">{{ review.nursery }}</a></p>
+              </div>
+            </div>
+            <span class="status-badge" [class]="'status-' + (review.status === 'معلقة' ? 'pending' : review.status === 'موافق عليها' ? 'approved' : 'rejected')">{{ review.status }}</span>
+          </div>
+
+          <div class="review-stars">
+            <span *ngFor="let filled of getStarArray(review.rating)"
+              class="bi" [class.bi-star-fill]="filled" [class.bi-star]="!filled"
+              [style.color]="filled ? '#f4a843' : '#dee2e6'"></span>
+            <span class="review-date">{{ review.date }}</span>
+          </div>
+
+          <p class="review-text">{{ review.text }}</p>
+
+          <div class="issues-flag" *ngIf="review.issues > 0">
+            <i class="bi bi-exclamation-circle"></i>
+            تم الإبلاغ عن {{ review.issues }} مشكلة محتملة
+          </div>
+
+          <div class="review-card-actions">
+            <button class="action-reject" (click)="rejectReview(review, $event)">
+              <i class="bi bi-x-circle"></i> رفض
+            </button>
+            <button class="action-approve" (click)="approveReview(review, $event)">
+              <i class="bi bi-check-circle"></i> موافقة
+            </button>
+          </div>
+        </div>
+
+        <div class="empty-state" *ngIf="filteredReviews.length === 0">
+          <i class="bi bi-check-circle"></i>
+          <p>لا توجد مراجعات {{ activeTab() }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Detail Panel -->
+    <div class="col-12 col-lg-5" *ngIf="selectedReview()">
+      <div class="card review-detail-card">
+        <div class="detail-header">
+          <div>
+            <h5>تفاصيل المراجعة</h5>
+            <p class="text-muted-custom">معرّف الإشراف: {{ selectedReview()!.id }}</p>
+          </div>
+          <button class="more-btn"><i class="bi bi-three-dots"></i></button>
+        </div>
+
+        <div class="detail-section">
+          <p class="detail-section-title">معلومات ولي الأمر</p>
+          <div class="parent-info">
+            <img [src]="selectedReview()!.avatar" [alt]="selectedReview()!.reviewer" class="avatar avatar-md" />
+            <div>
+              <p class="parent-name">{{ selectedReview()!.reviewer }}</p>
+              <p class="parent-meta">مستخدم منذ 2022 &bull; شمال لندن</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <p class="detail-section-title">محتوى المراجعة</p>
+          <div class="content-rating">
+            <div class="stars-row">
+              <span *ngFor="let filled of getStarArray(selectedReview()!.rating)"
+                class="bi" [class.bi-star-fill]="filled" [class.bi-star]="!filled"
+                [style.color]="filled ? '#f4a843' : '#dee2e6'" style="font-size:16px"></span>
+              <strong style="font-size:18px; color:var(--neutral-900)">{{ selectedReview()!.rating }}.0</strong>
+            </div>
+            <p class="review-date-detail"><i class="bi bi-calendar3"></i> قُدِّمت في {{ selectedReview()!.date }}</p>
+          </div>
+          <blockquote class="review-quote">
+            "{{ selectedReview()!.text }}"
+          </blockquote>
+        </div>
+
+        <div class="detail-section">
+          <p class="detail-section-title">تفاصيل الحضانة</p>
+          <div class="nursery-detail-row">
+            <div>
+              <a href="#" class="text-primary-custom" style="font-weight:700">{{ selectedReview()!.nursery }}</a>
+              <p style="font-size:12px;color:var(--neutral-500);margin:2px 0 0">عرض جميع المراجعات الـ 42 لهذه الحضانة</p>
+            </div>
+            <a href="#" class="profile-link" (click)="$event.preventDefault()">
+              الملف الشخصي <i class="bi bi-arrow-left"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="detail-actions">
+          <button class="detail-reject-btn" (click)="rejectReview(selectedReview()!, $event)">
+            <i class="bi bi-x-circle"></i> رفض المراجعة
+          </button>
+          <button class="detail-approve-btn" (click)="approveReview(selectedReview()!, $event)">
+            <i class="bi bi-check-circle"></i> الموافقة على المراجعة
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

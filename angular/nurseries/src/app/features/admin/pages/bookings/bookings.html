@@ -1,0 +1,87 @@
+<div class="bookings-page">
+  <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
+    <div class="page-header">
+      <h1>إدارة الحجوزات</h1>
+      <p>عرض جميع طلبات حجز الحضانات عبر المنصة وإدارتها.</p>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="stat-mini card">
+        <div class="stat-mini-icon" style="background:var(--success-bg)"><i class="bi bi-calendar-check" style="color:var(--success)"></i></div>
+        <div><p class="stat-mini-label">مؤكدة</p><h4 class="stat-mini-value">{{ stats.confirmed }}</h4></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-mini card">
+        <div class="stat-mini-icon" style="background:rgba(52,152,219,0.1)"><i class="bi bi-clock" style="color:var(--accent)"></i></div>
+        <div><p class="stat-mini-label">معلقة</p><h4 class="stat-mini-value">{{ stats.pending }}</h4></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-mini card">
+        <div class="stat-mini-icon" style="background:var(--error-bg)"><i class="bi bi-x-circle" style="color:var(--error)"></i></div>
+        <div><p class="stat-mini-label">ملغاة</p><h4 class="stat-mini-value">{{ stats.cancelled }}</h4></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="stat-mini card">
+        <div class="stat-mini-icon" style="background:rgba(26,122,74,0.1)"><i class="bi bi-cash-stack" style="color:var(--primary)"></i></div>
+        <div><p class="stat-mini-label">إجمالي الإيرادات</p><h4 class="stat-mini-value">{{ stats.totalRevenue | number }} ج.م</h4></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <!-- <div class="table-toolbar">
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="ابحث برقم الحجز أو المستخدم..." [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)" />
+      </div>
+      <div class="filter-tabs">
+        <button [class.active]="selectedStatus()==='all'" (click)="setStatus('all')">الكل</button>
+        <button [class.active]="selectedStatus()==='Confirmed'" (click)="setStatus('Confirmed')">مؤكد</button>
+        <button [class.active]="selectedStatus()==='Pending'" (click)="setStatus('Pending')">معلق</button>
+        <button [class.active]="selectedStatus()==='Cancelled'" (click)="setStatus('Cancelled')">ملغى</button>
+      </div>
+    </div> -->
+
+    @if (loading()) {
+      <div class="loading-state"><div class="spinner"></div><p>جارٍ التحميل...</p></div>
+    } @else if (error()) {
+      <div class="error-state"><i class="bi bi-exclamation-triangle"></i><p>{{ error() }}</p><button class="btn-primary-custom" (click)="loadBookings()">إعادة المحاولة</button></div>
+    } @else {
+      <div class="table-responsive">
+        <table class="bookings-table">
+          <thead>
+            <tr>
+              <th>رقم الحجز</th>
+              <th>معرّف الوالد</th>
+              <th>معرّف الحضانة</th>
+              <th>تاريخ البدء</th>
+              <th>تاريخ الإنشاء</th>
+              <th>الحالة</th>
+              <th>السعر الإجمالي</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (booking of filteredBookings; track booking.id) {
+              <tr>
+                <td class="booking-id">#{{ booking.id }}</td>
+                <td class="text-muted-custom">{{ booking.parentId }}</td>
+                <td class="text-muted-custom">{{ booking.nurseryId }}</td>
+                <td class="text-muted-custom" style="font-size:13px">{{ formatDate(booking.startDate) }}</td>
+                <td class="text-muted-custom" style="font-size:13px">{{ formatDate(booking.createdAt) }}</td>
+                <td><span [class]="getStatusClass(booking.status)">{{ getStatusLabel(booking.status) }}</span></td>
+                <td class="amount-cell">{{ booking.totalPrice | number }} ج.م</td>
+              </tr>
+            } @empty {
+              <tr><td colspan="7" class="empty-state-row">لا توجد حجوزات مطابقة</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

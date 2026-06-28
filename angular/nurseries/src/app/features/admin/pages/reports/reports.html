@@ -1,0 +1,86 @@
+<div class="reports-page">
+  <div class="page-header mb-4">
+    <h1>التقارير والتحليلات</h1>
+    <p>ملخص شامل لأداء المنصة والإحصاءات الرئيسية.</p>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state"><div class="spinner"></div><p>جارٍ التحميل...</p></div>
+  } @else if (error()) {
+    <div class="error-state card"><i class="bi bi-exclamation-triangle"></i><p>{{ error() }}</p></div>
+  } @else if (summary()) {
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-3">
+        <div class="report-stat card">
+          <div class="report-stat-icon" style="background:var(--success-bg)"><i class="bi bi-cash-stack" style="color:var(--success)"></i></div>
+          <p class="report-stat-label">إجمالي الإيرادات</p>
+          <h3 class="report-stat-value">{{ summary()!.totalRevenue | number:'1.0-0' }}</h3>
+          <p class="report-stat-sub">ج.م</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="report-stat card">
+          <div class="report-stat-icon" style="background:rgba(52,152,219,0.1)"><i class="bi bi-calendar-check" style="color:var(--accent)"></i></div>
+          <p class="report-stat-label">إجمالي الحجوزات</p>
+          <h3 class="report-stat-value">{{ summary()!.totalBookings | number }}</h3>
+          <p class="report-stat-sub">حجز</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="report-stat card">
+          <div class="report-stat-icon" style="background:rgba(26,122,74,0.1)"><i class="bi bi-building" style="color:var(--primary)"></i></div>
+          <p class="report-stat-label">إجمالي الحضانات</p>
+          <h3 class="report-stat-value">{{ summary()!.totalNurseries | number }}</h3>
+          <p class="report-stat-sub">{{ summary()!.verifiedNurseries }} موثّقة</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="report-stat card">
+          <div class="report-stat-icon" style="background:rgba(155,89,182,0.1)"><i class="bi bi-patch-check" style="color:#9b59b6"></i></div>
+          <p class="report-stat-label">الحضانات الموثّقة</p>
+          <h3 class="report-stat-value">{{ summary()!.verifiedNurseries | number }}</h3>
+          <p class="report-stat-sub">من {{ summary()!.totalNurseries }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-md-6">
+        <div class="card this-month-card">
+          <div class="this-month-header">
+            <i class="bi bi-calendar-month"></i>
+            <span>إحصاءات هذا الشهر</span>
+          </div>
+          <div class="this-month-stats">
+            <div class="month-stat">
+              <p class="month-stat-label">الإيرادات</p>
+              <h4 class="month-stat-value">{{ summary()!.thisMonth.revenue | number:'1.0-0' }} ج.م</h4>
+            </div>
+            <div class="month-stat-divider"></div>
+            <div class="month-stat">
+              <p class="month-stat-label">الحجوزات</p>
+              <h4 class="month-stat-value">{{ summary()!.thisMonth.bookings | number }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="card verification-card">
+          <div class="verification-header">
+            <i class="bi bi-pie-chart"></i>
+            <span>نسبة التوثيق</span>
+          </div>
+          <div class="verification-bar-wrap">
+            <div class="verification-bar">
+              <div class="verification-fill" [style.width.%]="summary()!.totalNurseries > 0 ? (summary()!.verifiedNurseries / summary()!.totalNurseries * 100) : 0"></div>
+            </div>
+            <span class="verification-pct">
+              {{ summary()!.totalNurseries > 0 ? (summary()!.verifiedNurseries / summary()!.totalNurseries * 100 | number:'1.0-1') : 0 }}%
+            </span>
+          </div>
+          <p class="verification-note">{{ summary()!.verifiedNurseries }} من أصل {{ summary()!.totalNurseries }} حضانة موثّقة</p>
+        </div>
+      </div>
+    </div>
+  }
+</div>

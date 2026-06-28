@@ -103,9 +103,9 @@ export const routes: Routes = [
 
   // --- صفحات الـ Admin العام ---
   {
-    path: 'admin',
+    path: '',
     loadComponent: () => import('./layouts/admin-layout/admin-layout').then(m => m.AdminLayout),
-    canActivate: [authGuard, roleGuard],
+    // canActivate: [authGuard, roleGuard],
     data: { expectedRole: 'Admin' },
     children: [
       {
@@ -117,8 +117,20 @@ export const routes: Routes = [
         loadComponent: () => import('./features/admin/pages/manage-nurseries/manage-nurseries').then(m => m.ManageNurseries)
       },
       {
-        path: 'manage-users',
+        path: 'users',
         loadComponent: () => import('./features/admin/pages/manage-users/manage-users').then(m => m.ManageUsers)
+      },
+      {
+        path: 'payments',
+        loadComponent: () => import('./features/admin/pages/payments/payments').then(m => m.Payments)
+      },
+        {
+        path: 'reports',
+        loadComponent: () => import('./features/admin/pages/reports/reports').then(m => m.Reports)
+      },
+         {
+        path: 'bookings',
+        loadComponent: () => import('./features/admin/pages/bookings/bookings').then(m => m.Bookings)
       },
     ]
   },
