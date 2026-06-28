@@ -59,7 +59,7 @@ public class ChildrenController : ControllerBase
     public async Task<IActionResult> AddChild(CreateChildDto dto)
     {
         var parentId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
+        Console.WriteLine($"ParentId = {parentId}");
         var child = new Child
         {
             ParentId = parentId,

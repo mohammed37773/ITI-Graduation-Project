@@ -4,6 +4,7 @@ using NurseriesNetwork.API.Extensions;
 using NurseriesNetwork.API.Middlewares;
 using NurseriesNetwork.Core.Entities;
 using NurseriesNetwork.Core.Interfaces.Services;
+using NurseriesNetwork.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpClient<GeminiService>();
 builder.Services.AddScoped<RagService>();
 builder.Services.AddScoped<IAiService, RecommendationService>();
+
+builder.Services.AddHttpClient<GeminiService>();
+builder.Services.AddHttpClient<GroqService>();
+
+builder.Services.AddScoped<GeminiService>();
+builder.Services.AddScoped<GroqService>();
+builder.Services.AddScoped<ILlmService, LlmFallbackService>();
+
 var app = builder.Build();
 
 // Middleware
@@ -37,23 +46,28 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Seed Roles & Admin
+
 using (var scope = app.Services.CreateScope())
 {
-    var userManager = scope.ServiceProvider
-        .GetRequiredService<UserManager<ApplicationUser>>();
-    var roleManager = scope.ServiceProvider
-        .GetRequiredService<RoleManager<IdentityRole>>();
+    var services = scope.ServiceProvider;
 
-    // إنشاء الـ Roles
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var db = services.GetRequiredService<AppDbContext>();
+    var aiService = services.GetRequiredService<IAiService>();
+
+    // Roles
     string[] roles = ["Admin", "Parent", "NurseryAdmin"];
+
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
             await roleManager.CreateAsync(new IdentityRole(role));
     }
 
-    // إنشاء الـ Admin
+    // Admin
     var adminEmail = "admin@nurseries.com";
+
     if (await userManager.FindByEmailAsync(adminEmail) == null)
     {
         var admin = new ApplicationUser
@@ -63,6 +77,7 @@ using (var scope = app.Services.CreateScope())
             UserName = adminEmail,
             EmailConfirmed = true
         };
+
         await userManager.CreateAsync(admin, "Admin@123456");
         await userManager.AddToRoleAsync(admin, "Admin");
     }

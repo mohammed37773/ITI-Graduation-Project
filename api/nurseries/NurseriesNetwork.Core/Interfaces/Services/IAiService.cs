@@ -1,13 +1,15 @@
-﻿using NurseriesNetwork.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NurseriesNetwork.Core.DTOs.AI;
+using NurseriesNetwork.Core.Entities;
 
 namespace NurseriesNetwork.Core.Interfaces.Services
 {
     public interface IAiService
     {
-        Task<string> GetRecommendationAsync(string message, double? lat, double? lng);
+        Task<RecommendationResult> GetRecommendationAsync(
+        string message, double? lat, double? lng,
+        IntentClassificationResult? precomputedIntent = null);
+
         Task GenerateAndSaveEmbeddingAsync(Nursery nursery);
+
     }
 }

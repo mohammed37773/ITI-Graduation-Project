@@ -93,10 +93,27 @@ public class NurseriesController : ControllerBase
     // ===========================
     // POST: api/nurseries
     // ===========================
+    // ===========================
+    // ✅ استبدل ميثود Create الموجودة في NurseriesController.cs بالكاملة دي
+    // (الفرق الوحيد: إضافة OwnerId من claims المستخدم الحالي)
+    // ===========================
+
     [HttpPost]
     [Authorize(Roles = "NurseryAdmin")]
     public async Task<IActionResult> Create(CreateNurseryDto dto)
     {
+        
+
+        var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+        var alreadyHasNursery = (await _uow.Nurseries.GetAllAsync())
+            .Any(n => n.OwnerId == ownerId);
+
+        if (alreadyHasNursery)
+            return BadRequest("لا يمكن إنشاء أكثر من حضانة لنفس الحساب.");
+
+
+
         var nursery = new Nursery
         {
             Name = dto.Name,
@@ -105,6 +122,7 @@ public class NurseriesController : ControllerBase
             AgeRangeMin = dto.AgeRangeMin,
             AgeRangeMax = dto.AgeRangeMax,
             Capacity = dto.Capacity,
+            OwnerId = ownerId, // ✅ جديد — ربط الحضانة بمنشئها
             Location = new Location
             {
                 Address = dto.Address,
@@ -127,6 +145,11 @@ public class NurseriesController : ControllerBase
     }
 
     // ===========================
+    // ✅ استبدل الميثودات الأربعة دي في NurseriesController.cs بالنسخ الكاملة دي
+    // الفرق: إضافة فحص ملكية (Ownership check) — الـ Admin يقدر يعدل/يحذف بس حضانته
+    // ===========================
+
+    // ===========================
     // PUT: api/nurseries/{id}
     // ===========================
     [HttpPut("{id}")]
@@ -136,6 +159,11 @@ public class NurseriesController : ControllerBase
         var nursery = await _uow.Nurseries.GetWithDetailsAsync(id);
         if (nursery == null)
             return NotFound("الحضانة مش موجودة");
+
+        // ✅ فحص الملكية — مينفعش Admin يعدل حضانة مش بتاعته
+        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        if (nursery.OwnerId != currentUserId)
+            return Forbid();
 
         nursery.Name = dto.Name;
         nursery.Description = dto.Description;
@@ -173,6 +201,11 @@ public class NurseriesController : ControllerBase
         if (nursery == null)
             return NotFound("الحضانة مش موجودة");
 
+        // ✅ فحص الملكية
+        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        if (nursery.OwnerId != currentUserId)
+            return Forbid();
+
         _uow.Nurseries.Delete(nursery);
         await _uow.SaveChangesAsync();
 
@@ -190,6 +223,11 @@ public class NurseriesController : ControllerBase
         var nursery = await _uow.Nurseries.GetByIdAsync(id);
         if (nursery == null)
             return NotFound("الحضانة مش موجودة");
+
+        // ✅ فحص الملكية
+        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        if (nursery.OwnerId != currentUserId)
+            return Forbid();
 
         if (image == null || image.Length == 0)
             return BadRequest("الصورة مطلوبة");
@@ -217,6 +255,15 @@ public class NurseriesController : ControllerBase
     [Authorize(Roles = "NurseryAdmin")]
     public async Task<IActionResult> DeleteImage(int id, int imageId)
     {
+        var nursery = await _uow.Nurseries.GetByIdAsync(id);
+        if (nursery == null)
+            return NotFound("الحضانة مش موجودة");
+
+        // ✅ فحص الملكية
+        var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        if (nursery.OwnerId != currentUserId)
+            return Forbid();
+
         var image = await _uow.NurseryImages.GetByIdAsync(imageId);
         if (image == null || image.NurseryId != id)
             return NotFound("الصورة مش موجودة");
@@ -227,7 +274,6 @@ public class NurseriesController : ControllerBase
 
         return Ok("تم حذف الصورة");
     }
-
     // ===========================
     // Helper Methods
     // ===========================

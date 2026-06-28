@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace NurseriesNetwork.Core.Entities
 {
     public class ApplicationUser : IdentityUser
@@ -16,5 +12,8 @@ namespace NurseriesNetwork.Core.Entities
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
         public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+
+        
+        public Nursery? OwnedNursery { get; set; }
     }
 }
