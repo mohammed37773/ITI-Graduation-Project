@@ -1,1 +1,102 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <!-- Page Header -->
+  <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
+    <div class="page-header">
+      <h1>نظرة عامة على لوحة التحكم</h1>
+      <p>مرحباً بعودتك، أيها المسؤول. إليك ما يحدث اليوم.</p>
+    </div>
+
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3" *ngFor="let stat of stats">
+      <div class="stat-card card">
+        <div class="stat-card-inner">
+          <div class="stat-icon" [style.background]="stat.iconBg">
+            <i class="bi" [class]="stat.icon" [style.color]="stat.iconColor"></i>
+          </div>
+          <div class="stat-info">
+            <p class="stat-label">{{ stat.label }}</p>
+            <div class="stat-value-row">
+              <h2 class="stat-value">{{ stat.value }}</h2>
+              <span [class]="stat.trendUp ? 'trend-up' : 'trend-down'">
+                <i class="bi" [class.bi-arrow-up-right]="stat.trendUp" [class.bi-arrow-down-right]="!stat.trendUp"></i>
+                {{ stat.trend }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="row g-3 mb-4">
+    <!-- Registration Trends -->
+    <div class="col-12 col-lg-7">
+      <div class="card chart-card">
+        <div class="card-header-custom">
+          <div>
+            <h5>اتجاهات التسجيل</h5>
+            <p class="chart-subtitle">مقارنة بين تسجيلات المستخدمين الجدد وانضمام الحضانات.</p>
+          </div>
+          <button class="chart-menu-btn"><i class="bi bi-arrow-up-right"></i></button>
+        </div>
+        <div class="chart-wrapper">
+          <canvas #registrationChart class="registration-chart"></canvas>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#2ecc71"></span>
+            <span>تسجيلات المستخدمين</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-dot" style="background:#3498db"></span>
+            <span>انضمام الحضانات</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Status -->
+    <div class="col-12 col-lg-5">
+      <div class="card chart-card">
+        <div class="card-header-custom">
+          <div>
+            <h5>حالة الحجوزات</h5>
+            <p class="chart-subtitle">نظرة عامة على التحويلات لهذا الشهر.</p>
+          </div>
+        </div>
+        <div class="donut-wrapper">
+          <canvas #bookingChart class="booking-chart"></canvas>
+        </div>
+        <div class="booking-legend">
+          <div class="booking-legend-item">
+            <div class="booking-legend-left">
+              <span class="legend-dot" style="background:#2ecc71"></span>
+              <span>مكتملة</span>
+            </div>
+            <strong>720</strong>
+          </div>
+          <div class="booking-legend-item">
+            <div class="booking-legend-left">
+              <span class="legend-dot" style="background:#3498db"></span>
+              <span>قيد الانتظار</span>
+            </div>
+            <strong>350</strong>
+          </div>
+          <div class="booking-legend-item">
+            <div class="booking-legend-left">
+              <span class="legend-dot" style="background:#e74c3c"></span>
+              <span>ملغاة</span>
+            </div>
+            <strong>135</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

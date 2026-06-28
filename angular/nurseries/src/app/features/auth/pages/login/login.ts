@@ -49,7 +49,7 @@ export class Login {
         } else if (userRole === 'Parent') {
           this.router.navigate(['/parent/nursery-list']);
         } else if (userRole === 'Admin') {
-          this.router.navigate(['/admin/dashboard']);
+          this.router.navigate(['/dashboard']);
         } else {
           this.router.navigate(['/']);
         }
