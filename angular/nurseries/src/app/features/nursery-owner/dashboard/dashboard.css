@@ -1,0 +1,92 @@
+/* كروت الإحصائيات */
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(46, 204, 113, 0.06) !important;
+  border-color: #2ecc71 !important;
+}
+
+/* الأشكال الحاضنة للإيقونات */
+.icon-shape {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* تخصيص زر التحديث الأبيض */
+.btn-white {
+  background-color: #fff;
+  color: #344054;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.btn-white:hover {
+  background-color: #f0fdf4;
+  color: #27ae60;
+  border-color: #2ecc71 !important;
+}
+
+/* 🟢 تحويل زر "إدارة كل الحجوزات" للأخضر الهادي */
+.btn-light-primary {
+  background-color: #ebfbf2;
+  color: #27ae60;
+}
+
+.btn-light-primary:hover {
+  background-color: #2ecc71;
+  color: #ffffff;
+}
+
+/* ستايلات الجداول المخصصة للبوتستراب لتبدو ناعمة وعصرية */
+.table th {
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #f1f5f9;
+  background-color: #f8fafc;
+}
+
+.table td {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color: #475569;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* 🟢 ألوان وتنسيقات كارت الأطفال الإضافية لضمان تباين مريح */
+.text-success-dark {
+  color: #166534 !important;
+}
+
+.bg-success-light {
+  background-color: #f0fdf4 !important;
+}
+
+/* تخصيص ألوان البادجات الهادئة Subtile Badges */
+.bg-warning-subtle {
+  background-color: #fffbeb !important;
+  color: #b45309 !important;
+}
+
+.bg-success-subtle {
+  background-color: #ebfbf2 !important;
+  color: #27ae60 !important;
+}
+
+.bg-danger-subtle {
+  background-color: #fdf2f2 !important;
+  color: #e74c3c !important;
+}
+
+.fs-7 {
+  font-size: 0.825rem !important;
+}

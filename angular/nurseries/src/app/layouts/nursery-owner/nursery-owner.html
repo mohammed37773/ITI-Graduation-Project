@@ -1,0 +1,37 @@
+<div class="d-flex" dir="rtl" style="min-height: 100vh;">
+  <div class="text-white p-3 sidebar" style="width: 280px;">
+    <div class="d-flex align-items-center mb-4 pb-3 border-bottom border-sidebar">
+      <span class="fs-4 fw-bold">🏡 لوحة الإدارة الذكية</span>
+    </div>
+    
+    <div class="mb-4 small text-muted-custom">أهلاً بك، {{ userName }} 👋</div>
+
+    <ul class="nav nav-pills flex-column mb-auto gap-2">
+      <li class="nav-item">
+        <a routerLink="dashboard" routerLinkActive="active" class="nav-link text-white d-flex align-items-center gap-2 py-2.5 rounded-3">
+          📊 لوحة التحكم الإحصائية
+        </a>
+      </li>
+      <li>
+        <a routerLink="bookings" routerLinkActive="active" class="nav-link text-white d-flex align-items-center gap-2 py-2.5 rounded-3">
+          📑 إدارة طلبات الحجز
+        </a>
+      </li>
+      <li>
+        <a routerLink="my-nursery" routerLinkActive="active" class="nav-link text-white d-flex align-items-center gap-2 py-2.5 rounded-3">
+          🏫 إدارة بيانات حضانتي
+        </a>
+      </li>
+    </ul>
+    
+    <div class="mt-5 pt-3 border-top border-sidebar">
+      <button (click)="logout()" class="btn btn-danger-custom w-100 d-flex align-items-center justify-content-center gap-2 rounded-3">
+        🚪 تسجيل الخروج
+      </button>
+    </div>
+  </div>
+
+  <div class="flex-grow-1 bg-light p-4 overflow-y-auto" style="height: 100vh;">
+    <router-outlet></router-outlet>
+  </div>
+</div>

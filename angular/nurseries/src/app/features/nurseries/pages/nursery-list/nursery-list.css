@@ -1,0 +1,26 @@
+/* تخصيص أزرار الـ Pagination والفلاتر بالأخضر المتناسق */
+.btn-outline-success {
+  color: #059669 !important;
+  border-color: #10b981 !important;
+}
+
+.btn-outline-success:hover:not([disabled]) {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+  color: white !important;
+  border-color: transparent !important;
+}
+
+.btn-outline-success:disabled {
+  border-color: #cbd5e1 !important;
+  color: #94a3b8 !important;
+}
+
+/* تنعيم ظلال الكارت الخاص بالفلاتر */
+.card {
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.02) !important;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12) !important;
+}

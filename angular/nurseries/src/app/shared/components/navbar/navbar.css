@@ -1,0 +1,69 @@
+/* 🟢 تنسيق اللوجو الذكي المطور داخل الـ Navbar */
+.incubator-icon {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, #ebfbf2 0%, #c2f5d3 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #2ecc71;
+  box-shadow: 0 4px 8px rgba(46, 204, 113, 0.12);
+}
+
+.shield-loop {
+  position: absolute;
+  width: 110%;
+  height: 110%;
+  border: 1.5px dashed #27ae60;
+  border-radius: 50%;
+  animation: rotateShield 25s linear infinite;
+}
+
+.baby-glow {
+  font-size: 1.2rem;
+  z-index: 2;
+  animation: pulseBaby 2s ease-in-out infinite;
+}
+
+.brand-name {
+  font-size: 1.25rem;
+  color: #1e3d2f;
+  letter-spacing: 0.3px;
+  margin-bottom: -2px;
+}
+
+.brand-slogan {
+  font-size: 0.7rem;
+  color: #27ae60;
+  font-weight: 600;
+}
+
+/* التناسق الأخضر مع روابط الـ Navbar */
+.nav-link.active {
+  color: #27ae60 !important;
+  font-weight: bold;
+  border-bottom: 2px solid #2ecc71;
+}
+
+.bg-success-light {
+  background-color: #f0fdf4 !important;
+  color: #166534 !important;
+}
+
+.border-success-subtle {
+  border: 1px solid #bbf7d0 !important;
+}
+
+/* حركات الإنيميشن الخاصة باللوجو */
+@keyframes rotateShield {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseBaby {
+  0% { transform: scale(0.95); opacity: 0.9; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.9; }
+}

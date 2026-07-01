@@ -1,0 +1,86 @@
+<header class="topnav">
+  <div class="topnav-left">
+    <button class="menu-toggle" (click)="onToggleSidebar()">
+      <i class="bi bi-list"></i>
+    </button>
+    <div class="search-wrapper">
+      <i class="bi bi-search search-icon"></i>
+      <input type="text" class="search-input" placeholder="البحث في الحضانات والمستخدمين..." />
+    </div>
+  </div>
+
+  <div class="topnav-right">
+    <!-- Notifications -->
+    <div class="nav-action" (click)="toggleNotifications()">
+      <button class="icon-btn" [class.active]="notificationsOpen()">
+        <i class="bi bi-bell"></i>
+        <span class="notif-badge" *ngIf="notifCount() > 0">{{ notifCount() }}</span>
+      </button>
+      <div class="dropdown-panel notif-panel" [class.open]="notificationsOpen()">
+        <div class="dropdown-header">
+          <span>الإشعارات</span>
+          <button class="mark-all-btn">تحديد الكل كمقروء</button>
+        </div>
+        <div class="notif-list">
+          <div class="notif-item unread">
+            <div class="notif-icon bg-primary-soft">
+              <i class="bi bi-building text-primary-custom"></i>
+            </div>
+            <div class="notif-content">
+              <p class="notif-text">حضانة جديدة <strong>البدايات المشرقة</strong> قُدِّمت للمراجعة</p>
+              <span class="notif-time">منذ دقيقتين</span>
+            </div>
+          </div>
+          <div class="notif-item unread">
+            <div class="notif-icon" style="background: var(--warning-bg)">
+              <i class="bi bi-star" style="color: var(--warning)"></i>
+            </div>
+            <div class="notif-content">
+              <p class="notif-text"><strong>جيمس ويلسون</strong> أبلغ عن مراجعة للإشراف</p>
+              <span class="notif-time">منذ 15 دقيقة</span>
+            </div>
+          </div>
+          <div class="notif-item">
+            <div class="notif-icon" style="background: var(--success-bg)">
+              <i class="bi bi-person-check" style="color: var(--success)"></i>
+            </div>
+            <div class="notif-content">
+              <p class="notif-text"><strong>إيلينا رودريغيز</strong> تحقّقت من حساب مزوّد</p>
+              <span class="notif-time">منذ ساعة</span>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="dropdown-footer" (click)="$event.preventDefault()">عرض جميع الإشعارات</a>
+      </div>
+    </div>
+
+    <!-- Profile -->
+    <div class="nav-action" (click)="toggleProfile()">
+      <img
+        src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1"
+        alt="المسؤول"
+        class="avatar avatar-sm topnav-avatar"
+      />
+      <div class="dropdown-panel profile-panel" [class.open]="profileOpen()">
+        <div class="profile-header">
+          <img
+            src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1"
+            alt="المسؤول"
+            class="avatar avatar-lg"
+          />
+          <div>
+            <p class="profile-name">مسؤول النظام</p>
+            <p class="profile-email">admin@nurseryfinder.com</p>
+          </div>
+        </div>
+        <div class="profile-menu">
+          <a href="#" (click)="$event.preventDefault()"><i class="bi bi-person"></i> ملفي الشخصي</a>
+          <a href="#" (click)="$event.preventDefault()"><i class="bi bi-gear"></i> الإعدادات</a>
+          <a href="#" (click)="$event.preventDefault()"><i class="bi bi-shield-check"></i> الأمان</a>
+          <div class="divider"></div>
+          <a href="#" class="logout-link" (click)="$event.preventDefault()"><i class="bi bi-box-arrow-left"></i> تسجيل الخروج</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

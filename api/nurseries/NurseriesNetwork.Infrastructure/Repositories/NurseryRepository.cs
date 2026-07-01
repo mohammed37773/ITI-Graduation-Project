@@ -65,6 +65,7 @@ public class NurseryRepository : GenericRepository<Nursery>, INurseryRepository
     public async Task<IEnumerable<Nursery>> GetAllWithEmbeddingsAsync()
     {
         return await _context.Nurseries
+            .Include(n => n.Location)   // ✅ ده المفروض كان موجود من الأول!
             .Where(n => n.EmbeddingVector != null)
             .ToListAsync();
     }
@@ -81,4 +82,6 @@ public class NurseryRepository : GenericRepository<Nursery>, INurseryRepository
                 Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
         return R * 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
     }
+
+    
 }

@@ -102,8 +102,10 @@ public static class ServiceExtensions
         services.AddScoped<IPaymentGatewayService>(sp =>
             sp.GetRequiredService<PaymobService>());
 
-       // services.AddScoped<PayPalService>();
-       // services.AddScoped<IPaymentFactory, PaymentFactory>();
+        services.AddScoped<NurseryAdminAgentPlugin>();
+
+        // services.AddScoped<PayPalService>();
+        // services.AddScoped<IPaymentFactory, PaymentFactory>();
 
         return services;
     }

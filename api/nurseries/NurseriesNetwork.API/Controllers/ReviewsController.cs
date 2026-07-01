@@ -30,7 +30,7 @@ public class ReviewsController : ControllerBase
             return NotFound("الحضانة مش موجودة");
 
         var reviews = await _uow.Reviews
-            .FindAsync(r => r.NurseryId == nurseryId);
+            .GetAllWithDetailsAsync(User.FindFirstValue(ClaimTypes.NameIdentifier)!, nurseryId);
 
         return Ok(reviews);
     }
@@ -79,11 +79,16 @@ public class ReviewsController : ControllerBase
         await _uow.Reviews.AddAsync(review);
 
         // تحديث متوسط التقييم
+
+        await _uow.SaveChangesAsync();
+
         await UpdateAvgRatingAsync(nursery);
 
         await _uow.SaveChangesAsync();
 
-        return Ok(review);
+        var reviewDto = await _uow.Reviews.GetWithDetailsAsync(parentId);   
+
+        return Ok(reviewDto);
     }
 
     // ===========================

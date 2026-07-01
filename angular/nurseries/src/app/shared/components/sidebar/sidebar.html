@@ -1,0 +1,62 @@
+<aside class="sidebar" [class.collapsed]="collapsed">
+  <!-- <div class="sidebar-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <i class="bi bi-circle-fill"></i>
+      </div>
+      <span class="brand-name" *ngIf="!collapsed">دليل الحضانات</span>
+    </div>
+    <button class="sidebar-toggle" (click)="onToggle()" [title]="collapsed ? 'توسيع' : 'طي'">
+      <i class="bi" [class.bi-chevron-right]="!collapsed" [class.bi-chevron-left]="collapsed"></i>
+    </button>
+  </div> -->
+   <a class="navbar-brand font-weight-bold d-flex align-items-center gap-2 text-decoration-none" routerLink="/">
+      <div class="incubator-icon">
+        <div class="shield-loop"></div>
+        <div class="baby-glow">👶</div>
+      </div>
+      <div class="logo-text d-flex flex-column text-start">
+        <span class="brand-name fw-bold">IncuCare</span>
+        <span class="brand-slogan small opacity-75">شبكة الحواضن الذكية</span>
+      </div>
+    </a>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label" *ngIf="!collapsed">القائمة الرئيسية</div>
+    <a
+      *ngFor="let item of navItems"
+      [routerLink]="item.route"
+      routerLinkActive="active"
+      class="nav-item"
+      [title]="collapsed ? item.label : ''"
+    >
+      <span class="nav-icon"><i class="bi" [class]="item.icon"></i></span>
+      <span class="nav-label" *ngIf="!collapsed">{{ item.label }}</span>
+      <span class="nav-badge" *ngIf="item.badge && !collapsed">{{ item.badge }}</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer" *ngIf="!collapsed">
+    <div class="user-info">
+      <img
+        src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&dpr=1"
+        alt="المسؤول"
+        class="avatar avatar-sm"
+      />
+      <div class="user-meta">
+        <p class="user-name">مسؤول النظام</p>
+        <p class="user-role">مسؤول رئيسي</p>
+      </div>
+    </div>
+    <a href="#" class="logout-btn" (click)="onLogout()">
+      <i class="bi bi-box-arrow-left"></i>
+      <span>تسجيل الخروج</span>
+    </a>
+  </div>
+
+  <div class="sidebar-footer-collapsed" *ngIf="collapsed">
+    <a href="#" class="logout-icon" (click)="onLogout()" title="تسجيل الخروج">
+      <i class="bi bi-box-arrow-left"></i>
+    </a>
+  </div>
+</aside>

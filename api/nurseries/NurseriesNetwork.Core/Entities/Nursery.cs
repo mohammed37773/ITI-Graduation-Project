@@ -18,6 +18,11 @@ namespace NurseriesNetwork.Core.Entities
         public string? EmbeddingVector { get; set; }      // للـ RAG
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        // ✅ جديد — يربط الحضانة بحساب NurseryAdmin الذي يملكها/أنشأها
+        //    مطلوب لكل عمليات "حضانتي" (تحليل الأداء، البحث في الحجوزات، إلخ)
+        public string OwnerId { get; set; } = string.Empty;
+        public ApplicationUser? Owner { get; set; }
+
         // Navigation Properties
         public Location? Location { get; set; }
         public ICollection<Review> Reviews { get; set; } = new List<Review>();

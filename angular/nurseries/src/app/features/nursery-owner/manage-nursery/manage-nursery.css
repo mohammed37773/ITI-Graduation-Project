@@ -1,0 +1,115 @@
+/* اللون الأساسي المخصص للأخضر الزمردي */
+.text-success-custom {
+  color: #10b981 !important; /* Emerald 500 */
+  font-weight: 700;
+}
+
+/* الكارد الأساسي بحواف دائرية أنيقة وجهد خفيف */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* عناوين المدخلات بستايل هادئ ومقروء */
+.form-label {
+  font-size: 0.875rem;
+  color: #334155; /* Slate 700 */
+  letter-spacing: 0.025em;
+}
+
+/* حقول الإدخال المحسنة */
+.form-control {
+  border: 1px solid #cbd5e1; /* Slate 300 */
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
+  background-color: #f8fafc;
+}
+
+/* تأثير اختيار الحقل بالتوهج الأخضر الزمردي الناعم */
+.form-control:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+/* 📥 منطقة رفع الصور بستايل مودرن متناسق */
+.upload-zone {
+  cursor: pointer;
+  position: relative;
+  border: 2px dashed #a7f3d0; /* حواف منقطة بأخضر فاتح */
+  background-color: #f0fdf4; /* خلفية خضراء هادئة جداً */
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* عند تمرير الماوس فوق منطقة الرفع */
+.upload-zone:hover {
+  background-color: #ecfdf5 !important;
+  border-color: #10b981 !important;
+}
+
+/* حقل الـ File المخفي ممتد على كامل المساحة لسهولة الضغط */
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* 🖼️ مربعات معاينة صور الفصول والحضانة */
+.img-preview-box {
+  width: 95px;
+  height: 95px !important;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+}
+
+.img-preview-box:hover {
+  transform: scale(1.05);
+}
+
+/* زر الحفظ الأخضر المخصص */
+.btn-success-custom {
+  background-color: #10b981;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+}
+
+.btn-success-custom:hover:not(:disabled) {
+  background-color: #059669;
+  box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-success-custom:disabled {
+  background-color: #a7f3d0;
+  cursor: not-allowed;
+}
+
+/* النصوص الصغيرة للتنبيهات */
+.extra-small {
+  font-size: 0.775rem;
+  font-weight: 500;
+}
+#map {
+    height: 520px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+}

@@ -1,0 +1,125 @@
+/* الخلفية والتنسيق العام للفوتر */
+.main-footer {
+  background-color: #ffffff;
+  border-top: 3px solid #2ecc71; /* خط علوي عريض بالأخضر الأساسي لربط الهوية */
+  color: #2c3e50;
+  padding: 40px 20px 20px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: auto; /* عشان يفضل دايماً في أسفل الشاشة لو الصفحة فاضية */
+  direction: rtl; /* تأكيد الاتجاه العربي داخل التنسيق */
+}
+
+/* توزيع الأعمدة بنظام Flexbox */
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* تصميم العناوين */
+.footer-column h3 {
+  color: #27ae60; /* الأخضر الغامق للبراند */
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.footer-column h4 {
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+/* خط صغير تحت العناوين الفرعية - تم التعديل ليبدأ من اليمين */
+.footer-column h4::after {
+  content: '';
+  position: absolute;
+  right: 0; /* تم التغيير من left إلى right ليناسب العربي */
+  bottom: -5px;
+  width: 30px;
+  height: 2px;
+  background-color: #2ecc71;
+}
+
+.footer-column p {
+  color: #7f8c8d;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* القوائم والروابط */
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.footer-column ul li a {
+  color: #7f8c8d;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+/* تأثير الـ Hover على لينكات الفوتر - تم التعديل ليتحرك لليمين */
+.footer-column ul li a:hover {
+  color: #2ecc71; /* يقلب أخضر عند الـ Hover */
+  padding-right: 5px; /* تم التغيير من padding-left إلى padding-right للحركة مع العربي */
+}
+
+/* أيقونات السوشيال ميديا */
+.social-icons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 0;
+}
+
+.social-link {
+  text-decoration: none;
+  font-size: 18px;
+  background-color: #f8fafc;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.social-link:hover {
+  background-color: #ebfbf2;
+  border-color: #2ecc71;
+  transform: translateY(-3px);
+}
+
+/* الجزء السفلي (Copyright) */
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.footer-bottom p {
+  color: #94a3b8;
+  font-size: 13px;
+  margin: 0;
+}

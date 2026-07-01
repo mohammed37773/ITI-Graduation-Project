@@ -1,0 +1,76 @@
+<div class="container-fluid py-4" dir="rtl">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold text-dark mb-1">إدارة طلبات الحجز الحية 📑</h2>
+      <p class="text-muted small mb-0">قبول، رفض، وفلترة طلبات حجز الحواضن الذكية الواردة فوراً.</p>
+    </div>
+    <a routerLink="/owner/dashboard" class="btn btn-white border shadow-sm rounded-3 px-3 py-2">
+      ← العودة للرئيسية
+    </a>
+  </div>
+
+  <div class="d-flex gap-2 mb-4 overflow-x-auto pb-2">
+    <button (click)="applyFilter('All')" [class.active]="currentFilter() === 'All'" class="btn btn-filter">الكل ({{bookings().length}})</button>
+    <button (click)="applyFilter('Pending')" [class.active]="currentFilter() === 'Pending'" class="btn btn-filter btn-filter-warning">المعلقة</button>
+    <button (click)="applyFilter('Confirmed')" [class.active]="currentFilter() === 'Confirmed'" class="btn btn-filter btn-filter-success">المقبولة</button>
+    <button (click)="applyFilter('Canceled')" [class.active]="currentFilter() === 'Canceled'" class="btn btn-filter btn-filter-danger">الملغية</button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="d-flex justify-content-center align-items-center my-5 py-5">
+      <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;"></div>
+    </div>
+  } @else {
+    <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
+      <div class="table-responsive">
+        @if (filteredBookings().length === 0) {
+          <div class="text-center py-5">
+            <span class="fs-1 text-muted">📭</span>
+            <p class="text-muted mt-2 mb-0">لا توجد طلبات تطابق الفلتر الحالي.</p>
+          </div>
+        } @else {
+          <table class="table table-hover align-middle mb-0 text-center">
+            <thead class="table-light text-muted small fw-bold">
+              <tr>
+                <th class="py-3">رقم الحجز</th>
+                <th class="py-3">تاريخ البدء</th>
+                <th class="py-3">المبلغ</th>
+                <th class="py-3">حالة الطلب</th>
+                <th class="py-3">الإجراءات لايف</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (booking of filteredBookings(); track booking.id) {
+                <tr>
+                  <td class="fw-bold text-secondary">#{{ booking.id }}</td>
+                  <td>{{ booking.startDate | date:'yyyy-MM-dd' }}</td>
+                  <td class="fw-semibold text-dark">{{ booking.amount || 0 }} ج.م</td>
+                  <td>
+                    <span class="badge px-3 py-2 rounded-pill fs-7" 
+                          [ngClass]="{
+                            'bg-warning-subtle text-warning': booking.status === 'Pending',
+                            'bg-success-subtle text-success': booking.status === 'Confirmed' || booking.status === 'Completed',
+                            'bg-danger-subtle text-danger': booking.status === 'Canceled'
+                          }">
+                      {{ booking.status === 'Pending' ? 'معلق ينتظر الرد' : booking.status === 'Confirmed' ? 'مقبول ومؤكد' : 'ملغي' }}
+                    </span>
+                  </td>
+                  <td>
+                    @if (booking.status === 'Pending') {
+                      <div class="d-flex justify-content-center gap-2">
+                        <button (click)="updateStatus(booking.id, 'Confirmed')" class="btn btn-sm btn-success px-3 rounded-3 fw-bold">✅ قبول</button>
+                        <button (click)="updateStatus(booking.id, 'Canceled')" class="btn btn-sm btn-outline-danger px-3 rounded-3 fw-bold">❌ رفض</button>
+                      </div>
+                    } @else {
+                      <span class="text-muted small">تم اتخاذ إجراء</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+  }
+</div>

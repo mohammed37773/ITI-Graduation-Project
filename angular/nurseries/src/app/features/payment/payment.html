@@ -1,0 +1,80 @@
+<div class="container py-5" dir="rtl">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+      
+      <div class="card border-0 shadow-sm rounded-4 bg-white p-4 text-center">
+        
+        @if (paymentStatus() === 'NotStarted') {
+          <div class="payment-icon-header mb-3">💳</div>
+          <h3 class="fw-bold text-dark mb-1">بوابة الدفع الإلكتروني</h3>
+          <p class="text-muted small mb-4">يرجى اختيار طريقة الدفع المناسبة لتأكيد حجز الحاضنة رقم #{{ bookingId() }}</p>
+
+          <div class="d-flex flex-column gap-3 mb-4">
+            <button (click)="payWithMethod(0)" [disabled]="isProcessing()" class="btn btn-payment-option d-flex align-items-center justify-content-between p-3 rounded-3 border-2">
+              <div class="d-flex align-items-center gap-3">
+                <span class="fs-3">💳</span>
+                <div class="text-start">
+                  <h6 class="fw-bold mb-0 text-dark">البطاقات البنكية</h6>
+                  <small class="text-muted">فيزا / ماستركارد / ميزة</small>
+                </div>
+              </div>
+              <span class="text-success fw-bold">اختر ➔</span>
+            </button>
+
+            <button (click)="payWithMethod(1)" [disabled]="isProcessing()" class="btn btn-payment-option d-flex align-items-center justify-content-between p-3 rounded-3 border-2">
+              <div class="d-flex align-items-center gap-3">
+                <span class="fs-3">📱</span>
+                <div class="text-start">
+                  <h6 class="fw-bold mb-0 text-dark">المحافظ الإلكترونية</h6>
+                  <small class="text-muted">فودافون كاش / أورانج / اتصالات</small>
+                </div>
+              </div>
+              <span class="text-success fw-bold">اختر ➔</span>
+            </button>
+          </div>
+        }
+
+        @if (paymentStatus() === 'Redirecting' || paymentStatus() === 'WaitingForCallback') {
+          <div class="py-4">
+            <div class="spinner-border text-success mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+            <h4 class="fw-bold text-dark">جاري معالجة الدفع بأمان...</h4>
+            <p class="text-muted px-3 small mt-2">
+              تم فتح نافذة Paymob الآمنة. يرجى إتمام عملية الدفع هناك، وسيقوم النظام بتحديث هذه الشاشة تلقائياً فور استلام التأكيد من البنك.
+            </p>
+            <div class="alert alert-warning-light text-warning border-0 small rounded-3 mx-2">
+              ⏳ يرجى عدم إغلاق أو تحديث هذه الصفحة حتى يكتمل الفحص الذكي.
+            </div>
+          </div>
+        }
+
+        @if (paymentStatus() === 'Completed') {
+          <div class="py-4">
+            <div class="success-checkmark mb-3">✅</div>
+            <h3 class="fw-bold text-success">تم الدفع وتأكيد الحجز بنجاح!</h3>
+            <p class="text-muted small mt-2 px-3">
+              🎉 مبروك! استلمنا تأكيد الدفع من Paymob وتم ربط طفلك بالحاضنة الذكية بنجاح. يمكنك الآن متابعة تفاصيل الحجز وتحديثات الحضانة الطبية.
+            </p>
+            <button (click)="goToBookings()" class="btn btn-success fw-bold px-4 py-2 rounded-3 mt-3 w-100 shadow-sm">
+              الانتقال إلى حجوزاتي 📑
+            </button>
+          </div>
+        }
+
+        @if (paymentStatus() === 'Failed' || errorMessage()) {
+          <div class="py-4">
+            <div class="failed-cross mb-3">❌</div>
+            <h4 class="fw-bold text-danger">فشلت عملية الدفع أو تم إلغاؤها</h4>
+            <p class="text-muted small px-3 mt-1">
+              {{ errorMessage() || 'لم نتمكن من التحقق من عملية الدفع من خلال البنك، يرجى المحاولة مرة أخرى أو استخدام طريقة دفع بديلة.' }}
+            </p>
+            <div class="d-flex gap-2 mt-4">
+              <button (click)="paymentStatus.set('NotStarted'); errorMessage.set(null);" class="btn btn-outline-secondary w-50 rounded-3">إعادة المحاولة</button>
+              <button (click)="goToBookings()" class="btn btn-light w-50 rounded-3">العودة للحجوزات</button>
+            </div>
+          </div>
+        }
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="callback-container">
+  <div class="card" [ngClass]="{ 'success-card': isSuccess, 'failed-card': !isSuccess }">
+    <!-- حالة نجاح الدفع -->
+    @if (isSuccess) {
+      <div class="status-content">
+        <div class="icon-wrapper success-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </div>
+        <h2>تمت عملية الدفع بنجاح!</h2>
+        <p class="message">شكراً لك، تم استقبال طلبك بنجاح وجاري تجهيزه.</p>
+      </div>
+    }
+    <!-- حالة فشل الدفع -->
+    @if (!isSuccess) {
+      <div class="status-content">
+        <div class="icon-wrapper failed-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </div>
+        <h2>عذراً، فشلت عملية الدفع</h2>
+        <p class="message">
+          لم يتم سحب أي مبالغ، يرجى المحاولة مرة أخرى أو استخدام وسيلة دفع بديلة.
+        </p>
+      </div>
+    }
+    <!-- تفاصيل الفاتورة المشتركة -->
+    <div class="invoice-details">
+      <div class="detail-row">
+        <span>رقم المعاملة:</span>
+        <strong>{{ transactionId }}</strong>
+      </div>
+      <div class="detail-row">
+        <span>المبلغ المدفوع:</span>
+        <strong class="price">{{ amount | currency: 'EGP ' : 'code' : '1.2-2' }}</strong>
+      </div>
+    </div>
+
+    <button class="action-btn" (click)="goToMyBookings()">العودة إلى الحجوزات</button>
+  </div>
+</div>

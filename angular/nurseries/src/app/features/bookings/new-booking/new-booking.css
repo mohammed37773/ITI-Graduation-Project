@@ -1,0 +1,75 @@
+:host { 
+  display: block; 
+  background-color: #f8fafc; 
+  min-height: 90vh; 
+  font-family: 'Segoe UI', sans-serif; 
+  padding-top: 2rem; 
+}
+
+.card { 
+  border: none; 
+  border-radius: 20px !important; 
+}
+
+/* هيدر الكارت بالأخضر الانسيابي */
+.card-header { 
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%) !important; 
+}
+
+.form-label { 
+  font-size: 0.95rem; 
+  color: #344054; 
+  margin-bottom: 0.5rem; 
+  font-weight: 600; 
+}
+
+.input-group-text { 
+  border-color: #d0d5dd; 
+  background-color: #fff; 
+  border-radius: 0 10px 10px 0 !important; 
+}
+
+.form-control, .form-select { 
+  border-color: #d0d5dd; 
+  padding: 0.7rem 0.8rem; 
+  border-radius: 10px 0 0 10px !important; 
+}
+
+.input-group > :not(:first-child) { 
+  border-radius: 10px 0 0 10px !important; 
+}
+
+/* فوكس المدخلات بالأخضر */
+.form-control:focus, .form-select:focus { 
+  border-color: #2ecc71; 
+  box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.12); 
+}
+
+/* زر التأكيد والدفع */
+.btn-primary { 
+  background-color: #2ecc71; 
+  border-color: #2ecc71; 
+  border-radius: 10px !important; 
+}
+
+.btn-primary:hover:not(:disabled) { 
+  background-color: #27ae60; 
+}
+
+.alert { 
+  border-radius: 12px; 
+}
+
+.extra-small {
+  font-size: 0.8rem;
+}
+
+/* أنيميشن نبض الدفع */
+.animate-pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.72; }
+}

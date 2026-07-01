@@ -1,0 +1,54 @@
+/* 🟢 خلفية السايد بار باللون الأخضر الداكن الفخم */
+.sidebar {
+  background-color: #1e3d2f; /* أخضر غامق جداً مريح ومتناسق */
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* التنسيق العام للينكات */
+.nav-link {
+  color: #e2e8f0 !important;
+  transition: all 0.25s ease-in-out;
+  font-weight: 500;
+}
+
+/* تأثير الـ Hover على الأزرار غير النشطة */
+.nav-link:hover:not(.active) {
+  background-color: rgba(255, 255, 255, 0.08);
+  padding-right: 20px !important; /* حركة إزاحة خفيفة تعطي طابع جمالي للـ RTL */
+  color: #ffffff !important;
+}
+
+/* 🟢 اللينك النشط حالياً بالتدرج الأخضر الحيوي المعتمد بالسستم */
+.nav-link.active {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%) !important;
+  color: #ffffff !important;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.25);
+}
+
+/* فواصل مخصصة تليق بالخلفية الجديدة */
+.border-sidebar {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* نص الترحيب */
+.text-muted-custom {
+  color: #a7f3d0 !important; /* درجة خضراء فاتحة ناعمة جداً مناسبة للقراءة */
+  font-weight: 500;
+}
+
+/* زر تسجيل الخروج الأحمر الهادي */
+.btn-danger-custom {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-danger-custom:hover {
+  background-color: #c0392b;
+}

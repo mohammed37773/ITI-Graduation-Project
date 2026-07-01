@@ -74,41 +74,105 @@ public class PaymobWebhookController : ControllerBase
             var amountCents = obj.GetProperty("amount_cents").GetInt64();
 
             // استخرج الـ Booking ID من الـ metadata
-            var metadata = obj
+            //var metadata = obj
+            //    .GetProperty("order")
+            //    .GetProperty("merchant_order_id")
+            //    .GetString();
+
+            //if (!int.TryParse(metadata, out var bookingId))
+            //{
+            //    _logger.LogWarning(
+            //        "Paymob Webhook: Invalid booking ID in metadata");
+            //    return Ok(); // نرجع OK عشان Paymob ما يعيدش الإرسال
+            //}
+
+            var description = obj
                 .GetProperty("order")
-                .GetProperty("merchant_order_id")
+                .GetProperty("items")[0]
+                .GetProperty("description")
                 .GetString();
 
-            if (!int.TryParse(metadata, out var bookingId))
+            // الوصف بيكون بالشكل: "Booking ID: 9"
+            var bookingIdText = description?
+                .Replace("Booking ID:", "")
+                .Trim();
+
+            if (!int.TryParse(bookingIdText, out var bookingId))
             {
                 _logger.LogWarning(
-                    "Paymob Webhook: Invalid booking ID in metadata");
-                return Ok(); // نرجع OK عشان Paymob ما يعيدش الإرسال
+                    "Paymob Webhook: Invalid booking ID");
+                return Ok();
             }
 
+            _logger.LogInformation(
+                "Paymob Webhook: Booking ID extracted successfully: {BookingId}",
+                bookingId);
+
             // جيب الـ Payment من DB
+            //var payments = await _uow.Payments
+            //    .FindAsync(p => p.BookingId == bookingId &&
+            //               p.Status == PaymentStatus.Pending);
+
+            //var payment = payments.FirstOrDefault();
+            //if (payment == null)
+            //{
+            //    _logger.LogWarning(
+            //        "Paymob Webhook: No pending payment found for BookingId: {BookingId}",
+            //        bookingId);
+            //    return Ok();
+            //}
+
+            //if (success)
+            //{
+            //    // الدفع نجح — حدّث الـ Payment والـ Booking
+            //    payment.Status = PaymentStatus.Completed;
+            //    payment.TransactionId = transactionId;
+            //    payment.PaidAt = DateTime.UtcNow;
+            //    _uow.Payments.Update(payment);
+
+            //    var booking = await _uow.Bookings.GetByIdAsync(bookingId);
+            //    if (booking != null)
+            //    {
+            //        booking.Status = BookingStatus.Confirmed;
+            //        _uow.Bookings.Update(booking);
+            //    }
+
+            //    await _uow.SaveChangesAsync();
+
             var payments = await _uow.Payments
-                .FindAsync(p => p.BookingId == bookingId &&
-                           p.Status == PaymentStatus.Pending);
+    .FindAsync(p => p.BookingId == bookingId);
 
             var payment = payments.FirstOrDefault();
+
             if (payment == null)
             {
                 _logger.LogWarning(
-                    "Paymob Webhook: No pending payment found for BookingId: {BookingId}",
+                    "Paymob Webhook: No payment found for BookingId: {BookingId}",
                     bookingId);
+
+                return Ok();
+            }
+
+            // لو الدفع تم بالفعل، لا نكرر العملية
+            if (payment.Status == PaymentStatus.Completed)
+            {
+                _logger.LogInformation(
+                    "Paymob Webhook: Payment already completed for BookingId: {BookingId}",
+                    bookingId);
+
                 return Ok();
             }
 
             if (success)
             {
-                // الدفع نجح — حدّث الـ Payment والـ Booking
                 payment.Status = PaymentStatus.Completed;
                 payment.TransactionId = transactionId;
                 payment.PaidAt = DateTime.UtcNow;
+
                 _uow.Payments.Update(payment);
 
                 var booking = await _uow.Bookings.GetByIdAsync(bookingId);
+
                 if (booking != null)
                 {
                     booking.Status = BookingStatus.Confirmed;
@@ -118,10 +182,34 @@ public class PaymobWebhookController : ControllerBase
                 await _uow.SaveChangesAsync();
 
                 // بعت إيميل تأكيد
-                var parent = await _uow.Bookings.GetByIdAsync(bookingId);
-                // بنجيب الإيميل من الـ User
-                await _emailService.SendPaymentConfirmationAsync(
-                    payment.ParentId, payment.Id);
+                //var parent = await _uow.Bookings.GetByIdAsync(bookingId);
+                //// بنجيب الإيميل من الـ User
+                //await _emailService.SendPaymentConfirmationAsync(
+                //    payment.ParentId, payment.Id);
+                // إرسال إيميل تأكيد الدفع
+                _logger.LogInformation(
+    "Searching for user with ParentId: {ParentId}",
+    payment.ParentId);
+
+                var user = (await _uow.Users
+                    .FindAsync(u => u.Id == payment.ParentId))
+                    .FirstOrDefault();
+
+                if (user != null && !string.IsNullOrWhiteSpace(user.Email))
+                {
+                    await _emailService.SendPaymentConfirmationAsync(
+                        user.Email,
+                        payment.Id);
+
+                    _logger.LogInformation(
+                        "Payment confirmation email sent to {Email}",
+                        user.Email);
+                }
+                else
+                {
+                    _logger.LogWarning(
+                        "Could not send payment confirmation email. User not found or email is empty.");
+                }
 
                 _logger.LogInformation(
                     "Paymob Webhook: Payment completed for BookingId: {BookingId}",

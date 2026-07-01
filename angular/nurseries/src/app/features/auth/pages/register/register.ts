@@ -1,47 +1,84 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../../core/services/auth';
-import { Injectable, inject } from '@angular/core'; 
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { AuthService } from '../../../../core/services/auth';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './register.html',
-  styleUrl: './register.css',
+  styleUrl: './register.css'
 })
 export class Register {
   private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+  private http = inject(HttpClient); 
   private router = inject(Router);
+  private authService = inject(AuthService);
+  private apiUrl = environment.backUrl + '/api/Auth/register'; 
 
-  registerForm: FormGroup = this.fb.group({
-    fullName: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    phone: ['', [Validators.required, Validators.pattern('^[0-9+ ]+$')]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
-    confirmPassword: ['', [Validators.required]],
-    agreeTerms: [false, [Validators.requiredTrue]]
-  }, { validators: this.passwordMatchValidator });
+  // Signals لإدارة حالة الشاشة لايف بالبرانش الجديد
+  isLoading = signal<boolean>(false);
+  isSuccess = signal<boolean>(false); 
+  errorMessage = signal<string | null>(null);
+  registeredEmail = signal<string>(''); 
 
-  // Custom Validator للتأكد من تطابق كلمتي المرور
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('password')?.value === g.get('confirmPassword')?.value
-      ? null : { mismatch: true };
+  registerForm!: FormGroup;
+
+  constructor() {
+    this.initForm();
   }
 
-  onSubmit() {
-    if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe({
-        next: (res) => {
-          console.log('Registration Successful', res);
-          this.router.navigate(['/login']);
-        },
-        error: (err) => console.error('Registration Failed', err)
-      });
+  private initForm() {
+    // الـ Regex يشترط: حرف كبير، حرف صغير، رقم، ورمز خاص مع طول 6 خانات على الأقل
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z]\d@$!%*?&]{6,}$/;
+
+    this.registerForm = this.fb.group({
+      fullName: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [
+        Validators.required, 
+        Validators.minLength(6),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/)
+      ]],
+      role: ['Parent', [Validators.required]] 
+    });
+  }
+
+  onRegister() {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
     }
+
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
+
+    const payload = this.registerForm.value;
+    this.registeredEmail.set(payload.email || '');
+
+    this.authService.register(payload).subscribe({
+      next: (res: string) => {
+        console.log('رد السيرفر الناجح:', res); 
+        this.isLoading.set(false);
+        this.isSuccess.set(true); 
+        this.registerForm.reset({ role: 'Parent' }); 
+      },
+      error: (err: any) => {
+        this.isLoading.set(false);
+        console.error('تفاصيل الخطأ الفعلي:', err);
+        
+        if (err.error && err.error.message) {
+          this.errorMessage.set(err.error.message);
+        } else if (typeof err.error === 'string') {
+          this.errorMessage.set(err.error);
+        } else {
+          this.errorMessage.set('حدث خطأ أثناء التسجيل، يرجى إعادة المحاولة.');
+        }
+      }
+    });
   }
 }

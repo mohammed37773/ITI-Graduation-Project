@@ -1,0 +1,15 @@
+<div class="admin-layout" [class.sidebar-collapsed]="sidebarCollapsed()">
+  <app-sidebar [collapsed]="sidebarCollapsed()" (toggleSidebar)="toggleSidebar()" />
+  <div class="main-wrapper">
+    <app-topnav (toggleSidebar)="toggleSidebar()" />
+    <main class="main-content">
+      <div class="content-area fade-in">
+       <router-outlet></router-outlet> 
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" [class.active]="!sidebarCollapsed()" (click)="toggleSidebar()"></div>

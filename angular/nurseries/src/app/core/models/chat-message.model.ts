@@ -1,9 +1,7 @@
 export interface ChatMessage {
     id?: number;
-
-  content: string;
-
-  sender: 'user' | 'bot';
-
-  timestamp: Date;
+  conversationId: number;
+  sender: 'user' | 'ai';
+  messageText: string;
+  createdAt?: Date;
 }

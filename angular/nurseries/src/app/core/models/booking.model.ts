@@ -1,15 +1,10 @@
 export interface Booking {
-    id: number;
-
-    childName: string;
-
-    childAge: number;
-
-    bookingDate: Date;
-
-    notes?: string;
-
-    userId: string;
-
-    nurseryId: number;
+  id: number;
+  nurseryId: number;
+  nurseryName: string;
+  childId: number;
+  childName: string;
+  startDate: string;
+  status: number | 'Pending' | 'Confirmed' | 'Cancelled' | 'Completed';
+  totalPrice: number;
 }

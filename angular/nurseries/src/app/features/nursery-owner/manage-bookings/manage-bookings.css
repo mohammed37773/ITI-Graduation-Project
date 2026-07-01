@@ -1,0 +1,31 @@
+.btn-white {
+  background-color: #fff;
+  color: #344054;
+  font-weight: 600;
+}
+.btn-white:hover {
+  background-color: #f0fdf4;
+  color: #27ae60;
+}
+.btn-filter {
+  background-color: #f8fafc;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+.btn-filter:hover, .btn-filter.active {
+  background-color: #1e3d2f !important;
+  color: #ffffff !important;
+  border-color: #1e3d2f !important;
+}
+.table td {
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
+}
+.bg-warning-subtle { background-color: #fffbeb !important; color: #b45309 !important; }
+.bg-success-subtle { background-color: #ebfbf2 !important; color: #27ae60 !important; }
+.bg-danger-subtle { background-color: #fdf2f2 !important; color: #e74c3c !important; }

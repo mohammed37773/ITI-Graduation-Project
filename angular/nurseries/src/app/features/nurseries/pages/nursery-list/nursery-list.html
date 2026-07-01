@@ -1,1 +1,75 @@
-<p>nursery-list works!</p>
+<div class="container py-5" dir="rtl">
+  
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-dark mb-2">اكتشف الحاضنة الطبية المثالية لمولودك 👶✨</h1>
+    <p class="text-muted fs-5">ابحث وقارن بين أفضل مراكز الحواضن المعتمدة وتجهيزات المبتسرين القريبة منك بكل سهولة.</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-3">
+      <div class="card border-0 shadow-sm rounded-4 p-4 bg-white sticky-top" style="top: 20px;">
+        <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">🔍 تصفية النتائج</h5>
+        
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-secondary">المدينة / المنطقة</label>
+          <input type="text" [ngModel]="searchCity()" (ngModelChange)="searchCity.set($event); applyFilters()" class="form-control rounded-3" placeholder="مثال: القاهرة، التجمع...">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-secondary">الحد الأقصى للسعر اليومي</label>
+          <input type="number" [ngModel]="maxPrice()" (ngModelChange)="maxPrice.set($event); applyFilters()" class="form-control rounded-3" placeholder="ج.م">
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label small fw-semibold text-secondary">الحد الأدنى للتقييم</label>
+          <select [ngModel]="minRating()" (ngModelChange)="minRating.set($event); applyFilters()" class="form-select rounded-3">
+            <option [ngValue]="null">كل التقييمات الطبية</option>
+            <option [ngValue]="4">⭐ 4 نجوم وأعلى</option>
+            <option [ngValue]="3">⭐ 3 نجوم وأعلى</option>
+          </select>
+        </div>
+
+        <button (click)="searchCity.set(''); maxPrice.set(null); minRating.set(null); applyFilters();" class="btn btn-outline-success btn-sm w-100 rounded-3 fw-bold">
+          🔄 إعادة تعيين الفلاتر
+        </button>
+      </div>
+    </div>
+
+    <div class="col-lg-9">
+      @if (isLoading()) {
+        <div class="d-flex justify-content-center align-items-center my-5 py-5">
+          <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem; color: #10b981 !important;"></div>
+        </div>
+      } @else {
+        
+        <div class="row g-4">
+          @if (nurseries().length === 0) {
+            <div class="col-12 text-center py-5">
+              <span class="fs-1">📭</span>
+              <p class="text-muted fw-medium mt-2">عذراً، لم نجد أي حواضن طبية تطابق خيارات البحث الحالية.</p>
+            </div>
+          } @else {
+            @for (nursery of nurseries(); track nursery.id) {
+              <div class="col-md-6 col-xl-4">
+                <app-nursery-card [nursery]="nursery" [routerLink]="['/nurseries', nursery.id]" class="h-100 d-block cursor-pointer"></app-nursery-card>
+              </div>
+            }
+          }
+        </div>
+
+        @if (nurseries().length > 0 || currentPage() > 1) {
+          <div class="d-flex justify-content-center align-items-center gap-3 mt-5">
+            <button [disabled]="currentPage() === 1" (click)="changePage(currentPage() - 1)" class="btn btn-outline-success rounded-3 px-3 fw-bold">
+              السابق ➡️
+            </button>
+            <span class="fw-bold text-secondary">الصفحة {{ currentPage() }}</span>
+            <button [disabled]="nurseries().length < pageSize" (click)="changePage(currentPage() + 1)" class="btn btn-outline-success rounded-3 px-3 fw-bold">
+              ⬅️ التالي
+            </button>
+          </div>
+        }
+
+      }
+    </div>
+  </div>
+</div>

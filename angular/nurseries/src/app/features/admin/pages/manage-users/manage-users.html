@@ -1,1 +1,159 @@
-<p>manage-users works!</p>
+<div class="users-page">
+  <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
+    <div class="page-header">
+      <h1>إدارة المستخدمين</h1>
+      <p>مراجعة جميع مستخدمي المنصة وإدارة صلاحياتهم والإشراف عليهم.</p>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="summary-stat card" style="border-right: 3px solid var(--primary)">
+        <div class="summary-stat-icon" style="background:rgba(26,122,74,0.1)"><i class="bi bi-people" style="color:var(--primary)"></i></div>
+        <div><p class="summary-stat-label">إجمالي المستخدمين</p><h4 class="summary-stat-value">{{ stats.total }}</h4></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="summary-stat card" style="border-right: 3px solid var(--accent)">
+        <div class="summary-stat-icon" style="background:rgba(52,152,219,0.1)"><i class="bi bi-person-heart" style="color:var(--accent)"></i></div>
+        <div><p class="summary-stat-label">أولياء الأمور</p><h4 class="summary-stat-value">{{ stats.parents }}</h4></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="summary-stat card" style="border-right: 3px solid var(--warning)">
+        <div class="summary-stat-icon" style="background:rgba(243,156,18,0.1)"><i class="bi bi-building" style="color:var(--warning)"></i></div>
+        <div><p class="summary-stat-label">مشرفو الحضانات</p><h4 class="summary-stat-value">{{ stats.nurseryAdmins }}</h4></div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="summary-stat card" style="border-right: 3px solid var(--error)">
+        <div class="summary-stat-icon" style="background:var(--error-bg)"><i class="bi bi-shield-x" style="color:var(--error)"></i></div>
+        <div><p class="summary-stat-label">محظورون</p><h4 class="summary-stat-value">{{ stats.banned }}</h4></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12" [class.col-lg-8]="selectedUser()">
+      <div class="card filter-card mb-3">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input type="text" placeholder="البحث بالاسم أو البريد الإلكتروني..." [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)" />
+          </div>
+          <div class="role-filters">
+            <button class="role-btn" [class.active]="selectedRole() === 'all'" (click)="setRole('all')">الكل</button>
+            <button class="role-btn" [class.active]="selectedRole() === 'parent'" (click)="setRole('parent')">ولي أمر</button>
+            <button class="role-btn" [class.active]="selectedRole() === 'nurseryAdmin'" (click)="setRole('nurseryAdmin')">مشرف حضانة</button>
+            <button class="role-btn" [class.active]="selectedRole() === 'admin'" (click)="setRole('admin')">مسؤول</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card users-table-card">
+        @if (loading()) {
+          <div class="loading-state"><div class="spinner"></div><p>جارٍ التحميل...</p></div>
+        } @else if (error()) {
+          <div class="error-state"><i class="bi bi-exclamation-triangle"></i><p>{{ error() }}</p><button class="btn-primary-custom" (click)="loadUsers()">إعادة المحاولة</button></div>
+        } @else {
+          <div class="table-responsive">
+            <table class="users-table">
+              <thead>
+                <tr>
+                  <th>المستخدم</th>
+                  <th>الدور</th>
+                  <th>البريد مؤكد</th>
+                  <th>الحالة</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (user of filteredUsers; track user.id) {
+                  <tr [class.selected]="selectedUser()?.id === user.id" (click)="selectUser(user)">
+                    <td>
+                      <div class="user-cell">
+                        <div class="avatar-placeholder avatar-md">{{ user.fullName.charAt(0) }}</div>
+                        <div>
+                          <p class="user-name">{{ user.fullName }}</p>
+                          <p class="user-email">{{ user.email }}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td><span [class]="getRoleBadgeClass(user.roles)">{{ getRoleLabel(user.roles) }}</span></td>
+                    <td>
+                      @if (user.emailConfirmed) {
+                        <span class="badge-success"><i class="bi bi-check-circle-fill" style="font-size:11px"></i> مؤكد</span>
+                      } @else {
+                        <span class="badge-warning"><i class="bi bi-exclamation-circle-fill" style="font-size:11px"></i> غير مؤكد</span>
+                      }
+                    </td>
+                    <td>
+                      <div class="status-cell">
+                        <span class="status-dot" [class.active]="!user.lockoutEnabled" [class.deactivated]="user.lockoutEnabled"></span>
+                        <span [style.color]="!user.lockoutEnabled ? 'var(--success)' : 'var(--error)'" style="font-size:13px;font-weight:600">
+                          {{ !user.lockoutEnabled ? 'نشط' : 'محظور' }}
+                        </span>
+                      </div>
+                    </td>
+                    <td (click)="$event.stopPropagation()">
+                      <div class="action-btns">
+                        @if (!user.lockoutEnabled) {
+                          <button class="action-btn delete" title="حظر" (click)="banUser(user.id)"><i class="bi bi-slash-circle"></i></button>
+                        } @else {
+                          <button class="action-btn edit" title="رفع الحظر" (click)="unbanUser(user.id)"><i class="bi bi-check-circle"></i></button>
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr><td colspan="5" class="empty-state-row">لا توجد مستخدمون مطابقون</td></tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <div class="table-footer">
+            <p class="text-muted-custom" style="font-size:13px;margin:0">عرض {{ filteredUsers.length }} من {{ users.length }} مستخدمين</p>
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (selectedUser()) {
+      <div class="col-12 col-lg-4">
+        <div class="card user-detail-card">
+          <div class="user-detail-header">
+            <div class="avatar-placeholder avatar-xl">{{ selectedUser()!.fullName.charAt(0)  }}</div>
+            <h5>{{ selectedUser()!.fullName }}</h5>
+            <p>{{ selectedUser()!.email }}</p>
+            <span [class]="getRoleBadgeClass(selectedUser()!.roles)">{{ getRoleLabel(selectedUser()!.roles) }}</span>
+          </div>
+          <div class="user-detail-info">
+            <div class="info-row"><i class="bi bi-envelope"></i><span>{{ selectedUser()!.email }}</span></div>
+            <div class="info-row">
+              <i class="bi bi-patch-check"></i>
+              <span>{{ selectedUser()!.emailConfirmed ? 'البريد مؤكد' : 'البريد غير مؤكد' }}</span>
+            </div>
+            <div class="info-row">
+              <i class="bi bi-shield"></i>
+              <span>{{ !selectedUser()!.lockoutEnabled ? 'الحساب نشط' : 'الحساب محظور' }}</span>
+            </div>
+          </div>
+          <div class="user-actions">
+            <p class="actions-label">إجراءات الحساب</p>
+            @if (!selectedUser()!.lockoutEnabled) {
+          <button class="action-btn ban-btn" (click)="banUser(selectedUser()!.id)">
+            <i class="bi bi-slash-circle-fill"></i>
+            <span>حظر الحساب</span>
+          </button>
+           } @else {
+          <button class="action-btn unban-btn" (click)="unbanUser(selectedUser()!.id)">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>رفع الحظر</span>
+          </button>
+        }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -22,14 +22,30 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
 
+        // ==========================
         // Nursery
+        // ==========================
         builder.Entity<Nursery>(entity =>
         {
-            entity.Property(n => n.Name).IsRequired().HasMaxLength(200);
-            entity.Property(n => n.DailyPrice).HasColumnType("decimal(18,2)");
+            entity.Property(n => n.Name)
+                  .IsRequired()
+                  .HasMaxLength(200);
+
+            entity.Property(n => n.DailyPrice)
+                  .HasColumnType("decimal(18,2)");
+
+            // Nursery Owner (NurseryAdmin)
+            entity.HasOne(n => n.Owner)
+                    .WithOne(u => u.OwnedNursery)
+                   .HasForeignKey<Nursery>(n => n.OwnerId)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+           
         });
 
-        // Location (1-to-1 مع Nursery)
+        // ==========================
+        // Location (1 : 1)
+        // ==========================
         builder.Entity<Location>(entity =>
         {
             entity.HasOne(l => l.Nursery)
@@ -38,7 +54,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
+        // ==========================
         // Review
+        // ==========================
         builder.Entity<Review>(entity =>
         {
             entity.HasOne(r => r.Nursery)
@@ -52,10 +70,13 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
+        // ==========================
         // Booking
+        // ==========================
         builder.Entity<Booking>(entity =>
         {
-            entity.Property(b => b.TotalPrice).HasColumnType("decimal(18,2)");
+            entity.Property(b => b.TotalPrice)
+                  .HasColumnType("decimal(18,2)");
 
             entity.HasOne(b => b.Nursery)
                   .WithMany(n => n.Bookings)
@@ -73,7 +94,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
                   .OnDelete(DeleteBehavior.Restrict);
         });
 
-        // NurseryImage
+        // ==========================
+        // Nursery Images
+        // ==========================
         builder.Entity<NurseryImage>(entity =>
         {
             entity.HasOne(i => i.Nursery)
@@ -82,10 +105,13 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
                   .OnDelete(DeleteBehavior.Cascade);
         });
 
+        // ==========================
         // Payment
+        // ==========================
         builder.Entity<Payment>(entity =>
         {
-            entity.Property(p => p.Amount).HasColumnType("decimal(18,2)");
+            entity.Property(p => p.Amount)
+                  .HasColumnType("decimal(18,2)");
 
             entity.HasOne(p => p.Booking)
                   .WithOne(b => b.Payment)
@@ -98,7 +124,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
                   .OnDelete(DeleteBehavior.Restrict);
         });
 
+        // ==========================
         // Child
+        // ==========================
         builder.Entity<Child>(entity =>
         {
             entity.HasOne(c => c.Parent)
@@ -107,4 +135,5 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
                   .OnDelete(DeleteBehavior.Cascade);
         });
     }
+
 }

@@ -9,5 +9,6 @@ namespace NurseriesNetwork.Core.DTOs.Booking
      [Required] int NurseryId,
      [Required] int ChildId,
      [Required] DateOnly StartDate
+    
  );
 }

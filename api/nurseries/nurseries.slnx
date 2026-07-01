@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="nurseries/nurseries.csproj" />
   <Project Path="NurseriesNetwork.AI/NurseriesNetwork.AI.csproj" Id="fc61205a-e411-4dad-bb4e-743d230b9e2b" />
   <Project Path="NurseriesNetwork.API/NurseriesNetwork.API.csproj" Id="20abae09-3c5a-40d9-bdf9-14dd099e9d56" />
   <Project Path="NurseriesNetwork.Core/NurseriesNetwork.Core.csproj" Id="5975be0d-72cb-4c80-b3fa-6351adb1f4b5" />
