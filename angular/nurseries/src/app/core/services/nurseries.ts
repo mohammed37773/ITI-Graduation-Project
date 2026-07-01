@@ -21,4 +21,5 @@ export class NurseriesService {
   delete(id: number): Observable<any> {
     return this.api.delete(`/api/admin/nurseries/${id}`);
   }
+
 }

@@ -4,8 +4,9 @@ using System.Text;
 
 namespace NurseriesNetwork.Core.DTOs.Auth
 {
-    public record AuthResponseDto(
+    public record AuthResponseDto(  
     string Token,
+    string Id,
     string FullName,
     string Email,
     string Role

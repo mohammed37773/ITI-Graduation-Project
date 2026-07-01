@@ -57,14 +57,14 @@ public class NurseriesController : ControllerBase
         ));
     }
 
-        // ===========================
-        // GET: api/nurseries/nearby
-        // ===========================
-        [HttpGet("nearby")]
+    // ===========================
+    // GET: api/nurseries/nearby
+    // ===========================
+    [HttpGet("nearby")]
     public async Task<IActionResult> GetNearby(
-        [FromQuery] double lat,
-        [FromQuery] double lng,
-        [FromQuery] double radius = 10)
+    [FromQuery] double lat,
+    [FromQuery] double lng,
+    [FromQuery] double radius = 10)
     {
         var nurseries = await _uow.Nurseries
             .GetNearbyAsync(lat, lng, radius);
@@ -90,6 +90,16 @@ public class NurseriesController : ControllerBase
         return Ok(MapToResponse(nursery, null));
     }
 
+    [HttpGet("owner/{ownerId}")]
+    public async Task<IActionResult> GetByOwnerId(string ownerId)
+    {
+        var nursery = await _uow.Nurseries.GetByOwnerIdWithDetailsAsync(ownerId);
+        if (nursery == null)
+            return NotFound("الحضانة مش موجودة");
+
+        return Ok(MapToResponse(nursery, null));
+    }
+
     // ===========================
     // POST: api/nurseries
     // ===========================
@@ -102,7 +112,7 @@ public class NurseriesController : ControllerBase
     [Authorize(Roles = "NurseryAdmin")]
     public async Task<IActionResult> Create(CreateNurseryDto dto)
     {
-        
+
 
         var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 

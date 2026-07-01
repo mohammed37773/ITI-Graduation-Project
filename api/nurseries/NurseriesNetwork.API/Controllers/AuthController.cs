@@ -92,6 +92,7 @@ public class AuthController : ControllerBase
 
         return Ok(new AuthResponseDto(
             token,
+            user.Id,
             user.FullName,
             user.Email!,
             roles.FirstOrDefault() ?? "Parent"

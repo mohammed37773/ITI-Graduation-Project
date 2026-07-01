@@ -62,6 +62,15 @@ public class NurseryRepository : GenericRepository<Nursery>, INurseryRepository
             .FirstOrDefaultAsync(n => n.Id == id);
     }
 
+        public async Task<Nursery?> GetByOwnerIdWithDetailsAsync(string ownerId)
+    {
+        return await _context.Nurseries
+            .Include(n => n.Location)
+            .Include(n => n.Images)
+            .Include(n => n.Reviews)
+            .FirstOrDefaultAsync(n => n.OwnerId == ownerId);
+    }
+
     public async Task<IEnumerable<Nursery>> GetAllWithEmbeddingsAsync()
     {
         return await _context.Nurseries

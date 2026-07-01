@@ -10,5 +10,7 @@ namespace NurseriesNetwork.Core.Interfaces.Repositories
         Task<IEnumerable<Nursery>> FilterAsync(decimal? maxPrice, double? minRating, string? city);
         Task<Nursery?> GetWithDetailsAsync(int id);
         Task<IEnumerable<Nursery>> GetAllWithEmbeddingsAsync();
+        Task<Nursery?> GetByOwnerIdWithDetailsAsync(string ownerId);
+        
     }
 }
