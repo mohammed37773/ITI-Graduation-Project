@@ -31,5 +31,27 @@ namespace NurseriesNetwork.Infrastructure.Repositories
                 }).ToListAsync();
         }
 
+        public async Task<List<ReadBookingDto>?> GetNurseryBookingsWithDetailsAsync(string ownerId)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(ownerId);
+
+            return await _context.Bookings
+                .AsNoTracking()
+                .Where(b => b.Nursery.OwnerId == ownerId)
+                .OrderByDescending(b => b.CreatedAt)
+                .Select(b => new ReadBookingDto
+                {
+                    Id = b.Id,
+                    NurseryId = b.NurseryId,
+                    NurseryName = b.Nursery.Name,
+                    ChildId = b.ChildId,
+                    ChildName = b.Child.FullName,
+                    StartDate = b.StartDate,
+                    TotalPrice = b.TotalPrice,
+                    Status = b.Status.ToString(),
+                    CreatedAt = b.CreatedAt
+                })
+                .ToListAsync();
+        }
     }
 }

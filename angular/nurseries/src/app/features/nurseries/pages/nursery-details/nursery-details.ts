@@ -18,14 +18,14 @@ export class NurseryDetails implements OnInit {
   private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
   private fb = inject(FormBuilder);
-  public backUrl = environment.backUrl;
-  private apiUrl = this.backUrl + '/api/Nurseries';
+  private ns = inject(Nursery)
 
   nurseryId!: number;
   nursery = signal<NurseryListItem | null>(null);
   reviews = signal<Review[]>([]);
   isLoading = signal<boolean>(true);
   isSubmittingReview = signal<boolean>(false);
+  backUrl = environment.backUrl;
 
   reviewForm!: FormGroup;
 
@@ -48,7 +48,7 @@ export class NurseryDetails implements OnInit {
   // 1. جلب بيانات الحضانة الأساسية
   loadNurseryDetails() {
     this.isLoading.set(true);
-    this.http.get<NurseryListItem>(`${this.apiUrl}/${this.nurseryId}`).subscribe({
+    this.ns.getNurseryById(this.nurseryId).subscribe({
       next: (data) => {
         this.nursery.set(data);
         this.isLoading.set(false);
@@ -62,7 +62,7 @@ export class NurseryDetails implements OnInit {
 
   // 2. جلب التقييمات الخاصة بالحضانة
   loadNurseryReviews() {
-    this.http.get<Review[]>(`${this.apiUrl}/${this.nurseryId}/reviews`).subscribe({
+    this.http.get<Review[]>(this.backUrl + `/${this.nurseryId}/reviews`).subscribe({
       next: (data) => {
         this.reviews.set(data || []);
       },
@@ -103,7 +103,7 @@ export class NurseryDetails implements OnInit {
 
     // جلب الـ ID بتاع الحضانة الحالية
     const nurseryId = this.nursery()?.id;
-    const url = `http://localhost:5104/api/Nurseries/${nurseryId}/reviews`;
+    const url = this.backUrl + `api/Nurseries/${nurseryId}/reviews`;
 
     console.log('🚀 Sending Clean Review Payload:', reviewPayload);
 

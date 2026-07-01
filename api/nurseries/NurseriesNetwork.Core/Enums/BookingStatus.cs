@@ -10,6 +10,7 @@ namespace NurseriesNetwork.Core.Enums
     {
         Pending,
         Confirmed,
-        Cancelled 
+        Cancelled,
+        Completed
     }
 }

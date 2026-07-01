@@ -13,7 +13,7 @@ export interface LoginDto {
 
 
 export interface AuthResponseDto {
-  id: string
+  id: string;
   token: string;
   fullName: string;
   email: string;

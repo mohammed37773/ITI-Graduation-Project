@@ -15,7 +15,7 @@ import { NurseryListItem } from '../../core/models/parent-nursery.model';
 export class NurseryOwner {
   private authService = inject(AuthService);
   private router = inject(Router);
-  public backUrl = environment.backUrl;
+  public backUrl = environment.backUrl + "/api/Nurseries/owner/";
   private http = inject(HttpClient);
 
 
@@ -36,7 +36,7 @@ export class NurseryOwner {
     // 1. جلب بيانات الحضانة الأساسية
     loadNurseryDetails() {
       this.isLoading.set(true);
-      this.http.get<NurseryListItem>(`${this.backUrl}/${this.user?.id}`).subscribe({
+      this.http.get<NurseryListItem>(this.backUrl + `${this.user?.id}`).subscribe({
         next: (data) => {
           this.nursery.set(data);
           this.isLoading.set(false);

@@ -9,5 +9,7 @@ namespace NurseriesNetwork.Core.Interfaces.Repositories
     public interface IBookingRepository : IGenericRepository<Booking>
     {
         Task<List<ReadBookingDto>?> GetWithDetailsAsync(string parentId);
+        Task<List<ReadBookingDto>?> GetNurseryBookingsWithDetailsAsync(string ownerId);
+
     }
 }

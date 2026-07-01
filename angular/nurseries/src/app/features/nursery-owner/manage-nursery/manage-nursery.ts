@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import * as L from 'leaflet';
 import { environment } from '../../../../environments/environment';
+import { AuthResponseDto } from '../../../core/models/authModel';
+import { User } from '../../../core/models/user.model';
+import { Nursery } from '../../../core/services/nursery';
 
 @Component({
   selector: 'app-manage-nursery',
@@ -19,8 +22,10 @@ import { environment } from '../../../../environments/environment';
 export class ManageNursery implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
+  private ns = inject(Nursery)
 
-  private apiUrl = 'http://localhost:5104/api/nurseries';
+  private apiUrl = environment.backUrl + '/api/nurseries';
+  private user: AuthResponseDto = JSON.parse(localStorage.getItem("user_session")!);
 
   nurseryForm!: FormGroup;
   currentNurseryId: number | null = null;
@@ -87,8 +92,8 @@ export class ManageNursery implements OnInit, AfterViewInit {
   }).addTo(this.map);
 
   const defaultIcon = L.icon({
-    iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
+    iconUrl: '/marker-icon.png',
+    shadowUrl: '/marker-shadow.png',
     iconSize: [25, 41],
     iconAnchor: [12, 41]
   });
@@ -144,7 +149,7 @@ export class ManageNursery implements OnInit, AfterViewInit {
 
   loadNurseryData(): void {
   this.isLoading.set(true);
-  this.http.get<any>(`${this.apiUrl}/my`).subscribe({
+  this.ns.getNurseryByOwnerId(this.user.id).subscribe({
     next: (nursery) => {
       if (nursery) {
         this.isEditMode.set(true);

@@ -58,7 +58,7 @@ export class Home implements OnInit {
   // جلب التقييمات ديناميكياً
   loadHomeReviews() {
     // بيتم جلب التقييمات العامة أو محاكاة الرد من الباك إند بناءً على الداتا المتاحة
-    this.http.get<any>('http://localhost:5104/api/nurseries').subscribe({
+    this.http.get<any>(this.backUrl + '/api/nurseries').subscribe({
       next: (res) => {
         // بنستخرج الريفيوهات المتاحة من الداتا لو موجودة
         let extractedReviews: any[] = [];

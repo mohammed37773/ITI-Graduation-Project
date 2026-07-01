@@ -22,7 +22,7 @@ public class BookingsController : ControllerBase
     public BookingsController(
         IUnitOfWork uow,
         IEmailService emailService,
-         ILogger<BookingsController> logger)
+        ILogger<BookingsController> logger)
     {
         _uow = uow;
         _emailService = emailService;
@@ -125,6 +125,15 @@ public class BookingsController : ControllerBase
 
         var bookings = await _uow.Bookings.GetWithDetailsAsync(parentId);
 
+        return Ok(bookings);
+    }
+
+    [HttpGet("owner-bookings")]
+    [Authorize(Roles = "NurseryAdmin")]
+    public async Task<IActionResult> GetNurseryBookings()
+    {
+        var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var bookings = await _uow.Bookings.GetNurseryBookingsWithDetailsAsync(ownerId);
         return Ok(bookings);
     }
 

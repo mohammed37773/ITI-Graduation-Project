@@ -85,6 +85,7 @@
                 <th class="py-3">تاريخ البدء</th>
                 <th class="py-3">المبلغ</th>
                 <th class="py-3">حالة الطلب</th>
+                <th class="py-3">الاجراء</th>
               </tr>
             </thead>
             <tbody>
@@ -101,11 +102,16 @@
                             'bg-danger-subtle text-danger': booking.status === 'Cancelled'
                           }">
                       {{ 
-                        booking.status === 'Pending' ? 'معلق ينتظر الرد' : 
+                        booking.status === 'Pending' ? 'معلق ينتظر الدفع' : 
                         booking.status === 'Confirmed' ? 'مقبول ومؤكد' : 
                         booking.status === 'Completed' ? 'مكتمل' : 'ملغي'
                       }}
                     </span>
+                  </td>
+                  <td>
+                    @if (booking.status === 'Pending') {
+                    <button (click)="cancelBooking(booking.id)">الغاء الحجز</button>
+                    }
                   </td>
                 </tr>
               }

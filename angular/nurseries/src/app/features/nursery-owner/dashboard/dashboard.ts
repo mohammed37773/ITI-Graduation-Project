@@ -4,6 +4,7 @@ import { Booking } from '../../../core/models/booking.model';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import { BookingsService } from '../../../core/services/bookings';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,9 +15,10 @@ import { environment } from '../../../../environments/environment';
 })
 export class Dashboard implements OnInit {
   private http = inject(HttpClient);
+  private bookingService = inject(BookingsService);
 
   // الـ Base URL الموحد عندك في السيرفر
-  private apiUrl = environment.backUrl + '/api/Bookings/my';
+  private apiUrl = environment.backUrl + '/api/Bookings/owner-bookings';
 
   // Signal رئيسي لتخزين قائمة الحجوزات الخام القادمة من السيرفر
   bookings = signal<Booking[]>([]);
@@ -65,4 +67,19 @@ export class Dashboard implements OnInit {
       },
     });
   }
+
+  cancelBooking(id: number){
+    this.bookingService.cancel(id).subscribe({
+      next:(response)=>{
+
+      },
+      error: ()=> {
+
+      },
+      complete: ()=> {
+
+      }
+    });
+  }
+
 }
