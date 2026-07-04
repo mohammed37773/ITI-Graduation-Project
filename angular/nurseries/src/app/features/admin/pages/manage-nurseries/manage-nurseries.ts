@@ -35,7 +35,7 @@ export class ManageNurseries implements OnInit {
   loading = signal(true);
   error = signal<string | null>(null);
 
-  nurseries: Nursery[] = [];
+  nurseries = signal<Nursery[]>([]);
   statsData = { total: 0, verified: 0, pending: 0, avgPrice: 0, avgRating: 0 };
 
   newNursery = {
@@ -60,7 +60,7 @@ export class ManageNurseries implements OnInit {
     this.error.set(null);
     this.nurseriesService.getAll().subscribe({
       next: (data: any) => {
-        this.nurseries = Array.isArray(data) ? data : (data?.data ?? data?.nurseries ?? []);
+        this.nurseries.set(Array.isArray(data) ? data : (data?.data ?? data?.nurseries ?? []));
         this.loading.set(false);
       },
       error: (err) => {
@@ -87,7 +87,7 @@ export class ManageNurseries implements OnInit {
   }
 
   get filteredNurseries(): Nursery[] {
-    return this.nurseries.filter(n => {
+    return this.nurseries().filter(n => {
       const q = this.searchQuery().toLowerCase();
       const matchesSearch = n.name?.toLowerCase().includes(q) ||
         n.city?.toLowerCase().includes(q) ||
@@ -101,9 +101,9 @@ export class ManageNurseries implements OnInit {
 
   get stats() {
     return {
-      total: this.statsData.total || this.nurseries.length,
-      verified: this.statsData.verified || this.nurseries.filter(n => n.isVerified).length,
-      pending: this.statsData.pending || this.nurseries.filter(n => !n.isVerified).length,
+      total: this.statsData.total || this.nurseries().length,
+      verified: this.statsData.verified || this.nurseries() .filter(n => n.isVerified).length,
+      pending: this.statsData.pending || this.nurseries().filter(n => !n.isVerified).length,
       avgPrice: this.statsData.avgPrice,
       avgRating: this.statsData.avgRating
     };
@@ -115,8 +115,7 @@ export class ManageNurseries implements OnInit {
   verifyNursery(id: number) {
     this.nurseriesService.verify(id).subscribe({
       next: () => {
-        const n = this.nurseries.find(x => x.id === id);
-        if (n) n.isVerified = true;
+        this.nurseries.update(list => list.map(n => n.id === id ? { ...n, isVerified: true } : n));
       },
       error: (err) => console.error('Error verifying nursery:', err)
     });
@@ -124,7 +123,7 @@ export class ManageNurseries implements OnInit {
 
   deleteNursery(id: number) {
     this.nurseriesService.delete(id).subscribe({
-      next: () => this.nurseries = this.nurseries.filter(n => n.id !== id),
+      next: () => this.nurseries.set(this.nurseries().filter(n => n.id !== id)),
       error: (err) => console.error('Error deleting nursery:', err)
     });
   }

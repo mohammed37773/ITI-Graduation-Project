@@ -76,10 +76,10 @@ public class AdminPaymentsController : ControllerBase
     {
         var payment = await _uow.Payments.GetByIdAsync(id);
         if (payment == null)
-            return NotFound("الدفعة مش موجودة");
+            return NotFound(new { msg = "الدفعة مش موجودة" });
 
         if (payment.Status != PaymentStatus.Completed)
-            return BadRequest("مش ممكن ترجع دفعة مش مكتملة");
+            return BadRequest(new { msg = "مش ممكن ترجع دفعة مش مكتملة" });
 
         // ✅ بدل ProcessPaymentAsync استخدم RefundAsync
         var paymentService = _paymentFactory
@@ -89,7 +89,7 @@ public class AdminPaymentsController : ControllerBase
             .RefundAsync(payment.TransactionId!);
 
         if (!refunded)
-            return BadRequest("فشل الاسترداد");
+            return BadRequest(new { msg = "فشل الاسترداد" });
 
         payment.Status = PaymentStatus.Refunded;
         _uow.Payments.Update(payment);
@@ -104,7 +104,7 @@ public class AdminPaymentsController : ControllerBase
 
         await _uow.SaveChangesAsync();
 
-        return Ok("تم استرداد المبلغ بنجاح");
+        return Ok(new { msg = "تم استرداد المبلغ بنجاح" });
     }
     // ===========================
     // GET: api/admin/reports/summary

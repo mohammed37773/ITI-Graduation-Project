@@ -1,9 +1,12 @@
 export interface User {
-    id: number;
-    fullName: string;
-    email: string;
-    phoneNumber: string;
-    locationLat?: number;
-    locationLng?: number;
-    createdAt: Date;
+  id: string;
+  fullName: string;
+  email: string;
+  emailConfirmed: boolean;
+  phoneNumber: string;
+  locationLat?: number;
+  locationLng?: number;
+  createdAt: Date;
+  lockoutEnd: Date | null;
+  roles: string[];
 }

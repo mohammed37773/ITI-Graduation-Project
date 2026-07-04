@@ -48,7 +48,8 @@ public class AuthController : ControllerBase
             FullName = dto.FullName,
             Email = dto.Email,
             UserName = dto.Email,
-            EmailConfirmed = false
+            EmailConfirmed = false,
+            LockoutEnabled = false
         };
 
         var result = await _userManager.CreateAsync(user, dto.Password);
@@ -81,10 +82,17 @@ public class AuthController : ControllerBase
             return Unauthorized("لازم تأكد إيميلك الأول");
 
         // التحقق من الباسورد
-        var result = await _signInManager.CheckPasswordSignInAsync(
-            user, dto.Password, false);
-        if (!result.Succeeded)
-            return Unauthorized("بيانات خاطئة");
+        var isPasswordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
+
+        if (!isPasswordValid)
+        {
+            return Unauthorized("اسم المستخدم أو كلمة المرور خاطئة");
+        }
+
+        if (await _userManager.IsLockedOutAsync(user))
+        {
+            return BadRequest("المستخدم محظور");
+        }
 
         // توليد الـ Token
         var roles = await _userManager.GetRolesAsync(user);

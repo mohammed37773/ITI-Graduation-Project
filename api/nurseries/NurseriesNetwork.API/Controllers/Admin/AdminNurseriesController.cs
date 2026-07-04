@@ -58,7 +58,7 @@ public class AdminNurseriesController : ControllerBase
         _uow.Nurseries.Update(nursery);
         await _uow.SaveChangesAsync();
 
-        return Ok("تم التحقق من الحضانة");
+        return Ok(new { msg = "تم التحقق من الحضانة" });
     }
 
     // ===========================
@@ -74,7 +74,7 @@ public class AdminNurseriesController : ControllerBase
         _uow.Nurseries.Delete(nursery);
         await _uow.SaveChangesAsync();
 
-        return Ok("تم حذف الحضانة");
+        return Ok(new { msg = "تم حذف الحضانة" });
     }
 
     // ===========================

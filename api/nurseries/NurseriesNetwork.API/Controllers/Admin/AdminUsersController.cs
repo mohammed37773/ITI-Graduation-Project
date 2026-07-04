@@ -37,7 +37,7 @@ public class AdminUsersController : ControllerBase
                 user.FullName,
                 user.Email,
                 user.EmailConfirmed,
-                user.LockoutEnabled,
+                user.LockoutEnd,
                 Roles = roles
             });
         }
@@ -53,7 +53,7 @@ public class AdminUsersController : ControllerBase
     {
         var user = await _userManager.FindByIdAsync(id);
         if (user == null)
-            return NotFound("المستخدم مش موجود");
+            return NotFound(new { msg = "المستخدم مش موجود" });
 
         var roles = await _userManager.GetRolesAsync(user);
 
@@ -63,7 +63,7 @@ public class AdminUsersController : ControllerBase
             user.FullName,
             user.Email,
             user.EmailConfirmed,
-            user.LockoutEnabled,
+            user.LockoutEnd,
             Roles = roles
         });
     }
@@ -76,14 +76,14 @@ public class AdminUsersController : ControllerBase
     {
         var user = await _userManager.FindByIdAsync(id);
         if (user == null)
-            return NotFound("المستخدم مش موجود");
+            return NotFound(new { msg = "المستخدم مش موجود" });
 
         // منع المستخدم من الدخول
         await _userManager.SetLockoutEnabledAsync(user, true);
         await _userManager.SetLockoutEndDateAsync(
             user, DateTimeOffset.MaxValue);
 
-        return Ok("تم حظر المستخدم");
+        return Ok(new { msg = "تم حظر المستخدم" });
     }
 
     // ===========================
@@ -94,11 +94,12 @@ public class AdminUsersController : ControllerBase
     {
         var user = await _userManager.FindByIdAsync(id);
         if (user == null)
-            return NotFound("المستخدم مش موجود");
+            return NotFound(new { msg = "المستخدم مش موجود" });
 
         await _userManager.SetLockoutEndDateAsync(user, null);
+        await _userManager.SetLockoutEnabledAsync(user, false);
 
-        return Ok("تم رفع الحظر عن المستخدم");
+        return Ok(new { msg = "تم رفع الحظر عن المستخدم" });
     }
 
     // ===========================

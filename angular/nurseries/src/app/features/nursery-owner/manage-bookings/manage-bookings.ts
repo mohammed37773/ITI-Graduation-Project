@@ -27,7 +27,7 @@ export class ManageBookings implements OnInit {
   loadAllBookings() {
     this.isLoading.set(true);
     // استبدل الـ URL بـ Endpoint الحجوزات الفعلي بتاعك في الـ .NET
-    this.http.get<any[]>(this.backUrl + '/api/NurseryAdmin/bookings').subscribe({
+    this.http.get<any[]>(this.backUrl + '/api/Bookings/owner-bookings').subscribe({
       next: (data) => {
         this.bookings.set(data);
         this.applyFilter(this.currentFilter());

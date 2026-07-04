@@ -9,26 +9,46 @@
   <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
       <div class="stat-mini card">
-        <div class="stat-mini-icon" style="background:rgba(52,152,219,0.1)"><i class="bi bi-credit-card" style="color:var(--accent)"></i></div>
-        <div><p class="stat-mini-label">إجمالي المعاملات</p><h4 class="stat-mini-value">{{ stats.total }}</h4></div>
+        <div class="stat-mini-icon" style="background: rgba(52, 152, 219, 0.1)">
+          <i class="bi bi-credit-card" style="color: var(--accent)"></i>
+        </div>
+        <div>
+          <p class="stat-mini-label">إجمالي المعاملات</p>
+          <h4 class="stat-mini-value">{{ stats.total }}</h4>
+        </div>
       </div>
     </div>
     <div class="col-6 col-md-3">
       <div class="stat-mini card">
-        <div class="stat-mini-icon" style="background:var(--success-bg)"><i class="bi bi-cash-stack" style="color:var(--success)"></i></div>
-        <div><p class="stat-mini-label">إجمالي الإيرادات</p><h4 class="stat-mini-value">{{ stats.totalRevenue | number:'1.0-0' }} ج.م</h4></div>
+        <div class="stat-mini-icon" style="background: var(--success-bg)">
+          <i class="bi bi-cash-stack" style="color: var(--success)"></i>
+        </div>
+        <div>
+          <p class="stat-mini-label">إجمالي الإيرادات</p>
+          <h4 class="stat-mini-value">{{ stats.totalRevenue | number: '1.0-0' }} ج.م</h4>
+        </div>
       </div>
     </div>
     <div class="col-6 col-md-3">
       <div class="stat-mini card">
-        <div class="stat-mini-icon" style="background:var(--error-bg)"><i class="bi bi-x-circle" style="color:var(--error)"></i></div>
-        <div><p class="stat-mini-label">فشلت</p><h4 class="stat-mini-value">{{ stats.failed }}</h4></div>
+        <div class="stat-mini-icon" style="background: var(--error-bg)">
+          <i class="bi bi-x-circle" style="color: var(--error)"></i>
+        </div>
+        <div>
+          <p class="stat-mini-label">فشلت</p>
+          <h4 class="stat-mini-value">{{ stats.failed }}</h4>
+        </div>
       </div>
     </div>
     <div class="col-6 col-md-3">
       <div class="stat-mini card">
-        <div class="stat-mini-icon" style="background:rgba(243,156,18,0.1)"><i class="bi bi-arrow-counterclockwise" style="color:var(--warning)"></i></div>
-        <div><p class="stat-mini-label">مستردة</p><h4 class="stat-mini-value">{{ stats.refunded }}</h4></div>
+        <div class="stat-mini-icon" style="background: rgba(243, 156, 18, 0.1)">
+          <i class="bi bi-arrow-counterclockwise" style="color: var(--warning)"></i>
+        </div>
+        <div>
+          <p class="stat-mini-label">مستردة</p>
+          <h4 class="stat-mini-value">{{ stats.refunded }}</h4>
+        </div>
       </div>
     </div>
   </div>
@@ -67,21 +87,41 @@
     <div class="table-toolbar">
       <div class="search-box">
         <i class="bi bi-search"></i>
-        <input type="text" placeholder="ابحث برقم المعاملة أو الحجز..." [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)" />
+        <input
+          type="text"
+          placeholder="ابحث برقم المعاملة أو الحجز..."
+          [value]="searchQuery()"
+          (input)="searchQuery.set($any($event.target).value)"
+        />
       </div>
       <div class="filter-tabs">
-        <button [class.active]="selectedStatus()==='all'" (click)="setStatus('all')">الكل</button>
-        <button [class.active]="selectedStatus()==='completed'" (click)="setStatus('completed')">مكتمل</button>
-        <button [class.active]="selectedStatus()==='pending'" (click)="setStatus('pending')">معلق</button>
-        <button [class.active]="selectedStatus()==='failed'" (click)="setStatus('failed')">فشل</button>
-        <button [class.active]="selectedStatus()==='refunded'" (click)="setStatus('refunded')">مسترد</button>
+        <button [class.active]="selectedStatus() === 'all'" (click)="setStatus('all')">الكل</button>
+        <button [class.active]="selectedStatus() === 'completed'" (click)="setStatus('completed')">
+          مكتمل
+        </button>
+        <button [class.active]="selectedStatus() === 'pending'" (click)="setStatus('pending')">
+          معلق
+        </button>
+        <button [class.active]="selectedStatus() === 'failed'" (click)="setStatus('failed')">
+          فشل
+        </button>
+        <button [class.active]="selectedStatus() === 'refunded'" (click)="setStatus('refunded')">
+          مسترد
+        </button>
       </div>
     </div>
 
     @if (loading()) {
-      <div class="loading-state"><div class="spinner"></div><p>جارٍ التحميل...</p></div>
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>جارٍ التحميل...</p>
+      </div>
     } @else if (error()) {
-      <div class="error-state"><i class="bi bi-exclamation-triangle"></i><p>{{ error() }}</p><button class="btn-primary-custom" (click)="loadPayments()">إعادة المحاولة</button></div>
+      <div class="error-state">
+        <i class="bi bi-exclamation-triangle"></i>
+        <p>{{ error() }}</p>
+        <button class="btn-primary-custom" (click)="loadPayments()">إعادة المحاولة</button>
+      </div>
     } @else {
       <div class="table-responsive">
         <table class="payments-table">
@@ -103,23 +143,39 @@
                 <td class="payment-id">#{{ payment.id }}</td>
                 <td class="text-muted-custom">#{{ payment.bookingId }}</td>
                 <td class="text-muted-custom">{{ payment.parentId }}</td>
-                <td class="amount-cell">{{ payment.amount | number:'1.0-2' }} ج.م</td>
+                <td class="amount-cell">{{ payment.amount | number: '1.0-2' }} ج.م</td>
                 <td>{{ getMethodLabel(payment.method) }}</td>
-                <td class="text-muted-custom" style="font-size:13px">{{ formatDate(payment.paidAt || payment.createdAt) }}</td>
-                <td><span [class]="getStatusClass(payment.status)">{{ getStatusLabel(payment.status) }}</span></td>
+                <td class="text-muted-custom" style="font-size: 13px">
+                  {{ formatDate(payment.paidAt || payment.createdAt) }}
+                </td>
+                <td>
+                  <span [class]="getStatusClass(payment.status)">{{
+                    getStatusLabel(payment.status)
+                  }}</span>
+                </td>
                 <td>
                   <div class="action-btns">
                     <button class="action-btn view" title="عرض"><i class="bi bi-eye"></i></button>
-                    @if (payment.status !== 'Refunded' && payment.status !== 'Failed') {
-                      <button class="action-btn refund" title="استرداد" (click)="refund(payment.id)">
-                        <i class="bi bi-arrow-counterclockwise"></i>
+                    @if (payment.status === 'Completed') {
+                      <button
+                        class="action-btn refund"
+                        title="استرداد"
+                        (click)="refund(payment.id)"
+                      >
+                        @if (refundLoading() && refundLoadingPaymentId() === payment.id) {
+                          <i class="bi bi-hourglass-split"></i>
+                        } @else {
+                          <i class="bi bi-arrow-counterclockwise"></i>
+                        } 
                       </button>
                     }
                   </div>
                 </td>
               </tr>
             } @empty {
-              <tr><td colspan="8" class="empty-state-row">لا توجد مدفوعات مطابقة</td></tr>
+              <tr>
+                <td colspan="8" class="empty-state-row">لا توجد مدفوعات مطابقة</td>
+              </tr>
             }
           </tbody>
         </table>

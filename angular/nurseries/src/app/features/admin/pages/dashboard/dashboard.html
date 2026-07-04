@@ -17,22 +17,23 @@
       <div class="card chart-card">
         <div class="card-header-custom">
           <div>
-            <h5>اتجاهات التسجيل</h5>
-            <p class="chart-subtitle">مقارنة بين تسجيلات المستخدمين الجدد وانضمام الحضانات.</p>
+            <h5>اتجاهات الحجوزات الشهرية</h5>
+            <p class="chart-subtitle">مقارنة بين الحجوزات الناجحة والحجوزات الملغاة خلال آخر 6 أشهر.</p>
           </div>
           <button class="chart-menu-btn"><i class="bi bi-arrow-up-right"></i></button>
         </div>
         <div class="chart-wrapper">
           <canvas #registrationChart class="registration-chart"></canvas>
+          <div class="chart-loading-overlay" *ngIf="isLoadingBookings()">جارِ تحميل البيانات...</div>
         </div>
         <div class="chart-legend">
           <div class="legend-item">
             <span class="legend-dot" style="background:#2ecc71"></span>
-            <span>تسجيلات المستخدمين</span>
+            <span>حجوزات ناجحة (مؤكدة / مكتملة)</span>
           </div>
           <div class="legend-item">
-            <span class="legend-dot" style="background:#3498db"></span>
-            <span>انضمام الحضانات</span>
+            <span class="legend-dot" style="background:#e74c3c"></span>
+            <span>حجوزات ملغاة</span>
           </div>
         </div>
       </div>
@@ -44,34 +45,24 @@
         <div class="card-header-custom">
           <div>
             <h5>حالة الحجوزات</h5>
-            <p class="chart-subtitle">نظرة عامة على التحويلات لهذا الشهر.</p>
+            <p class="chart-subtitle">نظرة عامة على حالة جميع الحجوزات المسجلة.</p>
           </div>
         </div>
         <div class="donut-wrapper">
           <canvas #bookingChart class="booking-chart"></canvas>
+          <div class="chart-loading-overlay" *ngIf="isLoadingBookings()">جارِ تحميل البيانات...</div>
         </div>
         <div class="booking-legend">
-          <div class="booking-legend-item">
+          <div class="booking-legend-item" *ngFor="let seg of bookingStatusSegments()">
             <div class="booking-legend-left">
-              <span class="legend-dot" style="background:#2ecc71"></span>
-              <span>مكتملة</span>
+              <span class="legend-dot" [style.background]="seg.color"></span>
+              <span>{{ seg.label }}</span>
             </div>
-            <strong>720</strong>
+            <strong>{{ seg.value }}</strong>
           </div>
-          <div class="booking-legend-item">
-            <div class="booking-legend-left">
-              <span class="legend-dot" style="background:#3498db"></span>
-              <span>قيد الانتظار</span>
-            </div>
-            <strong>350</strong>
-          </div>
-          <div class="booking-legend-item">
-            <div class="booking-legend-left">
-              <span class="legend-dot" style="background:#e74c3c"></span>
-              <span>ملغاة</span>
-            </div>
-            <strong>135</strong>
-          </div>
+          <p class="chart-subtitle" *ngIf="!isLoadingBookings() && bookingStatusSegments().length === 0">
+            لا توجد حجوزات مسجلة حتى الآن.
+          </p>
         </div>
       </div>
     </div>

@@ -58,8 +58,8 @@ export class Login {
         this.isLoading.set(false);
         console.error('خطأ في تسجيل الدخول:', err);
         
-        if (err.error && err.error.message) {
-          this.errorMessage.set(err.error.message);
+        if (err.error) {
+          this.errorMessage.set(err.error);
         } else {
           this.errorMessage.set('البريد الإلكتروني أو كلمة المرور غير صحيحة.');
         }

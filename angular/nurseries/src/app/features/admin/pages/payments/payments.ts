@@ -1,4 +1,3 @@
-
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +33,7 @@ interface PaymentStats {
 
 @Component({
   selector: 'app-payments',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './payments.html',
   styleUrl: './payments.css',
 })
@@ -43,11 +42,17 @@ export class Payments implements OnInit {
   error = signal<string | null>(null);
   searchQuery = signal('');
   selectedStatus = signal('all');
+  refundLoading = signal<boolean>(false);
+  refundLoadingPaymentId = signal<number | null>(null);
 
-  payments: Payment[] = [];
+  payments = signal<Payment[]>([]);
   statsData: PaymentStats = {
-    total: 0, completed: 0, failed: 0, refunded: 0, totalRevenue: 0,
-    byMethod: { vodafoneCash: 0, meeza: 0, card: 0, payPal: 0 }
+    total: 0,
+    completed: 0,
+    failed: 0,
+    refunded: 0,
+    totalRevenue: 0,
+    byMethod: { vodafoneCash: 0, meeza: 0, card: 0, payPal: 0 },
   };
 
   constructor(private paymentsService: PaymentsService) {}
@@ -62,14 +67,14 @@ export class Payments implements OnInit {
     this.error.set(null);
     this.paymentsService.getAll().subscribe({
       next: (data: any) => {
-        this.payments = Array.isArray(data) ? data : (data?.data ?? data?.payments ?? []);
+        this.payments.set(Array.isArray(data) ? data : (data?.data ?? data?.payments ?? []));
         this.loading.set(false);
       },
       error: (err) => {
         console.error('Error loading payments:', err);
         this.error.set('تعذر تحميل المدفوعات');
         this.loading.set(false);
-      }
+      },
     });
   }
 
@@ -86,45 +91,57 @@ export class Payments implements OnInit {
             vodafoneCash: data?.byMethod?.vodafoneCash ?? 0,
             meeza: data?.byMethod?.meeza ?? 0,
             card: data?.byMethod?.card ?? 0,
-            payPal: data?.byMethod?.payPal ?? 0
-          }
+            payPal: data?.byMethod?.payPal ?? 0,
+          },
         };
       },
-      error: (err) => console.error('Error loading payment stats:', err)
+      error: (err) => console.error('Error loading payment stats:', err),
     });
   }
 
   get filteredPayments(): Payment[] {
-    return this.payments.filter(p => {
+    return this.payments().filter((p) => {
       const q = this.searchQuery().toLowerCase();
-      const matchesSearch = String(p.id).includes(q) ||
+      const matchesSearch =
+        String(p.id).includes(q) ||
         String(p.bookingId).includes(q) ||
         String(p.parentId).includes(q) ||
         p.transactionId?.toLowerCase().includes(q);
-      const matchesStatus = this.selectedStatus() === 'all' ||
-        p.status?.toLowerCase() === this.selectedStatus();
+      const matchesStatus =
+        this.selectedStatus() === 'all' || p.status?.toLowerCase() === this.selectedStatus();
       return matchesSearch && matchesStatus;
     });
   }
 
   get stats() {
     return {
-      total: this.statsData.total || this.payments.length,
-      completed: this.statsData.completed || this.payments.filter(p => p.status === 'Completed').length,
-      failed: this.statsData.failed || this.payments.filter(p => p.status === 'Failed').length,
-      refunded: this.statsData.refunded || this.payments.filter(p => p.status === 'Refunded').length,
+      total: this.statsData.total || this.payments().length,
+      completed:
+        this.statsData.completed || this.payments().filter((p) => p.status === 'Completed').length,
+      failed: this.statsData.failed || this.payments().filter((p) => p.status === 'Failed').length,
+      refunded:
+        this.statsData.refunded || this.payments().filter((p) => p.status === 'Refunded').length,
       totalRevenue: this.statsData.totalRevenue,
-      byMethod: this.statsData.byMethod
+      byMethod: this.statsData.byMethod,
     };
   }
 
   refund(id: number) {
+    this.refundLoading.set(true);
+    this.refundLoadingPaymentId.set(id);
     this.paymentsService.refund(id).subscribe({
       next: () => {
-        const p = this.payments.find(x => x.id === id);
+        const p = this.payments().find((x) => x.id === id);
         if (p) p.status = 'Refunded';
+        this.payments.set([...this.payments()]); // Trigger change detection
+        this.refundLoading.set(false);
+        this.refundLoadingPaymentId.set(null);
       },
-      error: (err) => console.error('Error refunding payment:', err)
+      error: (err) => {
+        console.error('Error refunding payment:', err);
+        this.refundLoading.set(false);
+        this.refundLoadingPaymentId.set(null);
+      },
     });
   }
 
@@ -151,10 +168,16 @@ export class Payments implements OnInit {
     return method;
   }
 
-  setStatus(s: string) { this.selectedStatus.set(s); }
+  setStatus(s: string) {
+    this.selectedStatus.set(s);
+  }
 
   formatDate(date: string): string {
     if (!date) return '-';
-    return new Date(date).toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
+    return new Date(date).toLocaleDateString('ar-EG', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
   }
 }

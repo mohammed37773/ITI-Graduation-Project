@@ -17,9 +17,20 @@ export class ApiService {
     return this.http.post<T>(`${this.baseUrl}${path}`, body, { headers: this.headers() });
   }
 
-  put<T>(path: string, body?: unknown): Observable<T> {
-    return this.http.put<T>(`${this.baseUrl}${path}`, body, { headers: this.headers() });
-  }
+put<T>(
+  path: string,
+  body?: unknown,
+  responseType: 'json' = 'json'
+): Observable<T> {
+  return this.http.put<T>(
+    `${this.baseUrl}${path}`,
+    body,
+    {
+      headers: this.headers(),
+      responseType,
+    }
+  );
+}
 
   delete<T>(path: string): Observable<T> {
     return this.http.delete<T>(`${this.baseUrl}${path}`, { headers: this.headers() });

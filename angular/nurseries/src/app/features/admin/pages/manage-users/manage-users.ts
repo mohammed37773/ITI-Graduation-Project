@@ -1,18 +1,8 @@
-
-
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../../../core/services/users';
-
-interface User {
-  id: string;
-  fullName: string;
-  email: string;
-  emailConfirmed: boolean;
-  lockoutEnabled: boolean;
-  roles: string[];
-}
+import { User } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'app-manage-users',
@@ -27,7 +17,7 @@ export class ManageUsers implements OnInit {
   loading = signal(true);
   error = signal<string | null>(null);
 
-  users: User[] = [];
+  users = signal<User[]>([]);
   statsData = { totalUsers: 0, parents: 0, nurseryAdmins: 0, banned: 0 };
 
   constructor(private usersService: UsersService) {}
@@ -42,7 +32,8 @@ export class ManageUsers implements OnInit {
     this.error.set(null);
     this.usersService.getAll().subscribe({
       next: (data: any) => {
-        this.users = Array.isArray(data) ? data : (data?.data ?? data?.users ?? []);
+        this.users.set(Array.isArray(data) ? data : (data?.data ?? data?.users ?? []));
+        console.log('first user:', this.users()[0]);
         this.loading.set(false);
       },
       error: (err) => {
@@ -68,7 +59,7 @@ export class ManageUsers implements OnInit {
   }
 
   get filteredUsers(): User[] {
-    return this.users.filter(u => {
+    return this.users().filter(u => {
       const q = this.searchQuery().toLowerCase();
       const matchesSearch = u.fullName?.toLowerCase().includes(q) || u.email?.toLowerCase().includes(q);
       const matchesRole = this.selectedRole() === 'all' ||
@@ -81,10 +72,10 @@ export class ManageUsers implements OnInit {
 
   get stats() {
     return {
-      total: this.statsData.totalUsers || this.users.length,
+      total: this.statsData.totalUsers || this.users().length,
       parents: this.statsData.parents,
       nurseryAdmins: this.statsData.nurseryAdmins,
-      banned: this.statsData.banned || this.users.filter(u => u.lockoutEnabled).length
+      banned: this.statsData.banned || this.users().filter(u => u.lockoutEnd).length
     };
   }
 
@@ -93,10 +84,10 @@ export class ManageUsers implements OnInit {
   banUser(id: string) {
     this.usersService.ban(id).subscribe({
       next: () => {
-        const u = this.users.find(x => x.id === id);
-        if (u) u.lockoutEnabled = true;
+        const u = this.users().find(x => x.id === id);
+        if (u) u.lockoutEnd = new Date("9999-12-31T23:59:59Z"); // Set lockoutEnd to a far future date  
         if (this.selectedUser()?.id === id) {
-          this.selectedUser.set({ ...this.selectedUser()!, lockoutEnabled: true });
+          this.selectedUser.set({ ...this.selectedUser()!, lockoutEnd: new Date("9999-12-31T23:59:59Z") });
         }
       },
       error: (err) => console.error('Error banning user:', err)
@@ -106,10 +97,10 @@ export class ManageUsers implements OnInit {
   unbanUser(id: string) {
     this.usersService.unban(id).subscribe({
       next: () => {
-        const u = this.users.find(x => x.id === id);
-        if (u) u.lockoutEnabled = false;
+        const u = this.users().find(x => x.id === id);
+        if (u) u.lockoutEnd = null  ;
         if (this.selectedUser()?.id === id) {
-          this.selectedUser.set({ ...this.selectedUser()!, lockoutEnabled: false });
+          this.selectedUser.set({ ...this.selectedUser()!, lockoutEnd: null });
         }
       },
       error: (err) => console.error('Error unbanning user:', err)
@@ -132,5 +123,10 @@ export class ManageUsers implements OnInit {
   }
 
   setRole(role: string) { this.selectedRole.set(role); }
+
+  isBanned(user: User): boolean {
+    return !!user.lockoutEnd &&
+           new Date(user.lockoutEnd) > new Date();
+}
 }
 
