@@ -4,14 +4,27 @@ namespace NurseriesNetwork.AI.Services;
 
 public interface ILlmService
 {
+    Task<string> GetChatResponseAsync(
+        string systemPrompt,
+        string userMessage,
+        List<ConversationMessage>? history = null);
 
-    Task<string> GetChatResponseAsync(string systemPrompt, string userMessage);
-    Task<IntentClassificationResult> ClassifyIntentAsync(string userMessage);
+    Task<IntentClassificationResult> ClassifyIntentAsync(
+    string userMessage,
+    List<ConversationMessage>? history = null);  // ✅ ضيف history
+
     Task<SearchFilters> ExtractSearchFiltersAsync(string userMessage);
-    Task<GeminiFunctionCallResult> GetFunctionCallAsync(string userMessage, string conversationContext = "");
-    Task<string> GetFinalResponseAfterFunctionAsync(string userMessage, string functionName, string functionResult);
 
-    // ✅ جديد — Function Calling خاص بـ NurseryAdmin (تحليل الأداء + البحث الذكي في الحجوزات)
-    Task<AdminFunctionCallResult> GetAdminFunctionCallAsync(string userMessage);
+    Task<GeminiFunctionCallResult> GetFunctionCallAsync(
+        string userMessage,
+        List<ConversationMessage>? history = null);
+
+    Task<string> GetFinalResponseAfterFunctionAsync(
+        string userMessage,
+        string functionName,
+        string functionResult);
+
+    Task<AdminFunctionCallResult> GetAdminFunctionCallAsync(
+        string userMessage,
+        List<ConversationMessage>? history = null);
 }
-

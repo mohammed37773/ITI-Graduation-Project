@@ -45,48 +45,34 @@ public class AiController : ControllerBase
     [Authorize(Roles = "Parent")]
     public async Task<IActionResult> Chat(ChatRequestDto dto)
     {
-        // ✅ لو الرسالة فيها نية حجز واضحة، حوّلها لمنطق الـ Agent مباشرة
-        var intent = await _llm.ClassifyIntentAsync(dto.Message);
+        // ✅ مرر dto.History عشان يفهم السياق
+        var intent = await _llm.ClassifyIntentAsync(dto.Message, dto.History);
 
         if (intent.Intent == "BOOKING")
-        {
             return await AgentMessage(dto);
-        }
 
         var result = await _aiService.GetRecommendationAsync(
-            dto.Message, dto.Latitude, dto.Longitude, intent);
+            dto.Message, dto.Latitude, dto.Longitude,
+            intent, dto.History);
 
-        return Ok(new
-        {
-            response = result.ResponseText,
-            nurseries = result.Nurseries
-        });
+        return Ok(new { response = result.ResponseText, nurseries = result.Nurseries });
     }
 
-    // ===========================
-    // POST: api/ai/recommend
-    // ✅ بقت تستخدم نفس مصدر النتائج بتاع GetRecommendationAsync،
-    //    مش استعلام جغرافي مستقل بالـ lat/lng بس
-    // ===========================
     [HttpPost("recommend")]
     [Authorize(Roles = "Parent")]
     public async Task<IActionResult> Recommend(ChatRequestDto dto)
     {
-        var intent = await _llm.ClassifyIntentAsync(dto.Message);
+        // ✅ مرر dto.History
+        var intent = await _llm.ClassifyIntentAsync(dto.Message, dto.History);
 
         if (intent.Intent == "BOOKING")
-        {
             return await AgentMessage(dto);
-        }
 
         var result = await _aiService.GetRecommendationAsync(
-            dto.Message, dto.Latitude, dto.Longitude, intent);
+            dto.Message, dto.Latitude, dto.Longitude,
+            intent, dto.History);
 
-        return Ok(new
-        {
-            response = result.ResponseText,
-            nurseries = result.Nurseries
-        });
+        return Ok(new { response = result.ResponseText, nurseries = result.Nurseries });
     }
 
     // ===========================
@@ -104,7 +90,7 @@ public class AiController : ControllerBase
             "Agent: Received message: {Message}", dto.Message);
 
         // الخطوة 1: اسأل الموديل يقرر إيه الـ Function المناسبة
-        var decision = await _llm.GetFunctionCallAsync(dto.Message);
+        var decision = await _llm.GetFunctionCallAsync(dto.Message, dto.History);
 
         // لو الموديل رد بنص مباشر (مش محتاج Function)
         if (!decision.ShouldCallFunction)
@@ -136,12 +122,26 @@ public class AiController : ControllerBase
                     .GetProperty("nursery_name").GetString()!;
                 var childName = argsDoc.RootElement
                     .GetProperty("child_name").GetString()!;
-                var startDateStr = argsDoc.RootElement
-                    .GetProperty("start_date").GetString()!;
+
+                // ✅ تأكد إن start_date موجودة فعلاً ومش اخترعها الموديل
+                if (!argsDoc.RootElement.TryGetProperty("start_date", out var startDateEl) ||
+                    string.IsNullOrWhiteSpace(startDateEl.GetString()))
+                {
+                    functionResult = "يرجى تزويدي بتاريخ بدء الحجز بصيغة YYYY-MM-DD، مثال: 2026-08-15";
+                    break;
+                }
+
+                var startDateStr = startDateEl.GetString()!;
 
                 if (!DateOnly.TryParse(startDateStr, out var startDate))
                 {
-                    functionResult = "معذرة، التاريخ المطلوب غير واضح";
+                    functionResult = "معذرة، صيغة التاريخ غير واضحة. يرجى كتابته بصيغة YYYY-MM-DD، مثال: 2026-08-15";
+                    break;
+                }
+
+                if (startDate < DateOnly.FromDateTime(DateTime.UtcNow.Date))
+                {
+                    functionResult = $"معذرة، تاريخ الحجز ({startDate:yyyy-MM-dd}) في الماضي. يرجى اختيار تاريخ في المستقبل.";
                     break;
                 }
 
@@ -181,7 +181,7 @@ public class AiController : ControllerBase
             "AdminAgent: Received message from {AdminId}: {Message}", adminUserId, dto.Message);
 
         // الخطوة 1: اسأل الموديل يقرر إيه الـ Function المناسبة
-        var decision = await _llm.GetAdminFunctionCallAsync(dto.Message);
+        var decision = await _llm.GetAdminFunctionCallAsync(dto.Message, dto.History);
 
         // لو الموديل رد بنص مباشر (تحية/شكر/غير متعلق بالإدارة)
         if (!decision.ShouldCallFunction)

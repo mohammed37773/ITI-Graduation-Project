@@ -16,36 +16,27 @@ public class RecommendationService : IAiService
     }
 
     public async Task<RecommendationResult> GetRecommendationAsync(
-        string message, double? lat, double? lng,
-        IntentClassificationResult? precomputedIntent = null)
+    string message, double? lat, double? lng,
+    IntentClassificationResult? precomputedIntent = null,
+    List<ConversationMessage>? history = null)  // ✅ جديد
     {
-        // ===========================
-        // ✅ الخطوة 1: صنّف نوع الرسالة الأول
-        // ===========================
         var intent = precomputedIntent ?? await _llm.ClassifyIntentAsync(message);
 
-        // لو تحية / شكر / سؤال عام / قلق صحي بدون طلب بحث صريح → رد مباشر بدون RAG خالص
-        // ✅ ومفيش حضانات مرتبطة بالرد ده لأنه أصلاً مش نتيجة بحث
         if (intent.Intent is "GREETING" or "THANKS" or "GENERAL" or "MEDICAL_CONCERN")
         {
             var directReply = string.IsNullOrWhiteSpace(intent.DirectReply)
                 ? "أهلاً بك! أقدر أساعدك في إيه؟"
                 : intent.DirectReply;
-
             return new RecommendationResult(directReply, new List<NurseryDto>());
         }
 
-        // ===========================
-        // ✅ الخطوة 2: لو SEARCH أو BOOKING، نعمل RAG فعلاً
-        // ===========================
-
         var extractedFilters = await _llm.ExtractSearchFiltersAsync(message);
 
-        // ✅ لو فشل استخراج الفلاتر بسبب خطأ في الـ API (مش لأن الرسالة فعليًا مفيهاش فلاتر)
         if (extractedFilters.ExtractionFailed)
         {
-            var failMsg = "معذرة، حصلت مشكلة مؤقتة في فهم تفاصيل طلبك، ممكن تحاول تبعت رسالتك تاني؟";
-            return new RecommendationResult(failMsg, new List<NurseryDto>());
+            return new RecommendationResult(
+                "معذرة، حصلت مشكلة مؤقتة في فهم تفاصيل طلبك، ممكن تحاول تبعت رسالتك تاني؟",
+                new List<NurseryDto>());
         }
 
         var relevantNurseries = await _rag.SemanticSearchAsync(
@@ -54,14 +45,13 @@ public class RecommendationService : IAiService
         if (!relevantNurseries.Any())
         {
             var noContextPrompt = """
-                أنت مساعد ذكي لتطبيق حضانات في مصر.
-                مفيش حضانات متاحة دلوقتي تطابق طلب المستخدم.
-                رد بأدب واطلب منه يجرب كلام تاني أو يوسع منطقة البحث.
-                رد بالعربي فقط.
-                """;
-            var noResultsReply = await _llm.GetChatResponseAsync(noContextPrompt, message);
-
-            // ✅ مفيش حضانات فعليًا، فاللستة فاضية برضو (متطابقة مع النص)
+            أنت مساعد ذكي لتطبيق حضانات في مصر.
+            مفيش حضانات متاحة دلوقتي تطابق طلب المستخدم.
+            رد بأدب واطلب منه يجرب كلام تاني أو يوسع منطقة البحث.
+            رد بالعربي فقط.
+            """;
+            var noResultsReply = await _llm.GetChatResponseAsync(
+                noContextPrompt, message, history);  // ✅ مرر history
             return new RecommendationResult(noResultsReply, new List<NurseryDto>());
         }
 
@@ -70,48 +60,40 @@ public class RecommendationService : IAiService
             $"السعر: {n.DailyPrice} جنيه/يوم - التقييم: {n.AvgRating}/5"));
 
         var systemPrompt = $"""
-            أنت مساعد ذكي متخصص في مساعدة الآباء لإيجاد أفضل حضانة لأطفالهم في مصر.
+        أنت مساعد ذكي متخصص في مساعدة الآباء لإيجاد أفضل حضانة لأطفالهم في مصر.
 
-            القائمة الوحيدة المسموح لك استخدامها في ردك هي الحضانات التالية، ولا يوجد غيرها حاليًا:
+        القائمة الوحيدة المسموح لك استخدامها في ردك هي الحضانات التالية، ولا يوجد غيرها حاليًا:
 
-            {context}
+        {context}
 
-            قواعد صارمة يجب اتباعها بدقة:
-            - اعتمد فقط وبشكل كامل على القائمة أعلاه، ولا تستخدم أي معرفة سابقة لديك عن حضانات أخرى.
-            - يُمنع منعًا تامًا ذكر أي اسم حضانة غير موجود حرفيًا في القائمة أعلاه.
-            - يُمنع اختراع أسعار أو تقييمات مختلفة عن المذكورة أعلاه بالضبط.
-            - رد بالعربي فقط.
-            - اذكر الأسعار والتقييمات كما هي مذكورة في القائمة فقط.
-            - كن ودوداً ومختصراً.
-            - لو طلب المستخدم حجز، وضحله إنه يقدر يطلب الحجز بشكل مباشر وأنت هتظبطه.
-            - إذا لم تجد في القائمة أعلاه ما يناسب طلب المستخدم تحديدًا، قل ذلك بصراحة بدل اقتراح حضانة غير مناسبة.
-            """;
+        قواعد صارمة يجب اتباعها بدقة:
+        - اعتمد فقط وبشكل كامل على القائمة أعلاه، ولا تستخدم أي معرفة سابقة لديك عن حضانات أخرى.
+        - يُمنع منعًا تامًا ذكر أي اسم حضانة غير موجود حرفيًا في القائمة أعلاه.
+        - يُمنع اختراع أسعار أو تقييمات مختلفة عن المذكورة أعلاه بالضبط.
+        - رد بالعربي فقط.
+        - اذكر الأسعار والتقييمات كما هي مذكورة في القائمة فقط.
+        - كن ودوداً ومختصراً.
+        - لو طلب المستخدم حجز، وضحله إنه يقدر يطلب الحجز بشكل مباشر وأنت هتظبطه.
+        - إذا لم تجد في القائمة أعلاه ما يناسب طلب المستخدم تحديدًا، قل ذلك بصراحة.
+        """;
 
-        var aiReply = await _llm.GetChatResponseAsync(systemPrompt, message);
+        var aiReply = await _llm.GetChatResponseAsync(
+            systemPrompt, message, history);  // ✅ مرر history
 
-        // ✅ نفس الحضانات اللي استُخدمت في توليد الرد، بدون أي استعلام مستقل تاني
         var nurseryDtos = relevantNurseries.Select(n => new NurseryDto(
-            n.Id,
-            n.Name,
-            n.DailyPrice,
-            n.AvgRating,
-            n.Location?.City,
-            n.Location?.Address
-        )).ToList();
+            n.Id, n.Name, n.DailyPrice, n.AvgRating,
+            n.Location?.City, n.Location?.Address)).ToList();
 
-        // ✅ شبكة أمان: تأكد إن الرد فعليًا مرتبط بأسماء الحضانات المتاحة
-        //    لو الموديل هلوس واخترع رد عام غير مرتبط بالقائمة، نستبدله برد آمن مبني على البيانات الفعلية
         bool aiReplyMentionsAnyNursery = relevantNurseries.Any(n =>
             !string.IsNullOrWhiteSpace(aiReply) &&
             aiReply.Contains(n.Name, StringComparison.OrdinalIgnoreCase));
 
         if (!aiReplyMentionsAnyNursery)
-        {
             aiReply = BuildFallbackReplyFromData(relevantNurseries);
-        }
 
         return new RecommendationResult(aiReply, nurseryDtos);
     }
+
 
     // ✅ رد احتياطي مبني مباشرة من بيانات الداتابيز، بدون أي تدخل من الموديل
     //    يُستخدم فقط لو رد الموديل لم يحتوِ على أي اسم حضانة فعلي من القائمة (مؤشر هلوسة)
@@ -126,5 +108,5 @@ public class RecommendationService : IAiService
     public async Task GenerateAndSaveEmbeddingAsync(Nursery nursery)
         => await _rag.GenerateAndSaveEmbeddingAsync(nursery);
 
-    
+
 }
