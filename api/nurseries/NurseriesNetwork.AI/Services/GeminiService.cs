@@ -29,32 +29,23 @@ public class GeminiService : ILlmService
     // Chat عادي
     // ===========================
     public async Task<string> GetChatResponseAsync(
-        string systemPrompt, string userMessage)
+    string systemPrompt, string userMessage,
+    List<ConversationMessage>? history = null)
     {
         var apiKey = _config["Gemini:ApiKey"];
         var model = _config["Gemini:ChatModel"];
-
         var url = $"{BaseUrl}/{model}:generateContent?key={apiKey}";
 
-        // ✅ فصل صريح بين system_instruction والـ user message
-        //    (قبل التعديل كان كل حاجة بتتبعت كرسالة user واحدة، وده كان بيقلل التزام الموديل بالـ context)
+        // ✅ بناء الـ contents array من الـ history + الرسالة الحالية
+        var contents = BuildContents(history, userMessage);
+
         var requestBody = new
         {
             system_instruction = new
             {
                 parts = new[] { new { text = systemPrompt } }
             },
-            contents = new[]
-            {
-                new
-                {
-                    role = "user",
-                    parts = new[]
-                    {
-                        new { text = userMessage }
-                    }
-                }
-            }
+            contents
         };
 
         var response = await SendWithRetryAsync(url, requestBody);
@@ -62,13 +53,11 @@ public class GeminiService : ILlmService
         if (!response.IsSuccessStatusCode)
         {
             var error = await response.Content.ReadAsStringAsync();
-
             _logger.LogError(
                 "Gemini Chat failed. StatusCode: {StatusCode}. Response: {Error}",
-                response.StatusCode,
-                error);
+                response.StatusCode, error);
 
-            if (response.StatusCode == HttpStatusCode.TooManyRequests)
+            if (response.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
                 return "وصلنا للحد المسموح من الطلبات حاليًا، جرب تاني بعد دقايق.";
 
             return "معذرة، خدمة الذكاء الاصطناعي غير متاحة حالياً، حاول مرة أخرى بعد قليل.";
@@ -77,14 +66,12 @@ public class GeminiService : ILlmService
         var json = await response.Content.ReadAsStringAsync();
         using var doc = JsonDocument.Parse(json);
 
-        var text = doc.RootElement
+        return doc.RootElement
             .GetProperty("candidates")[0]
             .GetProperty("content")
             .GetProperty("parts")[0]
             .GetProperty("text")
-            .GetString();
-
-        return text ?? "معذرة، حصلت مشكلة في الرد";
+            .GetString() ?? "معذرة، حصلت مشكلة في الرد";
     }
 
     // ===========================
@@ -136,54 +123,48 @@ public class GeminiService : ILlmService
     // ===========================
     // ✅ Intent Classification (قبل RAG)
     // ===========================
-    public async Task<IntentClassificationResult> ClassifyIntentAsync(string userMessage)
+    public async Task<IntentClassificationResult> ClassifyIntentAsync(
+    string userMessage,
+    List<ConversationMessage>? history = null)
     {
         var apiKey = _config["Gemini:ApiKey"];
         var model = _config["Gemini:LiteModel"];
-
         var url = $"{BaseUrl}/{model}:generateContent?key={apiKey}";
 
         var systemInstruction = """
-            أنت Classifier مهمتك تحديد نوع رسالة المستخدم في تطبيق حضانات.
-            رد فقط بـ JSON بدون أي شرح أو Markdown، بالشكل ده بالضبط:
+        أنت Classifier مهمتك تحديد نوع رسالة المستخدم في تطبيق حضانات.
+        رد فقط بـ JSON بدون أي شرح أو Markdown، بالشكل ده بالضبط:
 
-            {
-              "intent": "GREETING" | "THANKS" | "GENERAL" | "SEARCH" | "BOOKING" | "MEDICAL_CONCERN",
-              "reply": "نص الرد المباشر لو الـ intent هو GREETING أو THANKS أو GENERAL أو MEDICAL_CONCERN، غير ذلك سيبه فاضي"
-            }
+        {
+          "intent": "GREETING" | "THANKS" | "GENERAL" | "SEARCH" | "BOOKING" | "MEDICAL_CONCERN",
+          "reply": "نص الرد المباشر لو الـ intent هو GREETING أو THANKS أو GENERAL أو MEDICAL_CONCERN، غير ذلك سيبه فاضي"
+        }
 
-            القواعد:
-            - GREETING: لو الرسالة تحية بس (السلام عليكم، أهلاً، ازيك، صباح الخير...)
-            - THANKS: لو الرسالة شكر (شكراً، تسلم، ربنا يخليك...)
-            - GENERAL: لو سؤال عام عن التطبيق نفسه أو خارج نطاق الحضانات (مين أنت؟ التطبيق ده بيعمل إيه؟)
-            - MEDICAL_CONCERN: لو الرسالة بتعبر عن قلق صحي أو حالة طبية للطفل (وزن ناقص، مرض، تأخر نمو، إلخ) من غير طلب بحث صريح عن حضانة. هنا لا تبحث عن حضانات، فقط اطلب توضيح هل المستخدم يريد حضانة متخصصة في الرعاية الطبية أم يحتاج نصيحة طبية (ولو الأخيرة، وضح إنك مساعد حضانات وليس طبيب).
-            - SEARCH: لو المستخدم بيدور على حضانة أو بيسأل عن حضانات بمعايير معينة (مدينة، سعر، تقييم، سن معين...)
-            - BOOKING: لو المستخدم بوضوح عايز يحجز حضانة (احجزلي، عايز أحجز، سجل طفلي...)
+        القواعد:
+        - GREETING: لو الرسالة تحية بس (السلام عليكم، أهلاً، ازيك، صباح الخير...)
+        - THANKS: لو الرسالة شكر (شكراً، تسلم، ربنا يخليك...)
+        - GENERAL: لو سؤال عام عن التطبيق نفسه أو خارج نطاق الحضانات
+        - MEDICAL_CONCERN: لو الرسالة بتعبر عن قلق صحي للطفل من غير طلب بحث صريح عن حضانة
+        - SEARCH: لو المستخدم بيدور على حضانة أو بيسأل عن حضانات بمعايير معينة
+        - BOOKING: لو المستخدم بوضوح عايز يحجز حضانة
 
-            لو الـ intent هو GREETING أو THANKS أو GENERAL أو MEDICAL_CONCERN، اكتب رد مناسب وودود بالعربي في حقل reply.
-            لو الـ intent هو SEARCH أو BOOKING، سيب حقل reply فاضي "" لأن النظام هيكمل بنفسه.
+        ⚠️ مهم جداً: لو كانت المحادثة السابقة تحدثت عن حجز أو بحث،
+        والرسالة الحالية هي استكمال للمحادثة (مثل تاريخ، اسم، تفاصيل إضافية)،
+        صنّفها بنفس نوع المحادثة السابقة (BOOKING أو SEARCH) وليس GENERAL أو GREETING.
 
-            لا تكتب أي حاجة غير الـ JSON. لا تستخدم ```json أو أي تنسيق Markdown.
-            """;
+        لو الـ intent هو GREETING أو THANKS أو GENERAL أو MEDICAL_CONCERN، اكتب رد مناسب وودود بالعربي في حقل reply.
+        لو الـ intent هو SEARCH أو BOOKING، سيب حقل reply فاضي "".
+        لا تكتب أي حاجة غير الـ JSON.
+        """;
+
+        // ✅ بناء الـ contents مع الـ history
+        var contents = BuildContents(history, userMessage);
 
         var requestBody = new
         {
-            system_instruction = new
-            {
-                parts = new[] { new { text = systemInstruction } }
-            },
-            contents = new[]
-            {
-                new
-                {
-                    role = "user",
-                    parts = new[] { new { text = userMessage } }
-                }
-            },
-            generationConfig = new
-            {
-                response_mime_type = "application/json"
-            }
+            system_instruction = new { parts = new[] { new { text = systemInstruction } } },
+            contents,
+            generationConfig = new { response_mime_type = "application/json" }
         };
 
         var response = await SendWithRetryAsync(url, requestBody);
@@ -194,8 +175,6 @@ public class GeminiService : ILlmService
             _logger.LogError(
                 "Gemini Intent Classification failed. StatusCode: {StatusCode}. Response: {Error}",
                 response.StatusCode, error);
-
-            // فشل التصنيف؟ خليه يعتبرها SEARCH افتراضيًا (Fail-safe) عشان مايضيعش طلب حقيقي
             return new IntentClassificationResult("SEARCH", "");
         }
 
@@ -217,15 +196,12 @@ public class GeminiService : ILlmService
             using var resultDoc = JsonDocument.Parse(text);
             var intent = resultDoc.RootElement.GetProperty("intent").GetString() ?? "SEARCH";
             var reply = resultDoc.RootElement.TryGetProperty("reply", out var replyEl)
-                ? replyEl.GetString() ?? ""
-                : "";
-
+                ? replyEl.GetString() ?? "" : "";
             return new IntentClassificationResult(intent, reply);
         }
         catch (JsonException ex)
         {
-            _logger.LogWarning(ex,
-                "Failed to parse intent classification response: {Text}", text);
+            _logger.LogWarning(ex, "Failed to parse intent classification response: {Text}", text);
             return new IntentClassificationResult("SEARCH", "");
         }
     }
@@ -317,7 +293,7 @@ public class GeminiService : ILlmService
     // ===========================
     public async Task<GeminiFunctionCallResult> GetFunctionCallAsync(
         string userMessage,
-        string conversationContext = "")
+        List<ConversationMessage>? history = null)
     {
         var apiKey = _config["Gemini:ApiKey"];
         var model = _config["Gemini:ChatModel"];
@@ -326,97 +302,171 @@ public class GeminiService : ILlmService
 
         // تعريف الـ Functions المتاحة للموديل
         var tools = new[]
+{
+    new
+    {
+        function_declarations = new object[]
         {
             new
             {
-                function_declarations = new object[]
+                name = "find_nearby_nurseries",
+                description = "البحث عن حضانات قريبة من موقع معين بسعر معين",
+                parameters = new
                 {
-                    new
+                    type = "object",
+                    properties = new
                     {
-                        name = "find_nearby_nurseries",
-                        description = "البحث عن حضانات قريبة من موقع معين بسعر معين",
-                        parameters = new
+                        city = new
                         {
-                            type = "object",
-                            properties = new
-                            {
-                                city = new
-                                {
-                                    type = "string",
-                                    description = "اسم المدينة المطلوب البحث فيها (مثل القاهرة)"
-                                },
-                                max_price = new
-                                {
-                                    type = "number",
-                                    description = "أعلى سعر يومي مقبول بالجنيه المصري"
-                                }
-                            },
-                            required = Array.Empty<string>()
+                            type = "string",
+                            description = "اسم المدينة المطلوب البحث فيها (مثل القاهرة)"
+                        },
+                        max_price = new
+                        {
+                            type = "number",
+                            description = "أعلى سعر يومي مقبول بالجنيه المصري"
                         }
                     },
-                    new
+                    required = Array.Empty<string>()
+                }
+            },
+            new
+            {
+                name = "create_booking",
+                description = "إنشاء حجز جديد لطفل في حضانة معينة — استدعِ هذه الدالة فقط عندما يكون لديك nursery_name وchild_name وstart_date بشكل صريح من المستخدم",
+                parameters = new
+                {
+                    type = "object",
+                    properties = new
                     {
-                        name = "create_booking",
-                        description = "إنشاء حجز جديد لطفل في حضانة معينة",
-                        parameters = new
+                        nursery_name = new
                         {
-                            type = "object",
-                            properties = new
-                            {
-                                nursery_name = new
-                                {
-                                    type = "string",
-                                    description = "اسم الحضانة المطلوب الحجز فيها"
-                                },
-                                child_name = new
-                                {
-                                    type = "string",
-                                    description = "اسم الطفل المطلوب حجزه"
-                                },
-                                start_date = new
-                                {
-                                    type = "string",
-                                    description = "تاريخ بدء الحجز بصيغة YYYY-MM-DD"
-                                }
-                            },
-                            required = new[] { "nursery_name", "child_name", "start_date" }
+                            type = "string",
+                            description = "اسم الحضانة المطلوب الحجز فيها"
+                        },
+                        child_name = new
+                        {
+                            type = "string",
+                            description = "اسم الطفل المطلوب حجزه"
+                        },
+                        start_date = new
+                        {
+                            type = "string",
+                            // ✅ تعليمات صارمة جداً في الـ description نفسه
+                            description = "تاريخ بدء الحجز بصيغة YYYY-MM-DD مثال 2026-09-01. مهم جداً: لا تخترع هذه القيمة أبداً. إذا لم يذكر المستخدم التاريخ صراحةً في رسالته، لا تستدعِ هذه الدالة واطلب منه التاريخ أولاً."
                         }
-                    }
+                    },
+                    // ✅ start_date مش required عشان الموديل مش إجباري يملأها
+                    required = new[] { "nursery_name", "child_name" }
                 }
             }
-        };
+        }
+    }
+};
 
-        var systemInstruction = """
-            أنت مساعد ذكي لتطبيق حضانات في مصر اسمه Nurseries Network.
 
-            مهمتك مساعدة الآباء في:
-            1. البحث عن حضانات مناسبة (استخدم find_nearby_nurseries)
-            2. حجز حضانة لطفلهم (استخدم create_booking)
+        var today = DateTime.UtcNow.ToString("yyyy-MM-dd");
+        var tomorrow = DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-dd");
+        var nextWeek = DateTime.UtcNow.AddDays(7).ToString("yyyy-MM-dd");
 
-            قواعد صارمة لازم تتبعها:
-            - إذا كانت رسالة المستخدم مجرد تحية (السلام عليكم، أهلاً، ازيك...)، لا تستخدم أي Function، رد بتحية ودودة وسؤال عن طلبه.
-            - إذا كانت الرسالة شكر (شكراً، تسلم...)، لا تستخدم أي Function، رد بالعفو وتحت أمره.
-            - إذا لم تكن الرسالة عن الحضانات أو الحجز بشكل واضح، لا تستخدم أي Function، رد برد عام مناسب.
-            - إذا كان الطلب واضح ومحدد (يدور على حضانة أو يريد الحجز)، استخدم الـ Function المناسبة مباشرة.
-            - إذا كان الطلب غامض أو ناقص معلومة أساسية للحجز (مثل اسم الطفل أو التاريخ)، اطلب التوضيح بدل استدعاء Function.
-            - لا تخترع أسماء حضانات أو معلومات غير موجودة في نتائج الـ Function.
-            - لا تؤكد حجز لم يتم تنفيذه فعليًا عبر create_booking.
-            """;
+        var systemInstruction = $"""
+    أنت مساعد ذكي لتطبيق حضانات في مصر اسمه Nurseries Network.
+
+    تاريخ اليوم هو: {today}
+
+    مهمتك هي مساعدة أولياء الأمور في:
+    1. البحث عن حضانات مناسبة باستخدام الدالة find_nearby_nurseries.
+    2. إنشاء حجز باستخدام الدالة create_booking.
+
+    ========================
+    القواعد العامة
+    ========================
+
+    - إذا كانت رسالة المستخدم مجرد تحية، فلا تستدعِ أي Function، ورد بتحية ودودة.
+    - إذا كانت رسالة المستخدم شكر، فلا تستدعِ أي Function، ورد بلطف.
+    - إذا كان السؤال خارج نطاق التطبيق أو الحضانات، فلا تستدعِ أي Function.
+    - لا تخترع أي معلومات غير موجودة.
+    - لا تخترع أسماء حضانات أو أطفال أو أسعار أو تقييمات أو أماكن.
+    - استخدم الـ Functions المتاحة فقط عند الحاجة.
+    - لا تستدعِ نفس الـ Function أكثر من مرة لنفس الطلب إلا إذا غيّر المستخدم طلبه.
+
+    ========================
+    فهم المحادثة (History)
+    ========================
+
+    - استخدم الرسالة الحالية مع History لفهم المقصود.
+    - إذا كانت الرسالة الحالية تكمل رسالة سابقة، فاعتبرها استمرارًا لنفس الطلب.
+    - إذا أرسل المستخدم اسم الطفل فقط أو التاريخ فقط أو اسم الحضانة فقط، فاجمعها مع المعلومات الموجودة في History.
+    - لا تطلب معلومة سبق أن ذكرها المستخدم في المحادثة.
+    - ✅ إذا توفرت اسم الحضانة واسم الطفل والتاريخ مجتمعةً عبر المحادثة، استدعِ create_booking مباشرة.
+
+    ========================
+    البحث عن الحضانات
+    ========================
+
+    استخدم find_nearby_nurseries عندما يطلب المستخدم:
+
+    - حضانة في مدينة معينة.
+    - حضانة قريبة.
+    - حضانة بسعر معين.
+    - حضانة بتقييم معين.
+    - حضانة مناسبة لعمر الطفل.
+
+    إذا كانت المعلومات غير كافية، اسأل المستخدم عنها أولًا.
+
+    ========================
+    قواعد الحجز
+    ========================
+
+    لا تستدعِ create_booking إلا إذا أصبحت المعلومات التالية متوفرة:
+
+    1. اسم الحضانة.
+    2. اسم الطفل.
+    3. تاريخ بداية الحجز.
+
+    إذا كانت أي معلومة ناقصة، فلا تستدعِ الدالة.
+
+    إذا كان التاريخ فقط هو الناقص، فرد بهذه الرسالة:
+    "تمام! لإكمال الحجز، يرجى تزويدي بتاريخ البدء بصيغة YYYY-MM-DD، مثال: 2026-09-01"
+
+    ========================
+    فهم التاريخ
+    ========================
+
+    إذا قال المستخدم (اليوم / النهارده / تاريخ اليوم / دلوقتي)، فاستخدم: {today}
+    إذا قال (بكره / غداً)، فاستخدم: {tomorrow}
+    إذا قال (الأسبوع الجاي)، فاستخدم: {nextWeek}
+
+    ⚠️ تحذير مهم: لا تخترع تاريخًا من عندك تحت أي ظرف، حتى لو بدا منطقيًا.
+    إذا لم يذكر المستخدم تاريخًا صريحًا أو تعبيرًا زمنيًا من الأمثلة أعلاه،
+    فاطلب منه التاريخ ولا تستدعِ create_booking.
+
+    ========================
+    بعد تنفيذ الحجز
+    ========================
+
+    - لا تؤكد نجاح الحجز إلا إذا أكدت الدالة create_booking نجاح العملية.
+    - إذا أعادت الدالة رسالة خطأ، فاشرح سبب الخطأ للمستخدم.
+    - إذا نجحت العملية، أخبر المستخدم بنجاح الحجز مع ملخص بسيط.
+
+    ========================
+    أسلوب الرد
+    ========================
+
+    - استخدم اللغة العربية دائمًا ما لم يطلب المستخدم غير ذلك.
+    - اجعل الردود قصيرة وواضحة.
+    - كن ودودًا وطبيعيًا.
+    - لا تكرر نفس المعلومات.
+    - لا تضف معلومات لم يطلبها المستخدم.
+    """;
+
+
+        var contents = BuildContents(history, userMessage);
 
         var requestBody = new
         {
-            system_instruction = new
-            {
-                parts = new[] { new { text = systemInstruction } }
-            },
-            contents = new[]
-            {
-                new
-                {
-                    role = "user",
-                    parts = new[] { new { text = userMessage } }
-                }
-            },
+            system_instruction = new { parts = new[] { new { text = systemInstruction } } },
+            contents,
             tools
         };
 
@@ -473,44 +523,46 @@ public class GeminiService : ILlmService
     // ✅ بعد تنفيذ الـ Function، نرجع النتيجة للموديل يصيغها كرد طبيعي
     // ===========================
     public async Task<string> GetFinalResponseAfterFunctionAsync(
-        string userMessage, string functionName, string functionResult)
+    string userMessage, string functionName, string functionResult)
     {
         var apiKey = _config["Gemini:ApiKey"];
         var model = _config["Gemini:ChatModel"];
-
         var url = $"{BaseUrl}/{model}:generateContent?key={apiKey}";
 
+        var systemInstruction = """
+        أنت مساعد ذكي لتطبيق حضانات في مصر.
+        مهمتك: صياغة رد طبيعي وودود بالعربية الفصيحة فقط بناءً على نتيجة العملية.
+ 
+        قواعد صارمة:
+        - اكتب بالعربية فقط، ولا تستخدم أي كلمات أجنبية أو رموز من لغات أخرى.
+        - اكتب بالعربية فقط، ولا تستخدم أي كلمات أجنبية أو رموز من لغات أخرى.
+        - اكتب بالعربية فقط، ولا تستخدم أي كلمات أجنبية أو رموز من لغات أخرى.
+        - لا تخترع معلومات غير موجودة في النتيجة.
+        - كن مختصراً وودوداً.
+        - لو النتيجة تحتوي على بيانات JSON، لخصها بشكل بشري مفهوم.
+        - لو النتيجة رسالة خطأ أو اعتذار، وضح للمستخدم بأدب ماذا حدث.
+        """;
+
         var prompt = $"""
-            سؤال المستخدم: {userMessage}
-            
-            تم تنفيذ العملية: {functionName}
-            النتيجة: {functionResult}
-            
-            اكتب رداً طبيعياً وودوداً بالعربي للمستخدم يلخص النتيجة.
-            """;
+        طلب المستخدم: {userMessage}
+        العملية المنفذة: {functionName}
+        النتيجة: {functionResult}
+        """;
 
         var requestBody = new
         {
+            system_instruction = new { parts = new[] { new { text = systemInstruction } } },
             contents = new[]
             {
-                new
-                {
-                    role = "user",
-                    parts = new[] { new { text = prompt } }
-                }
-            }
+            new { role = "user", parts = new[] { new { text = prompt } } }
+        }
         };
 
         var response = await SendWithRetryAsync(url, requestBody);
         if (!response.IsSuccessStatusCode)
         {
-            var error = await response.Content.ReadAsStringAsync();
-
-            _logger.LogError(
-                "Gemini Final Response failed. StatusCode: {StatusCode}. Response: {Error}",
-                response.StatusCode,
-                error);
-
+            _logger.LogError("Gemini Final Response failed. StatusCode: {StatusCode}",
+                response.StatusCode);
             return functionResult;
         }
 
@@ -524,6 +576,8 @@ public class GeminiService : ILlmService
             .GetProperty("text")
             .GetString() ?? functionResult;
     }
+
+
 
     // ===========================
     // ✅ إرسال الطلب مع إعادة المحاولة. عند استمرار 429 بعد كل المحاولات،
@@ -585,7 +639,7 @@ public class GeminiService : ILlmService
     // ✅ جديد — Function Calling خاص بـ NurseryAdmin
     // ضيف الميثود دي جوه كلاس GeminiService الموجود عندك، في أي مكان بعد GetFunctionCallAsync
     // ===========================
-    public async Task<AdminFunctionCallResult> GetAdminFunctionCallAsync(string userMessage)
+    public async Task<AdminFunctionCallResult> GetAdminFunctionCallAsync(string userMessage, List<ConversationMessage>? history = null)
     {
         var apiKey = _config["Gemini:ApiKey"];
         var model = _config["Gemini:ChatModel"];
@@ -665,20 +719,12 @@ public class GeminiService : ILlmService
         - لا تخترع بيانات أو نتائج، اعتمد فقط على نتيجة تنفيذ الـ Function.
         """;
 
+        var contents = BuildContents(history, userMessage);
+
         var requestBody = new
         {
-            system_instruction = new
-            {
-                parts = new[] { new { text = systemInstruction } }
-            },
-            contents = new[]
-            {
-            new
-            {
-                role = "user",
-                parts = new[] { new { text = userMessage } }
-            }
-        },
+            system_instruction = new { parts = new[] { new { text = systemInstruction } } },
+            contents,
             tools
         };
 
@@ -726,5 +772,35 @@ public class GeminiService : ILlmService
             false, null, null, "معذرة، مش فاهم طلبك، ممكن توضحه أكتر؟");
     }
 
+
+    // ✅ helper — يبني الـ contents array من الـ history + الرسالة الحالية
+    // Gemini API format: كل رسالة فيها role ("user"/"model") + parts
+    private static object[] BuildContents(
+        List<ConversationMessage>? history, string currentMessage)
+    {
+        var contents = new List<object>();
+
+        if (history != null)
+        {
+            foreach (var msg in history)
+            {
+                // Gemini بيستخدم "model" بدل "assistant"
+                var role = msg.Role == "assistant" ? "model" : "user";
+                contents.Add(new
+                {
+                    role,
+                    parts = new[] { new { text = msg.Content } }
+                });
+            }
+        }
+
+        contents.Add(new
+        {
+            role = "user",
+            parts = new[] { new { text = currentMessage } }
+        });
+
+        return contents.ToArray();
+    }
 
 }

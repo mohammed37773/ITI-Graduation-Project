@@ -26,9 +26,9 @@ public class GroqService : ILlmService
     // ===========================
     // Chat عادي
     // ===========================
-    public async Task<string> GetChatResponseAsync(string systemPrompt, string userMessage)
+    public async Task<string> GetChatResponseAsync(string systemPrompt, string userMessage, List<ConversationMessage>? history = null)
     {
-        var requestBody = BuildRequest(systemPrompt, userMessage);
+        var requestBody = BuildRequest(systemPrompt, userMessage, history: history);
         var response = await SendAsync(requestBody);
 
         if (response is null)
@@ -40,31 +40,38 @@ public class GroqService : ILlmService
     // ===========================
     // Intent Classification
     // ===========================
-    public async Task<IntentClassificationResult> ClassifyIntentAsync(string userMessage)
+    public async Task<IntentClassificationResult> ClassifyIntentAsync(
+    string userMessage,
+    List<ConversationMessage>? history = null)
     {
         var systemInstruction = """
-            أنت Classifier مهمتك تحديد نوع رسالة المستخدم في تطبيق حضانات.
-            رد فقط بـ JSON بدون أي شرح أو Markdown، بالشكل ده بالضبط:
+        أنت Classifier مهمتك تحديد نوع رسالة المستخدم في تطبيق حضانات.
+        رد فقط بـ JSON بدون أي شرح أو Markdown، بالشكل ده بالضبط:
 
-            {
-              "intent": "GREETING" | "THANKS" | "GENERAL" | "SEARCH" | "BOOKING" | "MEDICAL_CONCERN",
-              "reply": "نص الرد المباشر لو الـ intent هو GREETING أو THANKS أو GENERAL أو MEDICAL_CONCERN، غير ذلك سيبه فاضي"
-            }
+        {
+          "intent": "GREETING" | "THANKS" | "GENERAL" | "SEARCH" | "BOOKING" | "MEDICAL_CONCERN",
+          "reply": "نص الرد المباشر لو الـ intent هو GREETING أو THANKS أو GENERAL أو MEDICAL_CONCERN، غير ذلك سيبه فاضي"
+        }
 
-            القواعد:
-            - GREETING: لو الرسالة تحية بس (السلام عليكم، أهلاً، ازيك، صباح الخير...)
-            - THANKS: لو الرسالة شكر (شكراً، تسلم، ربنا يخليك...)
-            - GENERAL: لو سؤال عام عن التطبيق نفسه أو خارج نطاق الحضانات
-            - MEDICAL_CONCERN: لو الرسالة بتعبر عن قلق صحي أو حالة طبية للطفل (وزن ناقص، مرض، تأخر نمو، إلخ) من غير طلب بحث صريح عن حضانة. هنا لا تبحث عن حضانات، فقط اطلب توضيح هل المستخدم يريد حضانة متخصصة في الرعاية الطبية أم يحتاج نصيحة طبية (ولو الأخيرة، وضح إنك مساعد حضانات وليس طبيب).
-            - SEARCH: لو المستخدم بيدور على حضانة أو بيسأل عن حضانات بمعايير معينة (مدينة، سعر، تقييم)
-            - BOOKING: لو المستخدم بوضوح عايز يحجز حضانة
+        القواعد:
+        - GREETING: لو الرسالة تحية بس (السلام عليكم، أهلاً، ازيك، صباح الخير...)
+        - THANKS: لو الرسالة شكر (شكراً، تسلم، ربنا يخليك...)
+        - GENERAL: لو سؤال عام عن التطبيق نفسه أو خارج نطاق الحضانات
+        - MEDICAL_CONCERN: لو الرسالة بتعبر عن قلق صحي للطفل من غير طلب بحث صريح عن حضانة
+        - SEARCH: لو المستخدم بيدور على حضانة أو بيسأل عن حضانات بمعايير معينة
+        - BOOKING: لو المستخدم بوضوح عايز يحجز حضانة
 
-            لو الـ intent هو GREETING أو THANKS أو GENERAL أو MEDICAL_CONCERN، اكتب رد مناسب وودود بالعربي في حقل reply.
-            لو الـ intent هو SEARCH أو BOOKING، سيب حقل reply فاضي "".
-            لا تكتب أي حاجة غير الـ JSON.
-            """;
+        ⚠️ مهم جداً: لو كانت المحادثة السابقة تحدثت عن حجز أو بحث،
+        والرسالة الحالية هي استكمال للمحادثة (مثل تاريخ، اسم، تفاصيل إضافية)،
+        صنّفها بنفس نوع المحادثة السابقة (BOOKING أو SEARCH) وليس GENERAL أو GREETING.
 
-        var requestBody = BuildRequest(systemInstruction, userMessage, jsonMode: true);
+        لو الـ intent هو GREETING أو THANKS أو GENERAL أو MEDICAL_CONCERN، اكتب رد مناسب وودود بالعربي في حقل reply.
+        لو الـ intent هو SEARCH أو BOOKING، سيب حقل reply فاضي "".
+        لا تكتب أي حاجة غير الـ JSON.
+        """;
+
+        // ✅ مرر history لـ BuildRequest
+        var requestBody = BuildRequest(systemInstruction, userMessage, jsonMode: true, history: history);
         var response = await SendAsync(requestBody);
 
         if (response is null)
@@ -145,77 +152,166 @@ public class GroqService : ILlmService
     // Function Calling
     // ===========================
     public async Task<GeminiFunctionCallResult> GetFunctionCallAsync(
-        string userMessage, string conversationContext = "")
+    string userMessage,
+    List<ConversationMessage>? history = null)
     {
-        var systemInstruction = """
-            أنت مساعد ذكي لتطبيق حضانات في مصر اسمه Nurseries Network.
+        var today = DateTime.UtcNow.ToString("yyyy-MM-dd");
+        var tomorrow = DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-dd");
+        var nextWeek = DateTime.UtcNow.AddDays(7).ToString("yyyy-MM-dd");
 
-            مهمتك مساعدة الآباء في:
-            1. البحث عن حضانات مناسبة (استخدم find_nearby_nurseries)
-            2. حجز حضانة لطفلهم (استخدم create_booking)
+        var systemInstruction = $"""
+    أنت مساعد ذكي لتطبيق حضانات في مصر اسمه Nurseries Network.
 
-            قواعد صارمة:
-            - إذا كانت الرسالة تحية أو شكر أو غير متعلقة بالحضانات، لا تستخدم أي Function، رد مباشرة.
-            - إذا كان الطلب واضح ومحدد، استخدم الـ Function المناسبة مباشرة.
-            - إذا كان الطلب غامض أو ناقص معلومة أساسية، اطلب التوضيح بدل استدعاء Function.
-            - لا تخترع أسماء حضانات أو معلومات غير موجودة.
-            """;
+    تاريخ اليوم هو: {today}
 
+    مهمتك هي مساعدة أولياء الأمور في:
+    1. البحث عن حضانات مناسبة باستخدام الدالة find_nearby_nurseries.
+    2. إنشاء حجز باستخدام الدالة create_booking.
+
+    ========================
+    القواعد العامة
+    ========================
+    - إذا كانت رسالة المستخدم مجرد تحية، فلا تستدعِ أي Function، ورد بتحية ودودة.
+    - إذا كانت رسالة المستخدم شكر، فلا تستدعِ أي Function، ورد بلطف.
+    - إذا كان السؤال خارج نطاق التطبيق أو الحضانات، فلا تستدعِ أي Function.
+    - لا تخترع أي معلومات غير موجودة.
+    - لا تخترع أسماء حضانات أو أطفال أو أسعار أو تقييمات أو أماكن.
+    - استخدم الـ Functions المتاحة فقط عند الحاجة.
+    - لا تستدعِ نفس الـ Function أكثر من مرة لنفس الطلب إلا إذا غيّر المستخدم طلبه.
+
+    ========================
+    فهم المحادثة (History)
+    ========================
+
+    - استخدم الرسالة الحالية مع History لفهم المقصود.
+    - إذا كانت الرسالة الحالية تكمل رسالة سابقة، فاعتبرها استمرارًا لنفس الطلب.
+    - إذا أرسل المستخدم اسم الطفل فقط أو التاريخ فقط أو اسم الحضانة فقط، فاجمعها مع المعلومات الموجودة في History.
+    - لا تطلب معلومة سبق أن ذكرها المستخدم في المحادثة.
+    - ✅ إذا توفرت اسم الحضانة واسم الطفل والتاريخ مجتمعةً عبر المحادثة، استدعِ create_booking مباشرة.
+
+    ========================
+    البحث عن الحضانات
+    ========================
+
+    استخدم find_nearby_nurseries عندما يطلب المستخدم:
+
+    - حضانة في مدينة معينة.
+    - حضانة قريبة.
+    - حضانة بسعر معين.
+    - حضانة بتقييم معين.
+    - حضانة مناسبة لعمر الطفل.
+
+    إذا كانت المعلومات غير كافية، اسأل المستخدم عنها أولًا.
+
+    ========================
+    قواعد الحجز
+    ========================
+
+    لا تستدعِ create_booking إلا إذا أصبحت المعلومات التالية متوفرة:
+
+    1. اسم الحضانة.
+    2. اسم الطفل.
+    3. تاريخ بداية الحجز.
+
+    إذا كانت أي معلومة ناقصة، فلا تستدعِ الدالة.
+
+    إذا كان التاريخ فقط هو الناقص، فرد بهذه الرسالة:
+    "تمام! لإكمال الحجز، يرجى تزويدي بتاريخ البدء بصيغة YYYY-MM-DD، مثال: 2026-09-01"
+
+    ========================
+    فهم التاريخ
+    ========================
+
+    إذا قال المستخدم (اليوم / النهارده / تاريخ اليوم / دلوقتي)، فاستخدم: {today}
+    إذا قال (بكره / غداً)، فاستخدم: {tomorrow}
+    إذا قال (الأسبوع الجاي)، فاستخدم: {nextWeek}
+
+    ⚠️ تحذير مهم: لا تخترع تاريخًا من عندك تحت أي ظرف، حتى لو بدا منطقيًا.
+    إذا لم يذكر المستخدم تاريخًا صريحًا أو تعبيرًا زمنيًا من الأمثلة أعلاه،
+    فاطلب منه التاريخ ولا تستدعِ create_booking.
+
+    ========================
+    بعد تنفيذ الحجز
+    ========================
+
+    - لا تؤكد نجاح الحجز إلا إذا أكدت الدالة create_booking نجاح العملية.
+    - إذا أعادت الدالة رسالة خطأ، فاشرح سبب الخطأ للمستخدم.
+    - إذا نجحت العملية، أخبر المستخدم بنجاح الحجز مع ملخص بسيط.
+
+    ========================
+    أسلوب الرد
+    ========================
+
+    - استخدم اللغة العربية دائمًا ما لم يطلب المستخدم غير ذلك.
+    - اجعل الردود قصيرة وواضحة.
+    - كن ودودًا وطبيعيًا.
+    - لا تكرر نفس المعلومات.
+    - لا تضف معلومات لم يطلبها المستخدم.
+    """;
+
+
+
+        // ✅ بعد — OpenAI format (الصح مع Groq)
         var tools = new object[]
         {
-            new
+    new
+    {
+        type = "function",
+        function = new
+        {
+            name = "find_nearby_nurseries",
+            description = "البحث عن حضانات قريبة من موقع معين بسعر معين",
+            parameters = new
             {
-                type = "function",
-                function = new
+                type = "object",
+                properties = new
                 {
-                    name = "find_nearby_nurseries",
-                    description = "البحث عن حضانات قريبة من موقع معين بسعر معين",
-                    parameters = new
-                    {
-                        type = "object",
-                        properties = new
-                        {
-                            city = new { type = "string", description = "اسم المدينة المطلوب البحث فيها" },
-                            max_price = new { type = "number", description = "أعلى سعر يومي مقبول بالجنيه المصري" }
-                        },
-                        required = Array.Empty<string>()
-                    }
-                }
-            },
-            new
-            {
-                type = "function",
-                function = new
-                {
-                    name = "create_booking",
-                    description = "إنشاء حجز جديد لطفل في حضانة معينة",
-                    parameters = new
-                    {
-                        type = "object",
-                        properties = new
-                        {
-                            nursery_name = new { type = "string", description = "اسم الحضانة المطلوب الحجز فيها" },
-                            child_name = new { type = "string", description = "اسم الطفل المطلوب حجزه" },
-                            start_date = new { type = "string", description = "تاريخ بدء الحجز بصيغة YYYY-MM-DD" }
-                        },
-                        required = new[] { "nursery_name", "child_name", "start_date" }
-                    }
-                }
+                    city = new { type = "string", description = "اسم المدينة المطلوب البحث فيها" },
+                    max_price = new { type = "number", description = "أعلى سعر يومي مقبول بالجنيه المصري" }
+                },
+                required = Array.Empty<string>()
             }
+        }
+    },
+    new
+    {
+        type = "function",
+        function = new
+        {
+            name = "create_booking",
+            description = "إنشاء حجز جديد لطفل في حضانة معينة — استدعِ هذه الدالة فقط عندما يكون لديك nursery_name وchild_name وstart_date بشكل صريح من المستخدم",
+            parameters = new
+            {
+                type = "object",
+                properties = new
+                {
+                    nursery_name = new { type = "string", description = "اسم الحضانة المطلوب الحجز فيها" },
+                    child_name = new { type = "string", description = "اسم الطفل المطلوب حجزه" },
+                    start_date = new
+                    {
+                        type = "string",
+                        description = "تاريخ بدء الحجز بصيغة YYYY-MM-DD مثال 2026-09-01. مهم: لا تخترع هذه القيمة أبداً، إذا لم يذكرها المستخدم اطلبها منه."
+                    }
+                },
+                required = new[] { "nursery_name", "child_name" }
+            }
+        }
+    }
         };
+
 
         var model = _config["Groq:ChatModel"];
 
-        var requestBody = new
-        {
-            model,
-            messages = new object[]
-            {
-                new { role = "system", content = systemInstruction },
-                new { role = "user", content = userMessage }
-            },
-            tools
-        };
+        var messages = new List<object>();
+        messages.Add(new { role = "system", content = systemInstruction });
+
+        if (history != null)
+            foreach (var msg in history)
+                messages.Add(new { role = msg.Role, content = msg.Content });
+
+        messages.Add(new { role = "user", content = userMessage });
+
+        var requestBody = new { model, messages, tools };
 
         var response = await SendAsync(requestBody);
 
@@ -251,19 +347,33 @@ public class GroqService : ILlmService
     // ===========================
     // بعد تنفيذ الـ Function، نرجع النتيجة للموديل يصيغها كرد طبيعي
     // ===========================
+
+    // استبدل GetFinalResponseAfterFunctionAsync في GroqService.cs بالكود ده
+    // ===========================
     public async Task<string> GetFinalResponseAfterFunctionAsync(
         string userMessage, string functionName, string functionResult)
     {
+        var systemInstruction = """
+        أنت مساعد ذكي لتطبيق حضانات في مصر.
+        مهمتك: صياغة رد طبيعي وودود بالعربية الفصيحة فقط بناءً على نتيجة العملية.
+ 
+        قواعد صارمة:
+        - اكتب بالعربية فقط، ولا تستخدم أي كلمات أجنبية أو رموز من لغات أخرى إطلاقاً.
+        - اكتب بالعربية فقط، ولا تستخدم أي كلمات أجنبية أو رموز من لغات أخرى إطلاقاً.
+        - اكتب بالعربية فقط، ولا تستخدم أي كلمات أجنبية أو رموز من لغات أخرى إطلاقاً.
+        - لا تخترع معلومات غير موجودة في النتيجة.
+        - كن مختصراً وودوداً.
+        - لو النتيجة تحتوي على بيانات JSON، لخصها بشكل بشري مفهوم.
+        - لو النتيجة رسالة خطأ أو اعتذار، وضح للمستخدم بأدب ماذا حدث.
+        """;
+
         var prompt = $"""
-            سؤال المستخدم: {userMessage}
+        طلب المستخدم: {userMessage}
+        العملية المنفذة: {functionName}
+        النتيجة: {functionResult}
+        """;
 
-            تم تنفيذ العملية: {functionName}
-            النتيجة: {functionResult}
-
-            اكتب رداً طبيعياً وودوداً بالعربي للمستخدم يلخص النتيجة.
-            """;
-
-        var requestBody = BuildRequest(null, prompt);
+        var requestBody = BuildRequest(systemInstruction, prompt);
         var response = await SendAsync(requestBody);
 
         if (response is null)
@@ -272,31 +382,38 @@ public class GroqService : ILlmService
         return ExtractTextContent(response.Value) ?? functionResult;
     }
 
+
     // ===========================
     // Helpers
     // ===========================
-    private object BuildRequest(string? systemPrompt, string userMessage, bool jsonMode = false)
+    private object BuildRequest(
+    string? systemPrompt, string userMessage,
+    bool jsonMode = false,
+    List<ConversationMessage>? history = null)
     {
         var model = _config["Groq:ChatModel"];
 
         var messages = new List<object>();
+
         if (!string.IsNullOrWhiteSpace(systemPrompt))
             messages.Add(new { role = "system", content = systemPrompt });
+
+        // ✅ ضيف الـ history قبل الرسالة الحالية
+        if (history != null)
+        {
+            foreach (var msg in history)
+            {
+                messages.Add(new { role = msg.Role, content = msg.Content });
+            }
+        }
+
         messages.Add(new { role = "user", content = userMessage });
 
         if (jsonMode)
-        {
-            return new
-            {
-                model,
-                messages,
-                response_format = new { type = "json_object" }
-            };
-        }
+            return new { model, messages, response_format = new { type = "json_object" } };
 
         return new { model, messages };
     }
-
     private async Task<JsonElement?> SendAsync(object requestBody)
     {
         var apiKey = _config["Groq:ApiKey"];
@@ -341,7 +458,7 @@ public class GroqService : ILlmService
     // ✅ جديد — Function Calling خاص بـ NurseryAdmin (نفس منطق Gemini بصيغة OpenAI-compatible)
     // ضيف الميثود دي جوه كلاس GroqService الموجود عندك، في أي مكان بعد GetFunctionCallAsync
     // ===========================
-    public async Task<AdminFunctionCallResult> GetAdminFunctionCallAsync(string userMessage)
+    public async Task<AdminFunctionCallResult> GetAdminFunctionCallAsync(string userMessage, List<ConversationMessage>? history = null)
     {
         var systemInstruction = """
         أنت مساعد ذكي يساعد مدير حضانة (NurseryAdmin) على إدارة حضانته بكفاءة.
@@ -400,16 +517,16 @@ public class GroqService : ILlmService
 
         var model = _config["Groq:ChatModel"];
 
-        var requestBody = new
-        {
-            model,
-            messages = new object[]
-            {
-            new { role = "system", content = systemInstruction },
-            new { role = "user", content = userMessage }
-            },
-            tools
-        };
+        var messages = new List<object>();
+        messages.Add(new { role = "system", content = systemInstruction });
+
+        if (history != null)
+            foreach (var msg in history)
+                messages.Add(new { role = msg.Role, content = msg.Content });
+
+        messages.Add(new { role = "user", content = userMessage });
+
+        var requestBody = new { model, messages, tools };
 
         var response = await SendAsync(requestBody);
 

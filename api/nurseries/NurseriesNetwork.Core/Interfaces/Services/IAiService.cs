@@ -7,7 +7,8 @@ namespace NurseriesNetwork.Core.Interfaces.Services
     {
         Task<RecommendationResult> GetRecommendationAsync(
         string message, double? lat, double? lng,
-        IntentClassificationResult? precomputedIntent = null);
+        IntentClassificationResult? precomputedIntent = null,
+        List<ConversationMessage>? history = null);  // ✅ جديد
 
         Task GenerateAndSaveEmbeddingAsync(Nursery nursery);
 
