@@ -1,10 +1,13 @@
+import { Component, computed, inject, OnInit, signal, effect, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Booking } from '../../../core/models/booking.model';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Chart, registerables } from 'chart.js';
+import { Booking } from '../../../core/models/booking.model';
 import { environment } from '../../../../environments/environment';
 import { BookingsService } from '../../../core/services/bookings';
+
+Chart.register(...registerables);
 
 @Component({
   selector: 'app-dashboard',
@@ -17,43 +20,51 @@ export class Dashboard implements OnInit {
   private http = inject(HttpClient);
   private bookingService = inject(BookingsService);
 
-  // الـ Base URL الموحد عندك في السيرفر
+  @ViewChild('statusChart') statusChartRef!: ElementRef;
+  @ViewChild('earningsChart') earningsChartRef!: ElementRef;
+
+  private statusChartInstance: Chart | null = null;
+  private earningsChartInstance: Chart | null = null;
+
   private apiUrl = environment.backUrl + '/api/Bookings/owner-bookings';
 
-  // Signal رئيسي لتخزين قائمة الحجوزات الخام القادمة من السيرفر
   bookings = signal<Booking[]>([]);
   isLoading = signal<boolean>(true);
 
-  // 🔥 Computed Signals ذكية ومحسوبة تلقائياً فور تغير قائمة الحجوزات:
-
-  // 1. حساب الطلبات المعلقة
+  // 1. حساب الحجوزات المعلقة
   pendingRequestsCount = computed(() => {
     return this.bookings().filter((b) => b.status === 'Pending').length;
   });
 
-  // 2. حساب الأطفال المقبولين/النشطين بالحضانة
+  // 2. حساب الأطفال النشطين حالياً (المؤكدة والمقبولة)
   activeBookingsCount = computed(() => {
-    return this.bookings().filter((b) => b.status === 'Confirmed' || b.status === 'Completed')
-      .length;
+    return this.bookings().filter((b) => b.status === 'Confirmed').length;
   });
 
-  // 3. حساب إجمالي الإيرادات لايف من الحجوزات المؤكدة
+  // 3. إجمالي الإيرادات المسحوبة من الحجوزات المؤكدة والمكتملة
   totalEarnings = computed(() => {
     return this.bookings()
       .filter((b) => b.status === 'Confirmed' || b.status === 'Completed')
       .reduce((sum, current) => sum + (current.totalPrice || 0), 0);
   });
 
-  // 🔥 تصليح الـ Return Type هنا لـ void
+  constructor() {
+    // مراقبة التغيرات في الـ bookings وإعادة رسم الـ Charts تلقائياً بداتا حية
+    effect(() => {
+      const data = this.bookings();
+      if (data.length > 0) {
+        // تأخير بسيط للتأكد من أن الـ DOM تم رندمته والـ Canvas متاح
+        setTimeout(() => this.updateCharts(), 50);
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.fetchDashboardData();
   }
 
-  // دالة جلب البيانات لايف من قاعدة البيانات
   fetchDashboardData() {
     this.isLoading.set(true);
-
-    // الـ Interceptor بتاعك هيرفق التوكن تلقائياً هنا في الخلفية
     this.http.get<Booking[]>(this.apiUrl).subscribe({
       next: (data) => {
         this.bookings.set(data || []);
@@ -62,24 +73,64 @@ export class Dashboard implements OnInit {
       error: (err) => {
         console.error('خطأ أثناء جلب بيانات لوحة التحكم:', err);
         this.isLoading.set(false);
-        // تعيين مصفوفة فارغة لتجنب ضرب الشاشة لو مفيش بيانات
         this.bookings.set([]);
       },
     });
   }
 
-  cancelBooking(id: number){
-    this.bookingService.cancel(id).subscribe({
-      next:(response)=>{
+  updateCharts() {
+    const totalPending = this.pendingRequestsCount();
+    const totalConfirmed = this.activeBookingsCount();
+    const totalCompleted = this.bookings().filter(b => b.status === 'Completed').length;
+    const totalCancelled = this.bookings().filter(b => b.status === 'Cancelled').length;
 
-      },
-      error: ()=> {
+    // 1. رسم بياني لحالات الحجوزات (Pie Chart)
+    if (this.statusChartRef) {
+      if (this.statusChartInstance) this.statusChartInstance.destroy();
+      this.statusChartInstance = new Chart(this.statusChartRef.nativeElement, {
+        type: 'doughnut',
+        data: {
+          labels: ['معلق', 'مؤكد/نشط', 'مكتمل', 'ملغي'],
+          datasets: [{
+            data: [totalPending, totalConfirmed, totalCompleted, totalCancelled],
+            backgroundColor: ['#ffc107', '#198754', '#0d6efd', '#dc3545'],
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom', rtl: true } } }
+      });
+    }
 
-      },
-      complete: ()=> {
-
-      }
-    });
+    // 2. رسم بياني مقارنة الأرباح (Bar Chart)
+    if (this.earningsChartRef) {
+      if (this.earningsChartInstance) this.earningsChartInstance.destroy();
+      this.earningsChartInstance = new Chart(this.earningsChartRef.nativeElement, {
+        type: 'bar',
+        data: {
+          labels: ['إجمالي الأرباح المكتسبة (ج.م)'],
+          datasets: [{
+            label: 'الإيرادات',
+            data: [this.totalEarnings()],
+            backgroundColor: ['#20c997'],
+            borderRadius: 8
+          }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+    }
   }
 
+  // سيتم ربط هذه الأزرار بالإجراءات الفورية من السيرفر وعمل تحديث تلقائي للداتا
+  handleAction(id: number, actionType: string) {
+    // مثال للتعامل مع الإجراءات مباشرة من لوحة التحكم لتحديث الأرقام لايف
+    let request;
+    if (actionType === 'cancel') request = this.bookingService.cancel(id);
+    // يمكنك إضافة القبول أو الـ complete هنا لاحقاً
+    
+    if (request) {
+      request.subscribe({
+        next: () => this.fetchDashboardData(), // تحديث الجدول والـ Charts لايف فوراً
+        error: (err) => console.error(err)
+      });
+    }
+  }
 }

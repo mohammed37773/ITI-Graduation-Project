@@ -28,7 +28,7 @@ export class NurseryList implements OnInit {
   maxPrice = signal<number | null>(null);
   minRating = signal<number | null>(null);
   currentPage = signal<number>(1);
-  pageSize = 6; 
+  pageSize = 3; 
 
   ngOnInit(): void {
     // 🔍 لقط كلمة البحث القادمة من الهوم أوتوماتيكياً عند فتح الصفحة
