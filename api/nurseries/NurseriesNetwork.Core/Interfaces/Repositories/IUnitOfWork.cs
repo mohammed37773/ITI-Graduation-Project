@@ -10,7 +10,7 @@ namespace NurseriesNetwork.Core.Interfaces.Repositories
         INurseryRepository Nurseries { get; }
         IReviewRepository Reviews { get; }
         IBookingRepository Bookings { get; }
-        IPaymentRepository Payments { get; }
+        IGenericRepository<Payment> Payments { get; }
         IGenericRepository<Child> Children { get; }
         IGenericRepository<NurseryImage> NurseryImages { get; }
         IGenericRepository<ApplicationUser> Users { get; }
