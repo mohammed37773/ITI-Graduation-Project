@@ -197,6 +197,52 @@ public class BookingsController : ControllerBase
         return Ok("تم إلغاء الحجز");
     }
 
+    // ==========================================
+    // POST: api/payment/{bookingId}/complete-booking
+    // ==========================================
+    [HttpPost("{bookingId}/complete-booking")]
+    [Authorize(Roles = "NurseryAdmin")]
+    public async Task<IActionResult> CompleteBooking(int bookingId)
+    {
+        var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+        // التأكد أن الحجز موجود
+        var booking = await _uow.Bookings.GetByIdAsync(bookingId);
+        if (booking == null)
+            return NotFound("الحجز غير موجود");
+
+        // التأكد أن الحضانة موجودة
+        var nursery = await _uow.Nurseries.GetByIdAsync(booking.NurseryId);
+        if (nursery == null)
+            return NotFound("الحضانة غير موجودة");
+
+        // التأكد أن المستخدم هو صاحب الحضانة
+        if (nursery.OwnerId != ownerId)
+            return Forbid();
+
+        // لا يمكن إنهاء حجز ملغي أو منتهي بالفعل
+        if (booking.Status == BookingStatus.Cancelled)
+            return BadRequest("الحجز ملغي بالفعل");
+
+        if (booking.Status == BookingStatus.Completed)
+            return BadRequest("الحجز منتهي بالفعل");
+
+        // يفضل أيضًا التأكد أنه مدفوع
+        if (booking.Status != BookingStatus.Confirmed)
+            return BadRequest("لا يمكن إنهاء حجز غير مؤكد");
+
+        var amount = await _uow.Bookings.CompleteBookingAsync(bookingId);
+
+        if (amount == null)
+            return BadRequest("تعذر إنهاء الحجز");
+
+        return Ok(new
+        {
+            Message = "تم إنهاء الحجز بنجاح",
+            TotalAmount = amount
+        });
+    }
+
     // ===========================
     // PUT: api/bookings/{id}/confirm
     // NurseryAdmin بيأكد الحجز
