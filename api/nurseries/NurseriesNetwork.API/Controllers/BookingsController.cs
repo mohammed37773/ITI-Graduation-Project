@@ -49,6 +49,7 @@ public class BookingsController : ControllerBase
         if (!nursery.IsVerified)
             return BadRequest("الحضانة دي مش متأكدة من الإدارة لسه");
 
+       
         // التحقق من الطفل
         var child = await _uow.Children.GetByIdAsync(dto.ChildId);
         if (child == null || child.ParentId != parentId)

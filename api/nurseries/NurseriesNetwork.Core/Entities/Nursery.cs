@@ -13,6 +13,7 @@ namespace NurseriesNetwork.Core.Entities
         public int AgeRangeMin { get; set; }
         public int AgeRangeMax { get; set; }
         public int Capacity { get; set; }
+        public int? AvailablePlaces { get; set; } 
         public double AvgRating { get; set; }
         public bool IsVerified { get; set; } = false;
         public string? EmbeddingVector { get; set; }      // للـ RAG

@@ -177,8 +177,22 @@ public class PaymobWebhookController : ControllerBase
                 {
                     booking.Status = BookingStatus.Confirmed;
                     _uow.Bookings.Update(booking);
+                    var nursery = await _uow.Nurseries.GetByIdAsync(booking.NurseryId);
+                    if (nursery != null)
+                    {
+                        if (nursery.AvailablePlaces > 0)
+                        {
+                            nursery.AvailablePlaces -= 1;
+                            _uow.Nurseries.Update(nursery);
+                            _logger.LogInformation("Nursery ID {NurseryId} AvailablePlaces decremented by 1.", nursery.Id);
+                        }
+                        else
+                        {
+                            _logger.LogWarning("Nursery ID {NurseryId} has no available places left, but booking confirmed via successful payment.", nursery.Id);
+                        }
+                    }
                 }
-
+               
                 await _uow.SaveChangesAsync();
 
                 // بعت إيميل تأكيد

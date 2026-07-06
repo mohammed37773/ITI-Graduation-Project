@@ -12,8 +12,8 @@ using NurseriesNetwork.Infrastructure.Data;
 namespace NurseriesNetwork.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260619054743_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260706010357_Added-Availabel")]
+    partial class AddedAvailabel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -250,6 +250,9 @@ namespace NurseriesNetwork.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateOnly?>("EndDate")
+                        .HasColumnType("date");
+
                     b.Property<int>("NurseryId")
                         .HasColumnType("int");
 
@@ -357,6 +360,9 @@ namespace NurseriesNetwork.Infrastructure.Migrations
                     b.Property<int>("AgeRangeMin")
                         .HasColumnType("int");
 
+                    b.Property<int?>("AvailablePlaces")
+                        .HasColumnType("int");
+
                     b.Property<double>("AvgRating")
                         .HasColumnType("float");
 
@@ -384,7 +390,14 @@ namespace NurseriesNetwork.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId")
+                        .IsUnique();
 
                     b.ToTable("Nurseries");
                 });
@@ -600,6 +613,17 @@ namespace NurseriesNetwork.Infrastructure.Migrations
                     b.Navigation("Nursery");
                 });
 
+            modelBuilder.Entity("NurseriesNetwork.Core.Entities.Nursery", b =>
+                {
+                    b.HasOne("NurseriesNetwork.Core.Entities.ApplicationUser", "Owner")
+                        .WithOne("OwnedNursery")
+                        .HasForeignKey("NurseriesNetwork.Core.Entities.Nursery", "OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("NurseriesNetwork.Core.Entities.NurseryImage", b =>
                 {
                     b.HasOne("NurseriesNetwork.Core.Entities.Nursery", "Nursery")
@@ -654,6 +678,8 @@ namespace NurseriesNetwork.Infrastructure.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("Children");
+
+                    b.Navigation("OwnedNursery");
 
                     b.Navigation("Payments");
 

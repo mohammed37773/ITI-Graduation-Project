@@ -11,5 +11,6 @@ namespace NurseriesNetwork.Core.Interfaces.Repositories
         Task<List<ReadBookingDto>?> GetWithDetailsAsync(string parentId);
         Task<List<ReadBookingDto>?> GetNurseryBookingsWithDetailsAsync(string ownerId);
 
+        Task<decimal?> CompleteBookingAsync(int bookingId, string ownerId);
     }
 }

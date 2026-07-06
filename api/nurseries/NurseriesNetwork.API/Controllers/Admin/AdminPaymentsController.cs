@@ -65,15 +65,13 @@ public class AdminPaymentsController : ControllerBase
             }
         });
     }
-
-    // ===========================
+    // ==========================================
     // POST: api/admin/payments/{id}/refund
-    // ===========================
-    // غيّر الـ Refund method بس — الباقي زي ما هو
-
+    // ==========================================
     [HttpPost("{id}/refund")]
     public async Task<IActionResult> Refund(int id)
     {
+        // 1. جلب الدفعة
         var payment = await _uow.Payments.GetByIdAsync(id);
         if (payment == null)
             return NotFound(new { msg = "الدفعة مش موجودة" });
@@ -81,30 +79,39 @@ public class AdminPaymentsController : ControllerBase
         if (payment.Status != PaymentStatus.Completed)
             return BadRequest(new { msg = "مش ممكن ترجع دفعة مش مكتملة" });
 
-        // ✅ بدل ProcessPaymentAsync استخدم RefundAsync
-        var paymentService = _paymentFactory
-            .GetPaymentService(payment.Method);
+        // 2. جلب الحجز المتعلق بالدفعة
+        var booking = await _uow.Bookings.GetByIdAsync(payment.BookingId);
+        if (booking == null)
+            return NotFound(new { msg = "الحجز المتعلق بهذه الدفعة غير موجود" });
 
-        var refunded = await paymentService
-            .RefundAsync(payment.TransactionId!);
+        // 3. جلب الحضانة لتحديث الأماكن المتاحة لاحقاً
+        var nursery = await _uow.Nurseries.GetByIdAsync(booking.NurseryId);
+        if (nursery == null)
+            return NotFound(new { msg = "الحضانة المتعلقة بالحجز غير موجودة" });
+
+        // 4. استدعاء بوابة الدفع وعمل الـ Refund الفعلي
+        var paymentService = _paymentFactory.GetPaymentService(payment.Method);
+        var refunded = await paymentService.RefundAsync(payment.TransactionId!);
 
         if (!refunded)
-            return BadRequest(new { msg = "فشل الاسترداد" });
+            return BadRequest(new { msg = "فشل الاسترداد من بوابة الدفع" });
 
+        // 5. تحديث حالة الدفعة إلى مسترجعة
         payment.Status = PaymentStatus.Refunded;
         _uow.Payments.Update(payment);
 
-        var booking = await _uow.Bookings
-            .GetByIdAsync(payment.BookingId);
-        if (booking != null)
-        {
-            booking.Status = BookingStatus.Cancelled;
-            _uow.Bookings.Update(booking);
-        }
+        // 6. تحديث حالة الحجز إلى ملغي
+        booking.Status = BookingStatus.Cancelled;
+        _uow.Bookings.Update(booking);
 
+        // 7. اللوجيك الجديد: زيادة الأماكن المتاحة (+1) لأن الحجز أُلغي والمكان أصبح شاغراً
+        nursery.AvailablePlaces += 1;
+        _uow.Nurseries.Update(nursery);
+
+        // 8. حفظ كل التغييرات في قاعدة البيانات (Atomic Transaction)
         await _uow.SaveChangesAsync();
 
-        return Ok(new { msg = "تم استرداد المبلغ بنجاح" });
+        return Ok(new { msg = "تم استرداد المبلغ وإلغاء الحجز وتحديث الأماكن المتاحة بنجاح" });
     }
     // ===========================
     // GET: api/admin/reports/summary

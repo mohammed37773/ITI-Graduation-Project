@@ -12,6 +12,7 @@ namespace NurseriesNetwork.Core.Entities
         public int NurseryId { get; set; }
         public int ChildId { get; set; }
         public DateOnly StartDate { get; set; }
+        public DateOnly? EndDate { get; set; } = null;
         public BookingStatus Status { get; set; } = BookingStatus.Pending;
         public decimal TotalPrice { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

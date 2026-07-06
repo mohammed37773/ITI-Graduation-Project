@@ -247,6 +247,9 @@ namespace NurseriesNetwork.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateOnly?>("EndDate")
+                        .HasColumnType("date");
+
                     b.Property<int>("NurseryId")
                         .HasColumnType("int");
 
@@ -352,6 +355,9 @@ namespace NurseriesNetwork.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("AgeRangeMin")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AvailablePlaces")
                         .HasColumnType("int");
 
                     b.Property<double>("AvgRating")

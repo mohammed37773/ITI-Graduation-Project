@@ -1,12 +1,13 @@
-﻿using System.Net.Http.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using NurseriesNetwork.Core.DTOs.Payment;
+using NurseriesNetwork.Core.Entities;
+using NurseriesNetwork.Core.Enums;
+using NurseriesNetwork.Core.Interfaces.Services;
+using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using NurseriesNetwork.Core.DTOs.Payment;
-using NurseriesNetwork.Core.Enums;
-using NurseriesNetwork.Core.Interfaces.Services;
 
 namespace NurseriesNetwork.Infrastructure.Services.Payment;
 
@@ -138,6 +139,7 @@ public class PaymobService : IPaymentService, IPaymentGatewayService
 
             _logger.LogInformation(
                 "Paymob: Payment intention created successfully");
+            
 
             return new PaymentInitResponseDto(
                 true, 0, paymentUrl, clientSecret,

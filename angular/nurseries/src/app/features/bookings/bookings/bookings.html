@@ -110,7 +110,7 @@
                     <button
                       [routerLink]="['/parent/payment', booking.id]"
                       class="btn btn-primary btn-sm rounded-3"
-                      [hidden]="booking.status === 1 || booking.status === 'Confirmed' || booking.status === 'Completed'"
+                      [hidden]="booking.status !== 0 && booking.status !== 'Pending'"
                     >
                       💳 إتمام الدفع
                     </button>

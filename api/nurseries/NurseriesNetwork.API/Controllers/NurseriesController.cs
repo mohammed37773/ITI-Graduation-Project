@@ -132,6 +132,7 @@ public class NurseriesController : ControllerBase
             AgeRangeMin = dto.AgeRangeMin,
             AgeRangeMax = dto.AgeRangeMax,
             Capacity = dto.Capacity,
+            AvailablePlaces = dto.Capacity, // ✅ جديد — الأماكن المتاحة تساوي السعة عند الإنشاء
             OwnerId = ownerId, // ✅ جديد — ربط الحضانة بمنشئها
             Location = new Location
             {
