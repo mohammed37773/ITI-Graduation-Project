@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import { NurseryListItem } from '../../../core/models/parent-nursery.model';
+import { BookingsService } from '../../../core/services/bookings';
 
 @Component({
   selector: 'app-manage-bookings',
@@ -13,6 +15,10 @@ import { environment } from '../../../../environments/environment';
 })
 export class ManageBookings implements OnInit {
   private http = inject(HttpClient);
+  private bookingService = inject(BookingsService);
+  
+  nursery = signal<NurseryListItem | null>(null);
+  nurseryId!: number;
   backUrl = environment.backUrl;
 
   bookings = signal<any[]>([]);
@@ -59,5 +65,15 @@ export class ManageBookings implements OnInit {
       },
       error: (err) => console.error('خطأ في تحديث الحالة:', err)
     });
+
+      
+
+  }
+
+  handleAction(id: number, actionType: string) {
+    // مثال للتعامل مع الإجراءات مباشرة من لوحة التحكم لتحديث الأرقام لايف
+    if (actionType === "refund") { this.bookingService.refund(id)}
+    if (actionType === "complete") {this.bookingService.complete(id)}
+
   }
 }

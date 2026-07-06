@@ -19,4 +19,13 @@ export class BookingsService {
   cancel(id: number): Observable<any> {
     return this.api.put(`/api/Bookings/${id}/cancel`, {});
   }
+
+  refund(id: number): Observable<any> {
+    console.log("refunding...");
+    return this.api.put(`/api/Payment/${id}/owner-refund`, {});
+  }
+
+  complete(id: number): Observable<any> {
+    return this.api.put(`/api/Bookings/${id}/complete-booking`, {});
+  }
 }

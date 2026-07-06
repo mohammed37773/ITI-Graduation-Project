@@ -120,14 +120,16 @@
                       }}
                     </span>
                   </td>
-                  <td>
+                  <td class="table-actions">
                     @if (booking.status === 'Pending') {
                       <button (click)="handleAction(booking.id, 'cancel')" class="btn btn-sm btn-outline-danger rounded-3 px-2 py-1">
                         إلغاء الحجز
                       </button>
-                    } @else {
+                    }
+                    @else {
                       <span class="text-muted small">-</span>
                     }
+                    
                   </td>
                 </tr>
               }

@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 })
 export class Nursery {
   private http = inject(HttpClient);
-  private apiUrl = environment.backUrl + '/api/nurseries'; 
+  private apiUrl = environment.backUrl + '/api/nurseries/owner/'; 
 
   // جلب تفاصيل حضانة معينة بناءً على الـ ID
   getNurseryById(id: number): Observable<any> {
@@ -16,6 +16,6 @@ export class Nursery {
   }
 
   getNurseryByOwnerId(ownerId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${ownerId}`);
+    return this.http.get<any>(`${this.apiUrl}${ownerId}`);
   }
 }

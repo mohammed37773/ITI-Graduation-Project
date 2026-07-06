@@ -22,7 +22,7 @@ public class ImageService : IImageService
             Directory.CreateDirectory(storagePath);
 
         var uniqueFileName =
-            $"{Guid.NewGuid()}_{fileName}";
+            $"{Guid.NewGuid()}_{fileName}"; // todo remove original file name from the uploaded image
         var filePath = Path.Combine(storagePath, uniqueFileName);
 
         using var fileStream = new FileStream(filePath, FileMode.Create);

@@ -5,6 +5,7 @@ export interface NurseryListItem {
   dailyPrice: number;
   city: string;
   district: string;
+  capacity: number;
   ageRangeMin: number;
   ageRangeMax: number;
   avgRating?: number;

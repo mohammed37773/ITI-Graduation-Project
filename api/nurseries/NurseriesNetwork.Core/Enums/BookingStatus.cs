@@ -4,9 +4,8 @@ using System.Text;
 
 namespace NurseriesNetwork.Core.Enums
 {
-  
 
-    public enum BookingStatus 
+    public enum BookingStatus
     {
         Pending,
         Confirmed,

@@ -13,7 +13,7 @@ public class UnitOfWork : IUnitOfWork
     public IBookingRepository Bookings { get; }
     public IGenericRepository<Child> Children { get; }
     public IGenericRepository<NurseryImage> NurseryImages { get; }
-    public IGenericRepository<Payment> Payments { get; }
+    public IPaymentRepository Payments { get; }
     public IGenericRepository<ApplicationUser> Users { get; }
 
     public UnitOfWork(AppDbContext context)
@@ -24,7 +24,7 @@ public class UnitOfWork : IUnitOfWork
         Bookings = new BookingRepository(context);
         Children = new GenericRepository<Child>(context);
         NurseryImages = new GenericRepository<NurseryImage>(context);
-        Payments = new GenericRepository<Payment>(context);
+        Payments = new PaymentRepository(context);
         Users = new GenericRepository<ApplicationUser>(context);
     }
 

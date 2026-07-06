@@ -226,19 +226,22 @@ public class PaymentController : ControllerBase
     // ==========================================
     // POST: api/payment/{id}/owner-refund
     // ==========================================
-    [HttpPost("{id}/owner-refund")]
-    [Authorize(Roles = "NurseryAdmin")]
-    public async Task<IActionResult> OwnerRefund(int id)
+    // [HttpPost("{id}/owner-refund")]
+    // [Authorize(Roles = "NurseryAdmin")]
+    public async Task<IActionResult> OwnerRefund(int bookingId)
     {
+
         var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-        var payment = await _uow.Payments.GetByIdAsync(id);
-        if (payment == null)
-            return NotFound($"الدفعة رقم {id} مش موجودة في قاعدة البيانات");
+        var booking = await _uow.Bookings.GetByIdAsync(bookingId);
 
-        var booking = await _uow.Bookings.GetByIdAsync(payment.BookingId);
         if (booking == null)
-            return NotFound("الحجز المتعلق بهذه الدفعة غير موجود");
+            return NotFound("الحجز غير موجود");
+
+        var payment = await _uow.Payments.GetByBookingIdAsync(bookingId);
+
+        if (payment == null)
+            return NotFound($"الحجز رقم {bookingId} ملوش دفع في قاعدة البيانات");
 
         var nursery = await _uow.Nurseries.GetByIdAsync(booking.NurseryId);
         if (nursery == null)

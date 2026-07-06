@@ -7,6 +7,9 @@ import { environment } from '../../../../environments/environment';
 import { AuthResponseDto } from '../../../core/models/authModel';
 import { User } from '../../../core/models/user.model';
 import { Nursery } from '../../../core/services/nursery';
+import { NurseryListItem } from '../../../core/models/parent-nursery.model';
+import { BookingsService } from '../../../core/services/bookings';
+import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-manage-nursery',
@@ -23,13 +26,18 @@ export class ManageNursery implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
   private ns = inject(Nursery)
+  private bookingService = inject(BookingsService);
+  private authService = inject(AuthService);
+  
 
-  private apiUrl = environment.backUrl + '/api/nurseries';
-  private user: AuthResponseDto = JSON.parse(localStorage.getItem("user_session")!);
+  private apiUrl = environment.backUrl + "/api/Nurseries/";
 
   nurseryForm!: FormGroup;
-  currentNurseryId: number | null = null;
   status = '';
+  nursery = signal<NurseryListItem | null>(null);
+  user = this.authService.currentUser();
+  nurseryId!: number;
+
 
   isLoading = signal<boolean>(true);
   isSubmitting = signal<boolean>(false);
@@ -62,17 +70,31 @@ export class ManageNursery implements OnInit, AfterViewInit {
     this.nurseryForm.get('longitude')?.valueChanges.subscribe(() => this.updateMarkerFromForm());
   }
 
+    loadNurseryDetails() {
+    this.isLoading.set(true);
+    this.ns.getNurseryById(this.nurseryId).subscribe({
+      next: (data) => {
+        this.nursery.set(data);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('خطأ في جلب تفاصيل الحضانة:', err);
+        this.isLoading.set(false);
+      },
+    });
+  }
+
   private initForm(): void {
     this.nurseryForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      dailyPrice: [0, [Validators.required, Validators.min(1)]],
-      ageRangeMin: [2, [Validators.required, Validators.min(0)]],
-      ageRangeMax: [6, [Validators.required, Validators.min(1)]],
-      capacity: [0, [Validators.required, Validators.min(1)]],
+      name: [this.nursery()?.name || '', Validators.required],
+      description: [this.nursery()?.description||'', Validators.required],
+      dailyPrice: [this.nursery()?.dailyPrice || 0, [Validators.required, Validators.min(1)]],
+      ageRangeMin: [this.nursery()?.ageRangeMin || 2, [Validators.required, Validators.min(0)]],
+      ageRangeMax: [this.nursery()?.ageRangeMax || 6, [Validators.required, Validators.min(1)]],
+      capacity: [this.nursery()?.capacity || 0, [Validators.required, Validators.min(1)]],
       address: ['', Validators.required],
-      city: ['', Validators.required],
-      district: ['', Validators.required],
+      city: [this.nursery()?.city||'', Validators.required],
+      district: [this.nursery()?.district||'', Validators.required],
       latitude: [this.defaultLat, Validators.required],
       longitude: [this.defaultLng, Validators.required]
     });
@@ -149,11 +171,12 @@ export class ManageNursery implements OnInit, AfterViewInit {
 
   loadNurseryData(): void {
   this.isLoading.set(true);
-  this.ns.getNurseryByOwnerId(this.user.id).subscribe({
+  this.ns.getNurseryByOwnerId(this.user?.id as string).subscribe({
     next: (nursery) => {
       if (nursery) {
-        this.isEditMode.set(true);
-        this.currentNurseryId = nursery.id;
+        this.isEditMode.set(true);    
+        this.nursery.set(nursery);
+        console.log(this.nursery());
         this.nurseryForm.patchValue(nursery);
       }
       this.isLoading.set(false);
@@ -164,7 +187,6 @@ export class ManageNursery implements OnInit, AfterViewInit {
     error: () => {
       console.warn('لا توجد حضانة مسجلة حالياً لهذا الحساب.');
       this.isEditMode.set(false);
-      this.currentNurseryId = null;
       this.isLoading.set(false);
       
       // 🎯 تهيئة الخريطة هنا أيضاً في حالة التسجيل الجديد
@@ -188,8 +210,12 @@ export class ManageNursery implements OnInit, AfterViewInit {
   }
 
   onSubmit(): void {
+    console.log("submitting...");
+    
     if (this.nurseryForm.invalid) {
       this.nurseryForm.markAllAsTouched();
+      console.error("Invalid Form");
+      console.log(this.nurseryForm.errors);
       return;
     }
 
@@ -210,18 +236,24 @@ export class ManageNursery implements OnInit, AfterViewInit {
       longitude: Number(form.longitude)
     };
 
-    const request$ = this.isEditMode() && this.currentNurseryId
-      ? this.http.put(`${this.apiUrl}/${this.currentNurseryId}`, requestBody)
-      : this.http.post<any>(this.apiUrl, requestBody);
+    let condition = this.isEditMode() && this.nursery() != null
+    console.log(condition);
+    
+    let endpoint = condition? `${this.apiUrl}${this.nursery()?.id}` : this.apiUrl
+    const request$ = condition?
+      this.http.put(endpoint, requestBody)
+      : this.http.post<any>(endpoint, requestBody);
 
     request$.subscribe({
       next: (response) => {
+        console.log(response);   
         if (!this.isEditMode() && response?.id && this.selectedFiles.length > 0) {
           this.uploadNurseryImages(response.id);
         } else {
           this.isSubmitting.set(false);
           alert(this.isEditMode() ? 'تم تحديث بيانات الحضانة بنجاح.' : 'تم إنشاء الحضانة بنجاح.');
-          this.loadNurseryData();
+          // بعد نجاح الـ PUT/POST لازم نعمل refresh للتفاصيل الكاملة عشان الفورم يعرض القيم الجديدة فعلياً
+          this.loadNurseryDetails();
         }
       },
       error: (err) => {
@@ -267,4 +299,5 @@ export class ManageNursery implements OnInit, AfterViewInit {
       });
     });
   }
+
 }

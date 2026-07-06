@@ -124,7 +124,8 @@ export class Dashboard implements OnInit {
     // مثال للتعامل مع الإجراءات مباشرة من لوحة التحكم لتحديث الأرقام لايف
     let request;
     if (actionType === 'cancel') request = this.bookingService.cancel(id);
-    // يمكنك إضافة القبول أو الـ complete هنا لاحقاً
+    if (actionType === "refund") { request = this.bookingService.refund(id)}
+    if (actionType === "complete") {request = this.bookingService.complete(id)}
     
     if (request) {
       request.subscribe({
