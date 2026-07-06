@@ -10,6 +10,8 @@ export interface NurseryListItem {
   ageRangeMax: number;
   avgRating?: number;
   imageUrls?: string[];
+  latitude?: string;
+  longitude?: string
 }
 
 export interface Review {

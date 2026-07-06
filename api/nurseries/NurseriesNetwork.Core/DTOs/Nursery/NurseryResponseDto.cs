@@ -18,6 +18,8 @@ namespace NurseriesNetwork.Core.DTOs.Nursery
      double Latitude,
      double Longitude,
      double? DistanceKm,
+     int Capacity,
+     string District,
      List<string> ImageUrls
  );
 }

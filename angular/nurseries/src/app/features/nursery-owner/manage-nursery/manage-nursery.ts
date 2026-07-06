@@ -72,7 +72,7 @@ export class ManageNursery implements OnInit, AfterViewInit {
 
     loadNurseryDetails() {
     this.isLoading.set(true);
-    this.ns.getNurseryById(this.nurseryId).subscribe({
+    this.ns.getNurseryByOwnerId(this.user?.id || "").subscribe({
       next: (data) => {
         this.nursery.set(data);
         this.isLoading.set(false);
@@ -91,12 +91,12 @@ export class ManageNursery implements OnInit, AfterViewInit {
       dailyPrice: [this.nursery()?.dailyPrice || 0, [Validators.required, Validators.min(1)]],
       ageRangeMin: [this.nursery()?.ageRangeMin || 2, [Validators.required, Validators.min(0)]],
       ageRangeMax: [this.nursery()?.ageRangeMax || 6, [Validators.required, Validators.min(1)]],
-      capacity: [this.nursery()?.capacity || 0, [Validators.required, Validators.min(1)]],
+      capacity: [this.nursery()?.capacity || 1, [Validators.required, Validators.min(1)]],
       address: ['', Validators.required],
-      city: [this.nursery()?.city||'', Validators.required],
+      city: [this.nursery()?.city || '', Validators.required],
       district: [this.nursery()?.district||'', Validators.required],
-      latitude: [this.defaultLat, Validators.required],
-      longitude: [this.defaultLng, Validators.required]
+      latitude: [this.nursery()?.latitude || this.defaultLat, Validators.required],
+      longitude: [this.nursery()?.longitude || this.defaultLng, Validators.required]
     });
   }
 
@@ -174,6 +174,7 @@ export class ManageNursery implements OnInit, AfterViewInit {
   this.ns.getNurseryByOwnerId(this.user?.id as string).subscribe({
     next: (nursery) => {
       if (nursery) {
+        console.log(nursery);
         this.isEditMode.set(true);    
         this.nursery.set(nursery);
         console.log(this.nursery());
@@ -209,13 +210,21 @@ export class ManageNursery implements OnInit, AfterViewInit {
     }
   }
 
+  logInvalidControls() {
+  const controls = this.nurseryForm.controls;
+  for (const name in controls) {
+    if (controls[name].invalid) {
+      console.log(`Control: ${name}`, controls[name].errors);
+    }
+  }
+}
+
   onSubmit(): void {
     console.log("submitting...");
     
     if (this.nurseryForm.invalid) {
       this.nurseryForm.markAllAsTouched();
-      console.error("Invalid Form");
-      console.log(this.nurseryForm.errors);
+      this.logInvalidControls();
       return;
     }
 
@@ -246,7 +255,6 @@ export class ManageNursery implements OnInit, AfterViewInit {
 
     request$.subscribe({
       next: (response) => {
-        console.log(response);   
         if (!this.isEditMode() && response?.id && this.selectedFiles.length > 0) {
           this.uploadNurseryImages(response.id);
         } else {
@@ -289,7 +297,7 @@ export class ManageNursery implements OnInit, AfterViewInit {
           if (uploaded === this.selectedFiles.length) {
             this.selectedFiles = [];
             this.isSubmitting.set(false);
-            alert('تم رفع الصور بنجاح.');
+            alert('تم حفظ البيانات.');
             this.loadNurseryData();
           }
         },

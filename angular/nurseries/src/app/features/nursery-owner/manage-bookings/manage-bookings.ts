@@ -70,10 +70,22 @@ export class ManageBookings implements OnInit {
 
   }
 
-  handleAction(id: number, actionType: string) {
+  handleAction(bookingId: number, actionType: string) {
     // مثال للتعامل مع الإجراءات مباشرة من لوحة التحكم لتحديث الأرقام لايف
-    if (actionType === "refund") { this.bookingService.refund(id)}
-    if (actionType === "complete") {this.bookingService.complete(id)}
-
+    if (actionType === "refund") { this.bookingService.refund(bookingId).subscribe({
+      next: 
+        (r)=>{
+          console.log(r)
+          this.loadAllBookings();
+      },
+      error: (r)=>console.log(r)
+    })}
+    if (actionType === "complete") {this.bookingService.complete(bookingId).subscribe({
+      next: (r)=>{
+          console.log(r)
+          this.loadAllBookings();
+      },
+      error: (r)=>console.log(r)
+    })}
   }
 }

@@ -303,6 +303,8 @@ public class NurseriesController : ControllerBase
             n.Location?.Latitude ?? 0,
             n.Location?.Longitude ?? 0,
             distance,
+            n.Capacity,
+            n.Location?.District ?? "",
             n.Images.Select(i => i.ImageUrl).ToList()
         );
 

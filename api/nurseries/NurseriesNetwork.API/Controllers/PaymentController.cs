@@ -226,52 +226,52 @@ public class PaymentController : ControllerBase
     // ==========================================
     // POST: api/payment/{id}/owner-refund
     // ==========================================
-    // [HttpPost("{id}/owner-refund")]
-    // [Authorize(Roles = "NurseryAdmin")]
-    public async Task<IActionResult> OwnerRefund(int bookingId)
-    {
+    // تعديل الـ Route ليكون bookingId بدلاً من id
+[HttpPost("{bookingId}/owner-refund")]
+[Authorize(Roles = "NurseryAdmin")]
+public async Task<IActionResult> OwnerRefund(int bookingId)
+{
+    var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-        var ownerId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+    var booking = await _uow.Bookings.GetByIdAsync(bookingId);
 
-        var booking = await _uow.Bookings.GetByIdAsync(bookingId);
+    if (booking == null)
+        return NotFound("الحجز غير موجود"); // مش هتضرب هنا تاني بسبب الـ 0
 
-        if (booking == null)
-            return NotFound("الحجز غير موجود");
+    var payment = await _uow.Payments.GetByBookingIdAsync(bookingId);
 
-        var payment = await _uow.Payments.GetByBookingIdAsync(bookingId);
+    if (payment == null)
+        return NotFound($"الحجز رقم {bookingId} ملوش دفع في قاعدة البيانات");
 
-        if (payment == null)
-            return NotFound($"الحجز رقم {bookingId} ملوش دفع في قاعدة البيانات");
+    var nursery = await _uow.Nurseries.GetByIdAsync(booking.NurseryId);
+    if (nursery == null)
+        return NotFound("الحضانة التابع لها الحجز غير موجودة");
 
-        var nursery = await _uow.Nurseries.GetByIdAsync(booking.NurseryId);
-        if (nursery == null)
-            return NotFound("الحضانة التابع لها الحجز غير موجودة");
+    if (nursery.OwnerId != ownerId)
+        return Forbid();
 
-        if (nursery.OwnerId != ownerId)
-            return Forbid();
+    if (payment.Status != PaymentStatus.Completed)
+        return BadRequest("مش ممكن ترجع دفعة مش مكتملة");
 
-        if (payment.Status != PaymentStatus.Completed)
-            return BadRequest("مش ممكن ترجع دفعة مش مكتملة");
+    var paymentService = _paymentFactory.GetPaymentService(payment.Method);
+    var refunded = await paymentService.RefundAsync(payment.TransactionId!);
 
-        var paymentService = _paymentFactory.GetPaymentService(payment.Method);
-        var refunded = await paymentService.RefundAsync(payment.TransactionId!);
+    if (!refunded)
+        return BadRequest("فشل الاسترداد من بوابة الدفع، حاول تاني");
 
-        if (!refunded)
-            return BadRequest("فشل الاسترداد من بوابة الدفع، حاول تاني");
+    payment.Status = PaymentStatus.Refunded;
+    _uow.Payments.Update(payment);
 
-        payment.Status = PaymentStatus.Refunded;
-        _uow.Payments.Update(payment);
+    booking.Status = BookingStatus.Cancelled;
+    _uow.Bookings.Update(booking);
 
-        booking.Status = BookingStatus.Cancelled;
-        _uow.Bookings.Update(booking);
+    // زيادة الأماكن المتاحة بعد إلغاء حجز المالك
+    nursery.AvailablePlaces += 1;
+    _uow.Nurseries.Update(nursery);
 
-        // زيادة الأماكن المتاحة بعد إلغاء حجز المالك
-        nursery.AvailablePlaces += 1;
-        _uow.Nurseries.Update(nursery);
-
-        await _uow.SaveChangesAsync();
-        return Ok("تم استرداد المبلغ وإلغاء الحجز بنجاح");
-    }
+    await _uow.SaveChangesAsync();
+    return Ok("تم استرداد المبلغ وإلغاء الحجز بنجاح");
+}
 
     // ===========================
     // GET: api/payment/{id}/status

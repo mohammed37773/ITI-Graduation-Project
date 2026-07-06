@@ -11,8 +11,8 @@ export class Nursery {
   private apiUrl = environment.backUrl + '/api/nurseries/owner/'; 
 
   // جلب تفاصيل حضانة معينة بناءً على الـ ID
-  getNurseryById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getNurseryById(id: number|null): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}${id}`);
   }
 
   getNurseryByOwnerId(ownerId: string): Observable<any> {
