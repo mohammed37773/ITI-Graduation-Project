@@ -4,13 +4,15 @@
       
       <div class="card chat-card border-0 shadow-lg rounded-4 overflow-hidden bg-white">
         
-        <div class="card-header bg-success-dark text-white p-3 d-flex align-items-center gap-3">
-          <div class="bot-avatar">🤖</div>
-          <div>
-            <h5 class="fw-bold mb-0">المستشار الطبي الذكي 🩺</h5>
-            <p class="mb-0 small text-success-light">متصل لايف ومستعد للإجابة على استفساراتك الطبية</p>
-          </div>
-        </div>
+  <div class="card-header bg-success-dark text-white p-3 d-flex align-items-center gap-3">
+    <div class="bot-avatar">🤖</div>
+    <div>
+      <!-- تم إضافة text-white أو يمكنك استخدام text-light ليصبح متناسقاً تماماً -->
+      <h5 class="fw-bold mb-0 text-white">المستشار الطبي الذكي 🩺</h5>
+      <p class="mb-0 small text-success-light">متصل لايف ومستعد للإجابة على استفساراتك الطبية</p>
+    </div>
+  </div>
+
 
         <div class="card-body p-4 chat-body" #chatContainer>
           @for (msg of messages(); track msg.timestamp) {
@@ -40,7 +42,6 @@
           <form (ngSubmit)="sendMessage()" class="d-flex gap-2">
             <input type="text" [(ngModel)]="userMessage" name="messageInput" 
                    class="form-control chat-input shadow-sm border-2 rounded-3 px-3" 
-                   placeholder="اكتب استفسارك الطبي هنا (مثال: ما هو الوزن المثالي للطفل في الأسبوع 34؟)..."
                    [disabled]="isTyping()">
             
             <button type="submit" [disabled]="!userMessage().trim() || isTyping()" 

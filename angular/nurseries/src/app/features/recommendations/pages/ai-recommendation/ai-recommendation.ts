@@ -4,14 +4,15 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+
 interface NurseryRecommendation {
   id: number;
   name: string;
   city: string;
-  district: string;
+  address: string;
   dailyPrice: number;
-  rating: number;
-  matchReason: string;
+  avgRating: number;
+  matchReason?: string;
 }
 
 @Component({
@@ -31,6 +32,7 @@ export class AiRecommendation {
   isLoading = signal<boolean>(false);
   errorMessage = signal<string | null>(null);
   recommendations = signal<NurseryRecommendation[]>([]);
+  aiResponseText = signal<string | null>(null); // ✅ نص رد الـ AI منفصل
   hasResults = signal<boolean>(false);
 
   constructor() {
@@ -39,12 +41,11 @@ export class AiRecommendation {
 
   private initForm() {
     this.recommendationForm = this.fb.group({
-      // babyAgeDays: ['', [Validators.required, Validators.min(1), Validators.max(90)]], // حديثي الولادة حتى 90 يوم مثلاً
       rate: ['', [Validators.required]],
       budget: ['', [Validators.required]],
       locationPreference: ['', [Validators.required]],
-      careType: ['', [Validators.required]], // نوع الرعاية الطبية المطلوبة
-      extraEquipment: [''], // أجهزة خاصة مثل تنفس صناعي أو علاج ضوئي
+      careType: ['', [Validators.required]],
+      extraEquipment: [''],
     });
   }
 
@@ -69,7 +70,6 @@ export class AiRecommendation {
   }
 
   getRecommendations() {
-    console.log('Submitting AI recommendation request...');
     if (this.recommendationForm.invalid) {
       this.recommendationForm.markAllAsTouched();
       return;
@@ -78,59 +78,69 @@ export class AiRecommendation {
     this.isLoading.set(true);
     this.errorMessage.set(null);
     this.hasResults.set(false);
+    this.aiResponseText.set(null);
+    this.recommendations.set([]);
 
     const auth = this.getAuthHeaders();
     if (!auth.isValidParent) {
       this.isLoading.set(false);
-      this.errorMessage.set(
-        `⚠️ عذراً، ميزة الترشيحات الذكية متاحة فقط لحسابات أولياء الأمور (Parent).`,
-      );
+      this.errorMessage.set('⚠️ عذراً، ميزة الترشيحات الذكية متاحة فقط لحسابات أولياء الأمور.');
       return;
     }
 
     const formValues = this.recommendationForm.value;
 
-    // صياغة الـ Prompt الموجه للـ AI ليفهم أننا نبحث في شبكة حواضن طبية لحديثي الولادة فقط
+    // ✅ بناء رسالة واضحة للـ AI مع كل معايير البحث
+    const message = `عايز حضانة في ${formValues.locationPreference} سعرها لا يزيد عن ${formValues.budget} جنيه يومياً وتقييمها فوق ${formValues.rate}`;
+
     const aiPayload = {
-      // message: `طلب ترشيح عاجل لحاضنة ذكية لحديث ولادة. عمر الطفل: ${formValues.babyAgeDays} يوم. الميزانية اليومية: ${formValues.budget} ج.م. الموقع: ${formValues.locationPreference}. مستوى الرعاية الطبية المطلوبة: ${formValues.careType}. تجهيزات خاصة مطلوبة: ${formValues.extraEquipment || 'رعاية قياسية'}`,
-      message: `عايز حضانة في محافظة ${formValues.locationPreference} سعرها لا يزيد عن ${formValues.budget} جنيه وتقييمها فوق ال 3`,
+      message,
+      history: [],   // ✅ مطلوب من الـ backend (ChatRequestDto)
       latitude: null,
       longitude: null,
     };
 
+    console.log('AI Payload:', aiPayload.message);
+
     this.http.post<any>(this.apiUrl, aiPayload, { headers: auth.headers }).subscribe({
       next: (res) => {
         this.isLoading.set(false);
-        const recommendedData = res.recommendations || res.nurseries || res;
 
-        if (Array.isArray(recommendedData) && recommendedData.length > 0) {
-          this.recommendations.set(recommendedData);
+        // ✅ الـ backend بيرجع { response: "...", nurseries: [...] }
+        const aiText: string = res.response ?? '';
+        const nurseriesList: any[] = res.nurseries ?? [];
+
+        // ✅ لو فيه حضانات فعلية من الداتابيز، اعرضهم
+        if (nurseriesList.length > 0) {
+          this.recommendations.set(
+            nurseriesList.map((n: any) => ({
+              id: n.id,
+              name: n.name,
+              city: n.city ?? '',
+              address: n.address ?? '',
+              dailyPrice: n.dailyPrice,
+              avgRating: n.avgRating,
+              matchReason: aiText, // رد الـ AI كسبب للترشيح
+            }))
+          );
           this.hasResults.set(true);
-        } else if (res.response || res.message) {
-          this.recommendations.set([
-            {
-              id: 0,
-              name: 'تحليل الحواضن المتاحة لحالة طفلك',
-              city: formValues.locationPreference,
-              district: '',
-              dailyPrice: Number(formValues.budget),
-              rating: 5,
-              matchReason: res.response || res.message,
-            },
-          ]);
+        } else if (aiText) {
+          // ✅ لو مفيش حضانات بس فيه رد نصي من الـ AI (مثلاً "مفيش حضانات في المنطقة دي")
+          this.aiResponseText.set(aiText);
           this.hasResults.set(true);
         } else {
-          this.errorMessage.set(
-            'لم يعثر الذكاء الاصطناعي على حواضن طبية تطابق هذه المعايير الدقيقة حالياً.',
-          );
+          this.errorMessage.set('لم يعثر الذكاء الاصطناعي على حضانات تطابق هذه المعايير حالياً.');
         }
       },
       error: (err) => {
         this.isLoading.set(false);
+        console.error('خطأ في الاتصال بالـ AI API:', err);
         if (err.status === 401) {
-          this.errorMessage.set('🔴 انتهت صلاحية الجلسة، يرجى إعادة تسجيل الدخول كـ Parent.');
+          this.errorMessage.set('🔴 انتهت صلاحية الجلسة، يرجى إعادة تسجيل الدخول.');
+        } else if (err.status === 403) {
+          this.errorMessage.set('🚫 غير مسموح لحسابك بالوصول لهذه الميزة.');
         } else {
-          this.errorMessage.set(err.error?.message || 'حدث خطأ أثناء معالجة طلب الحاضنة.');
+          this.errorMessage.set(err.error?.message || 'حدث خطأ أثناء معالجة الطلب.');
         }
       },
     });
