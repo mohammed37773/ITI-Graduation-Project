@@ -91,35 +91,76 @@
           </div>
         }
 
-        @if (hasResults()) {
-          <div class="d-flex flex-column gap-4">
-            @for (nursery of recommendations(); track nursery.id) {
-              <div class="p-3 border rounded-4 bg-light shadow-2xs position-relative">
-                <div class="d-flex justify-content-between align-items-start mb-2">
-                  <div>
-                    <h5 class="fw-bold text-dark mb-1">🏥 {{ nursery.name }}</h5>
-                    <p class="text-muted small mb-0">📍 {{ nursery.city }} {{ nursery.district }}</p>
-                  </div>
-                  <span class="badge bg-success rounded-pill px-3 py-2 fs-6">{{ nursery.dailyPrice }} ج.م / يوم</span>
-                </div>
+       @if (hasResults()) {
 
-                <div class="bg-white p-3 rounded-3 my-3 border-start border-primary border-4">
-                  <p class="text-dark small mb-0 lh-lg"><strong class="text-primary">🤖 مطابقة الذكاء الاصطناعي:</strong> {{ nursery.matchReason }}</p>
-                </div>
+  @if (recommendations().length > 0) {
 
-                <div class="d-flex justify-content-between align-items-center mt-2">
-                  <span class="text-warning fw-bold small">⭐ تقييم المركز الطبي: {{ nursery.rating || 'مقيم طبيًا' }}</span>
-                  
-                  @if (nursery.id > 0) {
-                    <a [routerLink]="['/parent/bookings/new', nursery.id]" class="btn btn-outline-primary btn-sm rounded-3 px-3 fw-bold">
-                      🎯 احجز الحاضنة الآن
-                    </a>
-                  }
-                </div>
-              </div>
-            }
+    <div class="d-flex flex-column gap-4">
+      @for (nursery of recommendations(); track nursery.id) {
+
+        <div class="p-3 border rounded-4 bg-light shadow-2xs position-relative">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <h5 class="fw-bold text-dark mb-1">
+                🏥 {{ nursery.name }}
+              </h5>
+
+              <p class="text-muted small mb-0">
+                📍 {{ nursery.city }} {{ nursery.address }}
+              </p>
+            </div>
+
+            <span class="badge bg-success rounded-pill px-3 py-2 fs-6">
+              {{ nursery.dailyPrice }} ج.م / يوم
+            </span>
           </div>
-        }
+
+          <div class="bg-white p-3 rounded-3 my-3 border-start border-primary border-4">
+            <p class="text-dark small mb-0 lh-lg">
+              <strong class="text-primary">
+                🤖 مطابقة الذكاء الاصطناعي:
+              </strong>
+
+              {{ nursery.matchReason }}
+            </p>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-2">
+
+            <span class="text-warning fw-bold small">
+              ⭐ تقييم المركز الطبي:
+              {{ nursery.avgRating || 'غير متاح' }}
+            </span>
+
+            <a
+              [routerLink]="['/parent/bookings/new', nursery.id]"
+              class="btn btn-outline-primary btn-sm rounded-3 px-3 fw-bold">
+
+              🎯 احجز الحاضنة الآن
+
+            </a>
+
+          </div>
+        </div>
+
+      }
+    </div>
+
+  } @else {
+
+    <div class="alert alert-info rounded-4 shadow-sm">
+      <h5 class="fw-bold mb-2">
+        🤖 رد الذكاء الاصطناعي
+      </h5>
+
+      <p class="mb-0">
+        {{ aiResponseText() }}
+      </p>
+    </div>
+
+  }
+
+}
       </div>
     </div>
   </div>
