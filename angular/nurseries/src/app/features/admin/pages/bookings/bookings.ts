@@ -99,6 +99,7 @@ export class Bookings implements OnInit {
     if (status === 'Confirmed') return 'مؤكد';
     if (status === 'Pending') return 'معلق';
     if (status === 'Cancelled') return 'ملغى';
+    if (status === "Completed") return "مكتمل"
     return status;
   }
 
