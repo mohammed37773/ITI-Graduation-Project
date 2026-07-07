@@ -48,7 +48,7 @@
           <tr>
             <td class="fw-bold text-secondary">#{{ booking.id }}</td>
             <td>{{ booking.startDate | date:'yyyy-MM-dd' }}</td>
-            <td class="fw-semibold text-dark">{{ booking.amount || 0 }} ج.م</td>
+            <td class="fw-semibold text-dark">{{ booking.totalPrice || 0 }} ج.م</td>
             <td>
               <span class="badge px-3 py-2 rounded-pill fs-7" [ngClass]="{
                             'bg-warning-subtle text-warning': booking.status === 'Pending',
@@ -56,7 +56,7 @@
                             'bg-danger-subtle text-danger': booking.status === 'Cancelled'
                           }">
                 {{ booking.status === 'Pending' ? 'معلق ينتظر الدفع' : booking.status === 'Confirmed' ? 'مقبول ومؤكد' :
-                'ملغي' }}
+                booking.status === "Cancelled"? 'ملغي': "مكتمل" }}
               </span>
             </td>
             <td>
@@ -67,9 +67,9 @@
                 <button (click)="handleAction(booking.id, 'refund')" class="btn btn-sm btn-warning rounded-3 px-3 py-1">
                   إسترداد
                 </button>
-                <button (click)="handleAction(booking.id, 'complete')"
+                <button (click)="handleAction(booking.id, 'complete')" [disabled]="!isPastDate(booking.startDate)"
                   class="btn btn-sm btn-success rounded-3 px-3 py-1">
-                  إنهاء
+                  إكتمال
                 </button>
               </div>
               }

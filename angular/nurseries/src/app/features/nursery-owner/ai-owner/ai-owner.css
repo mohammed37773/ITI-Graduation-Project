@@ -1,0 +1,97 @@
+/* كارت الشات الكلي */
+.chat-card {
+  height: 78vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* الهيدر */
+.bg-success-dark {
+  background-color: #1e3d2f !important;
+}
+.text-success-light {
+  color: #a7f3d0 !important;
+}
+.bot-avatar {
+  width: 45px;
+  height: 45px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  border: 1.5px solid #2ecc71;
+}
+
+/* منطقة الرسائل */
+.chat-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  background-color: #f8fafc;
+}
+
+/* فقاعات الرسائل */
+.message-bubble {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+/* فقاعة المستخدم */
+.user-bubble {
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  color: white;
+  border-bottom-left-radius: 4px;
+}
+
+/* فقاعة البوت */
+.bot-bubble {
+  background-color: #ffffff;
+  color: #334155;
+  border-bottom-right-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.message-time {
+  font-size: 0.7rem;
+}
+
+/* صندوق المدخلات */
+.chat-input {
+  border-color: #e2e8f0;
+  transition: all 0.2s ease;
+}
+.chat-input:focus {
+  border-color: #2ecc71 !important;
+  box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, 0.15) !important;
+}
+
+.send-btn {
+  background-color: #27ae60;
+  border: none;
+  transition: all 0.2s ease;
+}
+.send-btn:hover {
+  background-color: #1e3d2f;
+}
+
+/* انيميشن نقاط التفكير */
+.typing-dots span {
+  animation: blink 1.4s infinite both;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 1.2rem;
+}
+.typing-dots span:nth-child(2) { animation-delay: .2s; }
+.typing-dots span:nth-child(3) { animation-delay: .4s; }
+
+@keyframes blink {
+  0% { opacity: .2; }
+  20% { opacity: 1; }
+  100% { opacity: .2; }
+}

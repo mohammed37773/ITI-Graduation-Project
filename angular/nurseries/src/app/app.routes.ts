@@ -121,6 +121,13 @@ export const routes: Routes = [
             (m) => m.ManageBookings,
           ),
       },
+      {
+        path: 'ai-assistant',
+        loadComponent: () =>
+          import('./features/nursery-owner/ai-owner/ai-owner').then(
+            (m) => m.AiOwner,
+          ),
+      },
     ],
   },
 

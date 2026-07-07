@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { NurseryListItem } from '../../../core/models/parent-nursery.model';
 import { BookingsService } from '../../../core/services/bookings';
+import { Booking } from '../../../core/models/booking.model';
 
 @Component({
   selector: 'app-manage-bookings',
@@ -63,7 +64,8 @@ export class ManageBookings implements OnInit {
         this.bookings.update(all => all.map(b => b.id === bookingId ? { ...b, status: newStatus } : b));
         this.applyFilter(this.currentFilter());
       },
-      error: (err) => console.error('خطأ في تحديث الحالة:', err)
+      error: (err) => console.log()
+      
     });
 
       
@@ -76,16 +78,26 @@ export class ManageBookings implements OnInit {
       next: 
         (r)=>{
           console.log(r)
+          this.updateStatus(bookingId, "Cancelled");
           this.loadAllBookings();
       },
       error: (r)=>console.log(r)
     })}
-    if (actionType === "complete") {this.bookingService.complete(bookingId).subscribe({
+    else if (actionType === "complete") {
+      this.bookingService.complete(bookingId).subscribe({
       next: (r)=>{
           console.log(r)
+          this.updateStatus(bookingId, "Completed");
           this.loadAllBookings();
       },
       error: (r)=>console.log(r)
     })}
   }
+
+  isPastDate(bookingDate: string | Date): boolean {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Reset time to compare just the dates
+  
+  return new Date(bookingDate) < today;
+}
 }
