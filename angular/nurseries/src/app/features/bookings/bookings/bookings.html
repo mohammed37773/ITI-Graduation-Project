@@ -1,100 +1,92 @@
-<div class="container py-4" dir="rtl">
-  <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container py-4 bookings-page" dir="rtl">
+
+  <!-- 🎨 خلفية زخرفية متحركة -->
+  <div class="page-bg-decor" aria-hidden="true">
+    <span class="bg-block bg-block--blue"></span>
+    <span class="bg-block bg-block--mustard"></span>
+    <span class="bg-block bg-block--rose"></span>
+    <span class="bg-block bg-block--sage"></span>
+    <span class="bg-circle bg-circle--1"></span>
+    <span class="bg-circle bg-circle--2"></span>
+  </div>
+
+  <div class="page-top-row">
     <div>
-      <h2 class="fw-bold text-dark mb-1">قائمة حجوزاتي 📑</h2>
-      <p class="text-muted small mb-0">متابعة حالة طلبات حجز الحواضن لأطفالك المسجلين بالنظام.</p>
+      <h2 class="page-title">قائمة حجوزاتي 📑</h2>
+      <p class="page-subtitle">متابعة حالة طلبات حجز الحواضن لأطفالك المسجلين بالنظام.</p>
     </div>
 
-    <a
-      [routerLink]="['/parent/bookings/new', firstNurseryId()]"
-      class="btn btn-success fw-bold px-4 rounded-3 shadow-sm"
-    >
+    <a [routerLink]="['/parent/bookings/new', firstNurseryId()]" class="new-booking-btn">
       ➕ طلب حجز جديد
     </a>
   </div>
 
-  <div class="d-flex gap-2 mb-4 overflow-x-auto pb-2">
-    <button
-      (click)="changeFilter('all')"
-      [class.active]="selectedFilter() === 'all'"
-      class="btn btn-outline-secondary px-4 rounded-pill btn-sm"
-    >
+  <div class="filters-row">
+    <button (click)="changeFilter('all')" [class.active]="selectedFilter() === 'all'" class="filter-chip filter-chip--neutral">
       الكل
     </button>
-    <button
-      (click)="changeFilter('Pending')"
-      [class.active]="selectedFilter() === 'Pending'"
-      class="btn btn-outline-warning px-4 rounded-pill btn-sm"
-    >
+    <button (click)="changeFilter('Pending')" [class.active]="selectedFilter() === 'Pending'" class="filter-chip filter-chip--mustard">
       المعلقة
     </button>
-    <button
-      (click)="changeFilter('Confirmed')"
-      [class.active]="selectedFilter() === 'Confirmed'"
-      class="btn btn-outline-success px-4 rounded-pill btn-sm"
-    >
+    <button (click)="changeFilter('Confirmed')" [class.active]="selectedFilter() === 'Confirmed'" class="filter-chip filter-chip--blue">
       المقبولة
     </button>
-    <button
-      (click)="changeFilter('Cancelled')"
-      [class.active]="selectedFilter() === 'Cancelled'"
-      class="btn btn-outline-danger px-4 rounded-pill btn-sm"
-    >
+    <button (click)="changeFilter('Cancelled')" [class.active]="selectedFilter() === 'Cancelled'" class="filter-chip filter-chip--rose">
       الملغية
     </button>
   </div>
 
   @if (errorMessage()) {
-    <div class="alert alert-danger border-0 shadow-sm rounded-3 mb-4">⚠️ {{ errorMessage() }}</div>
+    <div class="error-alert">⚠️ {{ errorMessage() }}</div>
   }
 
   @if (isLoading()) {
-    <div class="d-flex justify-content-center align-items-center my-5 py-5">
-      <div class="spinner-border text-success" role="status"></div>
+    <div class="loader-wrapper">
+      <div class="loader-blocks">
+        <span></span><span></span><span></span><span></span>
+      </div>
     </div>
   } @else {
-    <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
+    <div class="bookings-table-card">
       <div class="table-responsive">
         @if (filteredBookings().length === 0) {
-          <div class="text-center py-5">
-            <span class="fs-1 text-muted">📭</span>
-            <p class="text-muted mt-2 mb-0">لا توجد حجوزات تطابق الفلتر الحالي.</p>
+          <div class="empty-state">
+            <span class="empty-icon">📭</span>
+            <p class="empty-text">لا توجد حجوزات تطابق الفلتر الحالي.</p>
           </div>
         } @else {
-          <table class="table table-hover align-middle mb-0 text-center">
-            <thead class="table-light text-secondary small fw-bold">
+          <table class="custom-bookings-table">
+            <thead>
               <tr>
-                <th class="py-3">رقم الحجز</th>
-                <th class="py-3">الحضانة</th>
-                <th class="py-3">اسم الطفل</th>
-                <th class="py-3">تاريخ البدء</th>
-                <th class="py-3">المبلغ الإجمالي</th>
-                <th class="py-3">حالة الطلب</th>
-                <th class="py-3">الإجراءات</th>
+                <th>رقم الحجز</th>
+                <th>الحضانة</th>
+                <th>اسم الطفل</th>
+                <th>تاريخ البدء</th>
+                <th>المبلغ الإجمالي</th>
+                <th>حالة الطلب</th>
+                <th>الإجراءات</th>
               </tr>
             </thead>
             <tbody>
-              @for (booking of filteredBookings(); track booking.id) {
-                <tr>
-                  <td class="fw-bold text-secondary">#{{ booking.id }}</td>
-                  <td class="fw-semibold text-dark">{{ booking.nurseryName }}</td>
-                  <td class="fw-medium text-dark">{{ booking.childName }}</td>
-                  <td>{{ booking.startDate | date: 'yyyy-MM-dd' }}</td>
-                  <td class="fw-bold text-success">{{ booking.totalPrice }} ج.م</td>
+              @for (booking of filteredBookings(); track booking.id; let i = $index) {
+                <tr [style.animation-delay.ms]="i * 60">
+                  <td class="cell-id">#{{ booking.id }}</td>
+                  <td class="cell-strong">{{ booking.nurseryName }}</td>
+                  <td class="cell-strong">{{ booking.childName }}</td>
+                  <td class="cell-muted">{{ booking.startDate | date: 'yyyy-MM-dd' }}</td>
+                  <td class="cell-price">{{ booking.totalPrice }} ج.م</td>
                   <td>
-                    <span
-                      class="badge px-3 py-2 rounded-pill fs-7"
+                    <span class="status-badge"
                       [ngClass]="{
-                        'bg-warning-subtle text-warning':
+                        'status-badge--pending':
                           booking.status === 0 || booking.status === 'Pending',
-                        'bg-success-subtle text-success':
+                        'status-badge--confirmed':
                           booking.status === 1 ||
                           booking.status === 'Confirmed' ||
                           booking.status === 'Completed',
-                        'bg-danger-subtle text-danger':
-                          booking.status === 2 || booking.status === 'Cancelled',
-                      }"
-                    >
+                        'status-badge--cancelled':
+                          booking.status === 2 || booking.status === 'Cancelled'
+                      }">
                       {{
                         booking.status === 0 || booking.status === 'Pending'
                           ? 'معلق'
@@ -107,11 +99,8 @@
                     </span>
                   </td>
                   <td>
-                    <button
-                      [routerLink]="['/parent/payment', booking.id]"
-                      class="btn btn-primary btn-sm rounded-3"
-                      [hidden]="booking.status !== 0 && booking.status !== 'Pending'"
-                    >
+                    <button [routerLink]="['/parent/payment', booking.id]" class="pay-btn"
+                      [hidden]="booking.status !== 0 && booking.status !== 'Pending'">
                       💳 إتمام الدفع
                     </button>
                   </td>
@@ -119,6 +108,27 @@
               }
             </tbody>
           </table>
+
+          <!-- 🆕 Pagination -->
+          @if (totalPages() > 1) {
+            <div class="pagination-row">
+              <button class="page-nav-btn" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)">
+                السابق ➡️
+              </button>
+
+              <div class="page-numbers">
+                @for (p of pageNumbers; track p) {
+                  <button class="page-number-btn" [class.active]="p === currentPage()" (click)="goToPage(p)">
+                    {{ p }}
+                  </button>
+                }
+              </div>
+
+              <button class="page-nav-btn" [disabled]="currentPage() === totalPages()" (click)="goToPage(currentPage() + 1)">
+                ⬅️ التالي
+              </button>
+            </div>
+          }
         }
       </div>
     </div>

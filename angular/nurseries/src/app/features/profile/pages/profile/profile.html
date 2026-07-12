@@ -1,88 +1,103 @@
-<div class="container py-4" dir="rtl">
-  
-  <!-- رسائل النظام الموحدة وفقاً لشكل أخطاء الباك إند -->
+<div class="container py-4 profile-page" dir="rtl">
+
+  <!-- 🎨 خلفية زخرفية متحركة -->
+  <div class="page-bg-decor" aria-hidden="true">
+    <span class="bg-block bg-block--blue"></span>
+    <span class="bg-block bg-block--mustard"></span>
+    <span class="bg-block bg-block--rose"></span>
+    <span class="bg-block bg-block--sage"></span>
+    <span class="bg-circle bg-circle--1"></span>
+    <span class="bg-circle bg-circle--2"></span>
+  </div>
+
   @if (successMessage()) {
-    <div class="alert alert-success border-0 shadow-sm rounded-3 mb-4 d-flex align-items-center gap-2">
+    <div class="alert-box alert-success-box">
       <span>✅</span> {{ successMessage() }}
     </div>
   }
   @if (errorMessage()) {
-    <div class="alert alert-danger border-0 shadow-sm rounded-3 mb-4 d-flex align-items-center gap-2">
+    <div class="alert-box alert-error-box">
       <span>⚠️</span> {{ errorMessage() }}
     </div>
   }
 
   <div class="row g-4">
-    <!-- الجانب الأيمن: بيانات حساب ولي الأمر الثابتة من الـ Login -->
+    <!-- 👤 بيانات ولي الأمر -->
     <div class="col-lg-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white h-100">
+      <div class="profile-card h-100">
+        <div class="profile-card-deco" aria-hidden="true">
+          <span></span><span></span>
+        </div>
+
         <div class="profile-avatar-wrapper mx-auto mb-3">
           <div class="profile-avatar-icon">👤</div>
         </div>
-        <h4 class="fw-bold text-dark mb-1">{{ parentName() }}</h4>
-        <p class="text-muted small mb-2">{{ parentEmail() }}</p>
-        <span class="badge bg-success-light text-success px-3 py-2 rounded-pill fs-7 mb-4">
+        <h4 class="profile-name">{{ parentName() }}</h4>
+        <p class="profile-email">{{ parentEmail() }}</p>
+        <span class="role-badge">
           {{ parentRole() === 'Parent' ? 'حساب ولي أمر معتمد' : 'حساب مدير حضانة' }}
         </span>
-        <hr class="opacity-50">
-        <p class="text-secondary small text-start mt-2">
+        <hr class="profile-divider">
+        <p class="security-note">
           💡 <strong>ملحوظة أمنية:</strong> يتم توثيق الحساب بالبريد الإلكتروني المفعّل. لإضافة حجز لطفلك بالحواضن الذكية، يجب تسجيل بيانات الطفل الطبية والصحيحة أولاً من اللوحة المجاورة.
         </p>
       </div>
     </div>
 
-    <!-- الجانب الأيسر: إدارة الأطفال (المتاحة لولي الأمر) -->
+    <!-- 👶 إدارة الأطفال -->
     <div class="col-lg-8">
       @if (parentRole() === 'Parent') {
-        
-        <!-- أولاً: فورم إضافة/تعديل طفل -->
-        <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
-          <h5 class="fw-bold text-dark border-bottom pb-3 mb-4">
+
+        <!-- فورم إضافة/تعديل طفل -->
+        <div class="child-form-card mb-4">
+          <h5 class="section-title">
             {{ isEditMode() ? '✏️ تعديل بيانات الطفل الحالي' : '👶 إضافة طفل جديد إلى حسابك' }}
           </h5>
           <form (ngSubmit)="saveChild()">
             <div class="row g-3">
               <div class="col-md-6">
-                <label class="form-label fw-semibold text-secondary small">اسم الطفل بالكامل</label>
-                <input type="text" [(ngModel)]="childForm().fullName" name="fullName" class="form-control custom-input" placeholder="اسم الطفل ثلاثي" required>
+                <label class="field-label">اسم الطفل بالكامل</label>
+                <input type="text" [(ngModel)]="childForm().fullName" name="fullName" class="custom-input" placeholder="اسم الطفل ثلاثي" required>
               </div>
               <div class="col-md-6">
-                <label class="form-label fw-semibold text-secondary small">تاريخ الميلاد</label>
-                <input type="date" [(ngModel)]="childForm().dateOfBirth" name="dateOfBirth" class="form-control custom-input" required>
+                <label class="field-label">تاريخ الميلاد</label>
+                <input type="date" [(ngModel)]="childForm().dateOfBirth" name="dateOfBirth" class="custom-input" required>
               </div>
               <div class="col-12">
-                <label class="form-label fw-semibold text-secondary small">الحالة الطبية أو الاحتياجات الخاصة (إن وجدت)</label>
-                <textarea [(ngModel)]="childForm().specialNeeds" name="specialNeeds" class="form-control custom-input" rows="2" placeholder="أو اتركها فارغة إذا كان الطفل بحالة مستقرة الطبيعية..."></textarea>
+                <label class="field-label">الحالة الطبية أو الاحتياجات الخاصة (إن وجدت)</label>
+                <textarea [(ngModel)]="childForm().specialNeeds" name="specialNeeds" class="custom-input" rows="2" placeholder="أو اتركها فارغة إذا كان الطفل بحالة مستقرة الطبيعية..."></textarea>
               </div>
             </div>
-            <div class="text-end mt-4 gap-2 d-flex justify-content-end">
+            <div class="form-actions-row">
               @if (isEditMode()) {
-                <button type="button" (click)="resetForm()" class="btn btn-light px-4 rounded-3 fw-bold">إلغاء التعديل</button>
+                <button type="button" (click)="resetForm()" class="cancel-edit-btn">إلغاء التعديل</button>
               }
-              <button type="submit" [disabled]="isSaving()" class="btn btn-success px-4 rounded-3 fw-bold shadow-sm">
+              <button type="submit" [disabled]="isSaving()" class="save-child-btn">
                 {{ isSaving() ? 'جاري الحفظ...' : (isEditMode() ? 'تحديث البيانات 💾' : 'تسجيل الطفل بنجاح ➕') }}
               </button>
             </div>
           </form>
         </div>
 
-        <!-- ثانياً: قائمة أطفالك المسجلين بالنظام -->
-        <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
-          <h5 class="fw-bold text-dark border-bottom pb-3 mb-3">📋 الأطفال المسجلين تحت رعايتك</h5>
-          
+        <!-- قائمة الأطفال -->
+        <div class="children-list-card">
+          <h5 class="section-title">📋 الأطفال المسجلين تحت رعايتك</h5>
+
           @if (isLoading()) {
-            <div class="text-center py-4">
-              <div class="spinner-border text-success" role="status"></div>
+            <div class="loader-wrapper">
+              <div class="loader-blocks">
+                <span></span><span></span><span></span><span></span>
+              </div>
             </div>
           } @else if (children().length === 0) {
-            <div class="text-center py-4 text-muted">
-              <p class="mb-0 fs-6">لم تقم بإضافة أي أطفال إلى حسابك حتى الآن.</p>
-              <small class="text-secondary">قم بتعبئة الفورم أعلاه لإدراج طفلك في شبكة الرعاية.</small>
+            <div class="empty-children-state">
+              <p class="empty-title">لم تقم بإضافة أي أطفال إلى حسابك حتى الآن.</p>
+              <small class="empty-subtitle">قم بتعبئة الفورم أعلاه لإدراج طفلك في شبكة الرعاية.</small>
             </div>
           } @else {
             <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
+              <table class="custom-table">
+                <thead>
                   <tr>
                     <th>اسم الطفل</th>
                     <th>تاريخ الميلاد</th>
@@ -91,19 +106,19 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (child of children(); track child.id) {
-                    <tr>
-                      <td class="fw-bold text-dark">{{ child.fullName }}</td>
+                  @for (child of children(); track child.id; let i = $index) {
+                    <tr [style.animation-delay.ms]="i * 60">
+                      <td class="child-name-cell">{{ child.fullName }}</td>
                       <td>{{ child.dateOfBirth | date:'yyyy-MM-dd' }}</td>
                       <td>
-                        <span class="badge" [ngClass]="child.specialNeeds ? 'bg-danger-light text-danger' : 'bg-light text-secondary'">
+                        <span class="notes-badge" [ngClass]="child.specialNeeds ? 'notes-badge--warn' : 'notes-badge--neutral'">
                           {{ child.specialNeeds || 'لا يوجد احتياجات خاصة' }}
                         </span>
                       </td>
                       <td class="text-center">
                         <div class="d-flex justify-content-center gap-2">
-                          <button (click)="editChild(child)" class="btn btn-sm btn-outline-primary rounded-2 py-1 px-2">✏️ تعديل</button>
-                          <button (click)="deleteChild(child.id)" class="btn btn-sm btn-outline-danger rounded-2 py-1 px-2">🗑️ حذف</button>
+                          <button (click)="editChild(child)" class="row-action-btn row-action-btn--edit">✏️ تعديل</button>
+                          <button (click)="deleteChild(child.id)" class="row-action-btn row-action-btn--delete">🗑️ حذف</button>
                         </div>
                       </td>
                     </tr>
@@ -115,11 +130,10 @@
         </div>
 
       } @else {
-        <!-- لو أونر أو أدمن دخل صفحة البروفايل يظهر له كارت لطيف من باب الـ UX -->
-        <div class="card border-0 shadow-sm rounded-4 bg-white p-5 text-center">
-          <div class="fs-1 mb-3">🏢</div>
-          <h5 class="fw-bold">لوحة الحساب الإداري لـ IncuCare</h5>
-          <p class="text-muted">بيانات الأطفال والتحكم بها مخصصة لحسابات أولياء الأمور فقط لربط الحجوزات الطبية للحواضن الذكية.</p>
+        <div class="admin-fallback-card">
+          <div class="admin-fallback-icon">🏢</div>
+          <h5 class="admin-fallback-title">لوحة الحساب الإداري لـ IncuCare</h5>
+          <p class="admin-fallback-text">بيانات الأطفال والتحكم بها مخصصة لحسابات أولياء الأمور فقط لربط الحجوزات الطبية للحواضن الذكية.</p>
         </div>
       }
     </div>

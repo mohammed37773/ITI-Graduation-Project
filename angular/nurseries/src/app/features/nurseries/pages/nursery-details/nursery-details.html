@@ -1,69 +1,101 @@
-<div class="container py-5" dir="rtl">
+<div class="container py-5 nursery-details-page" dir="rtl">
+<div class="page-bg-decor" aria-hidden="true">
+    <span class="bg-block bg-block--blue"></span>
+    <span class="bg-block bg-block--mustard"></span>
+    <span class="bg-block bg-block--rose"></span>
+    <span class="bg-block bg-block--sage"></span>
+    <span class="bg-circle bg-circle--1"></span>
+    <span class="bg-circle bg-circle--2"></span>
+  </div>
   @if (isLoading()) {
   <div class="d-flex justify-content-center align-items-center my-5 py-5">
-    <div class="spinner-border text-success" role="status"
-      style="width: 3rem; height: 3rem; --bs-text-opacity: 1; color: #10b981 !important;"></div>
+    <div class="loader-blocks">
+      <span></span><span></span><span></span><span></span>
+    </div>
   </div>
+
   } @else if (nursery()) {
 
-  <div class="mb-4">
-    <a routerLink="/nurseries" class="btn btn-light rounded-3 text-decoration-none border">➡️ العودة لقائمة الحواضن
-      الطبية</a>
+  <div class="mb-4 back-nav">
+    <a routerLink="/nurseries" class="back-link">
+      <span class="back-arrow">←</span> العودة لقائمة الحواضن الطبية
+    </a>
   </div>
 
   <div class="row g-4">
     <div class="col-lg-8">
-      <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 bg-white">
+
+      <!-- 🖼️ معرض الصور -->
+      <div class="detail-card gallery-card mb-4">
         <div class="main-image-box">
           <img #mainImage
             [src]="nursery()?.imageUrls && nursery()!.imageUrls!.length > 0 ? backUrl + nursery()!.imageUrls![0] : '/assets/images/default-nursery.jpg'"
-            class="w-100 object-fit-contain" style="height: 400px;" alt="صورة الحاضنة">
+            class="w-100 main-image" alt="صورة الحاضنة">
+
+          <div class="image-overlay-chips">
+            <span class="overlay-chip overlay-chip--rating">⭐ {{ nursery()?.avgRating }}</span>
+            <span class="overlay-chip overlay-chip--available">🏥 حواضن متاحة فوراً</span>
+          </div>
         </div>
 
         @if (nursery()?.imageUrls && nursery()!.imageUrls!.length > 1) {
-        <div class="p-3 bg-light d-flex gap-2 overflow-x-auto">
+        <div class="thumbnails-row">
           @for (img of nursery()!.imageUrls; track $index) {
-          <img (click)="mainImage.src = backUrl + img" [src]="backUrl + img" class="img-thumbnail rounded-3"
-            style="width: 80px; height: 60px; object-fit: cover; cursor: pointer;" alt="صورة {{ $index + 1 }}">
+          <img (click)="mainImage.src = backUrl + img" [src]="backUrl + img" class="thumbnail-item"
+            alt="صورة {{ $index + 1 }}">
           }
         </div>
         }
       </div>
 
-      <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
-        <h3 class="fw-bold text-dark mb-3">{{ nursery()?.name }}</h3>
-        <p class="text-success small mb-4 fw-medium">📍 {{ nursery()?.city }}، {{ nursery()?.district }}</p>
+      <!-- 📋 معلومات ونبذة -->
+      <div class="detail-card mb-4">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+          <div>
+            <h3 class="nursery-name">{{ nursery()?.name }}</h3>
+            <p class="nursery-location">📍 {{ nursery()?.city }}، {{ nursery()?.district }}</p>
+          </div>
+        </div>
 
-        <h5 class="fw-bold text-dark mb-3 border-bottom pb-2">✨ نبذة عن المركز والتجهيزات الطبية</h5>
-        <p class="text-muted lh-lg" style="white-space: pre-line;">{{ nursery()?.description }}</p>
+        <div class="info-chips-row">
+          <span class="info-chip info-chip--blue">👶 من {{ nursery()?.ageRangeMin }} أيام</span>
+          <span class="info-chip info-chip--mustard">إلى {{ nursery()?.ageRangeMax }} أيام</span>
+          <span class="info-chip info-chip--rose">💰 {{ nursery()?.dailyPrice }} ج.م / يوم</span>
+        </div>
+
+        <h5 class="section-subtitle">✨ نبذة عن المركز والتجهيزات الطبية</h5>
+        <p class="nursery-description">{{ nursery()?.description }}</p>
       </div>
 
-      <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-        <h5 class="fw-bold text-dark mb-4">💬 آراء وتقييمات أولياء الأمور ({{ reviews().length }})</h5>
+      <!-- 💬 التقييمات -->
+      <div class="detail-card">
+        <h5 class="section-subtitle no-border">💬 آراء وتقييمات أولياء الأمور ({{ reviews().length }})</h5>
 
         @if (reviews().length === 0) {
-        <p class="text-muted small">لا توجد تقييمات مضافة لهذا المركز بعد، كن أول من يشارك تجربته!</p>
+        <p class="empty-reviews-msg">لا توجد تقييمات مضافة لهذا المركز بعد، كن أول من يشارك تجربته!</p>
         } @else {
-        <div class="d-flex flex-column gap-3 mb-4">
+        <div class="reviews-list mb-4">
           @for (review of reviews(); track $index) {
-          <div class="p-3 rounded-3"
-            style="background: linear-gradient(to left, #f0fdf4, #f8fafc); border-right: 4px solid #10b981;">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <h6 class="fw-bold mb-0 text-dark">{{ review.parentName || 'ولي أمر' }}</h6>
-              <span class="text-warning fw-bold">⭐ {{ review.rating }} / 5</span>
+          <div class="review-bubble">
+            <div class="review-avatar">{{ (review.parentName || 'و')[0] }}</div>
+            <div class="review-body">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <h6 class="reviewer-name">{{ review.parentName || 'ولي أمر' }}</h6>
+                <span class="review-rating">⭐ {{ review.rating }} / 5</span>
+              </div>
+              <p class="review-text">{{ review.comment }}</p>
             </div>
-            <p class="text-muted small mb-0">{{ review.comment }}</p>
           </div>
           }
         </div>
         }
 
-        <div class="border-top pt-4 mt-2">
-          <h6 class="fw-bold text-dark mb-3">📝 أضف تقييمك وتجربتك الطبية</h6>
+        <div class="review-form-wrapper">
+          <h6 class="form-title">📝 أضف تقييمك وتجربتك الطبية</h6>
           <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="row g-3">
             <div class="col-md-4">
-              <label class="form-label small fw-semibold text-secondary">التقييم بالنجوم</label>
-              <select formControlName="rating" class="form-select rounded-3">
+              <label class="form-label-custom">التقييم بالنجوم</label>
+              <select formControlName="rating" class="form-select custom-select">
                 <option [ngValue]="5">⭐⭐⭐⭐⭐ (5/5)</option>
                 <option [ngValue]="4">⭐⭐⭐⭐ (4/5)</option>
                 <option [ngValue]="3">⭐⭐⭐ (3/5)</option>
@@ -72,15 +104,15 @@
               </select>
             </div>
             <div class="col-12">
-              <label class="form-label small fw-semibold text-secondary">اكتب تعليقك</label>
-              <textarea formControlName="comment" class="form-control rounded-3" rows="3"
+              <label class="form-label-custom">اكتب تعليقك</label>
+              <textarea formControlName="comment" class="form-control custom-textarea" rows="3"
                 placeholder="تكلم عن مستوى الرعاية، النظافة، طاقم التمريض، والاهتمام بالمولود..."></textarea>
             </div>
             <div class="col-12">
               <button type="submit" [disabled]="reviewForm.invalid || isSubmittingReview()"
-                class="btn btn-primary rounded-3 px-4 py-2 fw-bold shadow-sm">
+                class="submit-review-btn">
                 @if (isSubmittingReview()) {
-                <span class="spinner-border spinner-border-sm me-1"></span> جاري الإرسال...
+                <span class="btn-spinner"></span> جاري الإرسال...
                 } @else {
                 إرسال التقييم
                 }
@@ -88,49 +120,55 @@
             </div>
           </form>
         </div>
-
       </div>
     </div>
 
+    <!-- 🎯 كارت الحجز الجانبي -->
     <div class="col-lg-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 bg-white sticky-top" style="top: 20px;">
-        <div class="text-center pb-3 border-bottom mb-4">
-          <span class="text-muted small d-block mb-1">تكلفة استضافة الحاضنة اليومية</span>
-          <h2 class="fw-bold mb-0" style="color: #059669;">{{ nursery()?.dailyPrice }} ج.م <span
-              class="fs-6 fw-normal text-muted">/ يومياً</span></h2>
+      <div class="booking-card sticky-top" style="top: 20px;">
+        <div class="booking-block-deco" aria-hidden="true">
+          <span></span><span></span>
         </div>
 
-        <div class="mb-4 text-secondary small">
-          <div class="d-flex justify-content-between mb-2">
-            <span>🏥 حالة الأجهزة الشاغرة:</span>
-            <span class="badge bg-success-light text-success px-2 py-1 rounded small fw-bold"
-              style="background-color: #d1fae5; color: #065f46 !important;">حواضن متاحة فوراً</span>
+        <div class="price-block">
+          <span class="price-label">تكلفة استضافة الحاضنة اليومية</span>
+          <div class="price-value">{{ nursery()?.dailyPrice }} <span class="price-currency">ج.م / يوم</span></div>
+        </div>
+
+        <div class="spec-list">
+          <div class="spec-row">
+            <span class="spec-label">🏥 حالة الأجهزة الشاغرة</span>
+            <span class="spec-badge">متاحة فوراً</span>
           </div>
-          <div class="d-flex justify-content-between mb-2">
-            <span>الحد الأدنى للسن:</span>
-            <span class="fw-bold text-dark">{{ nursery()?.ageRangeMin }} أيام</span>
+          <div class="spec-row">
+            <span class="spec-label">الحد الأدنى للسن</span>
+            <span class="spec-value">{{ nursery()?.ageRangeMin }} أيام</span>
           </div>
-          <div class="d-flex justify-content-between mb-2">
-            <span>الحد الأقصى للسن:</span>
-            <span class="fw-bold text-dark">{{ nursery()?.ageRangeMax }} أيام</span>
+          <div class="spec-row">
+            <span class="spec-label">الحد الأقصى للسن</span>
+            <span class="spec-value">{{ nursery()?.ageRangeMax }} أيام</span>
           </div>
-          <div class="d-flex justify-content-between">
-            <span>⭐ التقييم العام للمركز:</span>
-            <span class="fw-bold text-warning">⭐ {{ nursery()?.avgRating }}</span>
+          <div class="spec-row">
+            <span class="spec-label">⭐ التقييم العام</span>
+            <span class="spec-value spec-value--gold">{{ nursery()?.avgRating }}</span>
           </div>
         </div>
 
-        <a [routerLink]="['/parent/bookings/new', nursery()?.id]"
-          class="btn btn-primary btn-lg w-100 rounded-3 fw-bold py-2.5 shadow-sm">
+        <a [routerLink]="['/parent/bookings/new', nursery()?.id]" class="book-now-btn">
           🎯 احجز الحاضنة للمولود الآن
         </a>
+
+        <div class="trust-mini-row">
+          <span>🔒 دفع آمن</span>
+          <span>✅ إلغاء مرن</span>
+        </div>
       </div>
     </div>
   </div>
 
   } @else {
-  <div class="text-center py-5">
-    <p class="text-muted">عذراً، لم نتمكن من العثور على المركز الطبي أو الحاضنة المطلوبة.</p>
+  <div class="not-found-box">
+    <p>عذراً، لم نتمكن من العثور على المركز الطبي أو الحاضنة المطلوبة.</p>
   </div>
   }
 </div>

@@ -1,45 +1,61 @@
-<div class="container py-5" dir="rtl">
+<div class="container py-5 booking-page" dir="rtl">
+
+  <!-- 🎨 خلفية زخرفية متحركة -->
+  <div class="page-bg-decor" aria-hidden="true">
+    <span class="bg-block bg-block--blue"></span>
+    <span class="bg-block bg-block--mustard"></span>
+    <span class="bg-block bg-block--rose"></span>
+    <span class="bg-block bg-block--sage"></span>
+    <span class="bg-circle bg-circle--1"></span>
+    <span class="bg-circle bg-circle--2"></span>
+  </div>
+
   <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
-      
-      <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
-        
+
+      <div class="booking-card">
+        <div class="booking-card-deco" aria-hidden="true">
+          <span></span><span></span>
+        </div>
+
         @if (!isWaitingForPayment() && !isSubmitted()) {
-          <div class="text-center mb-4">
-            <span class="fs-1">👶</span>
-            <h3 class="fw-bold text-dark mt-2 mb-1">طلب حجز جديد</h3>
-            <p class="text-muted small">{{ nurseryName() }}</p>
+          <div class="booking-form-header">
+            <span class="header-icon">👶</span>
+            <h3 class="header-title">طلب حجز جديد</h3>
+            <p class="header-subtitle">{{ nurseryName() }}</p>
           </div>
 
-          <form [formGroup]="bookingForm" (ngSubmit)="onSubmitBooking()">
-            <div class="mb-3 text-start">
-              <label class="form-label fw-semibold text-secondary small">اختر الطفل</label>
-              <select formControlName="childId" class="form-select rounded-3 p-2-5" 
-                      [class.is-invalid]="bookingForm.get('childId')?.touched && bookingForm.get('childId')?.invalid">
+          <form [formGroup]="bookingForm" (ngSubmit)="onSubmitBooking()" class="booking-form">
+            <div class="field-group">
+              <label class="field-label">اختر الطفل</label>
+              <select formControlName="childId" class="field-select"
+                      [class.field-invalid]="bookingForm.get('childId')?.touched && bookingForm.get('childId')?.invalid">
                 <option value="" disabled selected>-- اختر من أطفالك المسجلين --</option>
                 @for (child of myChildren(); track child.id) {
                   <option [value]="child.id">{{ child.fullName }}</option>
                 }
               </select>
-              <div class="invalid-feedback">يرجى اختيار الطفل.</div>
+              @if (bookingForm.get('childId')?.touched && bookingForm.get('childId')?.invalid) {
+                <span class="field-error">يرجى اختيار الطفل.</span>
+              }
             </div>
 
-            <div class="mb-4 text-start">
-              <label class="form-label fw-semibold text-secondary small">تاريخ بدء الحجز</label>
-              <input type="date" formControlName="startDate" class="form-control rounded-3 p-2-5"
-                     [class.is-invalid]="bookingForm.get('startDate')?.touched && bookingForm.get('startDate')?.invalid">
-              <div class="invalid-feedback">يرجى تحديد تاريخ البدء.</div>
+            <div class="field-group">
+              <label class="field-label">تاريخ بدء الحجز</label>
+              <input type="date" formControlName="startDate" class="field-input"
+                     [class.field-invalid]="bookingForm.get('startDate')?.touched && bookingForm.get('startDate')?.invalid">
+              @if (bookingForm.get('startDate')?.touched && bookingForm.get('startDate')?.invalid) {
+                <span class="field-error">يرجى تحديد تاريخ البدء.</span>
+              }
             </div>
 
             @if (errorMessage()) {
-              <div class="alert alert-danger border-0 small rounded-3 mb-3">
-                ⚠️ {{ errorMessage() }}
-              </div>
+              <div class="form-error-alert">⚠️ {{ errorMessage() }}</div>
             }
 
-            <button type="submit" [disabled]="isLoading()" class="btn btn-success fw-bold w-100 py-2-5 rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2">
+            <button type="submit" [disabled]="isLoading()" class="confirm-booking-btn">
               @if (isLoading()) {
-                <div class="spinner-border spinner-border-sm" role="status"></div>
+                <span class="btn-spinner"></span>
                 <span>جاري حفظ البيانات...</span>
               } @else {
                 <span>تأكيد وإنشاء الحجز ➔</span>
@@ -48,28 +64,30 @@
           </form>
         }
 
-       @if (isWaitingForPayment()) {
-  <div class="text-center py-4">
-    <div class="mb-3 fs-1 text-success">📝</div>
-    <h4 class="fw-bold text-dark mb-2">تم تسجيل طلب الحجز بنجاح!</h4>
-    <p class="text-muted small">
-      تم تسجيل الحجز في النظام وحالته الآن ينتظر الرد. يرجى الانتقال لبوابة الدفع الآمنة لتأكيد حجز الحاضنة.
-    </p>
+        @if (isWaitingForPayment()) {
+          <div class="state-box state-box--pending">
+            <div class="state-icon-wrapper state-icon--mustard">📝</div>
+            <h4 class="state-title">تم تسجيل طلب الحجز بنجاح!</h4>
+            <p class="state-text">
+              تم تسجيل الحجز في النظام وحالته الآن ينتظر الرد. يرجى الانتقال لبوابة الدفع الآمنة لتأكيد حجز الحاضنة.
+            </p>
 
-    <a [routerLink]="['/parent/payment', createdBookingId]" class="btn btn-primary fw-bold w-100 py-3 rounded-3 mt-3 shadow-sm text-decoration-none">
-      💳 الانتقال إلى صفحة الدفع الإلكتروني (Paymob)
-    </a>
-  </div>
-}
+            <a [routerLink]="['/parent/payment', createdBookingId]" class="go-to-payment-btn">
+              💳 الانتقال إلى صفحة الدفع الإلكتروني (Paymob)
+            </a>
+          </div>
+        }
 
         @if (isSubmitted()) {
-          <div class="text-center py-4">
-            <div class="mb-3 fs-1 text-success">🎉</div>
-            <h4 class="fw-bold text-success mb-2">مبارك! تم تأكيد الحجز والطلب مكتمل</h4>
-            <p class="text-muted small px-3">
+          <div class="state-box state-box--success">
+            <div class="state-icon-wrapper state-icon--blue">🎉</div>
+            <h4 class="state-title state-title--success">مبارك! تم تأكيد الحجز والطلب مكتمل</h4>
+            <p class="state-text">
               تم استلام أموال الحجز بنجاح وتم تفعيل الحاضنة الذكية لطفلك. جاري توجيهك الآن لجدول حجوزاتك...
             </p>
-            <div class="spinner-border spinner-border-sm text-success mt-2" role="status"></div>
+            <div class="redirect-loader">
+              <span></span><span></span><span></span>
+            </div>
           </div>
         }
 

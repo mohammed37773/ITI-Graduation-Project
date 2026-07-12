@@ -21,12 +21,17 @@ export class Bookings implements OnInit {
   isLoading = signal<boolean>(true);
   errorMessage = signal<string | null>(null);
 
+  // 🆕 Pagination state
+  currentPage = signal(1);
+  pageSize = 6;
+
   firstNurseryId = computed(() => {
     const bookings = this.allBookings();
     return bookings.length > 0 ? bookings[0].nurseryId : 1;
   });
 
-  filteredBookings = computed(() => {
+  // ده المصدر الكامل بعد الفلترة (من غير تقسيم صفحات) - نفس منطقك الأصلي
+  allFilteredBookings = computed(() => {
     const filter = this.selectedFilter();
     const bookings = this.allBookings();
 
@@ -44,6 +49,22 @@ export class Bookings implements OnInit {
       return b.status?.toString().toLowerCase() === filter.toLowerCase();
     });
   });
+
+  // 🆕 عدد الصفحات بناءً على النتائج المفلترة
+  totalPages = computed(() =>
+    Math.max(1, Math.ceil(this.allFilteredBookings().length / this.pageSize))
+  );
+
+  // 🆕 ده اللي بيتعرض فعليًا في الجدول (صفحة واحدة بس)
+  filteredBookings = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize;
+    return this.allFilteredBookings().slice(start, start + this.pageSize);
+  });
+
+  // 🆕 قائمة أرقام الصفحات لعرضها في الـ pagination
+  get pageNumbers(): number[] {
+    return Array.from({ length: this.totalPages() }, (_, i) => i + 1);
+  }
 
   ngOnInit() {
     this.loadUserBookings();
@@ -84,7 +105,15 @@ export class Bookings implements OnInit {
     });
   }
 
+  // 🆕 مدمجة: فلترة + رجوع لأول صفحة تلقائيًا
   changeFilter(filterType: 'all' | 'Pending' | 'Confirmed' | 'Cancelled') {
     this.selectedFilter.set(filterType);
+    this.currentPage.set(1);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
   }
 }

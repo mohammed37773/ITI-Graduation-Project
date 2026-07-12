@@ -1,4 +1,8 @@
 /* 🟦 تنسيق اللوجو المطوّر داخل الـ Navbar - هوية المكعبات */
+.navbar {
+  position: relative;
+  z-index: 1030; /* نفس قيمة Bootstrap الافتراضية لعناصر الملاحة */
+}
 .incubator-icon {
   width: 42px;
   height: 42px;

@@ -1,69 +1,92 @@
-<div class="container py-5" dir="rtl">
-  
-  <div class="text-center mb-5">
-    <h1 class="fw-bold text-dark mb-2">اكتشف الحاضنة الطبية المثالية لمولودك 👶✨</h1>
-    <p class="text-muted fs-5">ابحث وقارن بين أفضل مراكز الحواضن المعتمدة وتجهيزات المبتسرين القريبة منك بكل سهولة.</p>
+<div class="container py-5 nurseries-list-page" dir="rtl">
+
+  <!-- 🎨 خلفية زخرفية متحركة -->
+  <div class="page-bg-decor" aria-hidden="true">
+    <span class="bg-block bg-block--blue"></span>
+    <span class="bg-block bg-block--mustard"></span>
+    <span class="bg-block bg-block--rose"></span>
+    <span class="bg-block bg-block--sage"></span>
+    <span class="bg-circle bg-circle--1"></span>
+    <span class="bg-circle bg-circle--2"></span>
+  </div>
+
+  <div class="page-header">
+    <h1 class="page-title">اكتشف الحاضنة الطبية المثالية لمولودك 👶✨</h1>
+    <p class="page-subtitle">ابحث وقارن بين أفضل مراكز الحواضن المعتمدة وتجهيزات المبتسرين القريبة منك بكل سهولة.</p>
   </div>
 
   <div class="row g-4">
+    <!-- 🔍 كارت الفلاتر -->
     <div class="col-lg-3">
-      <div class="card border-0 shadow-sm rounded-4 p-4 bg-white sticky-top" style="top: 20px;">
-        <h5 class="fw-bold mb-3 text-dark border-bottom pb-2">🔍 تصفية النتائج</h5>
-        
-        <div class="mb-3">
-          <label class="form-label small fw-semibold text-secondary">المدينة / المنطقة</label>
-          <input type="text" [ngModel]="searchCity()" (ngModelChange)="searchCity.set($event); applyFilters()" class="form-control rounded-3" placeholder="مثال: القاهرة، التجمع...">
+      <div class="filters-card sticky-top" style="top: 20px;">
+        <div class="filters-deco" aria-hidden="true">
+          <span></span><span></span>
         </div>
 
-        <div class="mb-3">
-          <label class="form-label small fw-semibold text-secondary">الحد الأقصى للسعر اليومي</label>
-          <input type="number" [ngModel]="maxPrice()" (ngModelChange)="maxPrice.set($event); applyFilters()" class="form-control rounded-3" placeholder="ج.م">
+        <h5 class="filters-title">🔍 تصفية النتائج</h5>
+
+        <div class="filter-group">
+          <label class="filter-label">المدينة / المنطقة</label>
+          <input type="text" [ngModel]="searchCity()" (ngModelChange)="searchCity.set($event); applyFilters()"
+            class="filter-input" placeholder="مثال: القاهرة، التجمع...">
         </div>
 
-        <div class="mb-4">
-          <label class="form-label small fw-semibold text-secondary">الحد الأدنى للتقييم</label>
-          <select [ngModel]="minRating()" (ngModelChange)="minRating.set($event); applyFilters()" class="form-select rounded-3">
+        <div class="filter-group">
+          <label class="filter-label">الحد الأقصى للسعر اليومي</label>
+          <input type="number" [ngModel]="maxPrice()" (ngModelChange)="maxPrice.set($event); applyFilters()"
+            class="filter-input" placeholder="ج.م">
+        </div>
+
+        <div class="filter-group mb-4">
+          <label class="filter-label">الحد الأدنى للتقييم</label>
+          <select [ngModel]="minRating()" (ngModelChange)="minRating.set($event); applyFilters()"
+            class="filter-select">
             <option [ngValue]="null">كل التقييمات الطبية</option>
             <option [ngValue]="4">⭐ 4 نجوم وأعلى</option>
             <option [ngValue]="3">⭐ 3 نجوم وأعلى</option>
           </select>
         </div>
 
-        <button (click)="searchCity.set(''); maxPrice.set(null); minRating.set(null); applyFilters();" class="btn btn-outline-success btn-sm w-100 rounded-3 fw-bold">
+        <button (click)="searchCity.set(''); maxPrice.set(null); minRating.set(null); applyFilters();"
+          class="reset-filters-btn">
           🔄 إعادة تعيين الفلاتر
         </button>
       </div>
     </div>
 
+    <!-- 📋 النتائج -->
     <div class="col-lg-9">
       @if (isLoading()) {
-        <div class="d-flex justify-content-center align-items-center my-5 py-5">
-          <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem; color: #10b981 !important;"></div>
+        <div class="loader-wrapper">
+          <div class="loader-blocks">
+            <span></span><span></span><span></span><span></span>
+          </div>
         </div>
       } @else {
-        
+
         <div class="row g-4">
           @if (nurseries().length === 0) {
-            <div class="col-12 text-center py-5">
-              <span class="fs-1">📭</span>
-              <p class="text-muted fw-medium mt-2">عذراً، لم نجد أي حواضن طبية تطابق خيارات البحث الحالية.</p>
+            <div class="col-12 empty-results-box">
+              <span class="empty-icon">📭</span>
+              <p class="empty-text">عذراً، لم نجد أي حواضن طبية تطابق خيارات البحث الحالية.</p>
             </div>
           } @else {
-            @for (nursery of nurseries(); track nursery.id) {
-              <div class="col-md-6 col-xl-4">
-                <app-nursery-card [nursery]="nursery" [routerLink]="['/nurseries', nursery.id]" class="h-100 d-block cursor-pointer"></app-nursery-card>
+            @for (nursery of nurseries(); track nursery.id; let i = $index) {
+              <div class="col-md-6 col-xl-4 result-item" [style.animation-delay.ms]="i * 60">
+                <app-nursery-card [nursery]="nursery" [routerLink]="['/nurseries', nursery.id]"
+                  class="h-100 d-block cursor-pointer"></app-nursery-card>
               </div>
             }
           }
         </div>
 
         @if (nurseries().length > 0 || currentPage() > 1) {
-          <div class="d-flex justify-content-center align-items-center gap-3 mt-5">
-            <button [disabled]="currentPage() === 1" (click)="changePage(currentPage() - 1)" class="btn btn-outline-success rounded-3 px-3 fw-bold">
+          <div class="pagination-row">
+            <button [disabled]="currentPage() === 1" (click)="changePage(currentPage() - 1)" class="page-btn">
               السابق ➡️
             </button>
-            <span class="fw-bold text-secondary">الصفحة {{ currentPage() }}</span>
-            <button [disabled]="nurseries().length < pageSize" (click)="changePage(currentPage() + 1)" class="btn btn-outline-success rounded-3 px-3 fw-bold">
+            <span class="page-indicator">الصفحة {{ currentPage() }}</span>
+            <button [disabled]="nurseries().length < pageSize" (click)="changePage(currentPage() + 1)" class="page-btn">
               ⬅️ التالي
             </button>
           </div>

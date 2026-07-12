@@ -1,75 +1,423 @@
-:host { 
-  display: block; 
-  background-color: #f8fafc; 
-  min-height: 90vh; 
-  font-family: 'Segoe UI', sans-serif; 
-  padding-top: 2rem; 
+:host {
+  display: block;
+  min-height: 90vh;
+  font-family: var(--font-body, 'Cairo', sans-serif);
+  padding-top: 2rem;
 }
 
-.card { 
-  border: none; 
-  border-radius: 20px !important; 
+.booking-page {
+  position: relative;
 }
 
-/* هيدر الكارت بالأخضر الانسيابي */
-.card-header { 
-  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%) !important; 
+/* ============================
+   🎨 خلفية الصفحة الملونة المتحركة
+============================ */
+.booking-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(61, 106, 138, 0.07) 0%, transparent 38%),
+    radial-gradient(circle at 92% 12%, rgba(232, 163, 61, 0.08) 0%, transparent 36%),
+    radial-gradient(circle at 12% 88%, rgba(217, 123, 132, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 90% 85%, rgba(110, 156, 130, 0.07) 0%, transparent 38%),
+    var(--bg-global);
 }
 
-.form-label { 
-  font-size: 0.95rem; 
-  color: #344054; 
-  margin-bottom: 0.5rem; 
-  font-weight: 600; 
+.page-bg-decor {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
 }
 
-.input-group-text { 
-  border-color: #d0d5dd; 
-  background-color: #fff; 
-  border-radius: 0 10px 10px 0 !important; 
+.bg-block {
+  position: absolute;
+  border-radius: 18px;
+  opacity: 0.4;
+  animation: bgBlockFloat 9s ease-in-out infinite;
+}
+.bg-block--blue    { width: 80px; height: 80px; background: var(--block-blue);    top: 8%;  left: 6%;  transform: rotate(15deg); animation-duration: 10s; }
+.bg-block--mustard { width: 50px; height: 50px; background: var(--block-mustard); top: 65%; right: 8%; transform: rotate(-12deg); animation-duration: 8s; animation-delay: 0.6s; }
+.bg-block--rose    { width: 40px; height: 40px; background: var(--block-rose);    top: 30%; right: 12%; transform: rotate(10deg); animation-duration: 7s; animation-delay: 1.2s; }
+.bg-block--sage    { width: 36px; height: 36px; background: var(--block-sage);   bottom: 10%; left: 14%; transform: rotate(-16deg); animation-duration: 8.5s; animation-delay: 0.4s; }
+
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--surface);
+  opacity: 0.5;
+  animation: bgBlockFloat 11s ease-in-out infinite;
+}
+.bg-circle--1 { width: 130px; height: 130px; top: 4%; right: 24%; animation-duration: 12s; }
+.bg-circle--2 { width: 70px;  height: 70px;  bottom: 6%; left: 26%; animation-duration: 9s; animation-delay: 0.8s; }
+
+@keyframes bgBlockFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-16px); }
 }
 
-.form-control, .form-select { 
-  border-color: #d0d5dd; 
-  padding: 0.7rem 0.8rem; 
-  border-radius: 10px 0 0 10px !important; 
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.input-group > :not(:first-child) { 
-  border-radius: 10px 0 0 10px !important; 
+/* ============================
+   💳 الكارت الرئيسي
+============================ */
+.booking-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: var(--shadow-premium);
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: cardEnter 0.55s cubic-bezier(.22,1,.36,1) forwards;
 }
 
-/* فوكس المدخلات بالأخضر */
-.form-control:focus, .form-select:focus { 
-  border-color: #2ecc71; 
-  box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.12); 
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* زر التأكيد والدفع */
-.btn-primary { 
-  background-color: #2ecc71; 
-  border-color: #2ecc71; 
-  border-radius: 10px !important; 
+.booking-card-deco span {
+  position: absolute;
+  border-radius: 14px;
+  opacity: 0.1;
+}
+.booking-card-deco span:nth-child(1) {
+  width: 60px; height: 60px;
+  background: var(--block-mustard);
+  top: -16px; left: -16px;
+  transform: rotate(20deg);
+}
+.booking-card-deco span:nth-child(2) {
+  width: 40px; height: 40px;
+  background: var(--block-rose);
+  bottom: 10px; left: -14px;
+  transform: rotate(-12deg);
 }
 
-.btn-primary:hover:not(:disabled) { 
-  background-color: #27ae60; 
+/* ============================
+   📋 هيدر الفورم
+============================ */
+.booking-form-header {
+  text-align: center;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
 }
 
-.alert { 
-  border-radius: 12px; 
+.header-icon {
+  font-size: 42px;
+  display: inline-block;
+  opacity: 0;
+  animation: fadeUp 0.5s ease 0.1s forwards, iconWobble 3.4s ease-in-out infinite 0.7s;
+}
+@keyframes iconWobble {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-6deg); }
+  75%      { transform: rotate(6deg); }
 }
 
-.extra-small {
-  font-size: 0.8rem;
+.header-title {
+  font-family: var(--font-display, 'Lalezar', sans-serif);
+  font-weight: 400;
+  font-size: 24px;
+  color: var(--ink);
+  margin: 10px 0 4px;
+  opacity: 0;
+  animation: fadeUp 0.5s ease 0.18s forwards;
 }
 
-/* أنيميشن نبض الدفع */
-.animate-pulse {
-  animation: pulse 2s infinite ease-in-out;
+.header-subtitle {
+  color: var(--block-blue);
+  font-size: 13.5px;
+  font-weight: 600;
+  opacity: 0;
+  animation: fadeUp 0.5s ease 0.24s forwards;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.72; }
+/* ============================
+   📝 الفورم
+============================ */
+.booking-form {
+  position: relative;
+  z-index: 1;
+}
+
+.field-group {
+  margin-bottom: 20px;
+  text-align: right;
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards;
+}
+.field-group:nth-of-type(1) { animation-delay: 0.3s; }
+.field-group:nth-of-type(2) { animation-delay: 0.36s; }
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.field-select, .field-input {
+  width: 100%;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 14px;
+  background: var(--bg-global);
+  color: var(--ink);
+  transition: var(--transition-smooth);
+  box-sizing: border-box;
+  font-family: var(--font-body, 'Cairo', sans-serif);
+}
+
+.field-select:focus, .field-input:focus {
+  outline: none;
+  border-color: var(--block-blue);
+  box-shadow: 0 0 0 4px rgba(61, 106, 138, 0.12);
+  background: var(--surface);
+  transform: translateY(-1px);
+}
+
+.field-invalid {
+  border-color: var(--error) !important;
+  background-color: rgba(226, 87, 76, 0.03) !important;
+  animation: shake 0.4s ease;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-4px); }
+  75%      { transform: translateX(4px); }
+}
+
+.field-error {
+  display: block;
+  color: var(--error);
+  font-size: 12px;
+  margin-top: 6px;
+  font-weight: 500;
+  animation: fadeUp 0.3s ease;
+}
+
+.form-error-alert {
+  background: #FDF1EF;
+  color: var(--error);
+  border: 1px solid rgba(226, 87, 76, 0.25);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  animation: shake 0.4s ease;
+}
+
+/* ============================
+   ✅ زر التأكيد
+============================ */
+.confirm-booking-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--block-blue) 0%, var(--block-blue-hover) 100%);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(61, 106, 138, 0.2);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeUp 0.5s ease 0.42s forwards;
+}
+
+.confirm-booking-btn::before {
+  content: "";
+  position: absolute;
+  top: 0; right: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+  transform: skewX(-20deg);
+  animation: btnShine 3.4s ease-in-out infinite 1s;
+}
+@keyframes btnShine {
+  0%   { right: -60%; }
+  40%  { right: 130%; }
+  100% { right: 130%; }
+}
+
+.confirm-booking-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px -4px rgba(61, 106, 138, 0.32);
+}
+.confirm-booking-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+.confirm-booking-btn:disabled {
+  background: var(--border-color);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.confirm-booking-btn:disabled::before { display: none; }
+
+.btn-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================
+   📌 حالات: انتظار الدفع / النجاح
+============================ */
+.state-box {
+  text-align: center;
+  padding: 20px 8px;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: fadeUp 0.5s ease forwards;
+}
+
+.state-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin: 0 auto 16px;
+  opacity: 0;
+  animation: iconPop 0.5s ease 0.1s forwards;
+}
+
+@keyframes iconPop {
+  from { opacity: 0; transform: scale(0.6); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.state-icon--mustard {
+  background: rgba(232, 163, 61, 0.14);
+  animation: iconPop 0.5s ease 0.1s forwards, iconFloat 2.6s ease-in-out infinite 0.6s;
+}
+.state-icon--blue {
+  background: rgba(61, 106, 138, 0.12);
+  animation: iconPop 0.5s ease 0.1s forwards, iconFloat 2.6s ease-in-out infinite 0.6s;
+}
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.state-title {
+  font-family: var(--font-display, 'Lalezar', sans-serif);
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--ink);
+  margin-bottom: 10px;
+  opacity: 0;
+  animation: fadeUp 0.4s ease 0.2s forwards;
+}
+
+.state-title--success {
+  color: var(--block-blue);
+}
+
+.state-text {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  line-height: 1.7;
+  padding: 0 8px;
+  opacity: 0;
+  animation: fadeUp 0.4s ease 0.28s forwards;
+}
+
+/* زر الانتقال للدفع */
+.go-to-payment-btn {
+  display: block;
+  width: 100%;
+  background: var(--block-blue);
+  color: white;
+  font-weight: 700;
+  font-size: 14.5px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  margin-top: 20px;
+  box-shadow: 0 6px 16px -4px rgba(61, 106, 138, 0.32);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: fadeUp 0.4s ease 0.36s forwards, paymentPulse 2.4s ease-in-out infinite 1s;
+}
+
+@keyframes paymentPulse {
+  0%, 100% { box-shadow: 0 6px 16px -4px rgba(61, 106, 138, 0.32); }
+  50%      { box-shadow: 0 8px 22px -2px rgba(61, 106, 138, 0.5); }
+}
+
+.go-to-payment-btn:hover {
+  background: var(--block-blue-hover);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* لودر إعادة التوجيه (3 مكعبات صغيرة) */
+.redirect-loader {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  opacity: 0;
+  animation: fadeUp 0.4s ease 0.4s forwards;
+}
+.redirect-loader span {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  animation: loaderBounce 1s ease-in-out infinite;
+}
+.redirect-loader span:nth-child(1) { background: var(--block-blue);    animation-delay: 0s; }
+.redirect-loader span:nth-child(2) { background: var(--block-mustard); animation-delay: 0.15s; }
+.redirect-loader span:nth-child(3) { background: var(--block-rose);    animation-delay: 0.3s; }
+
+@keyframes loaderBounce {
+  0%, 100% { transform: translateY(0);    opacity: 0.6; }
+  50%      { transform: translateY(-8px); opacity: 1; }
+}
+
+/* ============================
+   ♿ تقليل الحركة
+============================ */
+@media (prefers-reduced-motion: reduce) {
+  .bg-block, .bg-circle, .booking-card, .header-icon,
+  .header-title, .header-subtitle, .field-group,
+  .field-invalid, .field-error, .form-error-alert,
+  .confirm-booking-btn::before, .btn-spinner,
+  .state-box, .state-icon-wrapper, .state-title, .state-text,
+  .go-to-payment-btn, .redirect-loader span {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

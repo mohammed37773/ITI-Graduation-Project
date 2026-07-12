@@ -1,29 +1,41 @@
-<div class="container py-5" dir="rtl">
-  <div class="text-center mb-5">
-    <h2 class="fw-bold text-primary">🧠 استبيان الحواضن الذكي (AI)</h2>
-    <p class="text-muted">أدخل الحالة الدقيقة للمولود، ودع الذكاء الاصطناعي يطابقها مع الحواضن المتوفرة ميكانيكياً وطبياً في IncuCare.</p>
+<div class="container py-5 ai-quiz-page" dir="rtl">
+
+  <!-- 🎨 خلفية زخرفية متحركة -->
+  <div class="page-bg-decor" aria-hidden="true">
+    <span class="bg-block bg-block--blue"></span>
+    <span class="bg-block bg-block--mustard"></span>
+    <span class="bg-block bg-block--rose"></span>
+    <span class="bg-block bg-block--sage"></span>
+    <span class="bg-circle bg-circle--1"></span>
+    <span class="bg-circle bg-circle--2"></span>
+  </div>
+
+  <div class="page-header">
+    <h2 class="page-title">🧠 استبيان الحواضن الذكي (AI)</h2>
+    <p class="page-subtitle">أدخل الحالة الدقيقة للمولود، ودع الذكاء الاصطناعي يطابقها مع الحواضن المتوفرة ميكانيكياً وطبياً في IncuCare.</p>
   </div>
 
   @if (errorMessage()) {
-    <div class="alert alert-danger rounded-3 shadow-sm mb-4" role="alert">
-      {{ errorMessage() }}
+    <div class="error-alert">
+      ⚠️ {{ errorMessage() }}
     </div>
   }
 
   <div class="row g-4">
+    <!-- 📋 الفورم -->
     <div class="col-lg-5">
-      <div class="card border-0 shadow-sm rounded-4 p-4 bg-white sticky-top">
-        <h5 class="fw-bold mb-4 text-dark border-bottom pb-2">📋 تفاصيل حالة المولود الجديد</h5>
-        
+      <div class="quiz-form-card sticky-top">
+        <div class="form-card-deco" aria-hidden="true">
+          <span></span><span></span>
+        </div>
+
+        <h5 class="form-card-title">📋 تفاصيل حالة المولود الجديد</h5>
+
         <form [formGroup]="recommendationForm" (ngSubmit)="getRecommendations()" class="row g-3">
-          
-          <!-- <div class="col-12">
-            <label class="form-label small fw-semibold text-secondary">عمر المولود (بالأيام)</label>
-            <input type="number" formControlName="babyAgeDays" class="form-control rounded-3" placeholder="مثال: 5 أيام">
-          </div> -->
-                   <div class="col-12">
-            <label class="form-label small fw-semibold text-secondary">التقييم أعلى من:</label>
-            <select formControlName="rate" class="form-select rounded-3">
+
+          <div class="col-12">
+            <label class="field-label">التقييم أعلى من:</label>
+            <select formControlName="rate" class="field-select">
               <option value="4">4 نجوم</option>
               <option value="3">3 نجوم</option>
               <option value="2">2 نجوم</option>
@@ -31,8 +43,8 @@
           </div>
 
           <div class="col-12">
-            <label class="form-label small fw-semibold text-secondary">الميزانية اليومية التقديرية (ج.م)</label>
-            <select formControlName="budget" class="form-select rounded-3">
+            <label class="field-label">الميزانية اليومية التقديرية (ج.م)</label>
+            <select formControlName="budget" class="field-select">
               <option value="200">حتى 200 ج.م / يومياً</option>
               <option value="500">حتى 500 ج.م / يومياً</option>
               <option value="1000">حتى 1000 ج.م / يومياً</option>
@@ -41,13 +53,13 @@
           </div>
 
           <div class="col-12">
-            <label class="form-label small fw-semibold text-secondary">المحافظة</label>
-            <input type="text" formControlName="locationPreference" class="form-control rounded-3" placeholder="مثال: القاهرة, الجيزة...">
+            <label class="field-label">المحافظة</label>
+            <input type="text" formControlName="locationPreference" class="field-input" placeholder="مثال: القاهرة, الجيزة...">
           </div>
 
           <div class="col-12">
-            <label class="form-label small fw-semibold text-secondary">مستوى الرعاية الطبية المطلوبة</label>
-            <select formControlName="careType" class="form-select rounded-3">
+            <label class="field-label">مستوى الرعاية الطبية المطلوبة</label>
+            <select formControlName="careType" class="field-select">
               <option value="رعاية نمو طبيعية للمبتسرين">رعاية نمو ومتابعة روتينية للمبتسرين (Preterm)</option>
               <option value="رعاية طبية مركزة وتمريض 24 ساعة">رعاية حرجة وعناية مركزة (NICU Level)</option>
               <option value="متابعة حالات الصفراء">علاج ضوئي ومتابعة حالات الصفراء (Jaundice)</option>
@@ -56,14 +68,14 @@
           </div>
 
           <div class="col-12">
-            <label class="form-label small fw-semibold text-secondary">تجهيزات خاصة أو ملاحظات طبية (اختياري)</label>
-            <textarea formControlName="extraEquipment" class="form-control rounded-3" rows="2" placeholder="مثال: جهاز تنفس صناعي CPAP، قياس مستمر لنسبة الأكسجين بالدم..."></textarea>
+            <label class="field-label">تجهيزات خاصة أو ملاحظات طبية (اختياري)</label>
+            <textarea formControlName="extraEquipment" class="field-textarea" rows="2" placeholder="مثال: جهاز تنفس صناعي CPAP، قياس مستمر لنسبة الأكسجين بالدم..."></textarea>
           </div>
 
           <div class="col-12 pt-2">
-            <button type="submit" [disabled]="isLoading()" class="btn btn-primary btn-lg w-100 rounded-3 fw-bold py-2 shadow-sm">
+            <button type="submit" [disabled]="isLoading()" class="analyze-btn">
               @if (isLoading()) {
-                <span class="spinner-border spinner-border-sm me-2"></span> جاري مطابقة الحواضن الطبية...
+                <span class="btn-spinner"></span> جاري مطابقة الحواضن الطبية...
               } @else {
                 🔍 ابدأ التحليل الفوري للمطابقة
               }
@@ -73,94 +85,63 @@
       </div>
     </div>
 
+    <!-- 🎯 النتائج -->
     <div class="col-lg-7">
-      <div class="card border-0 shadow-sm rounded-4 p-4 bg-white min-h-100">
-        <h5 class="fw-bold mb-4 text-dark border-bottom pb-2">🎯 الحواضن الطبية المرشحة</h5>
+      <div class="results-card">
+        <h5 class="form-card-title">🎯 الحواضن الطبية المرشحة</h5>
 
         @if (!hasResults() && !isLoading()) {
-          <div class="text-center py-5 text-muted">
-            <span class="fs-1 d-block mb-2">🤖</span>
-            <p class="small mb-0">املاً الاستبيان الطبي للمولود على اليمين، ليقوم محرك الـ AI بفحص سعة الحواضن الشاغرة والتجهيزات المطابقة لحالة طفلك فوراً.</p>
+          <div class="empty-state">
+            <span class="empty-state-icon">🤖</span>
+            <p class="empty-state-text">املاً الاستبيان الطبي للمولود على اليمين، ليقوم محرك الـ AI بفحص سعة الحواضن الشاغرة والتجهيزات المطابقة لحالة طفلك فوراً.</p>
           </div>
         }
 
         @if (isLoading()) {
-          <div class="d-flex flex-column justify-content-center align-items-center py-5 my-4">
-            <div class="spinner-border text-primary mb-3" role="status" style="width: 2.5rem; height: 2.5rem;"></div>
-            <p class="text-secondary small fw-medium">جاري فحص وتأمين أجهزة الحواضن الطبية الشاغرة بمحيطك...</p>
+          <div class="analyzing-state">
+            <div class="loader-blocks">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <p class="analyzing-text">جاري فحص وتأمين أجهزة الحواضن الطبية الشاغرة بمحيطك...</p>
           </div>
         }
 
-       @if (hasResults()) {
+        @if (hasResults()) {
 
-  @if (recommendations().length > 0) {
+          @if (recommendations().length > 0) {
+            <div class="results-list">
+              @for (nursery of recommendations(); track nursery.id; let i = $index) {
+                <div class="result-nursery-card" [style.animation-delay.ms]="i * 90">
+                  <div class="result-top-row">
+                    <div>
+                      <h5 class="result-name">🏥 {{ nursery.name }}</h5>
+                      <p class="result-address">📍 {{ nursery.city }} {{ nursery.address }}</p>
+                    </div>
+                    <span class="result-price-badge">{{ nursery.dailyPrice }} ج.م / يوم</span>
+                  </div>
 
-    <div class="d-flex flex-column gap-4">
-      @for (nursery of recommendations(); track nursery.id) {
+                  <div class="ai-match-box">
+                    <strong class="ai-match-label">🤖 مطابقة الذكاء الاصطناعي:</strong>
+                    {{ nursery.matchReason }}
+                  </div>
 
-        <div class="p-3 border rounded-4 bg-light shadow-2xs position-relative">
-          <div class="d-flex justify-content-between align-items-start mb-2">
-            <div>
-              <h5 class="fw-bold text-dark mb-1">
-                🏥 {{ nursery.name }}
-              </h5>
-
-              <p class="text-muted small mb-0">
-                📍 {{ nursery.city }} {{ nursery.address }}
-              </p>
+                  <div class="result-bottom-row">
+                    <span class="result-rating">⭐ تقييم المركز الطبي: {{ nursery.avgRating || 'غير متاح' }}</span>
+                    <a [routerLink]="['/parent/bookings/new', nursery.id]" class="book-mini-btn">
+                      🎯 احجز الحاضنة الآن
+                    </a>
+                  </div>
+                </div>
+              }
             </div>
+          } @else {
+            <div class="ai-info-box">
+              <h5 class="ai-info-title">🤖 رد الذكاء الاصطناعي</h5>
+              <p class="ai-info-text">{{ aiResponseText() }}</p>
+            </div>
+          }
 
-            <span class="badge bg-success rounded-pill px-3 py-2 fs-6">
-              {{ nursery.dailyPrice }} ج.م / يوم
-            </span>
-          </div>
-
-          <div class="bg-white p-3 rounded-3 my-3 border-start border-primary border-4">
-            <p class="text-dark small mb-0 lh-lg">
-              <strong class="text-primary">
-                🤖 مطابقة الذكاء الاصطناعي:
-              </strong>
-
-              {{ nursery.matchReason }}
-            </p>
-          </div>
-
-          <div class="d-flex justify-content-between align-items-center mt-2">
-
-            <span class="text-warning fw-bold small">
-              ⭐ تقييم المركز الطبي:
-              {{ nursery.avgRating || 'غير متاح' }}
-            </span>
-
-            <a
-              [routerLink]="['/parent/bookings/new', nursery.id]"
-              class="btn btn-outline-primary btn-sm rounded-3 px-3 fw-bold">
-
-              🎯 احجز الحاضنة الآن
-
-            </a>
-
-          </div>
-        </div>
-
-      }
-    </div>
-
-  } @else {
-
-    <div class="alert alert-info rounded-4 shadow-sm">
-      <h5 class="fw-bold mb-2">
-        🤖 رد الذكاء الاصطناعي
-      </h5>
-
-      <p class="mb-0">
-        {{ aiResponseText() }}
-      </p>
-    </div>
-
-  }
-
-}
+        }
       </div>
     </div>
   </div>
