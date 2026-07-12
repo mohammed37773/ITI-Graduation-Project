@@ -1,6 +1,15 @@
 <div class="auth-page" dir="rtl">
+  <!-- عناصر الخلفية الزخرفية -->
+  <div class="auth-bg-decor" aria-hidden="true">
+    <span class="decor-block decor-block--blue"></span>
+    <span class="decor-block decor-block--mustard"></span>
+    <span class="decor-block decor-block--rose"></span>
+    <span class="decor-block decor-block--sage"></span>
+    <span class="decor-circle decor-circle--1"></span>
+    <span class="decor-circle decor-circle--2"></span>
+  </div>
+
   <div class="auth-card">
-    
     <header class="auth-header">
       <div class="logo">
         <span class="logo-icon">👶</span>
@@ -9,8 +18,12 @@
       <p>انضم إلى ملتقى الحضانات الذكية وتابع حالة أطفالك</p>
     </header>
 
+    <!-- صندوق النجاح -->
     @if (isSuccess()) {
       <div class="success-box animate-fade">
+        <div class="confetti-burst" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
         <span class="success-icon">✉️</span>
         <h5>تم تسجيل حسابك بنجاح!</h5>
         <p>أرسلنا رابط تفعيل لايف إلى الإيميل: <strong class="text-dark">{{ registeredEmail() }}</strong></p>
@@ -19,12 +32,13 @@
           <strong>💡 ملاحظة هامة:</strong> يرجى الضغط على الرابط المرسل إلى بريدك الإلكتروني لتفعيل الحساب في النظام مباشرة، ثم توجه لتسجيل الدخول.
         </div>
         
-        <a routerLink="/auth/login" class="btn-primary login-redirect-btn">
+        <a routerLink="/auth/login" class="login-redirect-btn">
           الذهاب لصفحة تسجيل الدخول ←
         </a>
       </div>
     }
 
+    <!-- رسالة الخطأ -->
     @if (errorMessage()) {
       <div class="error-msg animate-fade">
         <i class="fa-solid fa-circle-exclamation"></i>
@@ -32,9 +46,11 @@
       </div>
     }
 
+    <!-- استمارة التسجيل -->
     @if (!isSuccess()) {
       <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="auth-form">
         
+        <!-- الاسم بالكامل -->
         <div class="form-group">
           <label for="fullName">الاسم بالكامل</label>
           <div class="input-wrapper">
@@ -52,6 +68,7 @@
           }
         </div>
 
+        <!-- البريد الإلكتروني -->
         <div class="form-group">
           <label for="email">البريد الإلكتروني</label>
           <div class="input-wrapper">
@@ -69,6 +86,7 @@
           }
         </div>
 
+        <!-- كلمة المرور -->
         <div class="form-group">
           <label for="password">كلمة المرور</label>
           <div class="input-wrapper">
@@ -95,20 +113,23 @@
           }
         </div>
 
+        <!-- نوع الحساب -->
         <div class="form-group">
           <label>نوع الحساب (صلاحية الدخول)</label>
           <div class="role-grid">
             
+            <!-- ولي أمر -->
             <div class="card-role" [class.active]="registerForm.get('role')?.value === 'Parent'">
-              <input class="form-check-input d-none" type="radio" id="roleParent" value="Parent" formControlName="role">
+              <input class="d-none" type="radio" id="roleParent" value="Parent" formControlName="role">
               <label class="role-label-container" for="roleParent">
                 <span class="role-emoji">👶</span>
                 <strong class="role-title">ولي أمر طفل</strong>
               </label>
             </div>
 
+            <!-- صاحب حضانة -->
             <div class="card-role" [class.active]="registerForm.get('role')?.value === 'NurseryAdmin'">
-              <input class="form-check-input d-none" type="radio" id="roleOwner" value="NurseryAdmin" formControlName="role">
+              <input class="d-none" type="radio" id="roleOwner" value="NurseryAdmin" formControlName="role">
               <label class="role-label-container" for="roleOwner">
                 <span class="role-emoji">🏢</span>
                 <strong class="role-title">صاحب حضانة</strong>
@@ -118,16 +139,18 @@
           </div>
         </div>
 
-        <button type="submit" [disabled]="registerForm.invalid || isLoading()" class="btn-primary submit-btn">
+        <!-- زر الإرسال -->
+        <button type="submit" [disabled]="registerForm.invalid || isLoading()" class="submit-btn">
           @if (isLoading()) {
-            <i class="fa-solid fa-spinner fa-spin"></i> جاري إنشاء الحساب في النظام...
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <span>جاري إنشاء الحساب...</span>
           } @else {
             <span>🚀 إنشاء الحساب وتفعيل البريد</span>
           }
         </button>
 
         <div class="auth-footer">
-          <span class="text-muted">لديك حساب بالفعل؟ </span>
+          <span>لديك حساب بالفعل؟ </span>
           <a routerLink="/auth/login">سجل دخولك هنا</a>
         </div>
 
