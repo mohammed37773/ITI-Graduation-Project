@@ -1,103 +1,84 @@
 <div class="bookings-page">
+  <!-- 📌 الهيدر المطور -->
   <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
-    <div class="page-header">
+    <div class="page-header fade-in-up" style="--d: 0s">
       <h1>إدارة الحجوزات</h1>
-      <p>عرض جميع طلبات حجز الحضانات عبر المنصة وإدارتها.</p>
+      <p>متابعة كافة طلبات حجز الحضانات، مراجعة الحالات التشغيلية، ومراقبة التدفقات المالية للمنصة بدقة.</p>
     </div>
   </div>
 
+  <!-- 📊 كروت الإحصائيات والتدفقات المالية الفاخرة مع تأثير الحوم والعزل -->
   <div class="row g-3 mb-4">
-    <div class="col-6 col-md-4">
-      <div class="stat-mini card">
-        <div class="stat-mini-icon" style="background: var(--success-bg)">
-          <i class="bi bi-calendar-check" style="color: var(--success)"></i>
-        </div>
-        <div>
-          <p class="stat-mini-label">مؤكدة</p>
-          <h4 class="stat-mini-value text-center">{{ stats.confirmed }}</h4>
-        </div>
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="mini-stat card fade-in-up" style="--d: 0.05s">
+        <p class="mini-stat-label">حجوزات مؤكدة</p>
+        <h3 class="mini-stat-value text-success-custom">{{ stats.confirmed }}</h3>
       </div>
     </div>
-    <div class="col-6 col-md-4">
-      <div class="stat-mini card">
-        <div class="stat-mini-icon" style="background: rgba(52, 152, 219, 0.1)">
-          <i class="bi bi-clock" style="color: var(--accent)"></i>
-        </div>
-        <div>
-          <p class="stat-mini-label">معلقة</p>
-          <h4 class="stat-mini-value text-center">{{ stats.pending }}</h4>
-        </div>
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="mini-stat card fade-in-up" style="--d: 0.1s">
+        <p class="mini-stat-label">حجوزات معلقة</p>
+        <h3 class="mini-stat-value text-warning-custom">{{ stats.pending }}</h3>
       </div>
     </div>
-    <div class="col-6 col-md-4">
-      <div class="stat-mini card">
-        <div class="stat-mini-icon" style="background: var(--error-bg)">
-          <i class="bi bi-x-circle" style="color: var(--error)"></i>
-        </div>
-        <div>
-          <p class="stat-mini-label">ملغاة</p>
-          <h4 class="stat-mini-value text-center">{{ stats.cancelled }}</h4>
-        </div>
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="mini-stat card fade-in-up" style="--d: 0.15s">
+        <p class="mini-stat-label">حجوزات ملغاة</p>
+        <h3 class="mini-stat-value text-danger-custom">{{ stats.cancelled }}</h3>
       </div>
     </div>
-    <div class="col-6 col-md-4">
-        <div class="stat-mini card">
-          <div class="stat-mini-icon" style="background: #fff8db">
-            <i class="bi bi-cash-stack" style="color: #eab308"></i>
-          </div>
-          <div>
-          <p class="stat-mini-label">إجمالي الإيرادات</p>
-          <h4 class="stat-mini-value text-center">{{ stats.totalRevenue | number }} ج.م</h4>
-        </div>
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="mini-stat card fade-in-up" style="--d: 0.2s">
+        <p class="mini-stat-label">إجمالي الإيرادات</p>
+        <h3 class="mini-stat-value text-revenue-custom">{{ stats.totalRevenue | number }} <span class="currency">ج.م</span></h3>
       </div>
     </div>
-    <div class="col-6 col-md-4">
-      <div class="stat-mini card">
-        <div class="stat-mini-icon" style="background: var(--error-bg)">
-          <i class="bi bi-cash-stack" style="color: var(--error)"></i>
-        </div>
-        <div>
-          <p class="stat-mini-label">إجمالي أرباح الحضانات</p>
-          <h4 class="stat-mini-value text-center">{{ stats.totalRevenue * 0.95 | number }} ج.م</h4>
-        </div>
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="mini-stat card fade-in-up" style="--d: 0.25s">
+        <p class="mini-stat-label">أرباح الحضانات (95%)</p>
+        <h3 class="mini-stat-value text-nursery-custom">{{ stats.totalRevenue * 0.95 | number }} <span class="currency">ج.م</span></h3>
       </div>
     </div>
-    <div class="col-6 col-md-4">
-      <div class="stat-mini card">
-        <div class="stat-mini-icon" style="background: rgba(26, 122, 74, 0.1)">
-          <i class="bi bi-cash-stack" style="color: var(--primary)"></i>
-        </div>
-        <div>
-          <p class="stat-mini-label">إجمالي أرباح المنصة</p>
-          <h4 class="stat-mini-value text-center">{{ stats.totalRevenue * 0.05 | number }} ج.م</h4>
-        </div>
+    <div class="col-6 col-md-4 col-xl-2">
+      <div class="mini-stat card fade-in-up" style="--d: 0.3s">
+        <p class="mini-stat-label">أرباح المنصة (5%)</p>
+        <h3 class="mini-stat-value text-platform-custom">{{ stats.totalRevenue * 0.05 | number }} <span class="currency">ج.م</span></h3>
       </div>
     </div>
   </div>
 
-  <div class="card">
-    <!-- <div class="table-toolbar">
+  <!-- 🔍 شريط الفلترة والبحث المطور (تم استعادته وتحديثه بالكامل) -->
+  <div class="card filter-bar mb-4 fade-in-up" style="--d: 0.35s">
+    <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
       <div class="search-box">
         <i class="bi bi-search"></i>
-        <input type="text" placeholder="ابحث برقم الحجز أو المستخدم..." [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)" />
+        <input
+          type="text"
+          placeholder="البحث برقم الحجز أو معرّف المستخدم..."
+          [value]="searchQuery()"
+          (input)="onSearchChange($any($event.target).value)"
+        />
       </div>
       <div class="filter-tabs">
-        <button [class.active]="selectedStatus()==='all'" (click)="setStatus('all')">الكل</button>
-        <button [class.active]="selectedStatus()==='Confirmed'" (click)="setStatus('Confirmed')">مؤكد</button>
-        <button [class.active]="selectedStatus()==='Pending'" (click)="setStatus('Pending')">معلق</button>
-        <button [class.active]="selectedStatus()==='Cancelled'" (click)="setStatus('Cancelled')">ملغى</button>
+        <button class="filter-tab" [class.active]="selectedStatus() === 'all'" (click)="setStatus('all')">الكل</button>
+        <button class="filter-tab" [class.active]="selectedStatus() === 'Confirmed'" (click)="setStatus('Confirmed')">مؤكد</button>
+        <button class="filter-tab" [class.active]="selectedStatus() === 'Pending'" (click)="setStatus('Pending')">معلق</button>
+        <button class="filter-tab" [class.active]="selectedStatus() === 'Cancelled'" (click)="setStatus('Cancelled')">ملغى</button>
       </div>
-    </div> -->
+    </div>
+  </div>
 
+  <!-- 📋 كارت الجدول المطور -->
+  <div class="card bookings-table-card fade-in-up" style="--d: 0.4s">
     @if (loading()) {
-      <div class="loading-state">
+      <div class="loading-state text-center p-5">
         <div class="spinner"></div>
-        <p>جارٍ التحميل...</p>
+        <p class="text-muted mt-2" style="font-size: 14px">جارٍ تحميل بيانات الحجوزات...</p>
       </div>
     } @else if (error()) {
-      <div class="error-state">
-        <i class="bi bi-exclamation-triangle"></i>
-        <p>{{ error() }}</p>
+      <div class="error-state text-center p-5">
+        <i class="bi bi-exclamation-triangle text-danger" style="font-size: 40px"></i>
+        <p class="my-3 font-weight-bold" style="color: var(--admin-graphite)">{{ error() }}</p>
         <button class="btn-primary-custom" (click)="loadBookings()">إعادة المحاولة</button>
       </div>
     } @else {
@@ -115,31 +96,52 @@
             </tr>
           </thead>
           <tbody>
-            @for (booking of filteredBookings; track booking.id) {
+            @for (booking of pagedBookings; track booking.id) {
               <tr>
                 <td class="booking-id">#{{ booking.id }}</td>
-                <td class="text-muted-custom">{{ booking.parentId }}</td>
-                <td class="text-muted-custom">{{ booking.nurseryId }}</td>
-                <td class="text-muted-custom" style="font-size: 13px">
-                  {{ formatDate(booking.startDate) }}
-                </td>
-                <td class="text-muted-custom" style="font-size: 13px">
-                  {{ formatDate(booking.createdAt) }}
-                </td>
+                <td class="id-cell"><i class="bi bi-person-circle"></i> {{ booking.parentId }}</td>
+                <td class="id-cell"><i class="bi bi-building"></i> {{ booking.nurseryId }}</td>
+                <td class="date-cell">{{ formatDate(booking.startDate) }}</td>
+                <td class="date-cell">{{ formatDate(booking.createdAt) }}</td>
                 <td>
-                  <span [class]="getStatusClass(booking.status)">{{
-                    getStatusLabel(booking.status)
-                  }}</span>
+                  <span class="status-badge" [class]="getStatusClass(booking.status)">
+                    {{ getStatusLabel(booking.status) }}
+                  </span>
                 </td>
                 <td class="amount-cell">{{ booking.totalPrice | number }} ج.م</td>
               </tr>
             } @empty {
               <tr>
-                <td colspan="7" class="empty-state-row">لا توجد حجوزات مطابقة</td>
+                <td colspan="7" class="text-center text-muted p-5" style="font-size: 14px;">لا توجد طلبات حجز مطابقة لخيارات الفلترة والبحث الحالية.</td>
               </tr>
             }
           </tbody>
         </table>
+      </div>
+
+      <!-- 🔢 الـ Pagination المطور والمربوط برمجياً بالـ Signals والـ Computed -->
+      <div class="table-footer">
+        <p class="text-muted" style="font-size: 13.5px; margin: 0; font-weight: 600;">
+          عرض من {{ filteredBookings.length === 0 ? 0 : (currentPage() - 1) * pageSize + 1 }} إلى {{ mathMin(currentPage() * pageSize, filteredBookings.length) }} من أصل {{ filteredBookings.length }} حجز
+        </p>
+        
+        @if (totalPages() > 1) {
+          <div class="pagination">
+            <button class="page-btn" title="الصفحة السابقة" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+            
+            @for (page of getPageArray(); track page) {
+              <button class="page-btn" [class.active]="currentPage() === page" (click)="goToPage(page)">
+                {{ page }}
+              </button>
+            }
+            
+            <button class="page-btn" title="الصفحة التالية" [disabled]="currentPage() === totalPages()" (click)="goToPage(currentPage() + 1)">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+          </div>
+        }
       </div>
     }
   </div>

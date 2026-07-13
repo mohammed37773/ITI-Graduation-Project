@@ -1,21 +1,305 @@
-.bookings-page { max-width: 1400px; }
+/* ==========================================================================
+   🎨 DESIGN TOKENS & EXPERT VARIABLES
+   ========================================================================== */
+.bookings-page {
+  --admin-graphite: #0F111A;
+  --admin-indigo: #4F46E5;
+  --admin-indigo-hover: #4338CA;
+  --admin-indigo-soft: #EEF2FF;
+  --admin-border: #E5E7EB;
+  --admin-slate: #4B5563;
+  --admin-muted: #9CA3AF;
+  
+  --admin-success: #10B981;
+  --admin-success-soft: #D1FAE5;
+  --admin-warning: #F59E0B;
+  --admin-warning-soft: #FEF3C7;
+  --admin-danger: #EF4444;
+  --admin-danger-soft: #FEE2E2;
+  --admin-info: #3498DB;
+  --admin-info-soft: rgba(52, 152, 219, 0.1);
+  --admin-gold: #EAB308;
+  --admin-gold-soft: #FFF8DB;
 
-.stat-mini { display: flex; align-items: center; gap: 14px; padding: 16px 18px; }
-.stat-mini-icon { width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-.stat-mini-label { font-size: 12px; color: var(--neutral-500); margin: 0 0 2px; font-weight: 500; }
-.stat-mini-value { font-size: 22px; font-weight: 700; color: var(--neutral-900); margin: 0; }
+  max-width: 1400px;
+  position: relative;
+  font-family: var(--font-body, 'Cairo', sans-serif);
+}
 
-.bookings-table { width: 100%; border-collapse: separate; border-spacing: 0; }
-.bookings-table thead th { font-size: 11px; font-weight: 600; color: var(--neutral-500); text-transform: uppercase; letter-spacing: 0.05em; padding: 12px 16px; background: var(--neutral-50); border-bottom: 1px solid var(--neutral-200); }
-.bookings-table tbody tr { transition: var(--transition); }
-.bookings-table tbody tr:hover { background: var(--neutral-50); }
-.bookings-table tbody td { padding: 13px 16px; border-bottom: 1px solid var(--neutral-100); vertical-align: middle; font-size: 13px; }
+/* ==========================================================================
+   ✨ CINEMATIC ANIMATIONS
+   ========================================================================== */
+@keyframes smoothFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+.fade-in-up {
+  opacity: 0;
+  animation: smoothFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--d, 0s);
+}
 
-.booking-id { font-weight: 600; color: var(--primary); font-family: monospace; }
-.user-cell { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; }
-.amount-cell { font-weight: 700; color: var(--neutral-800); }
+/* ==========================================================================
+   📌 PAGE HEADER
+   ========================================================================== */
+.page-header h1 {
+  font-family: var(--font-display, 'Lalezar', sans-serif);
+  font-weight: 400;
+  font-size: 26px;
+  color: var(--admin-graphite);
+  margin-bottom: 4px;
+  position: relative;
+  display: inline-block;
+}
+.page-header h1::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  right: 0;
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--admin-indigo);
+}
+.page-header p {
+  color: var(--admin-slate);
+  font-size: 14px;
+  margin: 10px 0 0;
+}
 
-.action-btns { display: flex; gap: 6px; }
-.action-btn { width: 30px; height: 30px; border-radius: var(--radius-md); border: 1.5px solid var(--neutral-200); background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: var(--transition); color: var(--neutral-500); }
-.action-btn.view:hover { border-color: var(--accent); color: var(--accent); background: rgba(52,152,219,0.08); }
-.action-btn.edit:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-50); }
+/* ==========================================================================
+   📊 MINI STATS CARDS
+   ========================================================================== */
+.mini-stat {
+  padding: 18px 14px;
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  text-align: center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+}
+.mini-stat:hover {
+  transform: translateY(-4px);
+  border-color: rgba(79, 70, 229, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(15, 17, 26, 0.05);
+}
+.mini-stat-label {
+  font-size: 11.5px;
+  color: var(--admin-muted);
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+.mini-stat-value {
+  font-family: var(--font-display, 'Lalezar', sans-serif);
+  font-size: 22px;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.mini-stat-value .currency {
+  font-size: 12px;
+  font-family: var(--font-body, 'Cairo', sans-serif);
+  font-weight: 700;
+  margin-right: 2px;
+}
+
+.text-success-custom { color: var(--admin-success) !important; }
+.text-warning-custom { color: var(--admin-warning) !important; }
+.text-danger-custom { color: var(--admin-danger) !important; }
+.text-revenue-custom { color: var(--admin-gold) !important; }
+.text-nursery-custom { color: #8B5CF6; } /* زرقاء بنفسجية فاخرة لحسابات الحضانات */
+.text-platform-custom { color: var(--admin-indigo) !important; }
+
+/* ==========================================================================
+   🔍 SEARCH & FILTER BAR
+   ========================================================================== */
+.filter-bar {
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #F3F4F6;
+  border: 1px solid var(--admin-border);
+  border-radius: 50px;
+  padding: 8px 16px;
+  min-width: 320px;
+  transition: all 0.3s ease;
+}
+.search-box:focus-within {
+  background: #fff;
+  border-color: var(--admin-indigo);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+.search-box i { color: var(--admin-muted); font-size: 14px; }
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13.5px;
+  color: var(--admin-graphite);
+  width: 100%;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 2px;
+  background: #ECEDF2;
+  border-radius: 50px;
+  padding: 3px;
+}
+.filter-tab {
+  padding: 6px 18px;
+  border: none;
+  background: transparent;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--admin-slate);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.filter-tab.active {
+  background: #fff;
+  color: var(--admin-indigo);
+  box-shadow: 0 2px 6px rgba(27, 29, 39, 0.08);
+}
+
+/* ==========================================================================
+   📋 BOOKINGS TABLE CARD
+   ========================================================================== */
+.bookings-table-card {
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px -6px rgba(26, 29, 39, 0.05);
+}
+.bookings-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.bookings-table thead th {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--admin-muted);
+  padding: 14px 18px;
+  background: #FAFBFC;
+  border-bottom: 1px solid var(--admin-border);
+}
+.bookings-table tbody tr {
+  transition: all 0.2s ease;
+}
+.bookings-table tbody tr:hover { background: #FAFBFC; }
+.bookings-table tbody td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--admin-border);
+  vertical-align: middle;
+}
+
+.booking-id {
+  font-weight: 700;
+  color: var(--admin-indigo);
+  font-family: monospace, sans-serif;
+  font-size: 14px;
+}
+.id-cell {
+  font-size: 13px;
+  color: var(--admin-slate);
+  font-weight: 600;
+}
+.id-cell i {
+  color: var(--admin-muted);
+  margin-left: 4px;
+}
+.date-cell {
+  font-size: 13px;
+  color: var(--admin-slate);
+  font-weight: 600;
+}
+.amount-cell {
+  font-weight: 700;
+  color: var(--admin-graphite);
+  font-size: 14px;
+}
+
+/* Status Badges */
+.status-badge {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.badge-success { background: var(--admin-success-soft); color: var(--admin-success); }
+.badge-warning { background: var(--admin-warning-soft); color: var(--admin-warning); }
+.badge-error { background: var(--admin-danger-soft); color: var(--admin-danger); }
+.badge-info { background: var(--admin-info-soft); color: var(--admin-info); }
+
+/* ==========================================================================
+   🔢 PAGINATION SYSTEM
+   ========================================================================== */
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #FAFBFC;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-top: 1px solid var(--admin-border);
+}
+.pagination { display: flex; gap: 6px; align-items: center; }
+.page-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 8px;
+  border-radius: 10px;
+  border: 1px solid var(--admin-border);
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--admin-slate);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.page-btn.active {
+  background: var(--admin-indigo);
+  border-color: var(--admin-indigo);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+}
+.page-btn:hover:not(.active):not(:disabled) {
+  background: var(--admin-indigo-soft);
+  border-color: var(--admin-indigo);
+  color: var(--admin-indigo);
+}
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; background: #F3F4F6; }
+
+/* Spinner */
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--admin-border);
+  border-top-color: var(--admin-indigo);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 20px auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

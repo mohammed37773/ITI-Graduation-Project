@@ -1,20 +1,21 @@
 <div class="dashboard">
+
+  <!-- 🎨 خلفية زخرفية -->
+  <div class="dashboard-bg-decor" aria-hidden="true"></div>
+
   <!-- Page Header -->
   <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
-    <div class="page-header">
+    <div class="page-header fade-in-up">
       <h1>نظرة عامة على لوحة التحكم</h1>
       <p>مرحباً بعودتك، أيها المسؤول. إليك ما يحدث اليوم.</p>
     </div>
-
   </div>
 
-  <!-- Stats Cards -->
- 
   <!-- Charts Row -->
   <div class="row g-3 mb-4">
     <!-- Registration Trends -->
     <div class="col-12 col-lg-7">
-      <div class="card chart-card">
+      <div class="card chart-card fade-in-up" style="--d: 0.08s">
         <div class="card-header-custom">
           <div>
             <h5>اتجاهات الحجوزات الشهرية</h5>
@@ -24,15 +25,17 @@
         </div>
         <div class="chart-wrapper">
           <canvas #registrationChart class="registration-chart"></canvas>
-          <div class="chart-loading-overlay" *ngIf="isLoadingBookings()">جارِ تحميل البيانات...</div>
+          <div class="chart-loading-overlay" *ngIf="isLoadingBookings()">
+            <span class="mini-loader"></span> جارِ تحميل البيانات...
+          </div>
         </div>
         <div class="chart-legend">
           <div class="legend-item">
-            <span class="legend-dot" style="background:#2ecc71"></span>
+            <span class="legend-dot" style="background:#5B5FEF"></span>
             <span>حجوزات ناجحة (مؤكدة / مكتملة)</span>
           </div>
           <div class="legend-item">
-            <span class="legend-dot" style="background:#e74c3c"></span>
+            <span class="legend-dot" style="background:#D9756B"></span>
             <span>حجوزات ملغاة</span>
           </div>
         </div>
@@ -41,7 +44,7 @@
 
     <!-- Booking Status -->
     <div class="col-12 col-lg-5">
-      <div class="card chart-card">
+      <div class="card chart-card fade-in-up" style="--d: 0.16s">
         <div class="card-header-custom">
           <div>
             <h5>حالة الحجوزات</h5>
@@ -50,10 +53,12 @@
         </div>
         <div class="donut-wrapper">
           <canvas #bookingChart class="booking-chart"></canvas>
-          <div class="chart-loading-overlay" *ngIf="isLoadingBookings()">جارِ تحميل البيانات...</div>
+          <div class="chart-loading-overlay" *ngIf="isLoadingBookings()">
+            <span class="mini-loader"></span> جارِ تحميل البيانات...
+          </div>
         </div>
         <div class="booking-legend">
-          <div class="booking-legend-item" *ngFor="let seg of bookingStatusSegments()">
+          <div class="booking-legend-item" *ngFor="let seg of bookingStatusSegments(); let i = index" [style.animation-delay.ms]="i * 70">
             <div class="booking-legend-left">
               <span class="legend-dot" [style.background]="seg.color"></span>
               <span>{{ seg.label }}</span>
@@ -67,6 +72,5 @@
       </div>
     </div>
   </div>
-
 
 </div>

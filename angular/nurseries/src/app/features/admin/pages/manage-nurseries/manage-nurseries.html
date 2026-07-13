@@ -1,45 +1,51 @@
 <div class="nurseries">
+  <!-- 📌 الهيدر المطور -->
   <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
-    <div class="page-header">
+    <div class="page-header fade-in-up" style="--d: 0s">
       <h1>إدارة الحضانات</h1>
-      <p>مراقبة جميع قوائم الحضانات على المنصة والتحقق منها وإدارتها.</p>
+      <p>مراقبة جميع قوائم الحضانات على المنصة والتحقق منها وإدارتها بدقة وسلاسة.</p>
     </div>
+    <button class="btn-primary-custom fade-in-up" style="--d: 0.05s" (click)="openAddModal()">
+      <i class="bi bi-plus-lg"></i> إضافة حضانة جديدة
+    </button>
   </div>
 
+  <!-- 📊 كروت الإحصائيات مع الـ Animations والتصميم الجديد -->
   <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
-      <div class="mini-stat card">
+      <div class="mini-stat card fade-in-up" style="--d: 0.08s">
         <p class="mini-stat-label">إجمالي الحضانات</p>
         <h3 class="mini-stat-value">{{ stats.total }}</h3>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="mini-stat card">
+      <div class="mini-stat card fade-in-up" style="--d: 0.12s">
         <p class="mini-stat-label">موثّقة</p>
         <h3 class="mini-stat-value text-success-custom">{{ stats.verified }}</h3>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="mini-stat card">
+      <div class="mini-stat card fade-in-up" style="--d: 0.16s">
         <p class="mini-stat-label">قيد المراجعة</p>
         <h3 class="mini-stat-value text-warning-custom">{{ stats.pending }}</h3>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="mini-stat card">
+      <div class="mini-stat card fade-in-up" style="--d: 0.20s">
         <p class="mini-stat-label">متوسط السعر اليومي</p>
         <h3 class="mini-stat-value">{{ stats.avgPrice | number: '1.0-0' }} ج.م</h3>
       </div>
     </div>
   </div>
 
-  <div class="card filter-bar mb-3">
-    <div class="d-flex align-items-center gap-3 flex-wrap">
+  <!-- 🔍 شريط الفلترة والبحث المطور -->
+  <div class="card filter-bar mb-3 fade-in-up" style="--d: 0.24s">
+    <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
       <div class="search-box">
         <i class="bi bi-search"></i>
         <input
           type="text"
-          placeholder="البحث في الحضانات..."
+          placeholder="البحث في الحضانات بـ الاسم أو المدينة..."
           [value]="searchQuery()"
           (input)="searchQuery.set($any($event.target).value)"
         />
@@ -70,16 +76,17 @@
     </div>
   </div>
 
-  <div class="card nursery-table-card">
+  <!-- 📋 كارت الجدول المطور -->
+  <div class="card nursery-table-card fade-in-up" style="--d: 0.28s">
     @if (loading()) {
-      <div class="loading-state">
+      <div class="loading-state text-center p-5">
         <div class="spinner"></div>
-        <p>جارٍ التحميل...</p>
+        <p class="text-muted mt-2" style="font-size: 14px">جارٍ تحميل بيانات الحضانات...</p>
       </div>
     } @else if (error()) {
-      <div class="error-state">
-        <i class="bi bi-exclamation-triangle"></i>
-        <p>{{ error() }}</p>
+      <div class="error-state text-center p-5">
+        <i class="bi bi-exclamation-triangle text-danger" style="font-size: 40px"></i>
+        <p class="my-3 font-weight-bold">{{ error() }}</p>
         <button class="btn-primary-custom" (click)="loadNurseries()">إعادة المحاولة</button>
       </div>
     } @else {
@@ -90,7 +97,7 @@
               <th>الحضانة</th>
               <th>الفئة العمرية</th>
               <th>التقييم</th>
-              <th>الطاقة</th>
+              <th>الطاقة الاستيعابية</th>
               <th>السعر اليومي</th>
               <th>الحالة</th>
               <th>الإجراءات</th>
@@ -105,13 +112,13 @@
                     <div>
                       <p class="nursery-name">{{ nursery.name }}</p>
                       <p class="nursery-location">
-                        <i class="bi bi-geo-alt"></i> {{ nursery.city
-                        }}{{ nursery.address ? ' - ' + nursery.address : '' }}
+                        <i class="bi bi-geo-alt"></i> {{ nursery.city }}
+                        {{ nursery.address ? ' - ' + nursery.address : '' }}
                       </p>
                     </div>
                   </div>
                 </td>
-                <td class="text-muted-custom" style="font-size: 13px">
+                <td style="font-size: 13px; font-weight: 600; color: var(--admin-slate);">
                   {{ nursery.ageRangeMin }} - {{ nursery.ageRangeMax }} يوم
                 </td>
                 <td>
@@ -122,26 +129,22 @@
                           class="bi"
                           [class.bi-star-fill]="s <= nursery.avgRating"
                           [class.bi-star]="s > nursery.avgRating"
-                          style="color: #f4a843; font-size: 13px"
+                          style="color: #f59e0b; font-size: 13px"
                         ></i>
                       }
                       <span class="rating-num">{{ nursery.avgRating | number: '1.1-1' }}</span>
                     </div>
                   } @else {
-                    <span class="text-muted-custom" style="font-size: 12px">لا توجد تقييمات</span>
+                    <span class="text-muted" style="font-size: 12px">لا توجد تقييمات</span>
                   }
                 </td>
-                <td class="capacity-cell">{{ nursery.capacity }} طفلاً</td>
-                <td class="amount-cell">{{ nursery.dailyPrice | number }} ج.م</td>
+                <td class="capacity-cell" style="font-weight: 600;">{{ nursery.capacity }} طفلاً</td>
+                <td class="amount-cell" style="font-weight: 700; color: var(--admin-graphite);">{{ nursery.dailyPrice | number }} ج.م</td>
                 <td>
                   @if (nursery.isVerified) {
-                    <span class="badge-success"
-                      ><i class="bi bi-circle-fill" style="font-size: 6px"></i> موثّقة</span
-                    >
+                    <span class="badge-success"><i class="bi bi-patch-check-fill"></i> موثّقة</span>
                   } @else {
-                    <span class="badge-warning"
-                      ><i class="bi bi-circle-fill" style="font-size: 6px"></i> قيد المراجعة</span
-                    >
+                    <span class="badge-warning"><i class="bi bi-hourglass-split"></i> قيد المراجعة</span>
                   }
                 </td>
                 <td>
@@ -149,16 +152,15 @@
                     @if (!nursery.isVerified) {
                       <button
                         class="action-btn edit"
-                        title="توثيق"
+                        title="توثيق وعرض على المنصة"
                         (click)="verifyNursery(nursery.id)"
                       >
                         <i class="bi bi-check-lg"></i>
                       </button>
                     }
-                    <!-- <button class="action-btn view" title="عرض"><i class="bi bi-eye"></i></button> -->
                     <button
                       class="action-btn delete"
-                      title="حذف"
+                      title="حذف الحضانة نهائياً"
                       (click)="deleteNursery(nursery.id)"
                     >
                       <i class="bi bi-trash"></i>
@@ -168,21 +170,36 @@
               </tr>
             } @empty {
               <tr>
-                <td colspan="7" class="empty-state-row">لا توجد حضانات مطابقة</td>
+                <td colspan="7" class="text-center text-muted p-5" style="font-size: 14px;">لا توجد حضانات مطابقة لخيارات البحث الحالية.</td>
               </tr>
             }
           </tbody>
         </table>
       </div>
+
+      <!-- 🔢 الـ Pagination المطور والمحاذاة المتقنة -->
       <div class="table-footer">
-        <p class="text-muted-custom" style="font-size: 13px; margin: 0">
-          عرض {{ filteredNurseries.length }} من {{ nurseries().length }} حضانة
+        <p class="text-muted" style="font-size: 13.5px; margin: 0; font-weight: 600;">
+          عرض {{ filteredNurseries.length }} من {{ nurseries().length }} حضانة مسجلة
         </p>
+        
+        <div class="pagination">
+          <button class="page-btn" title="الصفحة السابقة" disabled>
+            <i class="bi bi-chevron-right"></i>
+          </button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn" title="الصفحة التالية">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+        </div>
       </div>
     }
   </div>
 </div>
 
+<!-- 🏛️ الـ Modal المطور الخاص بإضافة حضانة -->
 <div class="modal-backdrop" [class.show]="showAddModal()" (click)="closeAddModal()"></div>
 <div class="modal-dialog-custom" [class.show]="showAddModal()">
   <div class="modal-content-custom" (click)="$event.stopPropagation()">
@@ -191,7 +208,7 @@
         <div class="modal-title-icon"><i class="bi bi-plus-lg"></i></div>
         <div>
           <h4>إضافة قائمة حضانة جديدة</h4>
-          <p>أكمل النموذج أدناه لإنشاء ملف حضانة جديد.</p>
+          <p>أكمل النموذج أدناه لإنشاء وتوثيق ملف حضانة جديد على المنصة.</p>
         </div>
       </div>
       <button class="modal-close" (click)="closeAddModal()"><i class="bi bi-x-lg"></i></button>
@@ -205,35 +222,35 @@
             <input
               type="text"
               class="form-control-custom"
-              placeholder="مثال: أكاديمية الصغار"
+              placeholder="مثال: أكاديمية الصغار المبدعين"
               [(ngModel)]="newNursery.name"
             />
           </div>
           <div class="col-12 col-md-6">
-            <label class="form-label-custom">الموقع</label>
+            <label class="form-label-custom">الموقع / العنوان</label>
             <input
               type="text"
               class="form-control-custom"
-              placeholder="المدينة، المنطقة"
+              placeholder="المدينة، المنطقة السكنية"
               [(ngModel)]="newNursery.location"
             />
           </div>
           <div class="col-12">
-            <label class="form-label-custom">وصف مختصر</label>
+            <label class="form-label-custom">وصف مختصر للحضانة</label>
             <textarea
               class="form-control-custom"
               rows="3"
-              placeholder="ملخص موجز..."
+              placeholder="اكتب نبذة موجزة عن الرؤية والخدمات..."
               [(ngModel)]="newNursery.description"
             ></textarea>
           </div>
         </div>
       </div>
       <div class="form-section">
-        <h6 class="form-section-title"><i class="bi bi-clock"></i> التفاصيل التشغيلية</h6>
+        <h6 class="form-section-title"><i class="bi bi-clock"></i> التفاصيل التشغيلية والمالية</h6>
         <div class="row g-3">
           <div class="col-12 col-md-4">
-            <label class="form-label-custom">الفئة العمرية</label>
+            <label class="form-label-custom">الفئة العمرية المتاحة</label>
             <select class="form-control-custom" [(ngModel)]="newNursery.ageRange">
               <option value="0-5">0 - 5 سنوات</option>
               <option value="0-2">0 - 2 سنة</option>
@@ -242,11 +259,11 @@
             </select>
           </div>
           <div class="col-12 col-md-4">
-            <label class="form-label-custom">الطاقة الاستيعابية</label>
+            <label class="form-label-custom">الطاقة الاستيعابية (طفل)</label>
             <input
               type="number"
               class="form-control-custom"
-              placeholder="40"
+              placeholder="مثال: 40"
               [(ngModel)]="newNursery.capacity"
             />
           </div>
@@ -255,7 +272,7 @@
             <input
               type="text"
               class="form-control-custom"
-              placeholder="150"
+              placeholder="مثال: 150"
               [(ngModel)]="newNursery.price"
             />
           </div>
@@ -263,7 +280,7 @@
       </div>
     </div>
     <div class="modal-footer-custom">
-      <button class="btn-secondary-custom" (click)="closeAddModal()">إلغاء</button>
+      <button class="btn-secondary-custom" (click)="closeAddModal()">إلغاء الأمر</button>
       <button class="btn-primary-custom" (click)="submitNursery()">إنشاء ملف الحضانة</button>
     </div>
   </div>

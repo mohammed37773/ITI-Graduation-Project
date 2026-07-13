@@ -1,114 +1,76 @@
 <div class="users-page">
+  <!-- 📌 الهيدر المطور -->
   <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-4">
-    <div class="page-header">
+    <div class="page-header fade-in-up" style="--d: 0s">
       <h1>إدارة المستخدمين</h1>
-      <p>مراجعة جميع مستخدمي المنصة وإدارة صلاحياتهم والإشراف عليهم.</p>
+      <p>مراجعة جميع مستخدمي المنصة، إدارة صلاحيات الأدوار، والإشراف الكامل على نشاط الحسابات.</p>
     </div>
   </div>
 
+  <!-- 📊 كروت الإحصائيات الفاخرة مع تأثير الحوم والعزل -->
   <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
-      <div class="summary-stat card" style="border-right: 3px solid var(--primary)">
-        <div class="summary-stat-icon" style="background: rgba(26, 122, 74, 0.1)">
-          <i class="bi bi-people" style="color: var(--primary)"></i>
-        </div>
-        <div>
-          <p class="summary-stat-label">إجمالي المستخدمين</p>
-          <h4 class="summary-stat-value">{{ stats.total }}</h4>
-        </div>
+      <div class="mini-stat card fade-in-up" style="--d: 0.05s">
+        <p class="mini-stat-label">إجمالي المستخدمين</p>
+        <h3 class="mini-stat-value">{{ stats.total }}</h3>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="summary-stat card" style="border-right: 3px solid var(--accent)">
-        <div class="summary-stat-icon" style="background: rgba(52, 152, 219, 0.1)">
-          <i class="bi bi-person-heart" style="color: var(--accent)"></i>
-        </div>
-        <div>
-          <p class="summary-stat-label">أولياء الأمور</p>
-          <h4 class="summary-stat-value">{{ stats.parents }}</h4>
-        </div>
+      <div class="mini-stat card fade-in-up" style="--d: 0.1s">
+        <p class="mini-stat-label">أولياء الأمور</p>
+        <h3 class="mini-stat-value text-accent-custom">{{ stats.parents }}</h3>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="summary-stat card" style="border-right: 3px solid var(--warning)">
-        <div class="summary-stat-icon" style="background: rgba(243, 156, 18, 0.1)">
-          <i class="bi bi-building" style="color: var(--warning)"></i>
-        </div>
-        <div>
-          <p class="summary-stat-label">مشرفو الحضانات</p>
-          <h4 class="summary-stat-value">{{ stats.nurseryAdmins }}</h4>
-        </div>
+      <div class="mini-stat card fade-in-up" style="--d: 0.15s">
+        <p class="mini-stat-label">مشرفو الحضانات</p>
+        <h3 class="mini-stat-value text-warning-custom">{{ stats.nurseryAdmins }}</h3>
       </div>
     </div>
     <div class="col-6 col-md-3">
-      <div class="summary-stat card" style="border-right: 3px solid var(--error)">
-        <div class="summary-stat-icon" style="background: var(--error-bg)">
-          <i class="bi bi-shield-x" style="color: var(--error)"></i>
-        </div>
-        <div>
-          <p class="summary-stat-label">محظورون</p>
-          <h4 class="summary-stat-value">{{ stats.banned }}</h4>
-        </div>
+      <div class="mini-stat card fade-in-up" style="--d: 0.2s">
+        <p class="mini-stat-label">الحسابات المحظورة</p>
+        <h3 class="mini-stat-value text-danger-custom">{{ stats.banned }}</h3>
       </div>
     </div>
   </div>
 
+  <!-- 🗂️ توزيع الشاشة المرن عند اختيار مستخدم (Responsive Layout Split) -->
   <div class="row g-4">
     <div class="col-12" [class.col-lg-8]="selectedUser()">
-      <div class="card filter-card mb-3">
-        <div class="d-flex align-items-center gap-3 flex-wrap">
+      
+      <!-- 🔍 شريط الفلترة والبحث الفاخر -->
+      <div class="card filter-bar mb-3 fade-in-up" style="--d: 0.25s">
+        <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
           <div class="search-box">
             <i class="bi bi-search"></i>
             <input
               type="text"
               placeholder="البحث بالاسم أو البريد الإلكتروني..."
               [value]="searchQuery()"
-              (input)="searchQuery.set($any($event.target).value)"
+              (input)="$any($event.target).value ? onSearchChange($any($event.target).value) : onSearchChange('')"
             />
           </div>
-          <div class="role-filters">
-            <button
-              class="role-btn"
-              [class.active]="selectedRole() === 'all'"
-              (click)="setRole('all')"
-            >
-              الكل
-            </button>
-            <button
-              class="role-btn"
-              [class.active]="selectedRole() === 'parent'"
-              (click)="setRole('parent')"
-            >
-              ولي أمر
-            </button>
-            <button
-              class="role-btn"
-              [class.active]="selectedRole() === 'nurseryAdmin'"
-              (click)="setRole('nurseryAdmin')"
-            >
-              مشرف حضانة
-            </button>
-            <button
-              class="role-btn"
-              [class.active]="selectedRole() === 'admin'"
-              (click)="setRole('admin')"
-            >
-              مسؤول
-            </button>
+          <div class="filter-tabs">
+            <button class="filter-tab" [class.active]="selectedRole() === 'all'" (click)="setRole('all')">الكل</button>
+            <button class="filter-tab" [class.active]="selectedRole() === 'parent'" (click)="setRole('parent')">أولياء الأمور</button>
+            <button class="filter-tab" [class.active]="selectedRole() === 'nurseryAdmin'" (click)="setRole('nurseryAdmin')">مشرفو الحضانات</button>
+            <button class="filter-tab" [class.active]="selectedRole() === 'admin'" (click)="setRole('admin')">المسؤولين</button>
           </div>
         </div>
       </div>
 
-      <div class="card users-table-card">
+      <!-- 📋 كارت الجدول المطور -->
+      <div class="card users-table-card fade-in-up" style="--d: 0.3s">
         @if (loading()) {
-          <div class="loading-state">
+          <div class="loading-state text-center p-5">
             <div class="spinner"></div>
-            <p>جارٍ التحميل...</p>
+            <p class="text-muted mt-2" style="font-size: 14px">جارٍ تحميل بيانات المستخدمين...</p>
           </div>
         } @else if (error()) {
-          <div class="error-state">
-            <i class="bi bi-exclamation-triangle"></i>
-            <p>{{ error() }}</p>
+          <div class="error-state text-center p-5">
+            <i class="bi bi-exclamation-triangle text-danger" style="font-size: 40px"></i>
+            <p class="my-3 font-weight-bold" style="color: var(--admin-graphite)">{{ error() }}</p>
             <button class="btn-primary-custom" (click)="loadUsers()">إعادة المحاولة</button>
           </div>
         } @else {
@@ -117,19 +79,19 @@
               <thead>
                 <tr>
                   <th>المستخدم</th>
-                  <th>الدور</th>
-                  <th>البريد مؤكد</th>
+                  <th>الدور البرمجي</th>
+                  <th>تأكيد الهوية</th>
                   <th>الحالة</th>
                   <th>الإجراءات</th>
                 </tr>
               </thead>
               <tbody>
-                @for (user of filteredUsers; track user.id) {
+                @for (user of pagedUsers; track user.id) {
                   <tr [class.selected]="selectedUser()?.id === user.id" (click)="selectUser(user)">
                     <td>
                       <div class="user-cell">
-                        <div class="avatar-placeholder avatar-md">
-                          {{ user.fullName.charAt(0) }}
+                        <div class="avatar-placeholder">
+                          {{ user.fullName.charAt(0) | uppercase }}
                         </div>
                         <div>
                           <p class="user-name">{{ user.fullName }}</p>
@@ -138,37 +100,21 @@
                       </div>
                     </td>
                     <td>
-                      <span [class]="getRoleBadgeClass(user.roles)">{{
-                        getRoleLabel(user.roles)
-                      }}</span>
+                      <span class="role-badge" [class]="getRoleBadgeClass(user.roles)">
+                        {{ getRoleLabel(user.roles) }}
+                      </span>
                     </td>
                     <td>
                       @if (user.emailConfirmed) {
-                        <span class="badge-success"
-                          ><i class="bi bi-check-circle-fill" style="font-size: 11px"></i>
-                          مؤكد</span
-                        >
+                        <span class="badge-success"><i class="bi bi-patch-check-fill"></i> مؤكد</span>
                       } @else {
-                        <span class="badge-warning"
-                          ><i class="bi bi-exclamation-circle-fill" style="font-size: 11px"></i> غير
-                          مؤكد</span
-                        >
+                        <span class="badge-warning"><i class="bi bi-exclamation-circle-fill"></i> غير مؤكد</span>
                       }
                     </td>
                     <td>
                       <div class="status-cell">
-                        <span
-                          class="status-dot"
-                          [style.background-color]="
-                            !isBanned(user) ? 'var(--success)' : 'var(--error)'
-                          "
-                          [class.active]="!isBanned(user)"
-                          [class.deactivated]="isBanned(user)"
-                        ></span>
-                        <span
-                          [style.color]="!isBanned(user) ? 'var(--success)' : 'var(--error)'"
-                          style="font-size: 13px; font-weight: 600"
-                        >
+                        <span class="status-dot" [class.active]="!isBanned(user)" [class.deactivated]="isBanned(user)"></span>
+                        <span [style.color]="!isBanned(user) ? 'var(--admin-success)' : 'var(--admin-danger)'" style="font-size: 13px; font-weight: 700">
                           {{ !isBanned(user) ? 'نشط' : 'محظور' }}
                         </span>
                       </div>
@@ -176,15 +122,11 @@
                     <td (click)="$event.stopPropagation()">
                       <div class="action-btns">
                         @if (!isBanned(user)) {
-                          <button class="action-btn delete" title="حظر" (click)="banUser(user.id)">
+                          <button class="action-btn delete" title="حظر الحساب فوراً" (click)="banUser(user.id)">
                             <i class="bi bi-slash-circle"></i>
                           </button>
                         } @else {
-                          <button
-                            class="action-btn edit"
-                            title="رفع الحظر"
-                            (click)="unbanUser(user.id)"
-                          >
+                          <button class="action-btn edit" title="رفع الحظر والنشيط" (click)="unbanUser(user.id)">
                             <i class="bi bi-check-circle"></i>
                           </button>
                         }
@@ -193,56 +135,86 @@
                   </tr>
                 } @empty {
                   <tr>
-                    <td colspan="5" class="empty-state-row">لا توجد مستخدمون مطابقون</td>
+                    <td colspan="5" class="text-center text-muted p-5" style="font-size: 14px;">لا توجد حسابات مستخدمين مطابقة لخيارات الفلترة الحالية.</td>
                   </tr>
                 }
               </tbody>
             </table>
           </div>
+
+          <!-- 🔢 الـ Pagination المطور والمربوط برمجياً بالـ Signals -->
           <div class="table-footer">
-            <p class="text-muted-custom" style="font-size: 13px; margin: 0">
-              عرض {{ filteredUsers.length }} من {{ users().length }} مستخدمين
+            <p class="text-muted" style="font-size: 13.5px; margin: 0; font-weight: 600;">
+              عرض من {{ (currentPage() - 1) * pageSize + 1 }} إلى {{ mathMin(currentPage() * pageSize, filteredUsers.length) }} من أصل {{ filteredUsers.length }} مستخدم
             </p>
+            
+            @if (totalPages() > 1) {
+              <div class="pagination">
+                <button class="page-btn" title="الصفحة السابقة" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+                
+                @for (page of getPageArray(); track page) {
+                  <button class="page-btn" [class.active]="currentPage() === page" (click)="goToPage(page)">
+                    {{ page }}
+                  </button>
+                }
+                
+                <button class="page-btn" title="الصفحة التالية" [disabled]="currentPage() === totalPages()" (click)="goToPage(currentPage() + 1)">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+              </div>
+            }
           </div>
         }
       </div>
     </div>
 
+    <!-- 🏛️ لوحة التفاصيل الجانبية المتقدمة (User Sidebar Details) -->
     @if (selectedUser()) {
-      <div class="col-12 col-lg-4">
-        <div class="card user-detail-card">
+      <div class="col-12 col-lg-4 fade-in-up" style="--d: 0.1s">
+        <div class="card user-detail-card sticky-sidebar">
           <div class="user-detail-header">
-            <div class="avatar-placeholder avatar-xl">{{ selectedUser()!.fullName.charAt(0) }}</div>
+            <button class="close-sidebar-btn" (click)="selectedUser.set(null)" title="إغلاق لوحة التفاصيل">
+              <i class="bi bi-x-lg"></i>
+            </button>
+            <div class="avatar-placeholder-xl mb-3 mx-auto">
+              {{ selectedUser()!.fullName.charAt(0) | uppercase }}
+            </div>
             <h5>{{ selectedUser()!.fullName }}</h5>
-            <p>{{ selectedUser()!.email }}</p>
-            <span [class]="getRoleBadgeClass(selectedUser()!.roles)">{{
-              getRoleLabel(selectedUser()!.roles)
-            }}</span>
+            <p class="text-email-subtitle">{{ selectedUser()!.email }}</p>
+            <span class="role-badge mt-2" [class]="getRoleBadgeClass(selectedUser()!.roles)">
+              {{ getRoleLabel(selectedUser()!.roles) }}
+            </span>
           </div>
+          
           <div class="user-detail-info">
+            <h6 class="section-subtitle"><i class="bi bi-shield-lock"></i> أمان وحالة الحساب</h6>
             <div class="info-row">
-              <i class="bi bi-envelope"></i><span>{{ selectedUser()!.email }}</span>
+              <i class="bi bi-envelope-at"></i>
+              <span>{{ selectedUser()!.email }}</span>
             </div>
             <div class="info-row">
-              <i class="bi bi-patch-check"></i>
-              <span>{{ selectedUser()!.emailConfirmed ? 'البريد مؤكد' : 'البريد غير مؤكد' }}</span>
+              <i class="bi bi-shield-check"></i>
+              <span>الحالة البريدية: {{ selectedUser()!.emailConfirmed ? 'مؤكد ومعتمد' : 'غير مؤكد حتى الآن' }}</span>
             </div>
             <div class="info-row">
-              <i class="bi bi-shield"></i>
-              <span>{{ !isBanned(selectedUser()!) ? 'الحساب نشط' : 'الحساب محظور' }}</span>
+              <i class="bi bi-activity"></i>
+              <span>حالة تسجيل الدخول: {{ !isBanned(selectedUser()!) ? 'مسموح ونشط' : 'موقوف ومحظور حالياً' }}</span>
             </div>
           </div>
+          
           <div class="user-actions">
-            <p class="actions-label">إجراءات الحساب</p>
+            <p class="actions-label">الإجراءات الإدارية الصارمة</p>
             @if (!isBanned(selectedUser()!)) {
-              <button class="action-btn ban-btn" (click)="banUser(selectedUser()!.id)">
+              <button class="action-btn-sidebar ban-btn" (click)="banUser(selectedUser()!.id)">
                 <i class="bi bi-slash-circle-fill"></i>
-                <span>حظر الحساب</span>
+                <span>حظر صلاحيات الحساب اليوم</span>
               </button>
             } @else {
-              <button class="action-btn unban-btn" (click)="unbanUser(selectedUser()!.id)">
+              <button class="action-btn-sidebar unban-btn" (click)="unbanUser(selectedUser()!.id)">
                 <i class="bi bi-check-circle-fill"></i>
-                <span>رفع الحظر</span>
+                <span>رفع الحظر الفوري عن الحساب</span>
               </button>
             }
           </div>

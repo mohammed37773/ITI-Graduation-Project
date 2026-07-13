@@ -1,12 +1,151 @@
+
 .dashboard {
+  /* 🌟 لوحة الألوان المحدثة - أكثر عمقاً وحيوية */
+  --admin-graphite: #0F111A;         /* لون نص أساسي داكن وعميق */
+  --admin-graphite-light: #1E2235;   /* درجة أفتح للأسطح الداكنة */
+  --admin-indigo: #4F46E5;           /* إنديغو حيوي (Modern Indigo) */
+  --admin-indigo-hover: #4338CA;     /* درجة التفاعل عند الحوم */
+  --admin-indigo-soft: #EEF2FF;      /* خلفية ناعمة مريحة للعين */
+  --admin-slate: #4B5563;            /* لون النصوص الثانوية */
+  --admin-danger: #EF4444;           /* أحمر تحذيري ناصع */
+  --admin-danger-soft: #FEE2E2;      /* خلفية ناعمة للتحذيرات */
+  --admin-border: #E5E7EB;           /* حدود أنحف وأقل حدة */
+  --admin-muted: #9CA3AF;            /* نصوص باهتة ومساعدة */
+  
+  /* ✨ ألوان إضافية لتعزيز الحيوية في بقية الصفحات */
+  --admin-success: #10B981;          /* أخضر للحالات الإيجابية */
+  --admin-success-soft: #D1FAE5;
+  --admin-warning: #F59E0B;          /* برتقالي للحالات المعلقة */
+  --admin-warning-soft: #FEF3C7;
+
   max-width: 1400px;
+  position: relative;
+  font-family: var(--font-body, 'Cairo', sans-serif);
 }
 
-/* Period Selector */
+/* ==========================================================================
+   ✨ ANIMATIONS & EFFECTS (تأثيرات الحركة المطورة)
+   ========================================================================== */
+
+/* 1. حركة الظهور والصعود الناعم للكروت والعناصر */
+@keyframes smoothFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(4px); /* إضافة تأثير ضبابي خفيف أثناء الصعود */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* 2. حركة النبض الهادئ لعناصر الجذب أو المؤشرات */
+@keyframes gentlePulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+  70% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+}
+
+/* تطبيق حركة الظهور المحسّنة */
+.fade-in-up {
+  opacity: 0;
+  animation: smoothFadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--d, 0s);
+}
+
+/* ==========================================================================
+   💎 UPGRADED COMPONENTS STYLE (أمثلة على التفاعل المطور)
+   ========================================================================== */
+
+/* ترقية تأثير الـ Hover على كروت الإحصائيات والشارتات */
+.stat-card, .chart-card {
+  transition: 
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+    border-color 0.3s ease;
+}
+
+.stat-card:hover, .chart-card:hover {
+  transform: translateY(-5px) scale(1.01); /* حركة صعود خفيفة مع تضخيم ميكروسكوبي */
+  border-color: rgba(79, 70, 229, 0.2); /* إضاءة خفيفة للحدود بلون الإنديغو */
+  box-shadow: 0 20px 25px -5px rgba(15, 17, 26, 0.05), 
+              0 10px 10px -5px rgba(15, 17, 26, 0.03);
+}
+
+/* تأثير تفاعلي ناعم على أزرار القوائم */
+.chart-menu-btn {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chart-menu-btn:hover {
+  background: var(--admin-indigo);
+  color: #fff !important;
+  transform: rotate(45deg); /* تأثير حركي ممتع ومميز عند الحوم */
+}
+
+/* ============================
+   🎨 خلفية الصفحة
+============================ */
+.dashboard-bg-decor {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 8% 6%, rgba(91, 95, 239, 0.07) 0%, transparent 34%),
+    radial-gradient(circle at 94% 10%, rgba(26, 29, 39, 0.05) 0%, transparent 32%),
+    radial-gradient(circle at 90% 92%, rgba(91, 95, 239, 0.06) 0%, transparent 34%),
+    #F3F3F7;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease forwards;
+  animation-delay: var(--d, 0s);
+}
+
+/* ============================
+   📌 هيدر الصفحة
+============================ */
+.page-header h1 {
+  font-family: var(--font-display, 'Lalezar', sans-serif);
+  font-weight: 400;
+  font-size: 24px;
+  color: var(--admin-graphite);
+  margin-bottom: 4px;
+  position: relative;
+  display: inline-block;
+}
+.page-header h1::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  right: 0;
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--admin-indigo);
+}
+
+.page-header p {
+  color: var(--admin-muted);
+  font-size: 13.5px;
+  margin: 10px 0 0;
+}
+
+/* ============================
+   🔘 Period Selector
+============================ */
 .period-selector {
   display: flex;
-  background: var(--neutral-100);
-  border-radius: var(--radius-full);
+  background: #ECEDF2;
+  border-radius: 50px;
   padding: 3px;
   gap: 2px;
 }
@@ -15,24 +154,37 @@
   padding: 7px 14px;
   border: none;
   background: transparent;
-  border-radius: var(--radius-full);
+  border-radius: 50px;
   font-size: 13px;
-  font-weight: 500;
-  color: var(--neutral-500);
+  font-weight: 600;
+  color: var(--admin-muted);
   cursor: pointer;
-  transition: var(--transition);
-  font-family: var(--font-family);
+  transition: all 0.2s ease;
+  font-family: var(--font-body, 'Cairo', sans-serif);
 }
 
 .period-btn.active {
   background: #fff;
-  color: var(--primary);
-  box-shadow: var(--shadow-sm);
+  color: var(--admin-indigo);
+  box-shadow: 0 2px 6px rgba(27, 29, 39, 0.08);
+}
+.period-btn:hover:not(.active) {
+  color: var(--admin-graphite);
 }
 
-/* Stat Cards */
+/* ============================
+   📊 كروت الإحصائيات
+============================ */
 .stat-card {
   padding: 20px;
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px -8px rgba(26, 29, 39, 0.1);
 }
 
 .stat-card-inner {
@@ -44,24 +196,23 @@
 .stat-icon {
   width: 48px;
   height: 48px;
-  border-radius: var(--radius-md);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 22px;
   flex-shrink: 0;
+  background: var(--admin-indigo-soft);
+  color: var(--admin-indigo);
 }
 
-.stat-info {
-  flex: 1;
-  min-width: 0;
-}
+.stat-info { flex: 1; min-width: 0; }
 
 .stat-label {
-  font-size: 12px;
-  color: var(--neutral-500);
+  font-size: 11.5px;
+  color: var(--admin-muted);
   margin: 0 0 4px;
-  font-weight: 500;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -74,17 +225,24 @@
 }
 
 .stat-value {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--neutral-900);
+  font-family: var(--font-display, 'Lalezar', sans-serif);
+  font-size: 27px;
+  font-weight: 400;
+  color: var(--admin-graphite);
   margin: 0;
   line-height: 1;
 }
 
-/* Chart Cards */
+/* ============================
+   📈 كروت الـ Charts
+============================ */
 .chart-card {
-  padding: 20px;
+  padding: 22px;
   height: 100%;
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  box-shadow: 0 4px 14px -6px rgba(26, 29, 39, 0.05);
 }
 
 .card-header-custom {
@@ -95,14 +253,16 @@
 }
 
 .card-header-custom h5 {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 2px;
+  font-family: var(--font-display, 'Lalezar', sans-serif);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--admin-graphite);
+  margin-bottom: 3px;
 }
 
 .chart-subtitle {
   font-size: 12px;
-  color: var(--neutral-500);
+  color: var(--admin-muted);
   margin: 0;
 }
 
@@ -110,20 +270,20 @@
   width: 28px;
   height: 28px;
   border: none;
-  background: var(--neutral-100);
-  border-radius: var(--radius-md);
+  background: #ECEDF2;
+  border-radius: 8px;
   cursor: pointer;
-  color: var(--neutral-500);
+  color: var(--admin-muted);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition);
+  transition: all 0.2s ease;
   flex-shrink: 0;
 }
-
 .chart-menu-btn:hover {
-  background: var(--neutral-200);
-  color: var(--neutral-700);
+  background: var(--admin-indigo-soft);
+  color: var(--admin-indigo);
+  transform: scale(1.08);
 }
 
 .chart-wrapper {
@@ -144,15 +304,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.7);
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.85);
   font-size: 12px;
-  color: var(--neutral-500);
-  border-radius: var(--radius-md);
+  color: var(--admin-muted);
+  border-radius: 12px;
+  font-weight: 600;
 }
+
+.mini-loader {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--admin-border);
+  border-top-color: var(--admin-indigo);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .chart-legend {
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .legend-item {
@@ -160,7 +333,7 @@
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: var(--neutral-600);
+  color: var(--admin-slate);
 }
 
 .legend-dot {
@@ -175,6 +348,11 @@
   justify-content: center;
   margin: 8px 0 16px;
   position: relative;
+  animation: donutPop 0.5s ease 0.2s backwards;
+}
+@keyframes donutPop {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 .booking-chart {
@@ -192,9 +370,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
-  background: var(--neutral-50);
-  border-radius: var(--radius-md);
+  padding: 11px 14px;
+  background: #FAFBFC;
+  border-radius: 10px;
+  opacity: 0;
+  animation: legendFadeIn 0.4s ease forwards;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.booking-legend-item:hover {
+  background: var(--admin-indigo-soft);
+  transform: translateX(-2px);
+}
+
+@keyframes legendFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .booking-legend-left {
@@ -202,18 +392,23 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: var(--neutral-700);
+  color: var(--admin-slate);
 }
 
 .booking-legend-item strong {
   font-size: 15px;
   font-weight: 700;
-  color: var(--neutral-900);
+  color: var(--admin-graphite);
 }
 
-/* Activity Card */
+/* ============================
+   🕓 كارت النشاط
+============================ */
 .activity-card {
   padding: 20px;
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
 }
 
 .activity-list {
@@ -228,65 +423,71 @@
   align-items: flex-start;
   gap: 12px;
   padding: 10px;
-  border-radius: var(--radius-md);
-  transition: var(--transition);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  opacity: 0;
+  animation: fadeInUp 0.4s ease forwards;
 }
 
 .activity-item:hover {
-  background: var(--neutral-50);
+  background: var(--admin-indigo-soft);
+  padding-right: 14px;
 }
 
-.activity-content {
-  flex: 1;
-  min-width: 0;
-}
+.activity-content { flex: 1; min-width: 0; }
 
 .activity-text {
   font-size: 13px;
-  color: var(--neutral-700);
+  color: var(--admin-slate);
   margin: 0 0 2px;
   line-height: 1.4;
 }
 
 .activity-time {
   font-size: 11px;
-  color: var(--neutral-400);
+  color: var(--admin-muted);
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
 .card-footer-custom {
-  border-top: 1px solid var(--neutral-100);
+  border-top: 1px solid var(--admin-border);
   padding-top: 14px;
 }
 
 .btn-outline-custom {
   width: 100%;
   padding: 9px 16px;
-  border: 1.5px solid var(--neutral-200);
-  border-radius: var(--radius-md);
+  border: 1.5px solid var(--admin-border);
+  border-radius: 10px;
   background: #fff;
   font-size: 13px;
-  font-weight: 500;
-  color: var(--neutral-700);
+  font-weight: 600;
+  color: var(--admin-slate);
   cursor: pointer;
-  transition: var(--transition);
-  font-family: var(--font-family);
+  transition: all 0.2s ease;
+  font-family: var(--font-body, 'Cairo', sans-serif);
   text-align: center;
   display: block;
   text-decoration: none;
 }
 
 .btn-outline-custom:hover {
-  background: var(--neutral-50);
-  border-color: var(--neutral-300);
-  color: var(--neutral-900);
+  background: var(--admin-indigo-soft);
+  border-color: var(--admin-indigo);
+  color: var(--admin-indigo);
+  transform: translateY(-1px);
 }
 
-/* Pending Table */
+/* ============================
+   📋 جدول الحجوزات المعلقة
+============================ */
 .pending-card {
   padding: 20px;
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
 }
 
 .pending-table-wrapper {
@@ -302,93 +503,116 @@
 
 .pending-table thead th {
   font-size: 11px;
-  font-weight: 600;
-  color: var(--neutral-400);
+  font-weight: 700;
+  color: var(--admin-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   padding: 0 12px 8px;
-  border-bottom: 1px solid var(--neutral-100);
+  border-bottom: 1px solid var(--admin-border);
 }
 
 .pending-table tbody tr {
   background: #fff;
-  transition: var(--transition);
+  transition: all 0.2s ease;
+  opacity: 0;
+  animation: fadeInUp 0.4s ease forwards;
 }
 
 .pending-table tbody tr:hover {
-  background: var(--neutral-50);
+  background: #FAFBFC;
 }
 
 .pending-table tbody td {
   padding: 11px 12px;
   font-size: 13px;
-  border-bottom: 1px solid var(--neutral-100);
+  color: var(--admin-slate);
+  border-bottom: 1px solid var(--admin-border);
 }
 
 .review-link {
-  color: var(--primary);
-  font-weight: 600;
+  color: var(--admin-indigo);
+  font-weight: 700;
   font-size: 13px;
   text-decoration: none;
-  transition: var(--transition);
+  transition: all 0.2s ease;
 }
 
 .review-link:hover {
-  color: var(--primary-dark);
+  color: var(--admin-indigo-hover);
   text-decoration: underline;
 }
 
-/* Quick Actions */
+/* ============================
+   ⚡ الإجراءات السريعة
+============================ */
 .quick-action-card {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 18px 20px;
   text-decoration: none;
-  color: var(--neutral-800);
-  transition: var(--transition);
+  color: var(--admin-graphite);
+  transition: all 0.25s ease;
+  background: #fff;
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
 }
 
 .quick-action-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-  color: var(--neutral-800);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 26px -8px rgba(26, 29, 39, 0.12);
+  color: var(--admin-graphite);
+  border-color: var(--admin-indigo);
 }
 
 .quick-action-icon {
   width: 44px;
   height: 44px;
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   flex-shrink: 0;
+  background: var(--admin-indigo-soft);
+  color: var(--admin-indigo);
 }
 
-.quick-action-content {
-  flex: 1;
-}
+.quick-action-content { flex: 1; }
 
 .quick-action-content h6 {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 2px;
+  color: var(--admin-graphite);
 }
 
 .quick-action-content p {
   font-size: 12px;
-  color: var(--neutral-500);
+  color: var(--admin-muted);
   margin: 0;
 }
 
 .quick-action-arrow {
-  color: var(--neutral-300);
+  color: #C7CAD4;
   font-size: 16px;
-  transition: var(--transition);
+  transition: all 0.2s ease;
 }
 
 .quick-action-card:hover .quick-action-arrow {
-  color: var(--primary);
-  transform: translateX(3px);
+  color: var(--admin-indigo);
+  transform: translateX(-3px);
+}
+
+/* ============================
+   ♿ تقليل الحركة
+============================ */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up, .donut-wrapper, .booking-legend-item,
+  .activity-item, .pending-table tbody tr, .mini-loader,
+  .chart-menu-btn, .quick-action-card, .quick-action-arrow {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from '../../../../core/services/users';
@@ -20,6 +20,10 @@ export class ManageUsers implements OnInit {
   users = signal<User[]>([]);
   statsData = { totalUsers: 0, parents: 0, nurseryAdmins: 0, banned: 0 };
 
+  // 🔢 محرك الـ Pagination المطور عبر الـ Signals والـ Computed
+  currentPage = signal(1);
+  pageSize = 10; // عدد العناصر في كل صفحة
+
   constructor(private usersService: UsersService) {}
 
   ngOnInit() {
@@ -33,12 +37,11 @@ export class ManageUsers implements OnInit {
     this.usersService.getAll().subscribe({
       next: (data: any) => {
         this.users.set(Array.isArray(data) ? data : (data?.data ?? data?.users ?? []));
-        console.log('first user:', this.users()[0]);
         this.loading.set(false);
       },
       error: (err) => {
         console.error('Error loading users:', err);
-        this.error.set('تعذر تحميل المستخدمين');
+        this.error.set('تعذر تحميل بيانات المستخدمين من السيرفر.');
         this.loading.set(false);
       }
     });
@@ -58,16 +61,54 @@ export class ManageUsers implements OnInit {
     });
   }
 
+  // مصفوفة المستخدمين المفلترة (بدون قص)
   get filteredUsers(): User[] {
     return this.users().filter(u => {
-      const q = this.searchQuery().toLowerCase();
-      const matchesSearch = u.fullName?.toLowerCase().includes(q) || u.email?.toLowerCase().includes(q);
-      const matchesRole = this.selectedRole() === 'all' ||
-        (this.selectedRole() === 'parent' && u.roles?.includes('Parent')) ||
-        (this.selectedRole() === 'admin' && u.roles?.includes('Admin')) ||
-        (this.selectedRole() === 'nurseryAdmin' && u.roles?.includes('NurseryAdmin'));
+      const q = this.searchQuery().toLowerCase().trim();
+      const matchesSearch = !q || (u.fullName?.toLowerCase().includes(q) || u.email?.toLowerCase().includes(q));
+      
+      const role = this.selectedRole();
+      const matchesRole = role === 'all' ||
+        (role === 'parent' && u.roles?.includes('Parent')) ||
+        (role === 'admin' && u.roles?.includes('Admin')) ||
+        (role === 'nurseryAdmin' && u.roles?.includes('NurseryAdmin'));
+        
       return matchesSearch && matchesRole;
     });
+  }
+
+  // ✂️ استخراج المجموعات المعروضة بناءً على الصفحة الحالية (Paged Content Mapping)
+  get pagedUsers(): User[] {
+    const startIndex = (this.currentPage() - 1) * this.pageSize;
+    return this.filteredUsers.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  // حساب إجمالي عدد الصفحات ديناميكياً
+  totalPages = computed(() => {
+    const count = this.filteredUsers.length;
+    return Math.ceil(count / this.pageSize) || 1;
+  });
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
+  }
+
+  // إنشاء مصفوفة أرقام الصفحات لعرضها في الـ HTML
+  getPageArray(): number[] {
+    const total = this.totalPages();
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+
+  onSearchChange(value: string) {
+    this.searchQuery.set(value);
+    this.currentPage.set(1); // إعادة تصفير مؤشر الصفحة عند البحث الجديد
+  }
+
+  setRole(role: string) {
+    this.selectedRole.set(role);
+    this.currentPage.set(1); // إعادة تصفير مؤشر الصفحة عند تغيير الفلتر
   }
 
   get stats() {
@@ -75,19 +116,23 @@ export class ManageUsers implements OnInit {
       total: this.statsData.totalUsers || this.users().length,
       parents: this.statsData.parents,
       nurseryAdmins: this.statsData.nurseryAdmins,
-      banned: this.statsData.banned || this.users().filter(u => u.lockoutEnd).length
+      banned: this.statsData.banned || this.users().filter(u => this.isBanned(u)).length
     };
   }
 
-  selectUser(user: User) { this.selectedUser.set(user); }
+  selectUser(user: User) { 
+    this.selectedUser.set(user); 
+  }
 
   banUser(id: string) {
     this.usersService.ban(id).subscribe({
       next: () => {
-        const u = this.users().find(x => x.id === id);
-        if (u) u.lockoutEnd = new Date("9999-12-31T23:59:59Z"); // Set lockoutEnd to a far future date  
-        if (this.selectedUser()?.id === id) {
-          this.selectedUser.set({ ...this.selectedUser()!, lockoutEnd: new Date("9999-12-31T23:59:59Z") });
+        this.users.update(allUsers => {
+          return allUsers.map(u => u.id === id ? { ...u, lockoutEnd: new Date("9999-12-31T23:59:59Z") } : u);
+        });
+        const currentSelected = this.selectedUser();
+        if (currentSelected?.id === id) {
+          this.selectedUser.set({ ...currentSelected, lockoutEnd: new Date("9999-12-31T23:59:59Z") });
         }
       },
       error: (err) => console.error('Error banning user:', err)
@@ -97,10 +142,12 @@ export class ManageUsers implements OnInit {
   unbanUser(id: string) {
     this.usersService.unban(id).subscribe({
       next: () => {
-        const u = this.users().find(x => x.id === id);
-        if (u) u.lockoutEnd = null  ;
-        if (this.selectedUser()?.id === id) {
-          this.selectedUser.set({ ...this.selectedUser()!, lockoutEnd: null });
+        this.users.update(allUsers => {
+          return allUsers.map(u => u.id === id ? { ...u, lockoutEnd: null } : u);
+        });
+        const currentSelected = this.selectedUser();
+        if (currentSelected?.id === id) {
+          this.selectedUser.set({ ...currentSelected, lockoutEnd: null });
         }
       },
       error: (err) => console.error('Error unbanning user:', err)
@@ -115,18 +162,19 @@ export class ManageUsers implements OnInit {
   }
 
   getRoleLabel(roles: string[]): string {
-    if (!roles?.length) return 'مستخدم';
-    if (roles.includes('Admin')) return 'مسؤول';
+    if (!roles?.length) return 'مستخدم عام';
+    if (roles.includes('Admin')) return 'مسؤول النظام';
     if (roles.includes('NurseryAdmin')) return 'مشرف حضانة';
     if (roles.includes('Parent')) return 'ولي أمر';
     return roles[0];
   }
 
-  setRole(role: string) { this.selectedRole.set(role); }
-
   isBanned(user: User): boolean {
-    return !!user.lockoutEnd &&
-           new Date(user.lockoutEnd) > new Date();
-}
-}
+    return !!user.lockoutEnd && new Date(user.lockoutEnd) > new Date();
+  }
 
+  // دالة مساعدة لاستخدام Math.min داخل قالب الـ HTML بأمان
+  mathMin(a: number, b: number): number {
+    return Math.min(a, b);
+  }
+}
