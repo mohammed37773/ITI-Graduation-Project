@@ -1,35 +1,179 @@
-/* كارت الشات الكلي */
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #F4F5F8;
+}
+
+.container {
+  --owner-navy: #1B2A41;
+  --owner-navy-light: #2E4160;
+  --owner-gold: #D9A441;
+  --owner-gold-soft: #FBF1DE;
+  --owner-terracotta: #C1694F;
+  --owner-border: #E7EAF0;
+  --owner-muted: #6B7688;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* ✅ خلفية ألوان أوضح بدل الإشعاعات الباهتة */
+.container::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(27, 42, 65, 0.08) 0%, transparent 38%),
+    radial-gradient(circle at 93% 12%, rgba(217, 164, 65, 0.12) 0%, transparent 36%),
+    radial-gradient(circle at 15% 90%, rgba(193, 105, 79, 0.06) 0%, transparent 34%),
+    radial-gradient(circle at 90% 88%, rgba(27, 42, 65, 0.06) 0%, transparent 36%),
+    #F4F5F8;
+}
+
+/* 🆕 مكعبات زخرفية عائمة (بدل الخلفية الفاضية) */
+.container::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(135deg, var(--owner-navy) 0%, var(--owner-navy) 100%);
+  opacity: 0;
+}
+
 .chat-card {
   height: 78vh;
   display: flex;
   flex-direction: column;
-  border: 1px solid #e2e8f0 !important;
+  border: 1px solid var(--owner-border) !important;
+  opacity: 0;
+  animation: cardEnter 0.5s cubic-bezier(.22,1,.36,1) forwards;
 }
 
-/* الهيدر */
-.bg-success-dark {
-  background-color: #1e3d2f !important;
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-.text-success-light {
-  color: #a7f3d0 !important;
+.bg-decor {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
 }
-.bot-avatar {
-  width: 45px;
-  height: 45px;
-  background-color: rgba(255, 255, 255, 0.1);
+
+.decor-block {
+  position: absolute;
+  border-radius: 18px;
+  opacity: 0.5;
+  animation: decorFloat 9s ease-in-out infinite;
+}
+.decor-block--navy {
+  width: 80px; height: 80px;
+  background: var(--owner-navy);
+  top: 8%; left: 6%;
+  transform: rotate(15deg);
+  animation-duration: 10s;
+}
+.decor-block--gold {
+  width: 50px; height: 50px;
+  background: var(--owner-gold);
+  top: 65%; right: 8%;
+  transform: rotate(-12deg);
+  animation-duration: 8s;
+  animation-delay: 0.6s;
+}
+.decor-block--terracotta {
+  width: 40px; height: 40px;
+  background: var(--owner-terracotta);
+  top: 30%; right: 12%;
+  transform: rotate(10deg);
+  animation-duration: 7s;
+  animation-delay: 1.2s;
+}
+
+.decor-circle {
+  position: absolute;
   border-radius: 50%;
+  background: white;
+  opacity: 0.6;
+  animation: decorFloat 11s ease-in-out infinite;
+}
+.decor-circle--1 { width: 130px; height: 130px; top: 4%; right: 24%; animation-duration: 12s; }
+.decor-circle--2 { width: 70px;  height: 70px;  bottom: 6%; left: 26%; animation-duration: 9s; animation-delay: 0.8s; }
+
+@keyframes decorFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-16px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decor-block, .decor-circle {
+    animation: none !important;
+  }
+}
+/* ============================
+   🧭 الهيدر
+============================ */
+.bg-success-dark {
+  background: linear-gradient(135deg, var(--owner-navy) 0%, var(--owner-navy-light) 100%) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* لمسة ذهبية زخرفية في الهيدر */
+.bg-success-dark::after {
+  content: "";
+  position: absolute;
+  top: -22px;
+  left: 18%;
+  width: 64px;
+  height: 64px;
+  background: var(--owner-gold);
+  border-radius: 16px;
+  opacity: 0.1;
+  transform: rotate(18deg);
+}
+
+.text-success-light {
+  color: #C9D2DF !important;
+}
+
+.bot-avatar {
+  width: 46px;
+  height: 46px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
-  border: 1.5px solid #2ecc71;
+  border: 1.5px solid var(--owner-gold);
+  position: relative;
+  z-index: 1;
+  animation: avatarPulse 3s ease-in-out infinite;
 }
 
-/* منطقة الرسائل */
+@keyframes avatarPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 164, 65, 0.25); }
+  50%      { box-shadow: 0 0 0 6px rgba(217, 164, 65, 0); }
+}
+
+/* ============================
+   💬 منطقة الرسائل
+============================ */
 .chat-body {
   flex-grow: 1;
   overflow-y: auto;
-  background-color: #f8fafc;
+  background-color: #FAFBFC;
+}
+
+.chat-body::-webkit-scrollbar { width: 6px; }
+.chat-body::-webkit-scrollbar-thumb {
+  background: var(--owner-border);
+  border-radius: 10px;
 }
 
 /* فقاعات الرسائل */
@@ -39,12 +183,19 @@
   border-radius: 16px;
   font-size: 0.95rem;
   line-height: 1.6;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 6px rgba(27, 42, 65, 0.04);
+  opacity: 0;
+  animation: bubbleIn 0.35s ease forwards;
 }
 
-/* فقاعة المستخدم */
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* فقاعة المستخدم (صاحب الحضانة) */
 .user-bubble {
-  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  background: linear-gradient(135deg, var(--owner-navy) 0%, var(--owner-navy-light) 100%);
   color: white;
   border-bottom-left-radius: 4px;
 }
@@ -54,44 +205,93 @@
   background-color: #ffffff;
   color: #334155;
   border-bottom-right-radius: 4px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--owner-border);
 }
 
-.message-time {
-  font-size: 0.7rem;
+.message-time { font-size: 0.7rem; }
+
+/* ============================
+   ⌨️ صندوق المدخلات
+============================ */
+.card-footer.bg-light {
+  background-color: white !important;
+  border-top: 1px solid var(--owner-border) !important;
 }
 
-/* صندوق المدخلات */
 .chat-input {
-  border-color: #e2e8f0;
+  border-color: var(--owner-border);
   transition: all 0.2s ease;
 }
 .chat-input:focus {
-  border-color: #2ecc71 !important;
-  box-shadow: 0 0 0 0.25rem rgba(46, 204, 113, 0.15) !important;
+  border-color: var(--owner-gold) !important;
+  box-shadow: 0 0 0 0.25rem rgba(217, 164, 65, 0.16) !important;
 }
 
 .send-btn {
-  background-color: #27ae60;
+  background: linear-gradient(135deg, var(--owner-navy) 0%, var(--owner-navy-light) 100%);
   border: none;
   transition: all 0.2s ease;
-}
-.send-btn:hover {
-  background-color: #1e3d2f;
+  position: relative;
+  overflow: hidden;
 }
 
-/* انيميشن نقاط التفكير */
+.send-btn::before {
+  content: "";
+  position: absolute;
+  top: 0; right: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(217, 164, 65, 0.3), transparent);
+  transform: skewX(-20deg);
+  animation: btnShine 3.4s ease-in-out infinite 1s;
+}
+@keyframes btnShine {
+  0%   { right: -60%; }
+  40%  { right: 130%; }
+  100% { right: 130%; }
+}
+
+.send-btn:hover:not(:disabled) {
+  background: var(--owner-navy);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px -4px rgba(27, 42, 65, 0.35);
+}
+.send-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.97);
+}
+.send-btn:disabled {
+  background: var(--owner-border) !important;
+  color: var(--owner-muted);
+  box-shadow: none;
+}
+.send-btn:disabled::before { display: none; }
+
+/* ============================
+   💭 نقاط الكتابة (Typing)
+============================ */
 .typing-dots span {
   animation: blink 1.4s infinite both;
   font-weight: bold;
   display: inline-block;
   font-size: 1.2rem;
 }
-.typing-dots span:nth-child(2) { animation-delay: .2s; }
-.typing-dots span:nth-child(3) { animation-delay: .4s; }
+.typing-dots span:nth-child(1) { color: var(--owner-navy); }
+.typing-dots span:nth-child(2) { color: var(--owner-gold); animation-delay: .2s; }
+.typing-dots span:nth-child(3) { color: var(--owner-terracotta); animation-delay: .4s; }
 
 @keyframes blink {
-  0% { opacity: .2; }
-  20% { opacity: 1; }
-  100% { opacity: .2; }
+  0%   { opacity: .2; transform: translateY(0); }
+  20%  { opacity: 1;  transform: translateY(-3px); }
+  100% { opacity: .2; transform: translateY(0); }
+}
+
+/* ============================
+   ♿ تقليل الحركة
+============================ */
+@media (prefers-reduced-motion: reduce) {
+  .chat-card, .bot-avatar, .message-bubble,
+  .send-btn::before, .typing-dots span {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

@@ -1,115 +1,400 @@
-/* اللون الأساسي المخصص للأخضر الزمردي */
-.text-success-custom {
-  color: #10b981 !important; /* Emerald 500 */
-  font-weight: 700;
+.nursery-form-page {
+  --owner-navy: #1B2A41;
+  --owner-navy-light: #2E4160;
+  --owner-gold: #D9A441;
+  --owner-gold-hover: #C89230;
+  --owner-gold-soft: #FBF1DE;
+  --owner-terracotta: #C1694F;
+  --owner-danger: #D9756B;
+  --owner-border: #E7EAF0;
+  --owner-muted: #6B7688;
+
+  position: relative;
+  font-family: var(--font-body, 'Cairo', sans-serif);
 }
 
-/* الكارد الأساسي بحواف دائرية أنيقة وجهد خفيف */
-.card {
-  background-color: #ffffff;
-  border: 1px solid #f1f5f9;
+/* ============================
+   🎨 خلفية احترافية
+============================ */
+.nursery-form-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 6% 8%, rgba(27, 42, 65, 0.045) 0%, transparent 35%),
+    radial-gradient(circle at 95% 15%, rgba(217, 164, 65, 0.06) 0%, transparent 32%),
+    radial-gradient(circle at 90% 92%, rgba(27, 42, 65, 0.04) 0%, transparent 34%),
+    #F6F7F9;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================
+   💳 الكارت الرئيسي
+============================ */
+.form-card {
+  background: white;
+  border: 1px solid var(--owner-border);
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 10px 30px -10px rgba(27, 42, 65, 0.1);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: cardEnter 0.5s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(20px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* لمسة زخرفية علوية */
+.form-card::before {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--owner-navy) 0%, var(--owner-gold) 100%);
+}
+
+/* ============================
+   📋 هيدر الفورم
+============================ */
+.form-card-header {
+  text-align: center;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.5s ease 0.05s forwards;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
   border-radius: 16px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+  background: var(--owner-navy-soft, #EAEEF4);
+  font-size: 26px;
+  margin-bottom: 14px;
 }
 
-/* عناوين المدخلات بستايل هادئ ومقروء */
-.form-label {
-  font-size: 0.875rem;
-  color: #334155; /* Slate 700 */
-  letter-spacing: 0.025em;
+.form-title {
+  font-family: var(--font-display, 'Lalezar', sans-serif);
+  font-weight: 400;
+  font-size: 25px;
+  color: var(--owner-navy);
+  margin-bottom: 6px;
 }
 
-/* حقول الإدخال المحسنة */
-.form-control {
-  border: 1px solid #cbd5e1; /* Slate 300 */
+.form-subtitle {
+  color: var(--owner-muted);
+  font-size: 13.5px;
+}
+
+/* ============================
+   🌀 اللودر
+============================ */
+.loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 60px 0;
+}
+.loader-blocks { display: flex; gap: 8px; }
+.loader-blocks span {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  animation: loaderBounce 1s ease-in-out infinite;
+}
+.loader-blocks span:nth-child(1) { background: var(--owner-navy);       animation-delay: 0s; }
+.loader-blocks span:nth-child(2) { background: var(--owner-gold);       animation-delay: 0.15s; }
+.loader-blocks span:nth-child(3) { background: var(--owner-terracotta); animation-delay: 0.3s; }
+@keyframes loaderBounce {
+  0%, 100% { transform: translateY(0);     opacity: 0.6; }
+  50%      { transform: translateY(-10px); opacity: 1; }
+}
+.loader-text { color: var(--owner-muted); font-size: 13.5px; font-weight: 600; }
+
+/* ============================
+   🏷️ عناوين الأقسام
+============================ */
+.section-heading {
+  font-family: var(--font-display, 'Lalezar', sans-serif);
+  font-weight: 400;
+  font-size: 16.5px;
+  color: var(--owner-navy);
+  padding-bottom: 10px;
+  margin: 18px 0 14px;
+  border-bottom: 2px solid var(--owner-border);
+  position: relative;
+  opacity: 0;
+  animation: fadeUp 0.4s ease forwards;
+}
+.section-heading::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  right: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--owner-gold);
+}
+
+/* ============================
+   📝 الحقول
+============================ */
+.field-anim {
+  opacity: 0;
+  animation: fadeUp 0.45s ease forwards;
+  animation-delay: var(--d, 0s);
+}
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 8px;
+  letter-spacing: 0.2px;
+}
+
+.field-label--muted {
+  color: var(--owner-muted);
+  font-weight: 600;
+}
+
+.required-star {
+  color: var(--owner-danger);
+}
+
+.field-input {
+  width: 100%;
+  border: 1.5px solid var(--owner-border);
   border-radius: 10px;
-  padding: 0.75rem 1rem;
-  font-size: 0.95rem;
-  transition: all 0.2s ease-in-out;
-  background-color: #f8fafc;
+  padding: 12px 14px;
+  font-size: 14px;
+  background: #FAFBFC;
+  color: var(--owner-navy);
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  font-family: var(--font-body, 'Cairo', sans-serif);
 }
 
-/* تأثير اختيار الحقل بالتوهج الأخضر الزمردي الناعم */
-.form-control:focus {
-  border-color: #10b981;
-  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
-  background-color: #ffffff;
-  color: #0f172a;
+.field-input:focus {
+  outline: none;
+  border-color: var(--owner-gold);
+  box-shadow: 0 0 0 4px rgba(217, 164, 65, 0.14);
+  background: white;
+  transform: translateY(-1px);
 }
 
-/* 📥 منطقة رفع الصور بستايل مودرن متناسق */
+.field-input--readonly {
+  background: #F0F2F5;
+  color: var(--owner-muted);
+  font-weight: 600;
+  cursor: default;
+}
+.field-input--readonly:focus {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--owner-border);
+}
+
+.map-label {
+  font-size: 15px;
+  color: var(--owner-navy);
+}
+.map-hint {
+  color: var(--owner-muted);
+  font-size: 12.5px;
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+.map-box {
+  height: 420px;
+  border-radius: 14px;
+  border: 1px solid var(--owner-border);
+  overflow: hidden;
+  box-shadow: 0 4px 12px -4px rgba(27, 42, 65, 0.08);
+}
+
+.status-note {
+  color: var(--owner-navy);
+  background: var(--owner-gold-soft);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* ============================
+   📤 منطقة رفع الصور
+============================ */
 .upload-zone {
   cursor: pointer;
   position: relative;
-  border: 2px dashed #a7f3d0; /* حواف منقطة بأخضر فاتح */
-  background-color: #f0fdf4; /* خلفية خضراء هادئة جداً */
-  border-radius: 12px;
-  transition: all 0.2s ease-in-out;
+  border: 2px dashed rgba(217, 164, 65, 0.4);
+  background: var(--owner-gold-soft);
+  border-radius: 14px;
+  padding: 32px;
+  text-align: center;
+  transition: all 0.25s ease;
 }
 
-/* عند تمرير الماوس فوق منطقة الرفع */
 .upload-zone:hover {
-  background-color: #ecfdf5 !important;
-  border-color: #10b981 !important;
+  background: #F7ECD5;
+  border-color: var(--owner-gold);
+  transform: translateY(-2px);
 }
 
-/* حقل الـ File المخفي ممتد على كامل المساحة لسهولة الضغط */
 .file-input {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   opacity: 0;
   cursor: pointer;
   z-index: 2;
 }
 
-/* 🖼️ مربعات معاينة صور الفصول والحضانة */
-.img-preview-box {
-  width: 95px;
-  height: 95px !important;
+.upload-icon {
+  font-size: 26px;
+  display: block;
+  margin-bottom: 8px;
+  animation: uploadFloat 2.4s ease-in-out infinite;
+}
+@keyframes uploadFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.upload-title {
+  color: var(--owner-navy);
+  font-weight: 700;
+  display: block;
+  font-size: 14px;
+}
+.upload-subtitle {
+  color: var(--owner-muted);
+  font-size: 12px;
+}
+
+/* ============================
+   🖼️ معاينة الصور
+============================ */
+.preview-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.preview-item {
+  opacity: 0;
+  animation: previewPop 0.4s ease forwards;
+}
+@keyframes previewPop {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.preview-image {
+  width: 96px;
+  height: 96px;
   object-fit: cover;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
-  transition: transform 0.2s ease;
+  border: 2px solid var(--owner-border);
+  border-radius: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.preview-image:hover {
+  transform: scale(1.06);
+  border-color: var(--owner-gold);
 }
 
-.img-preview-box:hover {
-  transform: scale(1.05);
+/* ============================
+   ✅ زر الحفظ
+============================ */
+.submit-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
 }
 
-/* زر الحفظ الأخضر المخصص */
-.btn-success-custom {
-  background-color: #10b981;
-  border: none;
+.submit-btn {
+  background: linear-gradient(135deg, var(--owner-navy) 0%, var(--owner-navy-light) 100%);
   color: white;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 1.05rem;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+  border: none;
+  padding: 15px 48px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 15.5px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 16px -4px rgba(27, 42, 65, 0.3);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.btn-success-custom:hover:not(:disabled) {
-  background-color: #059669;
-  box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3);
-  transform: translateY(-1px);
+.submit-btn::before {
+  content: "";
+  position: absolute;
+  top: 0; right: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(217, 164, 65, 0.35), transparent);
+  transform: skewX(-20deg);
+  animation: btnShine 3.4s ease-in-out infinite 1s;
+}
+@keyframes btnShine {
+  0%   { right: -60%; }
+  40%  { right: 130%; }
+  100% { right: 130%; }
 }
 
-.btn-success-custom:disabled {
-  background-color: #a7f3d0;
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -4px rgba(27, 42, 65, 0.4);
+}
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+.submit-btn:disabled {
+  background: var(--owner-border);
+  color: #A9B1BF;
   cursor: not-allowed;
+  box-shadow: none;
 }
+.submit-btn:disabled::before { display: none; }
 
-/* النصوص الصغيرة للتنبيهات */
-.extra-small {
-  font-size: 0.775rem;
-  font-weight: 500;
+.btn-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
 }
-#map {
-    height: 520px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================
+   ♿ تقليل الحركة
+============================ */
+@media (prefers-reduced-motion: reduce) {
+  .form-card, .form-card-header, .loader-blocks span,
+  .section-heading, .field-anim, .upload-icon,
+  .preview-item, .submit-btn::before, .btn-spinner {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

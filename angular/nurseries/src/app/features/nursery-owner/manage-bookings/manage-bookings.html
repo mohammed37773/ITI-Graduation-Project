@@ -1,88 +1,114 @@
-<div class="container-fluid py-4" dir="rtl">
-  <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container-fluid py-4 manage-bookings-page" dir="rtl">
+
+  <!-- 🎨 خلفية زخرفية احترافية -->
+  <div class="page-bg-decor" aria-hidden="true"></div>
+
+  <div class="page-top-row">
     <div>
-      <h2 class="fw-bold text-dark mb-1">إدارة طلبات الحجز الحية 📑</h2>
-      <p class="text-muted small mb-0">قبول، رفض، وفلترة طلبات حجز الحواضن الذكية الواردة فوراً.</p>
+      <h2 class="page-title">إدارة طلبات الحجز الحية 📑</h2>
+      <p class="page-subtitle">قبول، رفض، وفلترة طلبات حجز الحواضن الذكية الواردة فوراً.</p>
     </div>
-    <a routerLink="/owner/dashboard" class="btn btn-white border shadow-sm rounded-3 px-3 py-2">
-      ← العودة للرئيسية
-    </a>
+    <a routerLink="/owner/dashboard" class="back-link">← العودة للرئيسية</a>
   </div>
 
-  <div class="d-flex gap-2 mb-4 overflow-x-auto pb-2">
-    <button (click)="applyFilter('All')" [class.active]="currentFilter() === 'All'" class="btn btn-filter">الكل
-      ({{bookings().length}})</button>
-    <button (click)="applyFilter('Pending')" [class.active]="currentFilter() === 'Pending'"
-      class="btn btn-filter btn-filter-warning">المعلقة</button>
-    <button (click)="applyFilter('Confirmed')" [class.active]="currentFilter() === 'Confirmed'"
-      class="btn btn-filter btn-filter-success">المقبولة</button>
-    <button (click)="applyFilter('Canceled')" [class.active]="currentFilter() === 'Canceled'"
-      class="btn btn-filter btn-filter-danger">الملغية</button>
+  <div class="filters-row">
+    <button (click)="applyFilter('All')" [class.active]="currentFilter() === 'All'" class="filter-chip filter-chip--navy">
+      الكل ({{bookings().length}})
+    </button>
+    <button (click)="applyFilter('Pending')" [class.active]="currentFilter() === 'Pending'" class="filter-chip filter-chip--terracotta">
+      المعلقة
+    </button>
+    <button (click)="applyFilter('Confirmed')" [class.active]="currentFilter() === 'Confirmed'" class="filter-chip filter-chip--gold">
+      المقبولة
+    </button>
+    <button (click)="applyFilter('Canceled')" [class.active]="currentFilter() === 'Canceled'" class="filter-chip filter-chip--danger">
+      الملغية
+    </button>
   </div>
 
   @if (isLoading()) {
-  <div class="d-flex justify-content-center align-items-center my-5 py-5">
-    <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;"></div>
-  </div>
-  } @else {
-  <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
-    <div class="table-responsive">
-      @if (filteredBookings().length === 0) {
-      <div class="text-center py-5">
-        <span class="fs-1 text-muted">📭</span>
-        <p class="text-muted mt-2 mb-0">لا توجد طلبات تطابق الفلتر الحالي.</p>
+    <div class="loader-wrapper">
+      <div class="loader-blocks">
+        <span></span><span></span><span></span>
       </div>
-      } @else {
-      <table class="table table-hover align-middle mb-0 text-center">
-        <thead class="table-light text-muted small fw-bold">
-          <tr>
-            <th class="py-3">رقم الحجز</th>
-            <th class="py-3">تاريخ البدء</th>
-            <th class="py-3">المبلغ</th>
-            <th class="py-3">حالة الطلب</th>
-            <th class="py-3">الإجراءات لايف</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (booking of filteredBookings(); track booking.id) {
-          <tr>
-            <td class="fw-bold text-secondary">#{{ booking.id }}</td>
-            <td>{{ booking.startDate | date:'yyyy-MM-dd' }}</td>
-            <td class="fw-semibold text-dark">{{ booking.totalPrice || 0 }} ج.م</td>
-            <td>
-              <span class="badge px-3 py-2 rounded-pill fs-7" [ngClass]="{
-                            'bg-warning-subtle text-warning': booking.status === 'Pending',
-                            'bg-success-subtle text-success': booking.status === 'Confirmed' || booking.status === 'Completed',
-                            'bg-danger-subtle text-danger': booking.status === 'Cancelled'
-                          }">
-                {{ booking.status === 'Pending' ? 'معلق ينتظر الدفع' : booking.status === 'Confirmed' ? 'مقبول ومؤكد' :
-                booking.status === "Cancelled"? 'ملغي': "مكتمل" }}
-              </span>
-            </td>
-            <td>
-              @if (booking.status === 'Pending') {
-
-              } @else if (booking.status === 'Confirmed') {
-              <div class="d-flex justify-content-center gap-2">
-                <button (click)="handleAction(booking.id, 'refund')" class="btn btn-sm btn-warning rounded-3 px-3 py-1">
-                  إسترداد
-                </button>
-                <button (click)="handleAction(booking.id, 'complete')" [disabled]="!isPastDate(booking.startDate)"
-                  class="btn btn-sm btn-success rounded-3 px-3 py-1">
-                  إكتمال
-                </button>
-              </div>
-              }
-              @else {
-              <span class="text-muted small">تم اتخاذ إجراء</span>
-              }
-            </td>
-          </tr>
-          }
-        </tbody>
-      </table>
-      }
     </div>
-  </div>
+  } @else {
+    <div class="bookings-table-card">
+      <div class="table-responsive">
+        @if (filteredBookings().length === 0) {
+          <div class="empty-state">
+            <span class="empty-icon">📭</span>
+            <p class="empty-text">لا توجد طلبات تطابق الفلتر الحالي.</p>
+          </div>
+        } @else {
+          <table class="custom-owner-table">
+            <thead>
+              <tr>
+                <th>رقم الحجز</th>
+                <th>تاريخ البدء</th>
+                <th>المبلغ</th>
+                <th>حالة الطلب</th>
+                <th>الإجراءات لايف</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (booking of pagedBookings(); track booking.id; let i = $index) {
+                <tr [style.animation-delay.ms]="i * 60">
+                  <td class="cell-id">#{{ booking.id }}</td>
+                  <td class="cell-muted">{{ booking.startDate | date:'yyyy-MM-dd' }}</td>
+                  <td class="cell-price">{{ booking.totalPrice || 0 }} ج.م</td>
+                  <td>
+                    <span class="status-badge" [ngClass]="{
+                      'status-badge--pending': booking.status === 'Pending',
+                      'status-badge--confirmed': booking.status === 'Confirmed' || booking.status === 'Completed',
+                      'status-badge--cancelled': booking.status === 'Cancelled'
+                    }">
+                      {{ booking.status === 'Pending' ? 'معلق ينتظر الدفع' : booking.status === 'Confirmed' ? 'مقبول ومؤكد' :
+                      booking.status === "Cancelled"? 'ملغي': "مكتمل" }}
+                    </span>
+                  </td>
+                  <td>
+                    @if (booking.status === 'Pending') {
+                      <span class="cell-muted">بانتظار الدفع</span>
+                    } @else if (booking.status === 'Confirmed') {
+                      <div class="d-flex justify-content-center gap-2">
+                        <button (click)="handleAction(booking.id, 'refund')" class="row-action-btn row-action-btn--terracotta">
+                          إسترداد
+                        </button>
+                        <button (click)="handleAction(booking.id, 'complete')" [disabled]="!isPastDate(booking.startDate)"
+                          class="row-action-btn row-action-btn--gold">
+                          إكتمال
+                        </button>
+                      </div>
+                    } @else {
+                      <span class="cell-muted">تم اتخاذ إجراء</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+
+          <!-- 🆕 Pagination -->
+          @if (totalPages() > 1) {
+            <div class="pagination-row">
+              <button class="page-nav-btn" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)">
+                السابق ➡️
+              </button>
+              <div class="page-numbers">
+                @for (p of pageNumbers; track p) {
+                  <button class="page-number-btn" [class.active]="p === currentPage()" (click)="goToPage(p)">
+                    {{ p }}
+                  </button>
+                }
+              </div>
+              <button class="page-nav-btn" [disabled]="currentPage() === totalPages()" (click)="goToPage(currentPage() + 1)">
+                ⬅️ التالي
+              </button>
+            </div>
+          }
+        }
+      </div>
+    </div>
   }
 </div>

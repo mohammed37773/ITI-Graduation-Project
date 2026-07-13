@@ -1,140 +1,163 @@
-<div class="container-fluid py-4" dir="rtl">
-  
-  <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container-fluid py-4 owner-dashboard-page" dir="rtl">
+
+  <!-- 🎨 خلفية زخرفية احترافية (كحلي/ذهبي - مختلفة عن هوية الوالدين) -->
+  <div class="page-bg-decor" aria-hidden="true"></div>
+
+  <div class="page-top-row">
     <div>
-      <h2 class="fw-bold text-dark mb-1">لوحة التحكم الإحصائية 📊</h2>
-      <p class="text-muted small mb-0">متابعة فورية لأداء الحضانة، الحجوزات، والمدفوعات لايف.</p>
+      <h2 class="page-title">لوحة التحكم الإحصائية 📊</h2>
+      <p class="page-subtitle">متابعة فورية لأداء الحضانة، الحجوزات، والمدفوعات لايف.</p>
     </div>
-    <button (click)="fetchDashboardData()" class="btn btn-white border shadow-sm rounded-3 px-3 py-2 d-flex align-items-center gap-2">
+    <button (click)="fetchDashboardData()" class="refresh-btn">
       🔄 تحديث البيانات الحية
     </button>
   </div>
 
   @if (isLoading()) {
-    <div class="d-flex justify-content-center align-items-center my-5 py-5">
-      <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;"></div>
-      <span class="ms-3 fw-semibold text-muted">جاري سحب البيانات الحية من السيرفر...</span>
+    <div class="loader-wrapper">
+      <div class="loader-blocks">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="loader-text">جاري سحب البيانات الحية من السيرفر...</span>
     </div>
   } @else {
 
+    <!-- 📊 كروت الإحصائيات -->
     <div class="row g-4 mb-4">
       <div class="col-xl-4 col-sm-6">
-        <div class="card stat-card border-0 shadow-sm rounded-4 p-4 bg-white">
-          <div class="d-flex align-items-center justify-content-between">
+        <div class="stat-card stat-card--gold">
+          <div class="stat-card-body">
             <div>
-              <p class="text-muted fw-semibold small mb-1">إجمالي الإيرادات (المؤكدة والمكتملة)</p>
-              <h3 class="fw-bold mb-0 text-success">{{ totalEarnings() | currency:'EGP ':'code':'1.0-0' }}</h3>
+              <p class="stat-label">إجمالي الإيرادات (المؤكدة والمكتملة)</p>
+              <h3 class="stat-value stat-value--gold">{{ totalEarnings() | currency:'EGP ':'code':'1.0-0' }}</h3>
             </div>
-            <div class="icon-shape bg-success-subtle text-success rounded-3 fs-3 p-3">💰</div>
+            <div class="icon-shape icon-shape--gold">💰</div>
           </div>
         </div>
       </div>
 
       <div class="col-xl-4 col-sm-6">
-        <div class="card stat-card border-0 shadow-sm rounded-4 p-4 bg-white">
-          <div class="d-flex align-items-center justify-content-between">
+        <div class="stat-card stat-card--navy">
+          <div class="stat-card-body">
             <div>
-              <p class="text-muted fw-semibold small mb-1">الأطفال النشطين بالحضانة حالياً</p>
-              <h3 class="fw-bold mb-0 text-primary">{{ activeBookingsCount() }} أطفال</h3>
+              <p class="stat-label">الأطفال النشطين بالحضانة حالياً</p>
+              <h3 class="stat-value stat-value--navy">{{ activeBookingsCount() }} أطفال</h3>
             </div>
-            <div class="icon-shape bg-primary-subtle text-primary rounded-3 fs-3 p-3">👶</div>
+            <div class="icon-shape icon-shape--navy">👶</div>
           </div>
         </div>
       </div>
 
       <div class="col-xl-4 col-sm-6">
-        <div class="card stat-card border-0 shadow-sm rounded-4 p-4 bg-white">
-          <div class="d-flex align-items-center justify-content-between">
+        <div class="stat-card stat-card--terracotta">
+          <div class="stat-card-body">
             <div>
-              <p class="text-muted fw-semibold small mb-1">حجوزات معلقة ينتظر الإجراء</p>
-              <h3 class="fw-bold mb-0 text-warning">{{ pendingRequestsCount() }} حجوزات</h3>
+              <p class="stat-label">حجوزات معلقة ينتظر الإجراء</p>
+              <h3 class="stat-value stat-value--terracotta">{{ pendingRequestsCount() }} حجوزات</h3>
             </div>
-            <div class="icon-shape bg-warning-subtle text-warning rounded-3 fs-3 p-3">⏳</div>
+            <div class="icon-shape icon-shape--terracotta">⏳</div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- 📈 الرسوم البيانية -->
     <div class="row g-4 mb-4">
       <div class="col-md-6">
-        <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-          <h5 class="fw-bold mb-3 text-dark">📊 تحليل حالات الحجوزات</h5>
-          <div style="position: relative; height:250px; width:100%">
+        <div class="chart-card">
+          <h5 class="chart-title">📊 تحليل حالات الحجوزات</h5>
+          <div class="chart-wrapper">
             <canvas #statusChart></canvas>
           </div>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-          <h5 class="fw-bold mb-3 text-dark">📈 مؤشر الأرباح الكلي</h5>
-          <div style="position: relative; height:250px; width:100%">
+        <div class="chart-card">
+          <h5 class="chart-title">📈 مؤشر الأرباح الكلي</h5>
+          <div class="chart-wrapper">
             <canvas #earningsChart></canvas>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
-      <div class="card-header bg-white border-bottom p-4 d-flex justify-content-between align-items-center">
-        <h5 class="fw-bold mb-0 text-dark">📋 آخر الحجوزات المسجلة حديثاً</h5>
-        <a routerLink="/owner/bookings" class="btn btn-sm btn-outline-primary fw-bold text-decoration-none">
-          إدارة كل الحجوزات ←
-        </a>
+    <!-- 📋 جدول الحجوزات -->
+    <div class="bookings-table-card">
+      <div class="table-card-header">
+        <h5 class="table-title">📋 آخر الحجوزات المسجلة</h5>
+        <a routerLink="/owner/bookings" class="manage-all-link">إدارة كل الحجوزات ←</a>
       </div>
-      
+
       <div class="table-responsive">
         @if (bookings().length === 0) {
-          <div class="text-center py-5">
-            <span class="fs-1 text-muted">📭</span>
-            <p class="text-muted mt-2 mb-0">لا توجد أي حجوزات مسجلة في قاعدة البيانات حالياً.</p>
+          <div class="empty-state">
+            <span class="empty-icon">📭</span>
+            <p class="empty-text">لا توجد أي حجوزات مسجلة في قاعدة البيانات حالياً.</p>
           </div>
         } @else {
-          <table class="table table-hover align-middle mb-0 text-center">
-            <thead class="table-light text-muted small fw-bold">
+          <table class="custom-owner-table">
+            <thead>
               <tr>
-                <th class="py-3">رقم الحجز</th>
-                <th class="py-3">تاريخ البدء</th>
-                <th class="py-3">المبلغ</th>
-                <th class="py-3">حالة الحجز</th>
-                <th class="py-3">الإجراء السريع</th>
+                <th>رقم الحجز</th>
+                <th>تاريخ البدء</th>
+                <th>المبلغ</th>
+                <th>حالة الحجز</th>
+                <th>الإجراء السريع</th>
               </tr>
             </thead>
             <tbody>
-              @for (booking of bookings().slice(0, 5); track booking.id) {
-                <tr>
-                  <td class="fw-bold text-secondary">#{{ booking.id }}</td>
-                  <td>{{ booking.startDate | date:'yyyy-MM-dd' }}</td>
-                  <td class="fw-semibold text-dark">{{ booking.totalPrice || 0 }} ج.م</td>
+              @for (booking of pagedBookings(); track booking.id; let i = $index) {
+                <tr [style.animation-delay.ms]="i * 60">
+                  <td class="cell-id">#{{ booking.id }}</td>
+                  <td class="cell-muted">{{ booking.startDate | date:'yyyy-MM-dd' }}</td>
+                  <td class="cell-price">{{ booking.totalPrice || 0 }} ج.م</td>
                   <td>
-                    <span class="badge px-3 py-2 rounded-pill fs-7" 
-                          [ngClass]="{
-                            'bg-warning-subtle text-warning': booking.status === 'Pending',
-                            'bg-primary-subtle text-primary': booking.status === 'Confirmed',
-                            'bg-success-subtle text-success': booking.status === 'Completed',
-                            'bg-danger-subtle text-danger': booking.status === 'Cancelled'
-                          }">
-                      {{ 
-                        booking.status === 'Pending' ? 'معلق ينتظر الإجراء' : 
-                        booking.status === 'Confirmed' ? 'مقبول ومؤكد' : 
+                    <span class="status-badge"
+                      [ngClass]="{
+                        'status-badge--pending': booking.status === 'Pending',
+                        'status-badge--confirmed': booking.status === 'Confirmed',
+                        'status-badge--completed': booking.status === 'Completed',
+                        'status-badge--cancelled': booking.status === 'Cancelled'
+                      }">
+                      {{
+                        booking.status === 'Pending' ? 'معلق ينتظر الإجراء' :
+                        booking.status === 'Confirmed' ? 'مقبول ومؤكد' :
                         booking.status === 'Completed' ? 'مكتمل وناجح' : 'ملغي'
                       }}
                     </span>
                   </td>
-                  <td class="table-actions">
+                  <td>
                     @if (booking.status === 'Pending') {
-                      <button (click)="handleAction(booking.id, 'cancel')" class="btn btn-sm btn-outline-danger rounded-3 px-2 py-1">
+                      <button (click)="handleAction(booking.id, 'cancel')" class="quick-action-btn">
                         إلغاء الحجز
                       </button>
+                    } @else {
+                      <span class="cell-muted">-</span>
                     }
-                    @else {
-                      <span class="text-muted small">-</span>
-                    }
-                    
                   </td>
                 </tr>
               }
             </tbody>
           </table>
+
+          <!-- 🆕 Pagination -->
+          @if (totalPages() > 1) {
+            <div class="pagination-row">
+              <button class="page-nav-btn" [disabled]="currentPage() === 1" (click)="goToPage(currentPage() - 1)">
+                السابق ➡️
+              </button>
+              <div class="page-numbers">
+                @for (p of pageNumbers; track p) {
+                  <button class="page-number-btn" [class.active]="p === currentPage()" (click)="goToPage(p)">
+                    {{ p }}
+                  </button>
+                }
+              </div>
+              <button class="page-nav-btn" [disabled]="currentPage() === totalPages()" (click)="goToPage(currentPage() + 1)">
+                ⬅️ التالي
+              </button>
+            </div>
+          }
         }
       </div>
     </div>

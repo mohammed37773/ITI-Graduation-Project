@@ -1,9 +1,66 @@
 .admin-layout {
+  --admin-graphite: #1A1D27;
+  --admin-graphite-light: #262A38;
+  --admin-indigo: #5B5FEF;
+  --admin-indigo-hover: #4B4FDB;
+  --admin-indigo-soft: #EEEEFD;
+  --admin-slate: #4A4F5E;
+  --admin-border: #E4E5EC;
+  --admin-bg: #F3F3F7;
+
   display: flex;
   min-height: 100vh;
-  background: var(--neutral-100);
+  background: var(--admin-bg);
+  position: relative;
+  font-family: var(--font-body, 'Cairo', sans-serif);
 }
 
+/* ============================
+   🎨 خلفية تقنية (مختلفة عن هوية الوالدين والـ Owner)
+============================ */
+.admin-bg-decor {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background-image:
+    linear-gradient(var(--admin-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--admin-border) 1px, transparent 1px);
+  background-size: 42px 42px;
+  opacity: 0.35;
+  mask-image: radial-gradient(circle at 30% 20%, black 0%, transparent 65%);
+}
+
+.grid-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.16;
+  animation: glowFloat 12s ease-in-out infinite;
+}
+.grid-glow--1 {
+  width: 320px; height: 320px;
+  background: var(--admin-indigo);
+  top: -60px; left: -60px;
+  animation-duration: 14s;
+}
+.grid-glow--2 {
+  width: 260px; height: 260px;
+  background: var(--admin-graphite);
+  bottom: -80px; right: -40px;
+  animation-duration: 11s;
+  animation-delay: 1s;
+}
+
+@keyframes glowFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(20px, -18px) scale(1.08); }
+}
+
+/* ============================
+   📐 التخطيط العام
+============================ */
 .main-wrapper {
   flex: 1;
   display: flex;
@@ -11,7 +68,9 @@
   min-width: 0;
   margin-right: var(--sidebar-width);
   margin-left: 0;
-  transition: margin-right 0.3s ease;
+  transition: margin-right 0.35s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  z-index: 1;
 }
 
 .admin-layout.sidebar-collapsed .main-wrapper {
@@ -28,28 +87,71 @@
   min-height: calc(100vh - var(--topnav-height) - 80px);
 }
 
+/* ============================
+   ✨ حركة دخول المحتوى
+============================ */
+.content-area.fade-in {
+  opacity: 0;
+  animation: contentFadeUp 0.45s ease forwards;
+}
+
+@keyframes contentFadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* إعادة تشغيل الحركة عند تغيير الصفحة (router-outlet) */
+.content-area router-outlet ~ * {
+  animation: contentFadeUp 0.4s ease;
+}
+
+/* ============================
+   🌫️ Overlay الموبايل
+============================ */
 .sidebar-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(26, 29, 39, 0.55);
+  backdrop-filter: blur(2px);
   z-index: 99;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
+.sidebar-overlay.active {
+  display: block;
+  opacity: 1;
+  animation: overlayFadeIn 0.3s ease;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ============================
+   📱 استجابة الموبايل
+============================ */
 @media (max-width: 991px) {
   .main-wrapper {
     margin-right: 0 !important;
     margin-left: 0 !important;
   }
 
-  .sidebar-overlay.active {
-    display: block;
-    opacity: 1;
-  }
-
   .content-area {
     padding: 16px;
+  }
+}
+
+/* ============================
+   ♿ تقليل الحركة
+============================ */
+@media (prefers-reduced-motion: reduce) {
+  .grid-glow, .content-area.fade-in, .sidebar-overlay.active,
+  .content-area router-outlet ~ * {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

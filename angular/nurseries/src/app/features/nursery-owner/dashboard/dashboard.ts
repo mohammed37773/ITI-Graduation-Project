@@ -28,20 +28,51 @@ export class Dashboard implements OnInit {
 
   private apiUrl = environment.backUrl + '/api/Bookings/owner-bookings';
 
+  // 🎨 هوية Owner (كحلي + ذهبي)
+  private colors = {
+    navy: '#1B2A41',
+    navyLight: '#2E4160',
+    gold: '#D9A441',
+    terracotta: '#C1694F',
+    danger: '#D9756B',
+    grid: '#E7EAF0',
+  };
+
   bookings = signal<Booking[]>([]);
   isLoading = signal<boolean>(true);
 
-  // 1. حساب الحجوزات المعلقة
+  // 🆕 Pagination
+  currentPage = signal(1);
+  pageSize = 5;
+
+  totalPages = computed(() =>
+    Math.max(1, Math.ceil(this.bookings().length / this.pageSize))
+  );
+
+  pagedBookings = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize;
+    return this.bookings().slice(start, start + this.pageSize);
+  });
+
+  get pageNumbers(): number[] {
+    return Array.from({ length: this.totalPages() }, (_, i) => i + 1);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
+  }
+
+  // إحصائيات
   pendingRequestsCount = computed(() => {
     return this.bookings().filter((b) => b.status === 'Pending').length;
   });
 
-  // 2. حساب الأطفال النشطين حالياً (المؤكدة والمقبولة)
   activeBookingsCount = computed(() => {
     return this.bookings().filter((b) => b.status === 'Confirmed').length;
   });
 
-  // 3. إجمالي الإيرادات المسحوبة من الحجوزات المؤكدة والمكتملة
   totalEarnings = computed(() => {
     return this.bookings()
       .filter((b) => b.status === 'Confirmed' || b.status === 'Completed')
@@ -49,11 +80,9 @@ export class Dashboard implements OnInit {
   });
 
   constructor() {
-    // مراقبة التغيرات في الـ bookings وإعادة رسم الـ Charts تلقائياً بداتا حية
     effect(() => {
       const data = this.bookings();
       if (data.length > 0) {
-        // تأخير بسيط للتأكد من أن الـ DOM تم رندمته والـ Canvas متاح
         setTimeout(() => this.updateCharts(), 50);
       }
     });
@@ -68,6 +97,7 @@ export class Dashboard implements OnInit {
     this.http.get<Booking[]>(this.apiUrl).subscribe({
       next: (data) => {
         this.bookings.set(data || []);
+        this.currentPage.set(1); // رجّعي لأول صفحة عند كل تحديث
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -84,7 +114,7 @@ export class Dashboard implements OnInit {
     const totalCompleted = this.bookings().filter(b => b.status === 'Completed').length;
     const totalCancelled = this.bookings().filter(b => b.status === 'Cancelled').length;
 
-    // 1. رسم بياني لحالات الحجوزات (Pie Chart)
+    // 1️⃣ توزيع حالات الحجوزات (Doughnut) - بهوية كحلي/ذهبي
     if (this.statusChartRef) {
       if (this.statusChartInstance) this.statusChartInstance.destroy();
       this.statusChartInstance = new Chart(this.statusChartRef.nativeElement, {
@@ -93,16 +123,50 @@ export class Dashboard implements OnInit {
           labels: ['معلق', 'مؤكد/نشط', 'مكتمل', 'ملغي'],
           datasets: [{
             data: [totalPending, totalConfirmed, totalCompleted, totalCancelled],
-            backgroundColor: ['#ffc107', '#198754', '#0d6efd', '#dc3545'],
+            backgroundColor: [this.colors.terracotta, this.colors.navy, this.colors.gold, this.colors.danger],
+            borderWidth: 3,
+            borderColor: '#ffffff',
+            hoverOffset: 8,
           }]
         },
-        options: { responsive: true, plugins: { legend: { position: 'bottom', rtl: true } } }
+        options: {
+          responsive: true,
+          cutout: '68%',
+          animation: { animateRotate: true, duration: 800, easing: 'easeOutQuart' },
+          plugins: {
+            legend: {
+              position: 'bottom',
+              rtl: true,
+              labels: {
+                font: { family: 'Cairo', size: 12, weight: 600 },
+                color: this.colors.navy,
+                padding: 16,
+                usePointStyle: true,
+                pointStyle: 'circle',
+              }
+            },
+            tooltip: {
+              rtl: true,
+              backgroundColor: this.colors.navy,
+              titleFont: { family: 'Cairo' },
+              bodyFont: { family: 'Cairo' },
+              padding: 12,
+              cornerRadius: 8,
+            }
+          }
+        }
       });
     }
 
-    // 2. رسم بياني مقارنة الأرباح (Bar Chart)
+    // 2️⃣ مؤشر الأرباح (Bar) - ذهبي متدرج
     if (this.earningsChartRef) {
       if (this.earningsChartInstance) this.earningsChartInstance.destroy();
+
+      const ctx = this.earningsChartRef.nativeElement.getContext('2d');
+      const gradient = ctx.createLinearGradient(0, 0, 0, 250);
+      gradient.addColorStop(0, this.colors.gold);
+      gradient.addColorStop(1, '#F0CE8E');
+
       this.earningsChartInstance = new Chart(this.earningsChartRef.nativeElement, {
         type: 'bar',
         data: {
@@ -110,26 +174,50 @@ export class Dashboard implements OnInit {
           datasets: [{
             label: 'الإيرادات',
             data: [this.totalEarnings()],
-            backgroundColor: ['#20c997'],
-            borderRadius: 8
+            backgroundColor: gradient,
+            borderRadius: 10,
+            maxBarThickness: 70,
           }]
         },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+        options: {
+          responsive: true,
+          animation: { duration: 900, easing: 'easeOutQuart' },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              rtl: true,
+              backgroundColor: this.colors.navy,
+              titleFont: { family: 'Cairo' },
+              bodyFont: { family: 'Cairo' },
+              padding: 12,
+              cornerRadius: 8,
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: this.colors.grid },
+              ticks: { font: { family: 'Cairo' }, color: this.colors.navy }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { family: 'Cairo' }, color: this.colors.navy }
+            }
+          }
+        }
       });
     }
   }
 
-  // سيتم ربط هذه الأزرار بالإجراءات الفورية من السيرفر وعمل تحديث تلقائي للداتا
   handleAction(id: number, actionType: string) {
-    // مثال للتعامل مع الإجراءات مباشرة من لوحة التحكم لتحديث الأرقام لايف
     let request;
     if (actionType === 'cancel') request = this.bookingService.cancel(id);
     if (actionType === "refund") { request = this.bookingService.refund(id)}
     if (actionType === "complete") {request = this.bookingService.complete(id)}
-    
+
     if (request) {
       request.subscribe({
-        next: () => this.fetchDashboardData(), // تحديث الجدول والـ Charts لايف فوراً
+        next: () => this.fetchDashboardData(),
         error: (err) => console.error(err)
       });
     }

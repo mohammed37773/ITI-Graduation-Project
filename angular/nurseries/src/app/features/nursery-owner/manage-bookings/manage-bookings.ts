@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
@@ -17,7 +17,7 @@ import { Booking } from '../../../core/models/booking.model';
 export class ManageBookings implements OnInit {
   private http = inject(HttpClient);
   private bookingService = inject(BookingsService);
-  
+
   nursery = signal<NurseryListItem | null>(null);
   nurseryId!: number;
   backUrl = environment.backUrl;
@@ -25,7 +25,30 @@ export class ManageBookings implements OnInit {
   bookings = signal<any[]>([]);
   filteredBookings = signal<any[]>([]);
   isLoading = signal<boolean>(false);
-  currentFilter = signal<string>('All'); // 'All' | 'Pending' | 'Confirmed' | 'Canceled'
+  currentFilter = signal<string>('All');
+
+  // 🆕 Pagination
+  currentPage = signal(1);
+  pageSize = 6;
+
+  totalPages = computed(() =>
+    Math.max(1, Math.ceil(this.filteredBookings().length / this.pageSize))
+  );
+
+  pagedBookings = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize;
+    return this.filteredBookings().slice(start, start + this.pageSize);
+  });
+
+  get pageNumbers(): number[] {
+    return Array.from({ length: this.totalPages() }, (_, i) => i + 1);
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
+  }
 
   ngOnInit() {
     this.loadAllBookings();
@@ -33,7 +56,6 @@ export class ManageBookings implements OnInit {
 
   loadAllBookings() {
     this.isLoading.set(true);
-    // استبدل الـ URL بـ Endpoint الحجوزات الفعلي بتاعك في الـ .NET
     this.http.get<any[]>(this.backUrl + '/api/Bookings/owner-bookings').subscribe({
       next: (data) => {
         this.bookings.set(data);
@@ -49,6 +71,7 @@ export class ManageBookings implements OnInit {
 
   applyFilter(status: string) {
     this.currentFilter.set(status);
+    this.currentPage.set(1); // 🆕 رجّعي لأول صفحة عند تغيير الفلتر
     if (status === 'All') {
       this.filteredBookings.set(this.bookings());
     } else {
@@ -57,47 +80,41 @@ export class ManageBookings implements OnInit {
   }
 
   updateStatus(bookingId: number, newStatus: string) {
-    // إرسال التحديث للباك إند لايف
     this.http.put(this.backUrl + `/api/NurseryAdmin/bookings/${bookingId}/status`, { status: newStatus }).subscribe({
       next: () => {
-        // تحديث الداتا محلياً في الـ Signals فوراً لتوفير تجربة مستخدم سريعة لايف
         this.bookings.update(all => all.map(b => b.id === bookingId ? { ...b, status: newStatus } : b));
         this.applyFilter(this.currentFilter());
       },
       error: (err) => console.log()
-      
     });
-
-      
-
   }
 
   handleAction(bookingId: number, actionType: string) {
-    // مثال للتعامل مع الإجراءات مباشرة من لوحة التحكم لتحديث الأرقام لايف
-    if (actionType === "refund") { this.bookingService.refund(bookingId).subscribe({
-      next: 
-        (r)=>{
+    if (actionType === "refund") {
+      this.bookingService.refund(bookingId).subscribe({
+        next: (r) => {
           console.log(r)
           this.updateStatus(bookingId, "Cancelled");
           this.loadAllBookings();
-      },
-      error: (r)=>console.log(r)
-    })}
+        },
+        error: (r) => console.log(r)
+      })
+    }
     else if (actionType === "complete") {
       this.bookingService.complete(bookingId).subscribe({
-      next: (r)=>{
+        next: (r) => {
           console.log(r)
           this.updateStatus(bookingId, "Completed");
           this.loadAllBookings();
-      },
-      error: (r)=>console.log(r)
-    })}
+        },
+        error: (r) => console.log(r)
+      })
+    }
   }
 
   isPastDate(bookingDate: string | Date): boolean {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Reset time to compare just the dates
-  
-  return new Date(bookingDate) < today;
-}
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return new Date(bookingDate) < today;
+  }
 }

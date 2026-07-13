@@ -1,13 +1,19 @@
 <div class="admin-layout" [class.sidebar-collapsed]="sidebarCollapsed()">
+
+  <!-- 🎨 خلفية تقنية زخرفية -->
+  <div class="admin-bg-decor" aria-hidden="true">
+    <span class="grid-glow grid-glow--1"></span>
+    <span class="grid-glow grid-glow--2"></span>
+  </div>
+
   <app-sidebar [collapsed]="sidebarCollapsed()" (toggleSidebar)="toggleSidebar()" />
   <div class="main-wrapper">
     <app-topnav (toggleSidebar)="toggleSidebar()" />
     <main class="main-content">
       <div class="content-area fade-in">
-       <router-outlet></router-outlet> 
+       <router-outlet></router-outlet>
       </div>
     </main>
-
   </div>
 </div>
 

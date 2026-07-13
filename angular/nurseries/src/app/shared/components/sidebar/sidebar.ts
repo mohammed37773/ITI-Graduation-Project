@@ -12,7 +12,7 @@ interface NavItem {
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterLink, RouterLinkActive, CommonModule  ],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
